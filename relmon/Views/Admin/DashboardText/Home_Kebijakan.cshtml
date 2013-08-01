@@ -1,0 +1,204 @@
+﻿@model IEnumerable<relmon.Models.dashboard_text>
+
+@{
+    ViewBag.Title = "Home - Kebijakan";
+}
+
+<script type="text/javascript">
+
+    var ckEditorAddKebijakan;
+    var ckEditorEditKebijakan;
+    function OnComplete(e) {
+        if (e.name == null) {
+            var detailWindow = $("#AddKebijakan").data("tWindow");
+            vals = e.response;
+            $('#AddKebijakan #poster_user_id').val(vals['poster_user_id']);
+            detailWindow.center().open();
+        } else {
+            if (e.name == "EditKebijakan") {
+                var detailWindow = $("#EditKebijakan").data("tWindow");
+                vals = e.response;
+                $.each(vals, function (index, value) {
+                    if (index == "konten") {
+                        $('#EditKebijakan #edit_' + index + 'Kebijakan').html(value);
+                        ckEditorEditKebijakan.setData(value);
+                    }
+                    else {
+                        $('#EditKebijakan #edit_' + index).val(value);
+                    }
+                });
+                detailWindow.center().open();
+            }
+        }
+    }
+
+    function SaveKebijakan() {
+        var values =
+        {
+            "poster_user_id": $('#AddKebijakan #poster_user_id').val(),
+            "ringkasan": $('#AddKebijakan #ringkasan').val(),
+            "tipe": "kebijakan",
+            "konten": escape(ckEditorAddKebijakan.getData())
+        }
+
+        $.post("DashboardText/Create", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Kebijakan').data('tGrid');
+            grid.ajaxRequest();
+            $("#AddKebijakan").data("tWindow").close();
+
+            $('#AddKebijakan #kategori').val('');
+            $('#AddKebijakan #ringkasan').val('');
+            $('#AddKebijakan #konten').html('');
+            ckEditorAddKebijakan.setData('');
+        });
+    }
+
+    function EditKebijakan() {
+        var values =
+        {
+            "poster_user_id": $('#EditKebijakan #edit_poster_user_id').val(),
+            "ringkasan": $('#EditKebijakan #edit_ringkasan').val(),
+            "id": $('#EditKebijakan #edit_id').val(),
+            "konten": escape(ckEditorEditKebijakan.getData())
+        }
+
+        $.post("DashboardText/update", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Kebijakan').data('tGrid');
+            grid.ajaxRequest();
+            $("#EditKebijakan").data("tWindow").close();
+        });
+    }
+    function ckEditorLoadKebijakan() {
+        ckEditorAddKebijakan = CKEDITOR.replace('kontenKebijakan', {
+            uiColor: '#14B8C4',
+            htmlEncodeOutput: true,
+            filebrowserBrowseUrl: '/Scripts/Filemanager/index.html',
+            filebrowserImageBrowseUrl: '/Scripts/Filemanager/index.html?type=Images',
+            filebrowserFlashBrowseUrl: '/Scripts/Filemanager/index.html?type=Flash',
+            removePlugins: 'about'
+        });
+    }
+    function ckEditorLoadEditKebijakan() {
+        ckEditorEditKebijakan = CKEDITOR.replace('edit_kontenKebijakan', {
+            uiColor: '#14B8C4',
+            htmlEncodeOutput: true,
+            filebrowserBrowseUrl: '/Scripts/Filemanager/index.html',
+            filebrowserImageBrowseUrl: '/Scripts/Filemanager/index.html?type=Images',
+            filebrowserFlashBrowseUrl: '/Scripts/Filemanager/index.html?type=Flash',
+            removePlugins: 'about'
+        });
+    }
+</script>
+
+@(Html.Telerik().Grid<relmon.Models.dashboard_text>()
+        .HtmlAttributes(new { style = "width:inherit" })
+        .Name("Kebijakan")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addKebijakan" })
+            .Text("Add Kebijakan")
+            .Ajax(true)
+            .Action("add", "DashboardText")
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "DashboardText", new { tipe = "kebijakan" })
+                .Delete("_DeleteAjaxEditing", "DashboardText", new { tipe = "kebijakan" });
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(x => x.tgl_update).Width(100).Title("Tgl Update").Format("{0:dd MMM yyyy}");
+            columns.Bound(x => x.poster_username).Width(100).Title("Poster");
+            columns.Bound(x => x.ringkasan).Width(300).Title("Ringkasan");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditKebijakan")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "DashboardText");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable(s => s.OrderBy(o => o.Add("tgl_update").Descending()))
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+<br />
+
+@(Html.Telerik().Window()
+    .Name("AddKebijakan")
+    .Visible(false)
+    .Title("Add Kebijakan")
+    .Modal(true)
+    .Width(800)
+    .Height(400)
+    .Draggable(true)
+    .ClientEvents(events => events.OnLoad("ckEditorLoadKebijakan"))
+    .Content(@<text>
+        <div class="info">
+		    <input id="id" type="hidden" name="id" value="" />
+		    <input id="poster_user_id" type="hidden" name="poster_user_id" value="" />
+                
+		    <!--div class="info_inside_left">Kategori </div>
+		    <div class="infoFieldinput"><input id="kategori" type="text" name="kategori" value="" /></div-->
+                
+		    <div class="info_inside_left">Ringkasan </div>
+		    <div class="infoFieldinput"><input id="ringkasan" type="text" name="ringkasan" value="" /></div>
+
+            <br />
+
+            <textarea cols='80' id='kontenKebijakan' name='konten' rows='10'></textarea>
+            <p class='submit'>
+		        <input name='Submit' value='Add' type='submit' onclick='SaveKebijakan();' />
+	        </p>
+	    </div>
+        </text>)
+    )
+    
+
+@(Html.Telerik().Window()
+    .Name("EditKebijakan")
+    .Visible(false)
+    .Title("Edit Kebijakan")
+    .Modal(true)
+    .Width(800)
+    .Height(400)
+    .Draggable(true)
+    .ClientEvents(events => events.OnLoad("ckEditorLoadEditKebijakan"))
+    .Content(@<text>
+        <div class="info">
+		    <input id="edit_id" type="hidden" name="id" value="" />
+		    <input id="edit_poster_user_id" type="hidden" name="poster_user_id" value="" />
+                
+		    <!--div class="info_inside_left">Kategori </div>
+		    <div class="infoFieldinput"><input id="edit_kategori" type="text" name="kategori" value="" /></div-->
+                
+		    <div class="info_inside_left">Ringkasan </div>
+		    <div class="infoFieldinput"><input id="edit_ringkasan" type="text" name="ringkasan" value="" /></div>
+
+            <br />
+
+            <textarea cols='80' id='edit_kontenKebijakan' name='konten' rows='10'></textarea>
+            <p class='submit'>
+		        <input name='Submit' value='Save' type='submit' onclick='EditKebijakan();' />
+	        </p>
+	    </div>
+        </text>)
+    )

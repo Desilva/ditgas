@@ -1,0 +1,134 @@
+﻿
+<h2>Kursus</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_kursus>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("Kursus")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addKursus" })
+            .Text("Add")
+            .Ajax(true)
+            .Action("addDetailEmployee", "EmployeeDetail", new { kategori = "Kursus" })
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "Kursus" })
+                .Delete("_DeleteAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "Kursus" });
+
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.tipe).Width(150).Title("Tipe");
+            columns.Bound(o => o.nama).Width(150).Title("Nama");
+            columns.Bound(o => o.lokasi).Width(150).Title("Lokasi");
+            columns.Bound(o => o.hasil).Width(150).Title("Hasil");
+            columns.Bound(o => o.tgl_awal).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Awal");
+            columns.Bound(o => o.tgl_akhir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Akhir");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditKursus")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetailDetailEmployee", "EmployeeDetail", new { kategori = "Kursus" });
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                    .OnComplete("OnCompleteDetailEmployee")
+        )
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddKursus")
+    .Visible(false)
+    .Title("Add Kursus")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="Kursus_user_id" type="hidden" name="Kursus_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Tipe </div>
+		            <div class="infoFieldinput"><input id="Kursus_tipe" type="text" name="Kursus_tipe" value="" /></div>
+
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="Kursus_nama" type="text" name="Kursus_nama" value="" /></div>
+
+		            <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="Kursus_lokasi" type="text" name="Kursus_lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Hasil </div>
+		            <div class="infoFieldinput"><input id="Kursus_hasil" type="text" name="Kursus_hasil" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Kursus_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Kursus_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveDetailEmployee('Kursus');" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditKursus")
+    .Visible(false)
+    .Title("Edit Kursus")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="Kursus_edit_id" type="hidden" name="Kursus_id" value="" />
+                    <input id="Kursus_edit_user_id" type="hidden" name="Kursus_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Tipe </div>
+		            <div class="infoFieldinput"><input id="Kursus_edit_tipe" type="text" name="Kursus_tipe" value="" /></div>
+
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="Kursus_edit_nama" type="text" name="Kursus_nama" value="" /></div>
+
+		            <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="Kursus_edit_lokasi" type="text" name="Kursus_lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Hasil </div>
+		            <div class="infoFieldinput"><input id="Kursus_edit_hasil" type="text" name="Kursus_hasil" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Kursus_edit_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Kursus_edit_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditDetailEmployee('Kursus');" />
+	            </p>
+		            
+	         </div>
+        </text>)
+)

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "MasaJabatan";
+}
+
+<h2>Status Pekerja</h2>
+<script type="text/javascript">
+
+    function loadGridUser(companyId) {
+        $("#gridUser").load("/DataSdmAfiliasi/GridUserMasaJabatan/" + companyId);
+    }
+
+    $(document).ready(function () {
+        loadGridUser('@ViewBag.firstCompany2');
+
+        $("#companiesListItem").change(function () {
+            if ($('#companiesListItem').val() != '') {
+                $.post(
+			        "DataSdmAfiliasi/ChildrenCompany",
+			        {
+			            companyId: $('#companiesListItem').val()
+			        },
+			        function (data) {
+			            hasil = eval(data);
+			            $("#companiesListItem2").html("");
+			            $('<option value="">-- Pilih Perusahaan --</option>').appendTo("#companiesListItem2");
+			            for (var i = 0; i < hasil.length; i++) {
+			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#companiesListItem2");
+			            }
+			        }
+			    );
+            }
+        });
+
+        $("#companiesListItem2").change(function () {
+            loadGridUser($("#companiesListItem2").val());
+        });
+    });
+</script>
+
+<div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">
+        @Html.DropDownList("companiesListItem")
+</div>
+<div class="Asearch"><b>Perusahaan Afiliasi</b></div><div class="titik2"> : </div><div class="Ainput" id="afiliasi">
+        @Html.DropDownList("companiesListItem2")
+</div>
+<br/>
+<div id="gridUser"></div>
+
+
+

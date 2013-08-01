@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': 0, 'countGrafik': 0 });
+    })
+
+</script>
+
+<div id="content-demografi">
+    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+</div>
+@*<table border="1">
+@{foreach (List<Dictionary<string, string>> oneRowHeader in ViewBag.tableContent.tableHeader)
+  {   
+      <tr>
+      @{foreach (Dictionary<string, string> oneCellHeader in oneRowHeader)
+        {
+          <th @(oneCellHeader["span"]) >@(oneCellHeader["text"])</th>
+        }
+      }
+      </tr>
+  }
+}
+@{foreach (Dictionary<string, string> oneRow in ViewBag.tableContent.tableContent)
+  {   
+      <tr>
+        @{foreach (string namaCell in ViewBag.tableContent.cellsName)
+          {
+            <td class="@(oneRow["class-"+namaCell])" >
+            @(oneRow[namaCell])
+            </td> 
+          }
+        }
+      </tr>
+  }
+}
+</table>*@

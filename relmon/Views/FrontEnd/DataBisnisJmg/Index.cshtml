@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Data Bisnis Joint Management Group</h2>
+<div class="Asearch"><b>JMG Kategori</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="id_jmg" id="id_jmg">
+        <option value="0">Sales</option>
+        <option value="1">Transportasi</option>
+    </select>
+</div>
+
+@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+        .Items(parent => {
+            parent.Add()
+                .Text("AD/ART")
+                .LoadContentFrom("AdArt", "DataBisnisJmg")
+                .Selected(true);           
+            parent.Add()
+                .Text("RJPP")
+                .LoadContentFrom("Rjpp", "DataBisnisJmg");
+            parent.Add()
+                .Text("RKAP")
+                .LoadContentFrom("Rkap", "DataBisnisJmg");
+            parent.Add()
+                .Text("Bussiness Report")
+                .LoadContentFrom("BussinessReport", "DataBisnisJmg");
+            parent.Add()
+                .Text("KPI")
+                .LoadContentFrom("Kinerja", "DataBisnisJmg");
+            parent.Add()
+                .Text("Project Status")
+                .LoadContentFrom("ProjectStatus", "DataBisnisJmg");
+            parent.Add()
+                .Text("Product")
+                .LoadContentFrom("Product", "DataBisnisJmg");
+        })
+)

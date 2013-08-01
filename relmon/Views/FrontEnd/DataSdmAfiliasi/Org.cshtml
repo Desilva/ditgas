@@ -1,0 +1,41 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem2').val(), 'countGrafik': 0 });
+        $("#companiesListItem2").bind("change", function () {
+            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem2').val(), 'countGrafik': 0 });
+        });
+
+        $("#companiesListItem").change(function () {
+            if ($('#companiesListItem').val() != '') {
+                $.post(
+			        "ChildrenCompany",
+			        {
+			            companyId: $('#companiesListItem').val()
+			        },
+			        function (data) {
+			            hasil = eval(data);
+			            $("#companiesListItem2").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+			            $('<option value="">-- Pilih Perusahaan --</option>').appendTo("#companiesListItem2");
+			            for (var i = 0; i < hasil.length; i++) {
+			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#companiesListItem2");
+			            }
+			        }
+			    );
+            }
+        });
+    })
+
+</script>
+
+<div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">
+    @Html.DropDownList("companiesListItem")
+</div>
+<div class="Asearch"><b>Perusahaan Afiliasi</b></div><div class="titik2"> : </div><div class="Ainput" id="afiliasi">
+    @Html.DropDownList("companiesListItem2")
+</div>
+<br/>
+
+<div id="content-demografi">
+    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+</div>

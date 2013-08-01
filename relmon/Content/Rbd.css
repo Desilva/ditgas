@@ -1,0 +1,994 @@
+/* BOX */
+.box
+{
+	background:url(image/rbd/box.png) center no-repeat transparent;
+	width:155px;
+	height:50px;
+	position:absolute;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+}
+
+.box-kuning
+{
+	background:url(image/rbd/box-kuning.png) center no-repeat transparent;
+	width:155px;
+	height:50px;
+	position:absolute;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+}
+
+.box-merah
+{
+	background:url(image/rbd/box-merah.png) center no-repeat transparent;
+	width:155px;
+	height:50px;
+	position:absolute;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+}
+
+.box-big
+{
+	background:url(image/rbd/box-big.png) center no-repeat transparent;
+	width:150px;
+	height:60px;
+	position:absolute; 
+	cursor: pointer;
+}
+
+.box-big-kuning
+{
+	background:url(image/rbd/box-big-kuning.png) center no-repeat transparent;
+	width:150px;
+	height:60px;
+	position:absolute; 
+	cursor: pointer;
+}
+
+.box-big-merah
+{
+	background:url(image/rbd/box-big-merah.png) center no-repeat transparent;
+	width:150px;
+	height:60px;
+	position:absolute; 
+	cursor: pointer;
+}
+
+.box-title
+{
+	padding-top: 20px;
+	margin-right:50px;
+	color: #fff;
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.box-title2
+{
+	padding-top: 10px;
+	margin-top : 5px;
+	margin-left:5px;
+	color: #fff;
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #444;
+}
+
+.box-value { position: absolute; left: 50%; top: 80%; background: #fff; padding: 5px; width: 120px; z-index: 2; display: none; }
+
+/* LINE */
+.fixed-line
+{
+	background:url(image/rbd/line.png) center no-repeat transparent;
+	width:27px;
+	height:40px;
+	position:absolute; 
+}
+
+.r-line
+{
+	background:url(image/rbd/line.png) center no-repeat transparent;
+	width:27px;
+	height:40px;
+	position:absolute; 
+}
+
+.line-cut
+{
+	background:url(image/rbd/line-cut.png) center no-repeat transparent;
+	width:27px;
+	height:40px;
+	position:absolute; 
+}
+
+.line-hide
+{
+	display: none;
+}
+
+.h-line
+{
+	background:url(image/rbd/h-line.png) center no-repeat transparent;
+	width:51px;
+	height:82px;
+	position:absolute; 
+}
+
+
+.h-line-small
+{
+	background:url(image/rbd/h-line-small.png) center no-repeat transparent;
+	width:25px;
+	height:41px;
+	position:absolute; 
+}
+
+.h-line-61
+{
+	background:url(image/rbd/h-line-61.png) center no-repeat transparent;
+	width:51px;
+	height:61px;
+	position:absolute; 
+}
+
+.h-line-122
+{
+	background:url(image/rbd/h-line-122.png) center no-repeat transparent;
+	width:51px;
+	height:122px;
+	position:absolute; 
+}
+
+/* arrow */
+.arrow
+{
+	background:url(image/rbd/arrow.png) center no-repeat transparent;
+	width:27px;
+	height:40px;
+	position:absolute; 
+}
+
+.arrow-left
+{
+	background:url(image/rbd/arrow-left.png) center no-repeat transparent;
+	width:27px;
+	height:40px;
+	position:absolute; 
+}
+
+.arrow-top
+{
+	background:url(image/rbd/arrow-top.png) center no-repeat transparent;
+	width:51px;
+	height:82px;
+	position:absolute; 
+}
+
+.arrow-top-21
+{
+	background:url(image/rbd/arrow-top-21.png) center no-repeat transparent;
+	width:51px;
+	height:21px;
+	position:absolute; 
+}
+
+.text
+{
+    position: absolute;
+    margin-top: 40px;
+    font-weight : bolder;
+}
+
+.textLink
+{
+    cursor:pointer;
+    position: absolute;
+    margin-top: 40px;
+    font-weight : bolder;
+    color:#0000FF;
+}
+
+.textPlant
+{
+    position:absolute;
+    margin-top:61px;
+    font-weight : bolder;
+}
+
+.garis
+{
+    border-bottom: 1px solid;
+    background: url(image/bgRBD.png) no-repeat;
+    background-size: 1010px; 
+}
+
+.rbd
+{
+   margin-top: 15px;     
+}
+
+.theme
+{
+    cursor : pointer;
+    color:#0000FF;
+}
+
+a:visited {color:Blue;}
+a:hover   {color:Lime;}
+a:active  {color:Red;}
+
+a.theme
+{
+    margin-top : 5px;
+}
+
+/*gambar*/
+.Co-Hijau
+{
+        background:url(image/rbd/co-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Co-Kuning
+{
+        background:url(image/rbd/co-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Co-Merah
+{
+        background:url(image/rbd/co-merah.png) center no-repeat transparent;
+        width:160px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cp-Hijau
+{
+        background:url(image/rbd/cp-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cp-Kuning
+{
+        background:url(image/rbd/cp-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cp-Merah
+{
+        background:url(image/rbd/cp-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cg-Hijau
+{
+        background:url(image/rbd/cg-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cg-Kuning
+{
+        background:url(image/rbd/cg-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cg-Merah
+{
+        background:url(image/rbd/cg-merah.png) center no-repeat transparent;
+        width:155px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C-Hijau
+{
+        background:url(image/rbd/c-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C-Kuning
+{
+        background:url(image/rbd/c-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C-Merah
+{
+        background:url(image/rbd/c-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cb-Hijau
+{
+        background:url(image/rbd/cb-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cb-Kuning
+{
+        background:url(image/rbd/cb-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Cb-Merah
+{
+        background:url(image/rbd/cb-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Ct-Hijau
+{
+        background:url(image/rbd/ct-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Ct-Kuning
+{
+        background:url(image/rbd/ct-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Ct-Merah
+{
+        background:url(image/rbd/ct-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C3-Hijau
+{
+        background:url(image/rbd/c3-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C31-Hijau
+{
+        background:url(image/rbd/c31-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C31-Kuning
+{
+        background:url(image/rbd/c31-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.C31-Merah
+{
+        background:url(image/rbd/c31-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.D-Kuning
+{
+        background : url(image/rbd/d-kuning.png) center no-repeat transparent;
+        width:200px;
+	    height:100px;
+	    position:absolute; 
+	    cursor: pointer;
+	    margin: 0;
+	    padding: 0;
+}
+
+.D-Merah
+{
+        background : url(image/rbd/d-merah.png) center no-repeat transparent;
+        width:200px;
+	    height:100px;
+	    position:absolute; 
+	    cursor: pointer;
+	    margin: 0;
+	    padding: 0;
+}
+
+.D-Hijau
+{
+        background : url(image/rbd/d-hijau.png) center no-repeat transparent;
+        width:200px;
+	    height:100px;
+	    position:absolute; 
+	    cursor: pointer;
+	    margin: 0;
+	    padding: 0;
+}
+
+.Ea-Hijau
+{
+        background:url(image/rbd/ea-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Ea-Kuning
+{
+        background:url(image/rbd/ea-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.Ea-Merah
+{
+        background:url(image/rbd/ea-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.E-Hijau
+{
+        background:url(image/rbd/e-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin-top : 18px;
+    	margin-left: 0px;
+    	padding: 0;
+}
+.E-Kuning
+{
+        background:url(image/rbd/e-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin-top : 18px;
+    	margin-left: 0px;
+    	padding: 0;
+}
+
+.E-Merah
+{
+        background:url(image/rbd/e-merah.png) center no-repeat transparent;
+        width:115px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 18px;
+    	padding: 0;
+}
+
+.Ek-Hijau
+{
+        background:url(image/rbd/ek-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.E3-Hijau
+{
+        background:url(image/rbd/e3-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.E3-Kuning
+{
+        background:url(image/rbd/e3-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.E3-Merah
+{
+        background:url(image/rbd/e3-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F-Hijau
+{
+        background:url(image/rbd/f-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F-Kuning
+{
+        background:url(image/rbd/f-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F-Merah
+{
+        background:url(image/rbd/f-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F2-Hijau
+{
+        background:url(image/rbd/f2-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F2-Kuning
+{
+        background:url(image/rbd/f2-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F2-Merah
+{
+        background:url(image/rbd/f2-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F3-Hijau
+{
+        background:url(image/rbd/f3-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F3-Kuning
+{
+        background:url(image/rbd/f3-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.F3-Merah
+{
+        background:url(image/rbd/f3-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.H-Hijau
+{
+        background:url(image/rbd/h-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.H-Kuning
+{
+        background:url(image/rbd/h-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.H-Merah
+{
+        background:url(image/rbd/h-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.G-Hijau
+{
+        background:url(image/rbd/g-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.G-Kuning
+{
+        background:url(image/rbd/g-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.G-Merah
+{
+        background:url(image/rbd/g-merah.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.K-Hijau
+{
+        background:url(image/rbd/k-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin-left: -10px;
+    	margin-top : -5px;
+    	padding: 0;
+}
+
+.K-Kuning
+{
+        background:url(image/rbd/k-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:100px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin-left: -10px;
+    	margin-top : -5px;
+    	padding: 0;
+}
+
+.K-Merah
+{
+        background:url(image/rbd/k-merah.png) center no-repeat transparent;
+        width:130px;
+    	height:90px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.V-Hijau
+{
+        background:url(image/rbd/v-hijau.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.V-Kuning
+{
+        background:url(image/rbd/v-kuning.png) center no-repeat transparent;
+        width:150px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+.V-Merah
+{
+        background:url(image/rbd/v-merah.png) center no-repeat transparent;
+        width:155px;
+    	height:150px;
+	    position:absolute;
+    	cursor: pointer;
+    	margin: 0;
+    	padding: 0;
+}
+
+/*text gambar*/
+.text_c_hijau
+{
+    position : absolute;
+    margin : 130px 0 0 60px;
+    font-weight:bold;    
+}
+
+.text_cg_hijau
+{
+    position : absolute;
+    margin : 150px 0 0 55px;
+    font-weight:bold;
+}
+
+.text_co_hijau
+{
+    position : absolute;
+    margin : 125px 0 0 55px;
+    font-weight:bold;   
+}
+
+.text_cp_hijau
+{
+    position : absolute;
+    margin : 125px 0 0 48px;
+    font-weight:bold;   
+}
+
+.text_cb_hijau
+{
+    position : absolute;
+    margin : 113px 0 0 52px;
+    font-weight:bold;  
+}
+
+.text_ct_hijau
+{
+    position : absolute;
+    margin : 125px 0 0 50px;
+    font-weight:bold;  
+}
+
+.text_c3_hijau
+{
+    position : absolute;
+    margin : 125px 0 0 55px;
+    font-weight:bold;  
+}
+
+.text_c31_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 52px;
+    font-weight:bold;  
+}
+
+
+
+.text_e_hijau
+{
+    position : absolute;
+    margin : 75px 0 0 40px;
+    font-weight:bold;
+}
+
+.text_ea_hijau
+{
+    position : absolute;
+    margin : 100px 0 0 49px;
+    font-weight:bold;
+}
+
+.text_ek_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 60px;
+    font-weight:bold;
+}
+
+.text_e3_hijau
+{
+    position : absolute;
+    margin : 100px 0 0 60px;
+    font-weight:bold;
+}
+
+
+.text_d_hijau
+{
+    position : absolute;
+    margin : 90px 0 0 75px;
+    font-weight:bold;
+}
+
+.text_f_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 50px;
+    font-weight:bold;
+}
+
+.text_f2_hijau
+{
+    position : absolute;
+    margin : 100px 0 0 55px;
+    font-weight:bold;
+}
+
+.text_f3_hijau
+{
+    position : absolute;
+    margin : 100px 0 0 55px;
+    font-weight:bold;
+}
+
+.text_g_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 50px;
+    font-weight:bold;
+}
+
+.text_h_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 50px;
+    font-weight:bold;
+}
+
+.text_k_hijau
+{
+    position : absolute;
+    margin : 70px 0 0 40px;
+    font-weight:bold;
+}
+
+.text_v_hijau
+{
+    position : absolute;
+    margin : 110px 0 0 50px;
+    font-weight:bold;
+}

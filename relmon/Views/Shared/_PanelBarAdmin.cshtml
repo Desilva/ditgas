@@ -1,0 +1,114 @@
+﻿<script type="text/javascript">
+    function onSelectPanel(e) {
+        var item = $(e.item);
+        // ========== Data Master ========== //
+        if (item.find('> .t-link').text() == "Company Management") {
+            $('#content').load('Company');
+            $('#content-employee').html('');
+        } else if (item.find('> .t-link').text() == "Role Management") {
+            $('#content').load('Role');
+            $('#content-employee').html('');
+        } else if (item.find('> .t-link').text() == "User Management") {
+            $('#content').load('User');
+            $('#content-employee').html('');
+        }
+        // ============== SDM ============== //
+        else if (item.find('> .t-link').text() == "Employee Management") {
+            $('#content').load('Employee');
+            $('#content-employee').html('');
+        } else if (item.find('> .t-link').text() == "PJS") {
+            $('#content').load('Employee');
+            $('#content-employee').html('');
+        } else if (item.find('> .t-link').text() == "Mutasi") {
+            $('#content').load('Employee');
+            $('#content-employee').html('');
+        }
+        // ===== Load Data From Excel ===== //
+        else if (item.find('> .t-link').text() == "Data Master") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        }
+        // ======== Page Management ======= //
+        else if (item.find('> .t-link').text() == "Home") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Profil Dit. Gas") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "SHE - QMS") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Data Bisnis") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "SDM") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Aturan & Regulasi") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kontak") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kalender") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Lain - Lain") {
+            $('#content-employee').load('LoadExcel');
+            $('#content').html('');
+        }
+    }
+</script>
+
+
+@(Html.Telerik().PanelBar()
+        .Name("PanelBar")
+        .HtmlAttributes(new { style = "width: 250px; margin-bottom: 30px;clear: both;margin-left: 10px;" })
+        .ClientEvents(eventsPanel => eventsPanel
+              .OnSelect("onSelectPanel")
+        )
+        .Items(panelBarItem =>
+        {
+            panelBarItem.Add().Text("Data Master")
+                .Items(item =>
+                {
+                    item.Add().Text("Company Management");
+                    item.Add().Text("Role Management");
+                    item.Add().Text("User Management");
+                })
+                .Expanded(true);
+            panelBarItem.Add().Text("SDM")
+                .Items(item =>
+                {
+                    item.Add().Text("Employee Management");
+                    item.Add().Text("PJS");
+                    item.Add().Text("Mutasi");
+                });
+            panelBarItem.Add().Text("Report")
+                .Items(item =>
+                {
+                    item.Add().Text("Report 1");
+                    item.Add().Text("Report 2");
+                    item.Add().Text("Report 3");
+                });
+            panelBarItem.Add().Text("Load Data From Excel")
+                .Items(item =>
+                {
+                    item.Add().Text("Data Master");
+                });
+            panelBarItem.Add().Text("Page Management")
+                .Items(item =>
+                {
+                    item.Add().Text("Home");
+                    item.Add().Text("Profil Dit. Gas");
+                    item.Add().Text("SHE - QMS");
+                    item.Add().Text("Data Bisnis");
+                    item.Add().Text("SDM");
+                    item.Add().Text("Aturan & Regulasi");
+                    item.Add().Text("Kontak");
+                    item.Add().Text("Kalender");
+                    item.Add().Text("Lain - Lain");
+                });
+        })
+        .ExpandMode(PanelBarExpandMode.Multiple)
+)

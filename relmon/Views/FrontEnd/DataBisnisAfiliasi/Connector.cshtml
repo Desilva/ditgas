@@ -1,0 +1,36 @@
+﻿@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+        .Items(parent => {
+            parent.Add()
+                .Text("Profil")
+                .LoadContentFrom("Profil/"+@ViewBag.id, "DataBisnisAfiliasi")
+                .Selected(true);
+            parent.Add()
+                .Text("Struktur Organisasi")
+                .LoadContentFrom("StrukturOrganisasi", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("AD/ART")
+                .LoadContentFrom("AdArt", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("Visi Misi")
+                .LoadContentFrom("RencanaKerja", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("RJPP")
+                .LoadContentFrom("Rjpp", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("RKAP")
+                .LoadContentFrom("Rkap", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("Bussiness Report")
+                .LoadContentFrom("BussinessReport", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("KPI")
+                .LoadContentFrom("Kinerja", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("Project Status")
+                .LoadContentFrom("ProjectStatus", "DataBisnisAfiliasi");
+            parent.Add()
+                .Text("Product")
+                .LoadContentFrom("Product", "DataBisnisAfiliasi");
+        })
+)

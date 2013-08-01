@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<h2 id="admin_header">@ViewBag.Message</h2>
+
+@{  
+    string role = Session["role"].ToString();
+    if(role == "-1"){
+        <div id="tree" style="width:270px">
+            @Html.Partial("_PanelBarAdmin")
+        </div>
+        <div id="content" style="float:left;">
+
+        </div>
+        <div id="content-employee" style="float: right;margin-right: -10px;">
+
+        </div>
+    }
+    else
+    {
+        <div id="tree2">
+            @Html.Partial("_MenuNavigationAdmin2")
+        </div>
+        <div id="content_admin2" style="">
+
+        </div>
+    }
+}  
+
+

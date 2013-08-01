@@ -1,0 +1,11 @@
+﻿<br/>
+@{
+    if (ViewBag.exist)
+    {
+        <iframe id="frame-content" name="frame-content" src="/DataBisnisAp/GetPdfBusiness/@ViewBag.id" width="960" height="400" style="border:0px solid #000;"></iframe>    
+    }else{
+        <span><b>No File Business Report</b></span>
+    }    
+}
+<br/>
+<br/>

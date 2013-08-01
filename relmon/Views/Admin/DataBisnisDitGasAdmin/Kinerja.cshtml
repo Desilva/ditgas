@@ -1,0 +1,73 @@
+﻿<h3>Pengaturan KPI</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun">
+        <option value="">2012</option>
+        <option value="">2013</option>
+    </select>
+    
+</div>
+
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput">
+    @(Html.Telerik().Upload()
+        .Name("attachmentsKpi")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save", "Upload", "attachments")
+            .Remove("Remove", "Upload")
+            .AutoUpload(true)
+        )
+    )
+</div>
+
+<div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
+    <textarea></textarea>
+</div>
+<p>
+	<input type="submit" value="Simpan" />
+</p>
+<hr/>
+<h4>Tabel KPI</h4>
+@(Html.Telerik().Grid<relmon.Models.company>()
+        .Name("Kpi")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })  
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "DataBisnisDitGasAdmin")
+                .Delete("_DeleteAjaxEditing", "DataBisnisDitGasAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.nama).Width(150).Title("Tahun");
+            columns.Bound(o => o.deskripsi).Title("Deskripsi");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditKpi")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "Company");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+<br />

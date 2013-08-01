@@ -1,0 +1,36 @@
+﻿@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+        .Items(parent => {
+            parent.Add()
+                .Text("Profil")
+                .LoadContentFrom("Profil/" + ViewBag.id, "DataBisnisApAdmin")
+                .Selected(true);
+            parent.Add()
+                .Text("Struktur Organisasi")
+                .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("AD/ART")
+                .LoadContentFrom("AdArt", "DataBisnisApAdmin");
+            parent.Add()
+                .Text("Visi Misi")
+                .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("RJPP")
+                .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("RKAP")
+                .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("Bussiness Report")
+                .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("KPI")
+                .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("Project Status")
+                .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
+            parent.Add()
+                .Text("Product dan Jasa")
+                .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
+        })
+    )

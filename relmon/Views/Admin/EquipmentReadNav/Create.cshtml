@@ -1,0 +1,185 @@
+﻿@model relmon.Models.equipment_readiness_nav
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>equipment_readiness_nav</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.id_equipment, "equipment")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("id_equipment", String.Empty)
+            @Html.ValidationMessageFor(model => model.id_equipment)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.operation)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.operation)
+            @Html.ValidationMessageFor(model => model.operation)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.boc)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.boc)
+            @Html.ValidationMessageFor(model => model.boc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.bec)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.bec)
+            @Html.ValidationMessageFor(model => model.bec)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.monitoring)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.monitoring)
+            @Html.ValidationMessageFor(model => model.monitoring)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.performance)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.performance)
+            @Html.ValidationMessageFor(model => model.performance)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.cm_program)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.cm_program)
+            @Html.ValidationMessageFor(model => model.cm_program)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.maintenance)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.maintenance)
+            @Html.ValidationMessageFor(model => model.maintenance)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.pm_program)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.pm_program)
+            @Html.ValidationMessageFor(model => model.pm_program)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.overhaul)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.overhaul)
+            @Html.ValidationMessageFor(model => model.overhaul)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.spares)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.spares)
+            @Html.ValidationMessageFor(model => model.spares)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.lifecycle_spare)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.lifecycle_spare)
+            @Html.ValidationMessageFor(model => model.lifecycle_spare)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.main_act_spare)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.main_act_spare)
+            @Html.ValidationMessageFor(model => model.main_act_spare)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.safe_operation)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.safe_operation)
+            @Html.ValidationMessageFor(model => model.safe_operation)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.safeguard)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.safeguard)
+            @Html.ValidationMessageFor(model => model.safeguard)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.accesories)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.accesories)
+            @Html.ValidationMessageFor(model => model.accesories)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.score)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.score)
+            @Html.ValidationMessageFor(model => model.score)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.capacity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.capacity)
+            @Html.ValidationMessageFor(model => model.capacity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.quality)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.quality)
+            @Html.ValidationMessageFor(model => model.quality)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.sertifikasi)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.sertifikasi)
+            @Html.ValidationMessageFor(model => model.sertifikasi)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

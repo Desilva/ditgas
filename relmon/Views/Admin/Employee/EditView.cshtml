@@ -1,0 +1,576 @@
+﻿@model relmon.Models.user
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Employee</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#company_id").bind("change", function () {
+            if ($('#company_id').val() != '') {
+                //$('#realmod_checker_area').css("display","block");
+                $.post(
+			        "Employee/GetRole",
+			        {
+			            id_company: $('#company_id').val()
+			        },
+			        function (data) {
+			            hasil = eval(data);
+			            $("#rm_role").html("");
+			            $('<option value="">-- Pilih Jabatan --</option>').appendTo("#rm_role");
+			            for (var i = 0; i < hasil.length; i++) {
+			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#rm_role");
+			            }
+			            //$('#realmod_checker_area').css("display", "none");
+			        }
+			    );
+            } else {
+                //$('#realmod_checker_area').css("display", "none");
+            }
+		});
+		$("#keluargaContent").load("EmployeeDetail/KeluargaView", { 'userId': '@ViewBag.userEdit.id' });
+		$("#kursusContent").load("EmployeeDetail/KursusView", { 'userId': '@ViewBag.userEdit.id' });
+		//$("#nilaiKinerjaContent").load("EmployeeDetail/NilaiKinerjaView", { 'userId': '@ViewBag.userEdit.id' });
+		$("#pendidikanContent").load("EmployeeDetail/PendidikanView", { 'userId': '@ViewBag.userEdit.id' });
+		$("#pengalamanKerjaLuarContent").load("EmployeeDetail/PengalamanKerjaLuarView", { 'userId': '@ViewBag.userEdit.id' });
+		$("#pengalamanKerjaPertaminaContent").load("EmployeeDetail/PengalamanKerjaPertaminaView", { 'userId': '@ViewBag.userEdit.id' });
+		//$("#penghargaanContent").load("EmployeeDetail/PenghargaanView", { 'userId': '@ViewBag.userEdit.id' });
+		//$("#penugasanContent").load("EmployeeDetail/PenugasanView", { 'userId': '@ViewBag.userEdit.id' });
+		$("#riwayatGolUpahPerseroContent").load("EmployeeDetail/RiwayatGolUpahPerseroView", { 'userId': '@ViewBag.userEdit.id' });
+		//$("#sertifikasiContent").load("EmployeeDetail/SertifikasiView", { 'userId': '@ViewBag.userEdit.id' });
+		//$("#tindakanDisiplinContent").load("EmployeeDetail/TindakanDisiplinView", { 'userId': '@ViewBag.userEdit.id' });
+    })
+
+    function save() {
+
+        if ($('#fullname').val() == "") {
+            alert('Nama masih kosong');
+            return 0;
+        }
+        else if ($('#id_company').val() == "") {
+            alert('Perusahaan belum dipilih');
+            return 0;
+        }
+        else if ($('#rm_role').val() == "") {
+            alert('Jabatan belum dipilih');
+            return 0;
+        }
+
+        var values =
+        {
+            "id": $('#id').val(),
+            "fullname": $('#fullname').val(),
+            "rm_role": $('#rm_role').val(),
+            "no_pekerja": $('#no_pekerja').val(),
+            "lokasi": $('#lokasi').val(),
+            "direktorat": $('#direktorat').val(),
+            "tempat_lahir": $('#tempat_lahir').val(),
+            "tgl_lahir": $('#tgl_lahir').val(),
+            "jenis_kelamin": $('#jenis_kelamin').val(),
+            "agama": $('#agama').val(),
+            "susunan_keluarga": $('#susunan_keluarga').val(),
+            "NPWP": $('#NPWP').val(),
+            "alamat_pajak": $('#alamat_pajak').val(),
+            "alamat_rumah": $('#alamat_rumah').val(),
+            "alamat_ktp": $('#alamat_ktp').val(),
+            "sub_area": $('#sub_area').val(),
+            "tgl_aktif": $('#tgl_aktif').val(),
+            "tmt_dapen_dplk": $('#tmt_dapen_dplk').val(),
+            "tmt_jabatan": $('#tmt_jabatan').val(),
+            "tmt_gol_jabatan": $('#tmt_gol_jabatan').val(),
+            "gol_upah_persero": $('#gol_upah_persero').val(),
+            "tmt_gol_upah_persero": $('#tmt_gol_upah_persero').val(),
+            "gol_upah_ap": $('#gol_upah_ap').val(),
+            "tmt_gol_upah_ap": $('#tmt_gol_upah_ap').val(),
+            "layering": $('#layering').val(),
+            "pendidikan_terakhir": $('#pendidikan_terakhir').val(),
+            "status_pekerja": $('#status_pekerja').val()
+        }
+
+        $.post("Employee/update", values, function (data) {
+            alert('Data tersimpan');
+            $('#content').load('Employee');
+        });
+
+    }
+
+    function OnCompleteDetailEmployee(e) {
+//        user = e.response;
+//        alert((e.response.data)[0]);
+        if (e.name == null) {
+            var detailWindow = $("#Add"+e.response.kategori).data("tWindow");
+            detailWindow.center().open();
+        } else {
+            if (e.name == "Edit"+e.response.kategori) {
+                    data = e.response.data;
+                    $.each(data, function (index, value) {
+                        if ((index == "tgl_awal") || (index == "tgl_akhir") || (index == "tgl_lahir")) {
+//                            alert(value);
+                            $('#' + e.response.kategori + '_edit_' + index).val(value.toString("dd/MM/yyyy"));
+
+                        } else
+                            $('#' + e.response.kategori + '_edit_' + index).val(value);
+                    });
+                    var detailWindow = $("#Edit"+e.response.kategori).data("tWindow");
+                    detailWindow.center().open();
+            }
+        }
+    }
+
+    function SaveDetailEmployee(kategori) {
+        var values = {};
+        values.user_id = '@ViewBag.userEdit.id',
+        values.kategori = kategori;
+        if (kategori == "Keluarga") {
+            values.nama = $('#' + kategori + '_nama').val();
+            values.hubungan = $('#' + kategori + '_hubungan').val();
+            values.tempat_lahir = $('#' + kategori + '_tempat_lahir').val();
+            values.tgl_lahir = $('#' + kategori + '_tgl_lahir').val();
+
+            //bersihin
+            $('#' + kategori + '_nama').val('');
+            $('#' + kategori + '_hubungan').val('');
+            $('#' + kategori + '_tempat_lahir').val('');
+            $('#' + kategori + '_tgl_lahir').val('');
+
+        } else if (kategori == "Kursus") {
+            values.tipe = $('#' + kategori + '_tipe').val();
+            values.nama = $('#' + kategori + '_nama').val();
+            values.lokasi = $('#' + kategori + '_lokasi').val();
+            values.hasil = $('#' + kategori + '_hasil').val();
+            values.tgl_awal = $('#' + kategori + '_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_tipe').val('');
+            $('#' + kategori + '_nama').val('');
+            $('#' + kategori + '_lokasi').val('');
+            $('#' + kategori + '_hasil').val('');
+            $('#' + kategori + '_tgl_awal').val('');
+            $('#' + kategori + '_tgl_akhir').val('');
+
+        } else if (kategori == "NilaiKinerja") {
+
+        } else if (kategori == "Pendidikan") {
+            values.lokasi = $('#' + kategori + '_lokasi').val();
+            values.tingkat = $('#' + kategori + '_tingkat').val();
+            values.tgl_awal = $('#' + kategori + '_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_lokasi').val('');
+            $('#' + kategori + '_tingkat').val('');
+            $('#' + kategori + '_tgl_awal').val('');
+            $('#' + kategori + '_tgl_akhir').val('');
+
+        } else if ((kategori == "PengalamanKerjaLuar") || (kategori == "PengalamanKerjaPertamina")) {
+            values.nama_perusahaan = $('#' + kategori + '_nama_perusahaan').val();
+            values.jabatan = $('#' + kategori + '_jabatan').val();
+            values.lokasi = $('#' + kategori + '_lokasi').val();
+            values.tgl_awal = $('#' + kategori + '_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_nama_perusahaan').val('');
+            $('#' + kategori + '_lokasi').val('');
+            $('#' + kategori + '_jabatan').val('');
+            $('#' + kategori + '_tgl_awal').val('');
+            $('#' + kategori + '_tgl_akhir').val('');
+
+        } else if (kategori == "Penghargaan") {
+
+        } else if (kategori == "Penugasan") {
+
+        } else if (kategori == "RiwayatGolUpahPersero") {
+            values.gol_upah_persero = $('#' + kategori + '_gol_upah_persero').val();
+            values.tgl_awal = $('#' + kategori + '_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_gol_upah_persero').val('');
+            $('#' + kategori + '_tgl_awal').val('');
+            $('#' + kategori + '_tgl_akhir').val('');
+
+        } else if (kategori == "Sertifikasi") {
+
+        } else /*if (kategori == "TindakanDisiplin")*/ {
+
+        }
+
+        $.post("EmployeeDetail/createDetailEmployee", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#'+kategori).data('tGrid');
+            grid.ajaxRequest();
+            $("#Add"+kategori).data("tWindow").close();
+        });
+    }
+
+    function EditDetailEmployee(kategori) {
+        var values = {};
+        values.id = $('#' + kategori + '_edit_id').val();
+        values.user_id = '@ViewBag.userEdit.id',
+        values.kategori = kategori;
+
+        if (kategori == "Keluarga") {
+            values.nama = $('#' + kategori + '_edit_nama').val();
+            values.hubungan = $('#' + kategori + '_edit_hubungan').val();
+            values.tempat_lahir = $('#' + kategori + '_edit_tempat_lahir').val();
+            values.tgl_lahir = $('#' + kategori + '_edit_tgl_lahir').val();
+
+            //bersihin
+            $('#' + kategori + '_edit_nama').val('');
+            $('#' + kategori + '_edit_hubungan').val('');
+            $('#' + kategori + '_edit_tempat_lahir').val('');
+            $('#' + kategori + '_edit_tgl_lahir').val('');
+
+        } else if (kategori == "Kursus") {
+            values.tipe = $('#' + kategori + '_edit_tipe').val();
+            values.nama = $('#' + kategori + '_edit_nama').val();
+            values.lokasi = $('#' + kategori + '_edit_lokasi').val();
+            values.hasil = $('#' + kategori + '_edit_hasil').val();
+            values.tgl_awal = $('#' + kategori + '_edit_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_edit_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_edit_tipe').val('');
+            $('#' + kategori + '_edit_nama').val('');
+            $('#' + kategori + '_edit_lokasi').val('');
+            $('#' + kategori + '_edit_hasil').val('');
+            $('#' + kategori + '_edit_tgl_awal').val('');
+            $('#' + kategori + '_edit_tgl_akhir').val('');
+        } else if (kategori == "NilaiKinerja") {
+
+        } else if (kategori == "Pendidikan") {
+            values.lokasi = $('#' + kategori + '_edit_lokasi').val();
+            values.tingkat = $('#' + kategori + '_edit_tingkat').val();
+            values.tgl_awal = $('#' + kategori + '_edit_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_edit_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_edit_lokasi').val('');
+            $('#' + kategori + '_edit_tingkat').val('');
+            $('#' + kategori + '_edit_tgl_awal').val('');
+            $('#' + kategori + '_edit_tgl_akhir').val('');
+        } else if ((kategori == "PengalamanKerjaLuar") || (kategori == "PengalamanKerjaPertamina")) {
+            values.nama_perusahaan = $('#' + kategori + '_edit_nama_perusahaan').val();
+            values.jabatan = $('#' + kategori + '_edit_jabatan').val();
+            values.lokasi = $('#' + kategori + '_edit_lokasi').val();
+            values.tgl_awal = $('#' + kategori + '_edit_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_edit_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_edit_nama_perusahaan').val('');
+            $('#' + kategori + '_edit_jabatan').val('');
+            $('#' + kategori + '_edit_lokasi').val('');
+            $('#' + kategori + '_edit_tgl_awal').val('');
+            $('#' + kategori + '_edit_tgl_akhir').val('');
+        } else if (kategori == "Penghargaan") {
+
+        } else if (kategori == "Penugasan") {
+
+        } else if (kategori == "RiwayatGolUpahPersero") {
+            values.gol_upah_persero = $('#' + kategori + '_edit_gol_upah_persero').val();
+            values.tgl_awal = $('#' + kategori + '_edit_tgl_awal').val();
+            values.tgl_akhir = $('#' + kategori + '_edit_tgl_akhir').val();
+
+            //bersihin
+            $('#' + kategori + '_edit_gol_upah_persero').val('');
+            $('#' + kategori + '_edit_tgl_awal').val('');
+            $('#' + kategori + '_edit_tgl_akhir').val('');
+        } else if (kategori == "Sertifikasi") {
+
+        } else /*if (kategori == "TindakanDisiplin")*/{
+
+        }
+
+        $.post("EmployeeDetail/updateDetailEmployee", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#'+kategori).data('tGrid');
+            grid.ajaxRequest();
+            $("#Edit" + kategori).data("tWindow").close();
+        });
+    }
+</script>
+
+<div class="fieldR">* Required Field</div>
+
+@Html.ValidationSummary(true)
+<fieldset>
+    <legend>employee</legend>
+
+    @(Html.HiddenFor(model => model.id, new { @Value = ViewBag.userEdit.id }))
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.fullname)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.fullname, new { @Value = ViewBag.userEdit.fullname })
+        <div class="errorM"></div>
+    </div>
+
+     <div class="editor-label">
+        Company<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+         @Html.DropDownList("company_id")
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.rm_role)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+         @Html.DropDownList("rm_role")
+        <!--select id="rm_role" name="rm_role">
+            <option value="0">--- Pilih Jabatan ---</option>
+        </select-->
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.no_pekerja)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.no_pekerja, new { @Value = ViewBag.userEdit.no_pekerja })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.lokasi)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.lokasi, new { @Value = ViewBag.userEdit.lokasi })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.direktorat)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.direktorat, new { @Value = ViewBag.userEdit.direktorat })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tempat_lahir)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.tempat_lahir, new { @Value = ViewBag.userEdit.tempat_lahir })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tgl_lahir)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tgl_lahir)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper"})
+                      .Value((DateTime?)ViewBag.userEdit.tgl_lahir)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.jenis_kelamin)
+    </div>
+    <div class="editor-field">
+        <select id="jenis_kelamin" name="jenis_kelamin">
+            <option value="0" @((ViewBag.userEdit.jenis_kelamin == 0) ? "selected" : "")> Perempuan</option>
+            <option value="1" @((ViewBag.userEdit.jenis_kelamin == 1) ? "selected" : "")>Laki-Laki</option>
+        </select>
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.agama)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.agama, new { @Value = ViewBag.userEdit.agama })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.susunan_keluarga)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.susunan_keluarga, new { @Value = ViewBag.userEdit.susunan_keluarga })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.NPWP)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.NPWP, new { @Value = ViewBag.userEdit.NPWP })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.alamat_pajak)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.alamat_pajak, new { @Value = ViewBag.userEdit.alamat_pajak })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.alamat_rumah)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.alamat_rumah, new { @Value = ViewBag.userEdit.alamat_rumah })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.alamat_ktp)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.alamat_ktp, new { @Value = ViewBag.userEdit.alamat_ktp })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.sub_area)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.sub_area, new { @Value = ViewBag.userEdit.sub_area })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tgl_aktif)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tgl_aktif)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                                      .Value((DateTime?)ViewBag.userEdit.tgl_aktif)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_dapen_dplk)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_dapen_dplk)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                                      .Value((DateTime?)ViewBag.userEdit.tmt_dapen_dplk)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_jabatan)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_jabatan)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                                      .Value((DateTime?)ViewBag.userEdit.tmt_jabatan)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_jabatan)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_jabatan)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                                      .Value((DateTime?)ViewBag.userEdit.tmt_gol_jabatan)
+        )
+        <div class="errorM"></div>
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.gol_upah_persero)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.TextBoxFor(model => model.gol_upah_persero, new { @Value = ViewBag.userEdit.gol_upah_persero })*@
+        @Html.Telerik().DropDownList().Name("gol_upah_persero").BindTo(ViewBag.golUpahPersero);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_upah_persero)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_upah_persero)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                                      .Value((DateTime?)ViewBag.userEdit.tmt_gol_upah_persero)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.gol_upah_ap)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.TextBoxFor(model => model.gol_upah_ap, new { @Value = ViewBag.userEdit.gol_upah_ap })*@
+        @Html.Telerik().DropDownList().Name("gol_upah_ap").BindTo(ViewBag.golUpahAp);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_upah_ap)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_upah_ap)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+                              .Value((DateTime?)ViewBag.userEdit.tmt_gol_upah_ap)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.layering)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.layering, new { @Value = ViewBag.userEdit.layering })
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.pendidikan_terakhir)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.TextBoxFor(model => model.pendidikan_terakhir, new { @Value = ViewBag.userEdit.pendidikan_terakhir })
+        Html.Telerik().ComboBox().Name("pendidikan_terakhir").DataBinding(dataBinding => dataBinding.Ajax()
+            .Select("_GetPendidikanTerakhir", "Employee", new { pendidikanSelected = ViewBag.userEdit.pendidikan_terakhir }));*@
+        @Html.Telerik().DropDownList().Name("pendidikan_terakhir").BindTo(ViewBag.pendidikanTerakhir);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.status_pekerja)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.status_pekerja, new { @Value = ViewBag.userEdit.status_pekerja })
+        <div class="errorM"></div>
+    </div>
+
+    <p>
+        <input type="submit" value="Update" onclick="save()"/>
+    </p>
+</fieldset>
+
+<div id="pendidikanContent"></div>
+<div id="kursusContent"></div>
+<div id="sertifikasiContent"></div>
+<div id="pengalamanKerjaPertaminaContent"></div>
+<div id="pengalamanKerjaLuarContent"></div>
+<div id="riwayatGolUpahPerseroContent"></div>
+<div id="nilaiKinerjaContent"></div>
+<div id="penugasanContent"></div>
+<div id="penghargaanContent"></div>
+<div id="tindakanDisiplinContent"></div>
+<div id="keluargaContent"></div>
+
+
+<!------------------------------------------------------------------------------>
+<!------------------------------------ Kursus ---------------------------------->
+<!------------------------------------------------------------------------------>

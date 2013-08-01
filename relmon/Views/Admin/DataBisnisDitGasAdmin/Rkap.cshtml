@@ -1,0 +1,31 @@
+﻿<h4>Upload File RKAP</h4> 
+
+<script>
+    function onSuccess(e) {
+        var files = e.files;
+        if (e.operation == "upload") {
+            //save to database
+            loadIframe('frame-content', '/DataBisnisDitGas/getPDF/2');
+        }
+    }
+
+    function onLoad(e) {
+        console.log(e);
+    }
+</script>
+
+@(Html.Telerik().Upload()
+        .Name("attachmentsRkap")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save", "Upload", "attachments")
+            .Remove("Remove", "Upload")
+            .AutoUpload(true)
+        )
+    )
+<br/>
+<iframe id="frame-content" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>

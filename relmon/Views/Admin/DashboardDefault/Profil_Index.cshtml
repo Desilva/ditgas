@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Profil";
+}
+
+@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+            .Items(parent =>
+            {
+                parent.Add()
+                    .Text("Profil")
+                    .LoadContentFrom("Profil_Profil", "DashboardDefault")
+                    .Selected(true);
+                parent.Add()
+                    .Text("Visi Misi")
+                    .LoadContentFrom("Profil_VisiMisi", "DashboardDefault");
+                parent.Add()
+                    .Text("Organisasi")
+                    .LoadContentFrom("Profil_Organisasi", "Employee");
+        })
+)

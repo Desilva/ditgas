@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function refreshUploadHighlight() {
+        $.post("DashboardDefault/Home_Highlight_Content", "", function (result) {
+            $("#highlightContainer").html(result);
+        });
+    }
+    $(document).ready(function () {
+        refreshUploadHighlight();
+    });
+</script>
+<div id="highlightContainer"></div>
+<iframe id="refresh_targetHighlight" name="refresh_targetHighlight" src="" style="display:none;" onload="refreshUploadHighlight();"></iframe>

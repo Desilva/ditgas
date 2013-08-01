@@ -1,0 +1,28 @@
+﻿@{
+    int i = 0;
+    foreach (var slideshow in ViewBag.slideshow)
+    {
+        <div id="@("slideshowDiv-" + slideshow.id)">
+            <img src="@slideshow.konten" alt="(empty)" id="@("slideshowImg-" + slideshow.id)" width="485" style="padding:0px;margin:15px;"/>
+            @using (Html.BeginForm("deleteAjax", "DashboardDefault", FormMethod.Post, new { target = "refresh_targetSlideshow" }))
+            {
+                <input type="hidden" value="@slideshow.id" name="id" />
+                <input type="button" value="Delete" onclick="javascript:if(confirm('Hapus gambar?')) { submit();}" />
+            }
+        </div>
+        i++;
+    }
+}
+<br />
+<hr />
+@using (Html.BeginForm("uploadSlideshow", "DashboardDefault", FormMethod.Post, new { id = "formUploadSlideshow", enctype = "multipart/form-data", name = "formUploadSlideshow", target = "refresh_targetSlideshow" }))
+{
+    <div class="info_inside_left">Upload new image (.jpg) :</div> 
+		 <input type="text" id="fileNameSlideshow" class="file_input_textbox" readonly="readonly" />
+		 <div class="file_input_div">
+			<input type="button" value="Cari" class="file_input_button" />
+			<input type="file" class="file_input_hidden" name="userfile" onchange="javascript: document.getElementById('fileNameSlideshow').value = this.value" />
+		 </div>
+		 <br />
+		 <input type="button" value="Upload" onclick="javascript:if(document.formUploadSlideshow.userfile.value.length==0) { alert('You must specify a file first'); return; }; submit();" />
+}

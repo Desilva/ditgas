@@ -1,0 +1,1545 @@
+﻿/*----------------------------------------------------------
+The base color for this template is #5c87b2. If you'd like
+to use a different color start by replacing all instances of
+#5c87b2 with your new color.
+----------------------------------------------------------*/
+#body
+{
+    margin: 0;
+	padding: 0;
+	color: #696969;
+	font: normal 10pt Arial,Helvetica,sans-serif;
+	background: #efefef;
+	overflow-y: scroll;
+}
+
+header,
+footer,
+nav,
+section 
+{
+    display: block;
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    color: #000;
+}
+
+h1
+{
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+h2
+{
+    padding: 0 0 10px 0;
+}
+
+.adminH2
+{
+    padding: 0 0 10px 0;  
+}
+
+h3
+{
+    font-size: 1.2em;
+}
+h4
+{
+    font-size: 1.1em;
+}
+h5, h6
+{
+    font-size: 1em;
+}
+
+a
+{
+    color: #696969;
+}
+
+li
+{
+    line-height: 1.6;
+}
+
+/* this rule styles <h2> tags that are the 
+first child of the left and right table columns */
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+.clearfix{
+    display: block;
+}
+
+#page
+{
+    height: auto;
+    min-height: 100%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    position: absolute;
+}
+
+#adminLogin
+{
+    margin-left: 950px;
+    position: absolute;
+    margin-top: 6px; 
+    font-size: 12px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+#adminLogin a:link, #adminLogin a:visited
+{
+    color: #000;
+    text-decoration: none;
+}
+
+#adminLogin a:hover
+{
+    color: blue;
+    text-decoration: underline;
+}
+
+#header
+{
+	height: 170px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+}
+
+#header .wrap 
+{
+    background: url(image/header-01.png) no-repeat top center;
+    width: 1000px;
+    height: 100%;
+    padding-right: 0px;
+    margin-top: 0px;
+    position: relative;
+}
+
+.wrap {
+    width: 1000px;
+    padding: 0;
+    margin: 0 auto;
+}
+
+#header .additional {
+    float: right;
+    margin-right: 0px;
+    margin-top: 25px;
+    position: relative;
+}
+
+#header .additional img{
+    height: 130px;
+}
+
+#header .logo 
+{
+    float: left;
+	padding: 10px 20px;
+	font-size: 200%;
+	padding-top: 50px;
+	margin-left: 40px;
+    position: relative;
+}
+
+header h1, #header h1
+{
+    font-weight: normal;
+    padding: 5px 0;
+    margin: 0;
+    color: #000;
+    border: none;
+    line-height: 2em;
+    font-size: 30px !important;
+}
+
+div#title
+{
+    display:block;
+    text-align:left;
+    margin-left: 20px;
+    margin-top: 35px;
+    float: left;
+    padding-left: 30px;
+    position: relative;
+}
+
+.sub
+{
+    margin-top: -20px;
+    margin-left: 0px;
+    font-size: 20px;
+    color: #000;     
+}
+
+.sub2
+{
+    margin-top: 0px;
+    margin-left: 2px;
+    font-size: 25px;
+    color: #000;     
+    font-family:Georgia;
+}
+
+#main
+{
+    padding: 0 30px 15px 20px;
+    margin-bottom: 30px;
+    _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
+    min-height:436px;
+}
+
+#main .wrap
+{
+    padding-left : 12px;    
+}
+
+footer, #footer
+{
+    color: #999;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
+}
+
+#listTarget
+{
+     margin: -15px 0 0 0;
+     position: absolute;
+}
+
+/* MENU   
+----------------------------------------------------------*/
+#mainmenu 
+{
+    height: 100%;
+    width: 100%;
+   // background:  url('2012.1.214/Office2007/sprite.png') repeat-x 0 -850px;
+    background: #ffa99a;
+}
+
+ #mainmenu .t-header
+{
+    background-color: #cc000e;
+    color: #000;
+}
+
+#menu, #dash
+{
+    position: static;
+    margin: 0 auto;
+    padding: 0;
+    text-align: left;
+    clear:both;
+    height: 100%;
+    width: 100%;
+}
+
+#menu .t-item, #dash .t-item
+{
+    border-width: 0 0 0 1px;
+    border-color: #fff;
+    margin-right: -0.1em;
+    margin-right: -0.15em \9;
+}
+
+#menu .t-link, #dash .t-link
+{
+    padding: 5px 5px;
+    //font-weight: bold;
+    text-decoration: none;
+    line-height: 1.8em;
+    color: #fff;
+    background-color: #cc000e;
+    border: none;
+}
+#menu .t-link:hover{background-color:#ffa99a;border-color:#ff2e34}
+#dash .t-link{text-decoration: underline;}
+#dash .t-link:hover{text-decoration: none;}
+#dash .t-item
+{
+    //margin-left: 680px;
+    border-left: none;  
+} 
+
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+    color:#000;
+    text-transform:capitalize;
+    width: 659px;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+    text-transform:uppercase;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+input[type="text"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+input[type="password"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+.table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+
+.table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+}
+
+.table th
+{
+  padding: 6px 5px;
+  text-align: left;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;
+}
+
+.table-demografi
+{
+  color: #000000;
+  border: solid 2px #000000;
+  border-collapse: collapse;
+}
+
+.table-demografi td 
+{
+  padding: 1px 3px;  
+  text-align: center;
+  border: solid 1px #000000;
+  background-color: #FFFFFF; 
+}
+
+.table-demografi th
+{
+  color: #FFFFFF;
+  padding: 6px 5px;
+  text-align: center;
+  background-color: #CC000E; 
+  border: solid 1px #000000;
+}
+
+.table-demografi .total
+{
+  font-weight: bold;
+  background-color: #00FFCC;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+.clear
+{
+    clear: both;
+}
+
+.error
+{
+    color:Red;
+}
+
+#backD
+{
+    float: right;
+    position:relative;
+    z-index:1; 
+    margin-right: 200px;
+    margin-top: -28px;
+    font-size:1.1em;
+    text-align:right;   
+}
+
+#backD a:link, #backD a:visited
+{
+    color: #fff;
+    text-decoration: none;
+}
+
+
+#logindisplay
+{
+    font-size:1.1em;
+    text-align:right;
+    margin:10px;
+    color:#fff;
+    position: relative;
+    float: right;
+    //margin-left: 800px;
+    margin-top: -28px;
+}
+
+#logindisplay a:link
+{
+    color: #fff;
+    text-decoration: underline;
+}
+
+#logindisplay a:visited
+{
+    color: #fff;
+    text-decoration: underline;
+}
+
+#logindisplay a:hover
+{
+    color: white;
+    text-decoration: none;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+
+.text-box
+{
+    width: 30em;
+}
+
+.text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+#tree
+{
+    float:left;
+    color: #ddd;
+    width: 200px;
+    border-right : 1px solid #ddd;
+    max-height: 2000px;
+    margin-left: 10px;
+}
+
+.borderTree
+{
+    border-bottom: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.editor-label
+{
+    margin: 10px 0 50px 0px;
+    padding-top: 5px;
+}
+
+.display-label
+{
+    margin: 10px 0 65px 0px;
+}
+
+.editor-field, .display-field
+{
+    margin: -71px 0 0px 120px;
+    padding-bottom: 10px;
+    width: 460px;
+}
+
+.display-field
+{
+    color: #5A9CF2;
+    padding-left: 10px;
+    margin-top: -87px;
+    background: #ddd;
+    width: 300px;
+    min-height: 20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    
+} 
+
+.editor-separator
+{
+    margin: -81px 0 0 120px;   
+    float: left; 
+}
+
+.bintang
+{
+    color: red;
+    padding-left: 2px;    
+}
+
+.fieldR
+{
+    color: red;
+    padding-bottom: 10px;
+    margin-top: -15px;
+}
+
+.errorM
+{
+    color: red;
+    float: left;
+    margin: -20px 0 0 280px;
+    position: absolute;
+    width: 220px;
+    font-weight: bold;
+    margin: -20px 0 0 280px \9;
+    position: absolute \9;
+    width: 220px \9;
+}
+    
+.t-widget, .t-link, .t-popup, .t-input
+{
+    color: #000;
+}
+
+#content
+{
+    /*margin-top: -20px;*/
+    width: auto;
+    margin-left: 15px;
+    /*position: absolute;*/
+}
+
+#content-sdm
+{
+    /*margin-top: -20px;*/
+    width: auto;
+    margin-left: 215px;
+}
+
+#hapus
+{
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 20px;  
+}
+
+input[type="button"], input[type="submit"], input[type="file"]
+{
+    border-width: 1px;
+    border-style: solid;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border-color: #BBB;
+    color: #464646;
+    /*width: 50px;*/
+    height: 25px;
+    cursor: pointer;
+}
+
+.loadSubmit
+{
+    display: none;   
+    margin: -23px 0 0 70px;
+    position: absolute;
+}
+
+#PanelBar .t-header
+{
+    background: #DAE2E8;
+    color: #000;
+}
+
+#loginPage
+{
+    margin-left: 330px; 
+}
+
+#loginPage fieldset
+{
+    width: 330px;   
+}
+
+#loginPage .editor-field
+{
+    width: 200px;   
+}
+
+#loginPage input[type="submit"]
+{
+    margin-top: -30px;  
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/*readiness navigator*/
+
+.info_inside_left {
+    margin: 10px 0 5px 10px;
+}
+
+.info a, .info input[type="text"], .info input[readonly],.info input[type="password"] {
+    padding: 5px;
+}
+
+.infoArea
+{
+    margin-bottom : 9px;
+    font-weight:bold;
+}
+
+.infoFieldinput
+{
+    margin: -30px 0 0px 155px; 
+}
+
+.infoFieldinputArea
+{
+    margin: -30px 0 0px 45px; 
+}
+
+.infoField
+{
+    margin: -22px 0 0px 155px; 
+}
+
+.infoFieldbutton
+{
+    margin: -29px 0 0px 370px;    
+}
+
+input[readonly] {
+    background-color: #EEE;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.t-window-title{font-weight: bold;}
+
+.help-section
+{
+    margin-left: 20px;    
+} 
+
+#detailField
+{
+    margin: 0;
+    width: 280px;
+}
+
+#detailField legend
+{
+    font-size: 14px;    
+}
+
+#details
+{
+    margin-top:0px;
+    font-size: 11px;
+    width: 280px;
+}
+
+#detailLeft  .detail_chart, #detailRight  .detail_chart
+{
+    margin: 10px 10px 5px 0px;
+    padding-top: 5px;
+}
+
+#detailLeft .detailField, #detailRight .detailField
+{
+    margin: -22px 0 0px 100px;
+    margin: -22px 0 0px 110px \9;
+    text-align: left;
+}
+
+#detailLeft
+{
+    margin-left: 0px;
+}
+
+#detailRight
+{
+    margin: -262px 0 0 140px;
+    margin: -237px 0 0 140px \9;
+    border-left: 1px solid #CCC;
+    padding-left: 13px;
+}
+
+.bold{font-weight:bold;font-weight:bold \9;}
+.in{padding-left: 10px; padding-left: 10px \9;}
+.doublein{padding-left: 20px; padding-left: 20px \9;}
+
+#chartReadNav
+{
+    margin: -315px 0 0 335px;
+    position: absolute;   
+    margin: -20px 0 0 365px \9;
+    position: absolute \9;  
+}
+
+#backList
+{
+    margin-top: -25px;
+    margin-top: 10px 9;
+    position: absolute;
+    margin-left: 330px;   
+}
+
+.Asearch
+{
+    margin: 0 20px 15px 0;   
+}
+
+.titik2
+{
+    margin: -32px 0 10px 120px;
+    position: absolute;
+}
+
+.Ainput
+{
+    margin: -32px 0 10px 130px;
+    /*position: absolute;   */
+}
+
+.Ainput input[type="text"]{width: 50px;//margin-left:2px;}
+
+.t-chart text
+{
+    text-align: left;    
+}
+
+#dashboard .speedometer 
+{
+    background: #f2f2f2; 
+    padding: 20px 10px; 
+    position: absolute; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px; 
+	-webkit-box-shadow: 0 0 7px #888;
+	-moz-box-shadow: 0 0 7px #888;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
+	width: 600px;
+	margin-left: 10px;
+	margin-top: 15px;
+}
+
+#dashboard .speedometer .legend  
+{
+    position: absolute; 
+    top: 5px; 
+    left: 5px; 
+    padding: 0 5px; 
+    border: 1px solid #999; 
+}
+
+#dashboard .speedometer .legend .target { color: #0f4f8e; }
+#dashboard .speedometer .legend .actual { color: #f58220; }
+#dashboard .speedometer .item { text-align: center; padding: 10px 0; margin-bottom:20px; -webkit-border-radius: 5px; border-radius: 5px; }
+#dashboard .speedometer .region { background: #ccc; }
+#dashboard .speedometer a { color: #333; }
+#dashboard .speedometer a:hover, #dashboard .speedometer a.active { color: #0000ff; }
+
+#dashboard .form-type { margin-bottom: 10px; }
+#dashboard .chart { margin-bottom: 15px; -webkit-box-shadow: 1px 1px 5px #888; }
+#dashboard hr { background: none; }
+
+#plain #content #dashboard { width: 270px; }
+
+#dashboard .action {margin-left: 10px; margin-top: -5px;}
+#dashboard .action .buttons { text-align: left; margin: -24px 0 10px 425px; margin: -24px 0 10px 420px \9; position:absolute;}
+
+.span-5
+{
+    width: 190px;
+    float: left;
+    margin-right: 10px;
+}
+
+.last {
+    margin-right: 0;
+}
+
+#sidebar
+{
+    float: right;
+    width: 300px; 
+}
+
+.history
+{
+    margin-top: 15px;    
+}
+
+.history .title, .ma-unit .title{margin-bottom: 5px;}
+
+#by{margin-bottom: 10px;}
+
+#chart{margin-top: 15px;}
+#buttonSub{}
+
+
+/*for mozilla*/
+@-moz-document url-prefix() {
+    
+    #dashboard .action .buttons {text-align: left; margin: -24px 0 10px 416px;}
+    
+    #menu .t-item, #dash .t-item
+    {
+        margin-right: 0;
+    }
+        
+    .lineLeft
+    {
+        border-left: 1px solid;    
+        height: 820px;
+        margin: -617px 0 0 410px;
+    }
+    
+    .edit
+    {
+        height: 800px;    
+    }
+
+    #fracasRight
+    {
+        margin: -845px 0 0 430px; 
+    }
+    
+    #fracasRightEdit
+    {
+        margin: -770px 0 0 430px; 
+    }
+    
+}
+
+.equipment .display-field, .part .display-field, .fracas .display-field
+{
+    border-radius: 5px;
+}
+
+.fracas .display-label
+{
+   margin-left: 10px;
+}
+
+.fracas .display-field
+{
+   margin-left: 150px;
+}
+
+.fracasRight
+{
+    margin: -620px 0 0 500px;    
+}
+
+.historyRight
+{
+    margin: -620px 0 0 360px;    
+}
+
+.display-field textarea 
+{
+    background-color: transparent;    
+    border: none;
+    overflow: auto;
+}
+
+.history .display-field
+{
+    width: 190px;    
+}
+
+.history textarea
+{
+    width: 135px; 
+    height: 100px;   
+    resize: none;
+}
+
+.eventlog textarea
+{
+    width: 285px; 
+    height: 100px;      
+    resize: none;
+}
+
+.part .display-field
+{
+    width: 160px;
+}
+
+.equipmentLeft
+{
+    margin-bottom: 10px; 
+    margin-top: 20px; 
+}
+
+.equipmentRight
+{
+    margin: -384px 0 0 500px;
+    position: absolute; 
+}
+
+#PartList
+{
+    margin-top: 20px;
+    width: 380px;   
+}
+
+.partLeft
+{
+    margin: -270px 0 10px 400px;
+    position: absolute; 
+}
+
+#FracasEventLog, #DetailsEquipment
+{
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.partRight
+{
+    margin: -270px 0 0 690px;
+    position: absolute; 
+}
+
+.titleChartDashboard
+{
+    margin-top : 10px;
+    margin-bottom : 5px;    
+    color: #696969;
+}
+
+.status 
+{
+    margin: -20px 0 10px 50px;    
+}
+
+.taFracas
+{
+    margin: 25px 0 0;
+    width: 200px;  
+    resize: none;
+}
+
+.line
+{
+    border-top: solid 1px;
+    width: 797px;    
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .lineLeft
+    {
+        border-left: 1px solid;    
+        height: 840px;
+        margin: -666px 0 0 410px;
+    }
+    
+    .edit
+    {
+        margin-top: -607px;   
+    }
+
+    #fracasRight
+    {
+        margin: -816px 0 0 410px;   
+        padding-left: 10px;
+    }
+    
+    #fracasRightEdit
+    {
+        margin: -755px 0 0 410px;   
+        padding-left: 10px;
+    }
+}
+
+.lineLeft
+{
+    border-left: 1px solid;    
+    height: 860px \9;
+    margin: -670px 0 0 410px \9;
+}
+
+.edit
+{
+    height: 800px;    
+}
+
+#fracasRight
+{
+    margin: -830px 0 0 410px \9;   
+    padding-left: 10px \9;
+}
+
+#fracasRightEdit
+{
+    margin: -850px 0 0 410px \9;   
+    padding-left: 10px \9;
+}
+
+#id_immidiate, #id_long_term, #id_event_desc, #id_failure_mode, #id_failure_cause, #id_failure_effect, #id_secondary_effect, #id_severity, #id_clsss
+{
+    width: 178px;    
+}
+
+#datetime_stop, #datetime_ops
+{
+    width: 158px;    
+}
+
+.hideFracas
+{
+   display: none;    
+}
+
+.hideFracas .infoFieldinput
+{
+    margin-top: -25px;    
+}
+
+.infoFieldinput img
+{
+    margin: -23px 0 0 150px;
+    position: absolute;
+}
+
+.infoFieldinput select
+{
+    width: 145px;
+}
+
+.infoFieldinput .t-datetimepicker .t-picker-wrap .t-select
+{
+    margin-right: -30px;
+}
+
+.infoFieldinputArea img
+{
+    margin: -23px 0 0 150px;
+    position: absolute;
+}
+
+.infoFieldinputArea select
+{
+    width: 145px;
+}
+
+.infoFieldinputArea .t-datetimepicker .t-picker-wrap .t-select
+{
+    margin-right: -30px;
+}
+
+#batalFracas
+{
+    margin-left: -2px;
+    margin-top: 5px;    
+}
+
+#realmod_save img
+{
+    margin: -20px 0 0 130px;
+    position: absolute;
+}
+
+#contentRbd
+{
+    width: auto;
+    position: absolute;
+}
+
+.area
+{
+    font-size: 14px;
+    font-weight: bold; 
+    padding-left: 13px;
+}
+
+.areaInput
+{
+    margin-left: 100px;    
+    margin-top: -25px;
+}
+
+#ReportViewerEquipmentReportFrame, #ReportViewerPart_ReportArea_PreviewFrame
+{
+    //min-width: 720px;
+    overflow: hidden;
+    min-height: 1000px;
+    margin-left: 0;
+    margin-top: -10px;
+}
+
+#ReportViewerEquipment, #ReportViewerPart
+{
+    margin-top: 17px;    
+}
+
+.lowAvail, .noteRead
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 330px;
+    height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #25a0da;    
+    background: #dae2e8;
+    float: left;
+    padding: 10px;
+}
+
+.lowAvail li
+{ 
+    margin-left: 10px;
+}
+
+.noteRead
+{
+    margin-left: 10px;    
+}
+.file_input_textbox
+{
+	float: left;
+	width:100px;
+}
+
+.file_input_div
+{
+  position: relative; 
+  width: 55px; 
+  height: 30px; 
+  overflow: hidden;
+}
+
+.file_input_button
+{
+	width: 50px; 
+	position: absolute; 
+	top: 0px;
+	background-color: #BBB;
+	color: #FFFFFF;
+	border-style: solid;
+	margin-left:5px;
+}
+
+.file_input_hidden
+{
+  font-size: 23px; 
+  position: absolute; 
+  right: 0px; 
+  top: 0px;
+  opacity: 0; 
+  
+  filter: alpha(opacity=0); 
+	-ms-filter: "alpha(opacity=0)"; 
+	-khtml-opacity: 0; 
+	-moz-opacity: 0;
+}
+
+#note
+{
+    margin-left: -80px;
+    width: 300px;
+    margin-top: 6px;   
+    overflow-y: scroll;
+    overflow-x: hidden;
+    resize:none;
+}
+
+.loadAdd
+{
+    background: transparent url('/Content/2012.1.214/Metro/loading.gif') no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    margin: -50px 0 0 100px;
+    display: none;
+}
+
+#left-content
+{
+    float : left;
+    width : 49%;
+    margin-bottom: 50px;
+}
+
+#right-content
+{
+    float : right;
+    width : 50%;
+    margin-bottom: 50px;
+}
+
+.date
+{
+    width:99%;    
+    font-size : 12px;
+}
+
+#left-content .content
+{
+   padding-left : 10px;
+   padding-right : 10px;
+   border-right : 2px dotted #838383;
+}
+
+#right-content .content
+{
+   padding-left : 10px;
+   padding-right : 10px;
+}
+
+.titlethumb
+{
+    background: url('/Content/image/bg_submenu.png') no-repeat 0 0;
+	color:#fff;
+	height:30px;
+	margin-left:10px;
+	font-size:13px;
+	padding-top:7px;
+	padding-left: 30px;
+	vertical-align:top;
+}
+
+.review
+{
+   margin-top : 0px;
+   color : Black;
+}
+
+.review a
+{
+   text-decoration:none; 
+   color:#4493cb; 
+   font-family:Arial, Sans-Serif;
+   font-size : 10px;
+   font-style :italic;
+}
+
+.pagination ul{border:0; margin:0; padding:0;}
+
+.pagination
+{
+    padding-top: 10px;
+    width: 43%;
+    float: right;    
+}
+
+.pagination-flickr li{
+    border:0; margin:0; padding:0;
+    font-size:11px;
+    list-style:none;
+}
+
+.pagination-flickr a{
+    border:solid 1px #DDDDDD;
+    margin-right:2px;
+}
+
+.pagination-flickr .previous-off,
+.pagination-flickr .next-off {
+    color:#666666;
+    display:block;
+    float:left;
+    font-weight:bold;
+    padding:3px 4px;
+}
+
+.pagination-flickr .next a,
+.pagination-flickr .previous a {
+    font-weight:bold;
+    border:solid 1px #FFFFFF;
+} 
+
+.pagination-flickr .active{
+    color:#ff0084;
+    font-weight:bold;
+    display:block;
+    float:left;
+    padding:4px 6px;
+}
+
+.pagination-flickr a:link,
+.pagination-flickr a:visited {
+    color:#0063e3;
+    display:block;
+    float:left;
+    padding:3px 6px;
+    text-decoration:none;
+}
+
+.pagination-flickr a:hover{
+    border:solid 1px #666666;
+}
+
+#profile
+{
+    float: right;
+    width: 730px;
+    text-align: justify;
+}
+
+#content-kinerja ul
+{
+    padding-left : 30px;    
+    padding-bottom:30px;
+}
+
+#content-kinerja a
+{
+    color :Blue;
+}
+
+#related-link
+{
+    float:left;    
+}
+
+#menu-related-link
+{
+    width:300px;
+    margin-left:110px;
+    text-align : left;
+    -webkit-border-radius: 19px;
+    border-radius: 19px;
+    box-shadow: 0px 0px 9px #000000;
+    opacity: 100;
+    position:absolute;
+    background-color:aliceBlue;
+}
+#menu-related-link a
+{
+    color : Blue;
+}
+
+#menu-related-link p
+{
+    color : Blue;
+}
+
+#search {
+    width:100%;
+    background-color:White;
+}
+
+#search form
+{
+    text-align: right;
+    margin-right: 12%;
+    padding-bottom: 5px;
+}
+
+#search input[type="text"] {
+    background: url(image/icon/cari.png) no-repeat 10px 6px #EFEFEF;
+    border: 0 none;
+    font: bold 12px Arial,Helvetica,Sans-serif;
+    color: #bbbbbb;
+    width: 150px;
+    padding: 6px 15px 6px 35px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
+    height :18px;
+    }
+
+#search input[type="text"]:focus {
+    width: 185px;
+    }
+    
+.ultah h4
+{
+    margin : 0 0 5px 10px;    
+}
+
+.selected
+{
+    background-color : Blue;    
+}
+
+.acl_title
+{
+    width :400px;
+}
+
+.acl_checkbox
+{
+}
+
+.acl_table, .acl_table td
+{
+    padding:0;
+    margin:0;
+    border:0;
+}
+
+[id|="ACL"]
+{
+    color:#000000;
+}
+
+.treeViewBox
+{
+    border: 1px solid #000;
+    padding: 5px;
+    height: 400px;
+    overflow: auto;
+}
+
+.article
+{
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    padding: 1em;
+}
+
+.article h2
+{
+    margin: 2px 2px 0px;
+    padding-bottom: 0px;
+}
+
+.article [class|="description"]
+{
+    font-size: 11px;
+}
+
+.article .description-a
+{
+    font-style: italic;
+}
+
+.article .description-b
+{
+    
+}
+
+#banner #banner-left
+{
+    float: left;
+    width: 25%;
+    height: 250px;
+    border: 1px solid #000;
+}
+
+#banner #banner-right
+{
+    margin-left: 26%;
+    width: 74%;
+    height: 250px;
+    border: 1px solid #000;
+    background-color: #D92C32;
+    color: White;
+}
+
+#banner #banner-left .judul
+{
+    font-size: 16px;
+    text-align: center;
+    padding-top: 7%;
+    background-color: #006CB7;
+    height: 15%;
+    font-weight: bold;
+    color: White;
+}
+
+#banner #banner-left .content
+{
+    height: 78%;
+    font-size: smaller;
+    background-color: #C6C6C6;
+}
+
+#banner #banner-right #banner-judul
+{
+    padding-top: 1%; 
+    font-size: 40px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+#banner #banner-right #banner-isi
+{
+    margin-left: 16%;
+    padding-left: 8%;
+    padding-right: 4%;
+    padding-top: 0;
+    border-left: 3px solid #FFFFFF;
+    font-weight: bold;
+    font-size: x-large;
+    margin-top: 3%;
+}

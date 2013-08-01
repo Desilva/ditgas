@@ -1,0 +1,11 @@
+﻿<!--<div id="backD">@Html.ActionLink("Kembali ke Dashboard", "frontend")</div>-->
+<div id="logindisplay">
+
+@if(Request.IsAuthenticated) {
+    <text>Welcome <strong>@Session["name"]@*@User.Identity.Name*@</strong>!
+    [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</text>
+}
+else {
+    @:[ @Html.ActionLink("Log On", "LogOn", "Account") ]
+}
+</div>

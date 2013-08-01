@@ -1,0 +1,461 @@
+﻿@using relmon
+@model IEnumerable<relmon.Models.EquipmentReadNavEntity>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    function OnComplete(e) {
+        if (e.name == "viewDetails") {
+            var detailWindow = $("#DetailsReNav").data("tWindow");
+            var eqReadNav = e.response.eqReadNav;
+            $.each(eqReadNav[0], function (index, value) {
+                $('#' + index).html(value);
+            });
+            detailWindow.center().open();
+        } else if (e.name == "editReadNav") {
+            var detailWindow = $("#EditReNav").data("tWindow");
+            var eqReadNav = e.response.eqReadNav;
+            $.each(eqReadNav[0], function (index, value) {
+                $('#edit_' + index).val(value);
+            });
+            detailWindow.center().open();
+        } else if (e.name == null) {
+            var detailWindow = $("#EditNote").data("tWindow");
+            var eqNote = e.response.eqNote;
+            $('#note').val(eqNote);
+            detailWindow.center().open();
+        }
+
+    }
+
+    function OnRowDataBound(e) {
+        var dataItem = e.dataItem;
+        var row = e.row;
+        if (dataItem.status == 1) {
+            row.cells[3].innerHTML = 'Running';
+        } else {
+            row.cells[3].innerHTML = 'Down';
+        }
+
+        if (dataItem.status == 0) {
+            e.row.style.backgroundColor = "#FF0066";
+        } else if (dataItem.status_read_nav == 0) {
+            e.row.style.backgroundColor = "#DEDEDE";
+        }else if (dataItem.bec <= '@(Config.BEC)') {
+            e.row.style.backgroundColor = "yellow";
+        }
+    }
+
+    function SaveNote() {
+        var values =
+        {
+            'note' : $('#note').val()
+        }
+        $('#editNoteLoading').css("display", "block");
+        $.post("EquipmentReadNav/EditNoteSave", values, function (data) {
+            $('#editNoteLoading').css("display", "none");
+            alert('Data tersimpan');
+            $("#EditNote").data("tWindow").close();
+        });   
+    }
+
+    function SaveReadNav() {
+        var values =
+        {
+            "id": $('#edit_id').val(),
+            "id_equipment": $('#edit_id_equipment').val(),
+            "operation": $('#edit_operation').val(),
+            "boc": $('#edit_boc').val(),
+            "bec": $('#edit_bec').val(),
+            "monitoring": $('#edit_monitoring').val(),
+            "performance": $('#edit_performance').val(),
+            "cm_program": $('#edit_cm_program').val(),
+            "maintenance": $('#edit_maintenance').val(),
+            "pm_program": $('#edit_pm_program').val(),
+            "overhaul": $('#edit_overhaul').val(),
+            "spares": $('#edit_spares').val(),
+            "lifecycle_spare": $('#edit_lifecycle_spare').val(),
+            "main_act_spare": $('#edit_main_act_spare').val(),
+            "safe_operation": $('#edit_safe_operation').val(),
+            "safeguard": $('#edit_safeguard').val(),
+            "accesories": $('#edit_accesories').val(),
+            "score": $('#edit_score').val(),
+            "capacity": $('#edit_capacity').val(),
+            "quality": $('#edit_quality').val(),
+            "sertifikasi": $('#edit_sertifikasi').val()
+        }
+        $('#editReadNavLoading').css("display", "block");
+        $.post("EquipmentReadNav/Edit", values, function (data) {
+            $('#editReadNavLoading').css("display", "none");
+            alert('Data tersimpan');
+            $("#EditReNav").data("tWindow").close();
+        });
+    }
+
+    function hit_operation() {
+        var p1 = $('#edit_boc').val() / 1;
+        var p2 = $('#edit_bec').val() / 1;
+        var sum = (p1 / 100 * p2 / 100);
+        sum = sum * 100;
+        $('#edit_operation').val(sum);
+        hit_score();
+    }
+
+    function hit_monitoring() {
+        var p1 = $('#edit_performance').val() / 1;
+        var p2 = $('#edit_cm_program').val() / 1;
+        var p3 = $('#edit_sertifikasi').val() / 1;
+
+        var sum = (p1 / 100 * p2 / 100 * p3 / 100);
+        sum = sum * 100;
+        $('#edit_monitoring').val(sum);
+        hit_score();
+    }
+
+    function hit_performance() {
+
+        var p1 = $('#edit_capacity').val() / 1;
+        var p2 = $('#edit_avail_inherent').val() / 1;
+        var p3 = $('#edit_quality').val() / 1;
+        var sum = (p1 / 100 * p2 / 100 * p3 / 100);
+        sum = sum * 100;
+
+        $('#edit_performance').val(sum);
+        hit_monitoring();
+    }
+
+    function hit_maintenance() {
+        var p1 = $('#edit_pm_program').val() / 1;
+        var p2 = $('#edit_overhaul').val() / 1;
+        var sum = (p1 / 100 * p2 / 100);
+        sum = sum * 100;
+        $('#edit_maintenance').val(sum);
+        hit_score();
+    }
+
+    function hit_spare() {
+        var p1 = $('#edit_lifecycle_spare').val() / 1;
+        var p2 = $('#edit_main_act_spare').val() / 1;
+        var sum = (p1 / 100 * p2 / 100);
+        sum = sum * 100;
+        $('#edit_spares').val(sum);
+        hit_score();
+    }
+
+    function hit_safety() {
+        var p1 = $('#edit_safeguard').val() / 1;
+        var p2 = $('#edit_accesories').val() / 1;
+        var sum = (p1 / 100 * p2 / 100);
+        sum = sum * 100;
+        $('#edit_safe_operation').val(sum);
+        hit_score();
+    }
+
+    function hit_score() {
+        var p1 = $('#edit_operation').val() / 1;
+        var p2 = $('#edit_monitoring').val() / 1;
+        var p3 = $('#edit_maintenance').val() / 1;
+        var p4 = $('#edit_spares').val() / 1;
+        var p5 = $('#edit_safe_operation').val() / 1;
+
+        var sum = (p1 + p2 + p3 + p4 + p5);
+        sum = sum / 5;
+        $('#edit_score').val(sum);
+    }
+
+</script>
+
+<h2 class="adminH2">Equipment Readiness Navigator</h2>
+
+@(Html.Telerik().Grid<relmon.Models.EquipmentReadNavEntity>()
+        .TableHtmlAttributes(new { style = "width:768px" })
+        .Name("EquipmentReadNav")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "editNote" })
+            .Text("Edit Readiness Navigator Note")
+            .Ajax(true)
+            .Action("EditNote", "EquipmentReadNav")
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "EquipmentReadNav");         
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.equipment_tag_number).Width(95).Title("Tag Number");
+            columns.Bound(o => o.equipment_name).Title("Nama");
+            columns.Bound(o => o.status).Width(100).Title("Status");
+            columns.Bound(o => o.avail_inherent).Width(110).Title("Avail. Inherent");
+            columns.Bound(o => o.avail_operational).Width(115).Title("Avail. Operation");
+            columns.Bound(o => o.bec).Hidden();
+            columns.Bound(o => o.status_read_nav).Hidden();
+            columns.Command(commands =>
+            {
+                commands.Custom("editReadNav")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "EquipmentReadNav");
+                commands.Custom("viewDetails")
+                        .Text("Details")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "EquipmentReadNav");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+
+        })
+        .ClientEvents(
+            events => events
+                .OnRowDataBound("OnRowDataBound")
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(25))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Scrollable(c => c.Enabled(true).Height(330))
+) 
+
+@(Html.Telerik().Window()
+    .Name("DetailsReNav")
+    .Visible(false)
+    .Title("Readines Navigator Details")
+    .Modal(true)
+    .Width(350)
+    .Height(550)
+    .Content(@<text>
+                <div id="read-nav-details">
+                    <div class="info">
+		                <div class="info_inside_left">Tag Number </div>
+		                <div class="infoField"><a name="equipment_tag_number" id="equipment_tag_number">15-C-101</a></div>
+		
+		                <div class="info_inside_left">Nama </div>
+		                <div class="infoField"><a name="equipment_name" id="equipment_name">MAIN COLUMN</a></div>
+		                <br/><b>SEMUA NILAI DI BAWAH DALAM (%) PERSEN</b><br/>
+		                <div class="info_inside_left">OPERATION </div>
+		                <div class="infoField"><a id="operation" name="operation">100</a></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">BOC </div>
+			                <div class="infoField"><a id="boc" name="boc">100</a></div>
+			                <div class="info_inside_left">BEC </div>
+			                <div class="infoField"><a id="bec" name="bec">100</a></div>
+		                </div>	
+		
+		                <div class="info_inside_left">MONITORING </div>
+		                <div class="infoField"><a id="monitoring" name="monitoring">100</a></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Performance </div>
+			                <div class="infoField"><a id="performance" name="performance">100</a></div>
+			
+			                <div style="padding-left:20px;">
+				                <div class="info_inside_left">Capacity </div>
+				                <div class="infoField"><a id="capacity" name="capacity">100</a></div>
+			
+				                <div class="info_inside_left">Availibility </div>
+				                <div class="infoField"><a id="avail_inherent" name="avail_inherent">100</a></div>
+				
+				                <div class="info_inside_left">Quality </div>
+				                <div class="infoField"><a id="quality" name="quality">100</a></div>
+				                
+			                </div>
+			
+			                <div class="info_inside_left">CM Program </div>
+			                <div class="infoField"><a id="cm_program" name="cm_program">100</a></div>
+			                
+			
+			                <div class="info_inside_left">Sertifikasi </div>
+			                <div class="infoField"><a id="sertifikasi" name="sertifikasi">100</a></div>
+
+		                </div>
+		
+		                <div class="info_inside_left">MAINTENANCE </div>
+		                <div class="infoField"><a id="maintenance" name="maintenance">100</a></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">PM Program </div>
+			                <div class="infoField"><a id="pm_program" name="pm_program">100</a></div>
+		
+			                <div class="info_inside_left">Overhaul </div>
+			                <div class="infoField"><a id="overhaul" name="overhaul">100</a></div>
+		                </div>
+		
+		                <div class="info_inside_left">SPARES </div>
+		                <div class="infoField"><a id="spares" name="spares">100</a></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Spare Unit </div>
+			                <div class="infoField"><a id="lifecycle_spare" name="lifecycle_spare">100</a></div>
+			
+			                <div class="info_inside_left">Spare MSL </div>
+			                <div class="infoField"><a id="main_act_spare" name="main_act_spare">100</a></div>
+		                </div>
+		
+		                <div class="info_inside_left">SAFE OPERATION </div>
+		                <div class="infoField"><a id="safe_operation" name="safe_operation">100</a></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Safeguard </div>
+			                <div class="infoField"><a id="safeguard" name="safeguard">100</a></div>
+		
+			                <div class="info_inside_left">Accesories </div>
+			                <div class="infoField"><a id="accesories" name="accesories">100</a></div>
+		                </div>
+		                <hr>
+		                <div class="info_inside_left">SCORE </div>
+		                <div class="infoField"><a id="score" name="score">100</a></div>
+		
+	                </div>
+                </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditReNav")
+    .Visible(false)
+    .Title("Readines Navigator Edit")
+    .Modal(true)
+    .Width(450)
+    .Height(550)
+    .Content(@<text>
+                <div id="read-nav-edit">
+                    <div class="info">
+                        <input type="hidden" value="" name="edit_id" id="edit_id">
+                        <input type="hidden" value="" name="edit_id_equipment" id="edit_id_equipment">
+		                <div class="info_inside_left">Tag Number </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_equipment_tag_number" name="edit_equipment_tag_number" value="" size="30" type="text"/></div>
+		
+		                <div class="info_inside_left">Nama </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_equipment_name" name="edit_equipment_name" value="" size="30" type="text"/></div>
+		                <br/><b>SEMUA NILAI DI BAWAH DALAM (%) PERSEN</b><br/>
+		                <div class="info_inside_left">OPERATION </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_operation" name="operation" value="" size="3" type="text"/></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">BOC </div>
+			                <div class="infoFieldinput"><input  id="edit_boc" onchange="hit_operation();" name="boc" value="" size="3" type="text"/></div>
+			                <div class="info_inside_left">BEC </div>
+			                <div class="infoFieldinput"><input  id="edit_bec" onchange="hit_operation();" name="bec" value="" size="3" type="text"/></div>
+		                </div>	
+		
+		
+		                <div class="info_inside_left">MONITORING </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_monitoring" name="monitoring" value="" size="3" type="text"/></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Performance </div>
+			                <div class="infoFieldinput"><input id="edit_performance" readonly="true" name="performance" value="" size="3" type="text"/></div>
+			
+			                <div style="padding-left:20px;">
+				                <div class="info_inside_left">Capacity </div>
+				                <div class="infoFieldinput"><input id="edit_capacity" onchange="hit_performance();" name="capacity" value="" size="3" type="text"/></div>
+			
+				                <div class="info_inside_left">Availibility </div>
+				                <div class="infoFieldinput"><input id="edit_avail_inherent" readonly="true" name="availibility" value="" size="3" type="text"/></div>
+				
+				                <div class="info_inside_left">Quality </div>
+				                <div class="infoFieldinput"><input id="edit_quality" onchange="hit_performance();" name="quality" value="" size="3" type="text"/></div>
+			                </div>
+			
+			                <div class="info_inside_left">CM Program </div>
+			                <div class="infoFieldinput"><input id="edit_cm_program" onchange="hit_monitoring();" name="cm_program" value="" size="3" type="text"/></div>
+			
+			                <div class="info_inside_left">Sertifikasi </div>
+			                <div class="infoFieldinput"><input readonly="true" id="edit_sertifikasi" onchange="hit_monitoring();" name="sertifikasi" value="" size="3" type="text"/></div>
+		                </div>
+		
+		                <div class="info_inside_left">MAINTENANCE </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_maintenance" name="maintenance" value="" size="3" type="text"/></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">PM Program </div>
+			                <div class="infoFieldinput"><input id="edit_pm_program" onchange="hit_maintenance();" name="pm_program" value="" size="3" type="text"/></div>
+		
+			                <div class="info_inside_left">Overhaul </div>
+			                <div class="infoFieldinput"><input id="edit_overhaul" onchange="hit_maintenance();" name="overhaul" value="" size="3" type="text"/></div>
+		                </div>
+		
+		                <div class="info_inside_left">SPARES </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_spares" name="spares" value="" size="3" type="text"/></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Spare Unit </div>
+			                <div class="infoFieldinput"><input id="edit_lifecycle_spare" onchange="hit_spare();" name="lifecycle_spare" value="" size="3" type="text"/></div>
+			
+			                <div class="info_inside_left">Spare MSL </div>
+			                <div class="infoFieldinput"><input id="edit_main_act_spare" onchange="hit_spare();" name="main_act_spare" value="" size="3" type="text"/></div>
+		                </div>
+		
+		                <div class="info_inside_left">SAFE OPERATION </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_safe_operation" name="safe_operation" value="" size="3" type="text"/></div>
+		
+		                <div style="padding-left:20px;">
+			                <div class="info_inside_left">Safeguard </div>
+			                <div class="infoFieldinput"><input id="edit_safeguard" onchange="hit_safety();" name="safeguard" value="" size="3" type="text"/></div>
+		
+			                <div class="info_inside_left">Accesories </div>
+			                <div class="infoFieldinput"><input id="edit_accesories" onchange="hit_safety();" name="accesories" value="" size="3" type="text"/></div>
+		                </div>
+		                <hr>
+		                <div class="info_inside_left">SCORE </div>
+		                <div class="infoFieldinput"><input readonly="true" id="edit_score" name="score" value="" size="3" type="text"/></div>
+		
+	                </div>
+                    <p class="submit">
+		                <input name="Submit" value="Simpan" type="submit" onclick="SaveReadNav();" />
+                        <img id="editReadNavLoading" class="loadSubmit" src="../../../Content/image/loading.gif"/>
+	                </p>
+                </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditNote")
+    .Visible(false)
+    .Title("Edit Readiness Navigator Note")
+    .Modal(true)
+    .Width(450)
+    .Content(@<text>
+            <div id="read-nav-note-edit">
+                <div class="info">
+		            <div class="info_inside_left">Note </div>
+		            <div class="infoFieldinput"><textarea id="note" name="note" rows="5" cols="30"/></div>
+		        </div>
+                <p class="submit">
+		            <input name="Submit" value="Simpan" type="submit" onclick="SaveNote();" />
+                    <img id="editNoteLoading" class="loadSubmit" src="../../../Content/image/loading.gif"/>
+	            </p>
+		    </div>
+        </text>)
+)
+
+<br />
+<hr />
+@using (Html.BeginForm("Index", "LoadExcel", FormMethod.Post, new { enctype = "multipart/form-data", name = "formUpload", target = "upload_target" }))
+{
+    	 <p class="title">Import Data Readines Navigator Dari Excel</p>
+		 	 
+		 <div class="info_inside_left">Excel File (.xls) :</div> 
+		 <input type="text" id="fileName" class="file_input_textbox" readonly="readonly" />
+		 <div class="file_input_div">
+			<input type="button" value="Cari" class="file_input_button" />
+			<input type="file" class="file_input_hidden" name="userfile" onchange="javascript: document.getElementById('fileName').value = this.value" />
+		 </div>
+		 <br />
+		 <input type="button" value="Upload" onclick="javascript:if(document.formUpload.userfile.value.length==0) { alert('You must specify a file first'); return; }; submit();" />
+		 <input type="button" value="Download template" onclick="window.location = 'LoadExcel/template?file=@relmon.Config.fileExcelReadNav'" />
+}
+
+<br/>
+<iframe id="upload_target" name="upload_target" src="" width="715" height="350" style="border:0px solid #fff;"></iframe>

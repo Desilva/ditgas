@@ -1,0 +1,34 @@
+﻿@{
+    var htmlAttributes = new { style = "float: left;width: 180px;" };    
+}
+@(
+    
+    Html.Telerik().Menu()
+        .Name("Menu")
+        .HtmlAttributes(htmlAttributes)
+        .Orientation(MenuOrientation.Vertical)
+        .ClientEvents(events => events.OnSelect("onSelectMenuSdm").OnLoad("onLoadMenuSdm"))
+        .Items(menu =>
+        {
+            menu.Add()
+                .Text("Organisasi dan pekerja")
+                .HtmlAttributes(new { @id = "org" });
+            menu.Add()
+                .Text("Demografi")
+                .HtmlAttributes(new { @id = "demografi" });
+            @*menu.Add()
+                .Text("Lahir vs Gol");
+            menu.Add()
+                .Text("Lahir vs pend");
+            menu.Add()
+                .Text("Gol vs pend");
+            menu.Add()
+                .Text("Pensiun vs Gol");
+            menu.Add()
+                .Text("Pensiun vs pend");
+            menu.Add()
+                .Text("Teknisi Pensiun");
+            menu.Add()
+                .Text("Sisa Teknisi");*@
+        })
+)

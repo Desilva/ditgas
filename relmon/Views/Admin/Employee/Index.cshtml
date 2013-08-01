@@ -1,0 +1,361 @@
+﻿@model IEnumerable<relmon.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+
+    function OnComplete(e) {
+        if (e.name == null) {
+            //var detailWindow = $("#AddEmployee").data("tWindow");
+            //detailWindow.center().open();
+            $('#content').load('Employee/AddView');
+        } else {
+            if (e.name == "EditEmployee") {
+//                var detailWindow = $("#EditEmployee").data("tWindow");
+//                user = e.response;
+//                $.each(user, function (index, value) {
+//                    if(index != "password"){
+//                        $('#edit_' + index).val(value);
+//                    }
+//                });
+//                detailWindow.center().open();
+                user = e.response;
+                $('#content').load('Employee/EditView', { 'userId': user.id, 'rm_role': user.rm_role, 'company_id': user.company_id });
+            } 
+        }
+    }
+
+    var employeeID;
+    function onRowSelected(e) {
+        var employeeGrid = $('#Orders').data('tGrid');
+        employeeID = e.row.cells[0].innerHTML;
+
+        // update ui text
+        $('#customerID').text(customerID);
+        // rebind the related grid
+        ordersGrid.rebind();
+    }
+
+    function onDataBinding(e) {
+        e.data = $.extend(e.data, { customerID: customerID });
+    }
+
+
+    function SaveEmployee() {
+
+        var values =
+        {
+            "fullname"          : $('#fullname').val(),
+            "rm_role"           : $('#role').val(),
+            "no_pekerja"        : $('#no_pekerja').val(),
+            "lokasi"            : $('#lokasi').val(),
+            "direktorat"        : $('#direktorat').val(),
+            "tempat_lahir"      : $('#tempat_lahir').val(),
+            "tgl_lahir"         : $('#tgl_lahir').val(),
+            "jenis_kelamin"     : $('#jenis_kelamin').val(),
+            "agama"             : $('#agama').val(),
+            "susunan_keluarga"  : $('#susunan_keluarga').val(),
+            "NPWP"              : $('#NPWP').val(),
+            "alamat_pajak"      : $('#alamat_pajak').val(),
+            "alamat_rumah"      : $('#alamat_rumah').val(),
+            "alamat_ktp"        : $('#alamat_ktp').val(),
+            "tgl_mppk" : $('#tgl_mppk').val(),
+            "tgl_pensiun" : $('#tgl_pensiun').val(),
+            "sub_area" : $('#sub_area').val(),
+            "tgl_aktif" : $('#tgl_aktif').val(),
+            "tmt_dapen_dplk" : $('#tmt_dapen_dplk').val(),
+            "tmt_jabatan" : $('#tmt_jabatan').val(),
+            "tmt_gol_jabatan" : $('#tmt_gol_jabatan').val(),
+            "gol_upah_persero" : $('#gol_upah_persero').val(),
+            "tmt_gol_upah_persero": $('#tmt_gol_upah_persero').val(),
+            "gol_upah_ap": $('#gol_upah_ap').val(),
+            "tmt_gol_upah_ap": $('#tmt_gol_upah_ap').val(),
+            "layering" : $('#layering').val(),
+            "pendidikan_terakhir" : $('#pendidikan_terakhir').val(),
+            "status_pekerja" : $('#status_pekerja').val()
+        }
+
+        $.post("Employee/Create", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Employee').data('tGrid');
+            grid.ajaxRequest();
+            $("#AddEmployee").data("tWindow").close();
+        });
+    }
+
+    function EditEmployee() {
+
+        var values =
+        {
+            "id": $('#edit_id').val(),
+            "fullname": $('#edit_fullname').val(),
+            "rm_role": $('#edit_rm_role').val(),
+            "no_pekerja": $('#edit_no_pekerja').val(),
+            "lokasi": $('#edit_lokasi').val(),
+            "direktorat": $('#edit_direktorat').val(),
+            "tempat_lahir": $('#edit_tempat_lahir').val(),
+            "tgl_lahir": $('#edit_tgl_lahir').val(),
+            "jenis_kelamin": $('#edit_jenis_kelamin').val(),
+            "agama": $('#edit_agama').val(),
+            "susunan_keluarga": $('#edit_susunan_keluarga').val(),
+            "NPWP": $('#edit_NPWP').val(),
+            "alamat_pajak": $('#edit_alamat_pajak').val(),
+            "alamat_rumah": $('#edit_alamat_rumah').val(),
+            "alamat_ktp": $('#edit_alamat_ktp').val(),
+            "tgl_mppk": $('#edit_tgl_mppk').val(),
+            "tgl_pensiun": $('#edit_tgl_pensiun').val(),
+            "sub_area": $('#edit_sub_area').val(),
+            "tgl_aktif": $('#edit_tgl_aktif').val(),
+            "tmt_dapen_dplk": $('#edit_tmt_dapen_dplk').val(),
+            "tmt_jabatan": $('#edit_tmt_jabatan').val(),
+            "tmt_gol_jabatan": $('#edit_tmt_gol_jabatan').val(),
+            "gol_upah_persero": $('#edit_gol_upah_persero').val(),
+            "tmt_gol_upah_persero": $('#edit_tmt_gol_upah_persero').val(),
+            "gol_upah_ap": $('#edit_gol_upah_ap').val(),
+            "tmt_gol_upah_ap": $('#edit_tmt_gol_upah_ap').val(),
+            "layering": $('#edit_layering').val(),
+            "pendidikan_terakhir": $('#edit_pendidikan_terakhir').val(),
+            "status_pekerja": $('#edit_status_pekerja').val()
+        }
+
+        $.post("Employee/update", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Employee').data('tGrid');
+            grid.ajaxRequest();
+            $("#EditEmployee").data("tWindow").close();
+        });
+    }
+
+</script>
+
+<h2>Employee Management</h2>
+
+@(Html.Telerik().Grid<relmon.Models.user>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("Employee")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addEmployee" })
+            .Text("Add Employee")
+            .Ajax(true)
+            .Action("addUser", "Employee")
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "Employee")
+                .Delete("_DeleteAjaxEditing", "Employee");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.fullname).Width(150).Title("Fullname");
+            columns.Bound(o => o.users_jabatan_parent.company2.nama).Width(150).Title("Perusahaan");
+            columns.Bound(o => o.no_pekerja).Width(150).Title("No Pekerja").Hidden();
+            columns.Bound(o => o.users_jabatan_parent.nama).Width(150).Title("Jabatan");
+            columns.Bound(o => o.lokasi).Width(150).Title("Lokasi").Hidden();
+            columns.Bound(o => o.direktorat).Width(150).Title("Direktorat / Fungsi").Hidden();
+            columns.Bound(o => o.tempat_lahir).Width(150).Title("Tempat Lahir").Hidden();
+            columns.Bound(o => o.tgl_lahir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Lahir").Hidden();
+            columns.Bound(o => o.jenis_kelamin).Width(150).Title("Jenis Kelamin").Hidden();
+            columns.Bound(o => o.agama).Width(150).Title("Agama").Hidden();
+            columns.Bound(o => o.susunan_keluarga).Width(150).Title("Susunan Keluarga").Hidden();
+            columns.Bound(o => o.NPWP).Width(150).Title("NPWP").Hidden();
+            columns.Bound(o => o.alamat_pajak).Width(150).Title("Alamat Pajak").Hidden();
+            columns.Bound(o => o.alamat_rumah).Width(150).Title("Alamat Rumah").Hidden();
+            columns.Bound(o => o.alamat_ktp).Width(150).Title("Alamat Sesuai KTP").Hidden();
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                //commands.Custom("EditEmployee")
+                //        .Text("Edit")
+                //        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                //        .Ajax(true)
+                //        .Action("GetDetail", "Employee");
+                commands
+                    .Custom("EditEmployee")
+                    .HtmlAttributes(new { id = "editEmployee" })
+                    .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                    .SendDataKeys(true)
+                    .Text("Edit")
+                    .Ajax(true)
+                    .Action("editUser", "Employee");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+
+
+)
+
+@*<h3>Orders (<span id="customerID">@ViewData["id"] </span>)</h3>
+@(Html.Telerik().Grid((IEnumerable<Order>)ViewData["PersonalData"])
+        .Name("PersonalData")
+        .Columns(columns=>
+        {
+            columns.Bound(c => c.OrderID).Width(100);
+            columns.Bound(c => c.OrderDate).Width(200).Format("{0:dd/MM/yyyy}");
+            columns.Bound(c => c.ShipAddress);
+            columns.Bound(c => c.ShipCity).Width(200);
+        })
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("_SelectionClientSide_Orders", "Grid", new {
+            customerID = "ALFKI" }))
+        .ClientEvents(clientEvents => clientEvents.OnDataBinding("onDataBinding"))
+        .Pageable()
+        .Sortable()
+        
+)*@
+
+@(Html.Telerik().Window()
+    .Name("AddEmployee")
+    .Visible(false)
+    .Title("Add Employee")
+    .Modal(true)
+    .Width(400)
+    .Height(280)
+    .Content(@<text>
+               <div class="info">
+		            <input id="id" type="hidden" name="id" value="" />
+
+		            <div class="info_inside_left">Fullname </div>
+		            <div class="infoFieldinput"><input id="fullname" type="text" name="fullname" value="" /></div>
+		
+                    <div class="info_inside_left">Role</div>
+		            <div class="infoFieldinput">
+                        @Html.DropDownList("role_employee")
+                    </div>
+
+		            <div class="info_inside_left">No. Pekerja </div>
+		            <div class="infoFieldinput"><input id="no_pekerja" type="text" name="no_pekerja" value="" /></div>
+
+		            <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="lokasi" type="text" name="lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Direktorat / Fungsi </div>
+		            <div class="infoFieldinput"><input id="direktorat" type="text" name="direktorat" value="" /></div>
+
+		            <div class="info_inside_left">Tempat Lahir </div>
+		            <div class="infoFieldinput"><input id="tempat_lahir" type="text" name="tempat_lahir" value="" /></div>
+
+		            <div class="info_inside_left">Tanggal Lahir </div>
+		            <div class="infoFieldinput"><input id="tgl_lahir" type="text" name="tgl_lahir" value="" /></div>
+
+		            <div class="info_inside_left">Jenis Kelamin </div>
+		            <div class="infoFieldinput">
+                        <select id="jenis_kelamin" name="jenis_kelamin">
+                            <option value="0">Perempuan</option>
+                            <option value="1">Laki-Laki</option>
+                        </select>
+                    </div>
+
+		            <div class="info_inside_left">Agama </div>
+		            <div class="infoFieldinput"><input id="agama" type="text" name="agama" value="" /></div>
+
+		            <div class="info_inside_left">Susunan Keluarga </div>
+		            <div class="infoFieldinput"><input id="susunan_keluarga" type="text" name="susunan_keluarga" value="" /></div>
+
+		            <div class="info_inside_left">NPWP </div>
+		            <div class="infoFieldinput"><input id="NPWP" type="text" name="NPWP" value="" /></div>
+
+		            <div class="info_inside_left">Alamat Pajak </div>
+		            <div class="infoFieldinput"><input id="alamat_pajak" type="text" name="alamat_pajak" value="" /></div>
+
+		            <div class="info_inside_left">Alamat Rumah </div>
+		            <div class="infoFieldinput"><input id="alamat_rumah" type="text" name="alamat_rumah" value="" /></div>
+
+		            <div class="info_inside_left">Alamat KTP </div>
+		            <div class="infoFieldinput"><input id="alamat_ktp" type="text" name="alamat_ktp" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveEmployee();" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditEmployee")
+    .Visible(false)
+    .Title("Edit Employee")
+    .Modal(true)
+    .Width(400)
+    .Height(250)
+    .Content(@<text>
+               <div class="info">
+                    <input id="edit_id" type="hidden" name="id" value="" />
+		
+                    <div class="info_inside_left">Fullname </div>
+		            <div class="infoFieldinput"><input id="edit_fullname" type="text" name="fullname" value="" /></div>
+
+		            <div class="info_inside_left">Role</div>
+		            <div class="infoFieldinput">
+                        @Html.DropDownList("rm_role")
+                    </div>
+
+		            <div class="info_inside_left">No. Pekerja </div>
+		            <div class="infoFieldinput"><input id="edit_no_pekerja" type="text" name="no_pekerja" value="" /></div>
+
+		            <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="edit_lokasi" type="text" name="lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Direktorat / Fungsi </div>
+		            <div class="infoFieldinput"><input id="edit_direktorat" type="text" name="direktorat" value="" /></div>
+
+		            <div class="info_inside_left">Tempat Lahir </div>
+		            <div class="infoFieldinput"><input id="edit_tempat_lahir" type="text" name="tempat_lahir" value="" /></div>
+
+		            <div class="info_inside_left">Tanggal Lahir </div>
+		            <div class="infoFieldinput"><input id="edit_tgl_lahir" type="text" name="tgl_lahir" value="" /></div>
+
+		            <div class="info_inside_left">Jenis Kelamin </div>
+		            <div class="infoFieldinput">
+                        <select id="edit_jenis_kelamin" name="jenis_kelamin">
+                            <option value="0">Perempuan</option>
+                            <option value="1">Laki-Laki</option>
+                        </select>
+                    </div>
+
+		            <div class="info_inside_left">Agama </div>
+		            <div class="infoFieldinput"><input id="edit_agama" type="text" name="agama" value="" /></div>
+
+		            <div class="info_inside_left">Susunan Keluarga </div>
+		            <div class="infoFieldinput"><input id="edit_susunan_keluarga" type="text" name="susunan_keluarga" value="" /></div>
+
+		            <div class="info_inside_left">NPWP </div>
+		            <div class="infoFieldinput"><input id="edit_NPWP" type="text" name="NPWP" value="" /></div>
+
+		            <div class="info_inside_left">Alamat Pajak </div>
+		            <div class="infoFieldinput"><input id="edit_alamat_pajak" type="text" name="alamat_pajak" value="" /></div>
+
+		            <div class="info_inside_left">Alamat Rumah </div>
+		            <div class="infoFieldinput"><input id="edit_alamat_rumah" type="text" name="alamat_rumah" value="" /></div>
+
+		            <div class="info_inside_left">Alamat KTP </div>
+		            <div class="infoFieldinput"><input id="edit_alamat_ktp" type="text" name="alamat_ktp" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditEmployee();" />
+	            </p>
+	         </div>
+        </text>)
+)

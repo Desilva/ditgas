@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "MasaJabatan";
+}
+
+<h2>Status Pekerja</h2>
+<h3>Pekerja MPPK - mutasi - promosi</h3>
+
+@(Html.Telerik().Grid<relmon.Models.user>()
+        //.HtmlAttributes(new { style = "padding:0 0 0 10px;" })
+        .Name("masaJabatanMpp")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectMppAjaxEditing", "DataSdmDitGas");
+        })
+        .Columns(columns =>
+        {
+            columns.Command(commands =>
+            {
+                commands.Custom("Detail")
+                    .Text("Detail")
+                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(../../Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
+                    .DataRouteValues(route => route.Add(o => o.id).RouteKey("userId"))
+                    .Action("detail", "DataSdmDitgas");
+            }).Width(50).Title("Opsi");
+            columns.Bound(o => o.username).Hidden();
+            columns.Bound(o => o.fullname).Width(120).Title("Nama");
+            columns.Bound(o => o.no_pekerja).Title("No Pekerja").Width(100);
+            columns.Bound(o => o.users_jabatan_parent.nama).Title("Jabatan").Width(200);
+            columns.Bound(o => o.lokasi).Title("Lokasi").Width(150);
+            columns.Bound(o => o.direktorat).Title("Direktorat").Width(150);
+            columns.Bound(o => o.status_pekerja).Title("Status").Width(150);
+            columns.Bound(o => o.status_pensiun).ClientTemplate("<img src='../../../Content/image/icon/" + "<#= status_pensiun #>.png' alt='<#= status_pensiun #>' />").Title("Warning").Width(80);
+            //columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150);
+        })
+        .Pageable(p => p.PageSize(30))
+        .Sortable()
+        .Groupable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+
+) 
+<br/>
+<h3>Kandidat</h3>
+@(Html.Telerik().Grid<relmon.Models.EmployeeWrapper>()
+        //.HtmlAttributes(new { style = "padding:0 0 0 10px;" })
+        .Name("masaJabatanKandidat")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectKandidatAjaxEditing", "DataSdmDitGas");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.nama).Width(120).Title("Nama");
+            columns.Bound(o => o.no_pekerja).Title("No Pekerja").Width(100);
+            columns.Bound(o => o.jabatan).Title("Jabatan").Width(200);
+            columns.Bound(o => o.lokasi).Title("Lokasi").Width(150);
+            columns.Bound(o => o.direktorat).Title("Direktorat").Width(150);
+            columns.Bound(o => o.jenis_kelamin).Title("Jenis Kelamin").Width(150);
+            columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150);
+        })
+        .Pageable(p => p.PageSize(30))
+        .Sortable()
+        .Groupable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+
+) 

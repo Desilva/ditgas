@@ -1,0 +1,246 @@
+@using relmon
+@using relmon.Utilities;
+@using relmon.Models;
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/speedo.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Report.css")" rel="stylesheet" type="text/css" />	
+    <script src="@Url.Content("~/Scripts/2012.1.214/jquery-1.7.1.min.js")" type="text/javascript" ></script>
+	<script src="@Url.Content("~/Scripts/wcw/ckeditor.js")" type="text/javascript" ></script>
+
+    @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.webblue.css").Combined(true).Compress(true)))
+</head>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var ld = 850 - jQuery("#logindisplay").width();
+        jQuery("#dash .t-item").css('margin-left', ld);
+
+        $('#@ViewBag.selectedMenu').children('.t-link').css('background-color', '#0063E3');
+
+        var moveLeft = 150;
+        var moveDown = 120;
+
+        $('.hover-menu').click(function (e) {
+            $("#menu-related-link").css('top', e.pageY - moveDown).css('left', e.pageX - moveLeft);
+            if ($("#menu-related-link").css('display') == 'none') {
+                $('#menu-related-link').show();
+            } else {
+                $('#menu-related-link').hide();
+            }
+        });
+
+    });
+
+</script>
+
+<body id="body">
+	   <div id="page">
+	        <div id="header">
+		        <div class="wrap clearfix">
+                    <div id="adminLogin">
+                      @Html.ActionLink("Login", "../Admin")
+                    </div>
+			        <div class="logo"><a href="#"><img src="../../Content/image/logo-01-01.png" alt="" /></a></div>
+			        <div id="title">
+				        <h1>@Config.Title</h1>
+                        <div class="sub">@Config.Area</div>
+                        <div class="sub2"><b>(MOBIDIG)</b></div>
+                    </div>
+			        <div class="additional"><img src="../../Content/image/header-04.png" alt="" /></div>
+		        </div>
+	        </div>
+            <div id="search">
+                <form method="get" action="#" >
+                    <input name="q" type="text" size="40" placeholder="Search..." />
+                </form>
+            </div>
+            <div id="mainmenu">
+                <div class="wrap">	
+                @{
+                    if (ViewBag.stat == "admin")
+                    {
+                        Html.Telerik().Menu()
+                            .Name("dash")
+                            .Items(menu =>
+                            {
+                                menu.Add().Text("Back to Dashboard").Action("Index", "Dashboard");
+                            }).Render();
+
+                        Html.RenderPartial("_LogOnPartial");
+                    }
+                    else if (ViewBag.stat == "admin2")
+                    {
+                        int userId = int.Parse(Session["id"].ToString());
+                        Html.Telerik().Menu()
+                            .Name("menu")
+                            .ClientEvents(events => events.OnSelect("onSelectMenuAdmin2"))
+                            .Items(item =>
+                            {
+                                item.Add().Text(PageItem.Home.text).Visible(ACLHandler.isMenuShown(PageItem.Home.name, userId));
+                                item.Add().Text(PageItem.ProfilDitGas.text).Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas.name, userId));
+                                item.Add().Text(PageItem.SHEQMS.text).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS.name, userId));
+                                item.Add().Text(PageItem.DataBisnis.text).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis.name, userId))
+                                    .Items(item2 =>
+                                    {
+                                        item2.Add().Text(PageItem.DataBisnis_DitGas.text).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_DitGas.name, userId));
+                                        item2.Add().Text(PageItem.DataBisnis_JMG.text).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_JMG.name, userId));
+                                        item2.Add().Text(PageItem.DataBisnis_Ap.text).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Ap.name, userId));
+                                        item2.Add().Text(PageItem.DataBisnis_Afiliasi.text).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Afiliasi.name, userId));
+                                    });
+                                item.Add().Text(PageItem.SDM.text).Visible(ACLHandler.isMenuShown(PageItem.SDM.name, userId));
+                                item.Add().Text(PageItem.AturanRegulasi.text).Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi.name, userId));
+                                item.Add().Text(PageItem.Kontak.text).Visible(ACLHandler.isMenuShown(PageItem.Kontak.name, userId));
+                                item.Add().Text(PageItem.Kalendar.text).Visible(ACLHandler.isMenuShown(PageItem.Kalendar.name, userId));
+                                item.Add().ImageUrl("Content/images/rumah.png").ImageHtmlAttributes(new { style = "padding: 3px 20px 3px 24px; width:18px; height:16px;" }).Action("Index", "Dashboard").Text(" ");
+                            }).Render();
+
+                        Html.RenderPartial("_LogOnPartial");
+                    }
+                    else
+                    {
+                        Html.Telerik().Menu()
+                           .Name("menu")
+                           .Items(menu =>
+                           {
+                               menu.Add().Text("Home").Action("Index", "Dashboard").HtmlAttributes(new { @id = "home" });
+                               menu.Add().Text("Profil Dit. Gas").HtmlAttributes(new { @id = "profil" })
+                                   .Items(item =>
+                                   {
+                                       item.Add().Text("Profil").Action("Index", "ProfilDitGas");
+                                       item.Add().Text("Visi Misi").Action("Index", "DirektoratDitGas");
+                                       //item.Add().Text("Strategic Planning").Action("Index", "StrategicPlaning");
+                                       item.Add().Text("Organisasi").Action("Index", "OrganisasiDitGas");
+                                   });
+                               menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
+                                   .Items(item =>
+                                   {
+
+                                       item.Add().Text("Dit. Gas")
+                                             .Items(itemDirGas =>
+                                             {
+                                                 itemDirGas.Add().Text("Kebijakan HSE");
+                                                 itemDirGas.Add().Text("Safety Talk");
+                                                 itemDirGas.Add().Text("Info Safety dan Security");
+                                                 //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
+                                             });
+                                       item.Add().Text("Anak Perusahaan")
+                                            .Items(itemDirGas =>
+                                            {
+                                                itemDirGas.Add().Text("PT Badak");
+                                                itemDirGas.Add().Text("PT Arun");
+                                                itemDirGas.Add().Text("PT Nusantara Regas");
+                                                itemDirGas.Add().Text("PT Donggi Senoro");
+                                                itemDirGas.Add().Text("PT Pertagas");
+                                                //itemDirGas.Add().Text("Demografi").Action("Index", "hse");
+                                                //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
+                                            });
+                                   });
+                               menu.Add().Text("Data Bisnis").HtmlAttributes(new { @id = "databisnis" })
+                                   .Items(item =>
+                                   {
+                                       item.Add().Text("Dit. Gas").Action("Index", "DataBisnisDitGas");
+                                       item.Add().Text("JMG").Action("Index", "DataBisnisJmg");
+                                       item.Add().Text("Anak Perusahaan").Action("Index", "DataBisnisAp");
+                                       item.Add().Text("Afiliasi").Action("Index", "DataBisnisAfiliasi");
+                                   });
+                               menu.Add().Text("SDM").HtmlAttributes(new { @id = "sdm" })
+                                   .Items(item =>
+                                   {
+                                       item.Add().Text("Dit. Gas")
+                                           .Items(itemDirGas =>
+                                           {
+                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmDitGas");
+                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmDitGas");
+                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmDitGas");
+                                           });
+                                       item.Add().Text("Anak Perusahaan")
+                                            .Items(itemDirGas =>
+                                            {
+                                                itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAp");
+                                                itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAp");
+                                                itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAp");
+                                            });
+                                       item.Add().Text("Afiliasi")
+                                           .Items(itemDirGas =>
+                                           {
+                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAfiliasi");
+                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAfiliasi");
+                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAfiliasi");
+                                           });
+                                       item.Add().Text("Aturan SDM")
+                                           .Items(itemDirGas =>
+                                           {
+                                               itemDirGas.Add().Text("PKB");
+                                               itemDirGas.Add().Text("Training");
+                                               itemDirGas.Add().Text("Info Kesehatan");
+                                           });
+                                       //item.Add().Text("Employee Industrial Relation").Action("Index", "DataSdmEir");
+                                   });
+                               menu.Add().Text("Aturan & Regulasi").HtmlAttributes(new { @id = "aturanregulasi" })
+                                   .Items(item =>
+                                   {
+                                       item.Add().Text("Aturan PERTAMINA").Action("Index", "AturanRegulasi");
+                                       item.Add().Text("Aturan External").Action("AturanKementrian", "AturanRegulasi");
+                                       item.Add().Text("Charter").Action("Pedoman", "AturanRegulasi");
+                                       item.Add().Text("GCG");
+                                   });
+                               menu.Add().Text("Kontak").Action("Index", "Kontak").HtmlAttributes(new { @id = "kontak" });
+                               menu.Add().Text("Kalendar").Action("Index", "Kalendar").HtmlAttributes(new { @id = "kalendar" });
+                           }).Render();
+                        if ((ViewBag.stat == "SDM"))
+                        {
+                            Html.RenderPartial("_LogOnPartial");
+                        }
+                    }
+                }			
+                </div>
+            </div>
+		<section id="main">
+            <div class="wrap clearfix">
+			    @RenderBody()
+            </div>
+            <div class="clearfix" style="clear: both;"></div>
+		</section>
+		<footer>
+            <div id="menu-related-link" style="display:none">
+                <ul>
+                    <li>
+                        <a href="https://eproc.pertamina.com/" target="_blank"><i>eproc pertamina</i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.pertamina.com" target="_blank"><i>website pertamina</i></a>
+                    </li>
+                    <li>
+                        <a href="http://recruitment.pertamina.com/PHEUI/Pages/jobs/Default.aspx" target="_blank"><i>recruitment pertamina</i></a>
+                    </li>
+                    <li>
+                        <a href="http://intra.pertamina.com" target="_blank"><i>intranet pertamina</i></a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="hover-menu"><p style="float: left;margin-left: 110px;color:blue;cursor:pointer;"><i>related link</i></p></div>
+            <div class="hover-menu-video"><p style="float: left;margin-left: 10px;color:blue;cursor:pointer;"><i>video</i></p></div>
+            <div id="footer"><img src="../../Content/image/footer.png" alt="" /></div>
+		</footer>
+	</div>
+
+    @{
+        Html.Telerik().ScriptRegistrar()
+            .Scripts(scripts =>
+                scripts.AddGroup("LayoutGroup", group =>
+                    group.Add("~/Scripts/relmon.js")
+                         .Add("~/Scripts/telerik.extensions.js")
+                         .Add("~/Scripts/jquery.speedo.js")
+                         .Add("~/Scripts/jquery.form.js")
+                )
+            );
+                
+    }
+    @(Html.Telerik().ScriptRegistrar().DefaultGroup(group => group.Combined(true).Compress(true)))
+   </body>
+</html>

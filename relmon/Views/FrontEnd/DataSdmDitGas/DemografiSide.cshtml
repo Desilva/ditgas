@@ -1,0 +1,45 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1});
+        $("#kategori").bind("change", function () {
+            $('#content-demografi').html('');
+//            if ($('#kategori').val() == '0') {
+                $('#content-demografi').html('<img src="../../../Content/image/loading.gif" />');
+                $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1 });
+//            } else if ($('#kategori').val() == '1') {
+//                $('#content-demografi').load('DemografiTable', { 'kategori': 'lahirvspendidikan' });
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - Lahir vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
+//            } else if ($('#kategori').val() == '2') {
+//                $('#content-demografi').load('DemografiTable', { 'kategori': 'golonganvspendidikan' });
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - Golongan vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
+//            } else if ($('#kategori').val() == '3') {
+//                $('#content-demografi').load('DemografiTable', { 'kategori': 'mppkvsgolongan' });
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - MPPK vs Golongan.PNG" alt="" style=" width: 670px;"/>');
+//            } else if ($('#kategori').val() == '4') {
+//                $('#content-demografi').load('DemografiTable', { 'kategori': 'mppkvspendidikan' });
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - MPPK vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
+//            } else if ($('#kategori').val() == '5') {
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Table teknisi pensiun.PNG" alt="" style=" width: 670px;"/>');
+//            } else if ($('#kategori').val() == '6') {
+//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Table Sisa Teknisi.PNG" alt="" style=" width: 670px;"/>');
+//            }
+        });
+    })
+
+</script>
+
+<div class="Asearch"><b>Kategori</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="kategori" id="kategori">
+        <option value="lahirvsgolongan">Usia Vs Golongan</option>
+        <option value="lahirvspendidikan">Usia Vs Pendidikan</option>
+        <option value="golonganvspendidikan">Golongan Vs Pendidikan</option>
+        <option value="mppkvsgolongan">MPPK Vs Golongan</option>
+        <option value="mppkvspendidikan">MPPK VS Pendidikan</option>
+        <!--<option value="5">Teknisi Pensiun</option>    
+        <option value="6">Sisa Teknisi</option>-->
+    </select>
+</div>
+<br/>
+<div id="content-demografi">
+    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+</div>

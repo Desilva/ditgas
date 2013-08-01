@@ -1,0 +1,33 @@
+﻿<h4>Upload Image Struktur Organisasi</h4> 
+
+<script type="text/javascript">
+
+    function onSuccess(e) {
+        var files = e.files;
+        if (e.operation == "upload") {
+            //save to database
+            loadImage('struktur', '@ViewBag.content');
+        }
+    }
+
+    function onLoad(e) {
+        console.log(e);
+    }
+</script>
+
+@(Html.Telerik().Upload()
+        .Name("strukturOrg")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save", "Upload", "attachments")
+            .Remove("Remove", "Upload")
+            .AutoUpload(true)
+        )
+    )
+<br/>
+<img  id="struktur" src="" alt="" style="width: 99%;" />
+<br/>

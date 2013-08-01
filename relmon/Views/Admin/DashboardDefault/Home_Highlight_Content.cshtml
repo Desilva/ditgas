@@ -1,0 +1,28 @@
+﻿@{
+    int i = 0;
+    foreach (var highlight in ViewBag.highlight)
+    {
+        <div id="@("highlightDiv-" + highlight.id)">
+            <img src="@highlight.konten" alt="(empty)" id="@("highlightImg-" + highlight.id)" width="285" style="padding:0px;margin:15px;"/>
+            @using (Html.BeginForm("deleteAjax", "DashboardDefault", FormMethod.Post, new { target = "refresh_targetHighlight" }))
+            {
+                <input type="hidden" value="@highlight.id" name="id" />
+                <input type="button" value="Delete" onclick="javascript:if(confirm('Hapus gambar?')) { submit();}" />
+            }
+        </div>
+        i++;
+    }
+}
+<br />
+<hr />
+@using (Html.BeginForm("uploadHighlight", "DashboardDefault", FormMethod.Post, new { id = "formUploadHighlight", enctype = "multipart/form-data", name = "formUploadHighlight", target = "refresh_targetHighlight" }))
+{
+    <div class="info_inside_left">Upload new image (.jpg) :</div> 
+		 <input type="text" id="fileNameHighlight" class="file_input_textbox" readonly="readonly" />
+		 <div class="file_input_div">
+			<input type="button" value="Cari" class="file_input_button" />
+			<input type="file" class="file_input_hidden" name="userfile" onchange="javascript: document.getElementById('fileNameHighlight').value = this.value" />
+		 </div>
+		 <br />
+		 <input type="button" value="Upload" onclick="javascript:if(document.formUploadHighlight.userfile.value.length==0) { alert('You must specify a file first'); return; }; submit();" />
+}

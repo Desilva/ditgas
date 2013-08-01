@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function refreshUploadSlideshow() {
+        $.post("DashboardDefault/Home_Slideshow_Content", "", function (result) {
+            $("#slideshowContainer").html(result);
+        });
+    }
+    $(document).ready(function () {
+        refreshUploadSlideshow();
+    });
+</script>
+<div id="slideshowContainer"></div>
+<iframe id="refresh_targetSlideshow" name="refresh_targetSlideshow" src="" style="display:none;" onload="refreshUploadSlideshow();"></iframe>

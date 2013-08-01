@@ -1,0 +1,188 @@
+﻿@model IEnumerable<relmon.Models.company>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+
+    function OnComplete(e) {
+        $.post("Company/updateCompany", "", function (data) {
+            hasil = eval(data);
+            $("#AddCompany #parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $("#EditCompany #edit_parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            for (var i = 0; i < hasil.length; i++) {
+                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#AddCompany #parent");
+                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#EditCompany #edit_parent");
+            }
+
+            //tunggu ajax beres dulu baru lakuin ini
+            if (e.name == null) {
+                var detailWindow = $("#AddCompany").data("tWindow");
+                detailWindow.center().open();
+            } else {
+                if (e.name == "EditCompany") {
+                    var detailWindow = $("#EditCompany").data("tWindow");
+                    jabatan = e.response;
+                    $.each(jabatan, function (index, value) {
+                        $('#EditCompany #edit_' + index).val(value);
+                    });
+                    detailWindow.center().open();
+                }
+            }
+        });
+    }
+
+    function SaveCompany() {
+        if ($('#AddCompany #parent').val() == "") {
+            alert('Parent belum dipilih');
+            return 0;
+        }
+
+        var values =
+        {
+            "nama": $('#AddCompany #nama').val(),
+            "parent": $('#AddCompany #parent').val(),
+            "deskripsi": $('#AddCompany #deskripsi').val()
+        }
+
+        $.post("Company/Create", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Company').data('tGrid');
+            grid.ajaxRequest();
+            $("#AddCompany").data("tWindow").close();
+
+            $('#AddCompany #nama').val('');
+            $('#AddCompany #parent').val('0');
+            $('#AddCompany #deskripsi').val('');
+        });
+    }
+
+    function EditCompany() {
+        if ($('#EditCompany #edit_parent').val() == "") {
+            alert('Parent belum dipilih');
+            return 0;
+        }
+
+        var values =
+        {
+            "id": $('#EditCompany #edit_id').val(),
+            "nama": $('#EditCompany #edit_nama').val(),
+            "parent": $('#EditCompany #edit_parent').val(),
+            "deskripsi": $('#EditCompany #edit_deskripsi').val()
+        }
+
+        $.post("Company/update", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Company').data('tGrid');
+            grid.ajaxRequest();
+            $("#EditCompany").data("tWindow").close();
+        });
+    }
+
+</script>
+
+<h2>Company Management</h2>
+
+@(Html.Telerik().Grid<relmon.Models.company>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("Company")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addCompany" })
+            .Text("Add Company")
+            .Ajax(true)
+            .Action("addCompany", "Company")
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "Company")
+                .Delete("_DeleteAjaxEditing", "Company");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.nama).Width(150).Title("Nama");
+            columns.Bound(o => o.nama_parent).Title("Perusahaan Induk");
+            columns.Bound(o => o.deskripsi).Title("Deskripsi");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditCompany")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "Company");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddCompany")
+    .Visible(false)
+    .Title("Add Company")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+                    <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="nama" type="text" name="nama" value="" /></div>
+		
+		            <div class="info_inside_left">Parent</div>
+		            <div class="infoFieldinput">                
+                          @Html.DropDownList("parent")
+                    </div>
+
+		            <div class="info_inside_left">Deskripsi </div>
+		            <div class="infoFieldinput"><input id="deskripsi" type="text" name="deskripsi" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveCompany();" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditCompany")
+    .Visible(false)
+    .Title("Edit Company")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+                    <input id="edit_id" type="hidden" name="id" value="" />
+
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="edit_nama" type="text" name="nama" value="" /></div>
+		
+		            <div class="info_inside_left">Parent</div>
+		            <div class="infoFieldinput">
+                        @Html.DropDownList("edit_parent")
+                    </div>
+
+		            <div class="info_inside_left">Deskripsi </div>
+		            <div class="infoFieldinput"><input id="edit_deskripsi" type="text" name="edit_deskripsi" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditCompany();" />
+	            </p>
+	         </div>
+        </text>)
+)

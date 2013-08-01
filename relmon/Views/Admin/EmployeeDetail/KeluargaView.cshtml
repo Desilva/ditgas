@@ -1,0 +1,118 @@
+﻿
+<h2>Keluarga</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_keluarga>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("Keluarga")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addKeluarga" })
+            .Text("Add")
+            .Ajax(true)
+            .Action("addDetailEmployee", "EmployeeDetail", new { kategori = "Keluarga" })
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "Keluarga" })
+                .Delete("_DeleteAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "Keluarga" });
+
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.nama).Width(150).Title("Nama");
+            columns.Bound(o => o.hubungan).Width(150).Title("Hubungan");
+            columns.Bound(o => o.tempat_lahir).Width(150).Title("Tempat Lahir");
+            columns.Bound(o => o.tgl_lahir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Lahir");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditKeluarga")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetailDetailEmployee", "EmployeeDetail", new { kategori = "Keluarga" });
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                    .OnComplete("OnCompleteDetailEmployee")
+        )
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddKeluarga")
+    .Visible(false)
+    .Title("Add Keluarga")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+                    <input id="Keluarga_user_id" type="hidden" name="Keluarga_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="Keluarga_nama" type="text" name="Keluarga_nama" value="" /></div>
+
+		            <div class="info_inside_left">Hubungan </div>
+		            <div class="infoFieldinput"><input id="Keluarga_hubungan" type="text" name="Keluarga_hubungan" value="" /></div>
+
+                    <div class="info_inside_left">Tempat Lahir </div>
+		            <div class="infoFieldinput"><input id="Keluarga_tempat_lahir" type="text" name="Keluarga_tempat_lahir" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Lahir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Keluarga_tgl_lahir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveDetailEmployee('Keluarga');" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditKeluarga")
+    .Visible(false)
+    .Title("Edit Keluarga")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+                    <input id="Keluarga_edit_id" type="hidden" name="Keluarga_id" value="" />
+                    <input id="Keluarga_edit_user_id" type="hidden" name="Keluarga_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="Keluarga_edit_nama" type="text" name="Keluarga_nama" value="" /></div>
+
+		            <div class="info_inside_left">Hubungan </div>
+		            <div class="infoFieldinput"><input id="Keluarga_edit_hubungan" type="text" name="Keluarga_hubungan" value="" /></div>
+
+                    <div class="info_inside_left">Tempat Lahir </div>
+		            <div class="infoFieldinput"><input id="Keluarga_edit_tempat_lahir" type="text" name="Keluarga_tempat_lahir" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Lahir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("Keluarga_edit_tgl_lahir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditDetailEmployee('Keluarga');" />
+	            </p>
+		            
+	         </div>
+        </text>)
+)

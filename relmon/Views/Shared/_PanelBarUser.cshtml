@@ -1,0 +1,51 @@
+﻿<script type="text/javascript">
+    function onSelectPanel(e) {
+        var item = $(e.item);
+        // ======== Page Management ======= //
+        if (item.find('> .t-link').text() == "Home") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Profil Dit. Gas") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "SHE - QMS") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Data Bisnis") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "SDM") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Aturan & Regulasi") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kontak") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kalender") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Lain - Lain") {
+            $('#content').html('');
+        }
+    }
+</script>
+
+
+@(Html.Telerik().PanelBar()
+        .Name("PanelBar")
+        .HtmlAttributes(new { style = "width: 250px; margin-bottom: 30px;clear: both;margin-left: 10px;" })
+        .ClientEvents(eventsPanel => eventsPanel
+              .OnSelect("onSelectPanel")
+        )
+        .Items(panelBarItem =>
+        {
+            panelBarItem.Add().Text("Page Management").Expanded(true)
+                .Items(item =>
+                {
+                    item.Add().Text("Home");
+                    item.Add().Text("Profil Dit. Gas");
+                    item.Add().Text("SHE - QMS");
+                    item.Add().Text("Data Bisnis");
+                    item.Add().Text("SDM");
+                    item.Add().Text("Aturan & Regulasi");
+                    item.Add().Text("Kontak");
+                    item.Add().Text("Kalender");
+                    item.Add().Text("Lain - Lain");
+                });
+        })
+        .ExpandMode(PanelBarExpandMode.Multiple)
+)

@@ -1,0 +1,113 @@
+﻿
+<h2>Tindakan Disiplin</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_tindakan_disiplin>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("TindakanDisiplin")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addTindakanDisiplin" })
+            .Text("Add")
+            .Ajax(true)
+            .Action("addDetailEmployee", "EmployeeDetail", new { kategori = "TindakanDisiplin" })
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "TindakanDisiplin" })
+                .Delete("_DeleteAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "TindakanDisiplin" });
+
+        })
+        .Columns(columns =>
+        {
+            //columns.Bound(o => o.gol_upah_persero).Width(150).Title("Gol Upah Persero");
+            //columns.Bound(o => o.tgl_awal).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Awal");
+            //columns.Bound(o => o.tgl_akhir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Akhir");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditTindakanDisiplin")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetailDetailEmployee", "EmployeeDetail", new { kategori = "TindakanDisiplin" });
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                    .OnComplete("OnCompleteDetailEmployee")
+        )
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddTindakanDisiplin")
+    .Visible(false)
+    .Title("Add Tindakan Disiplin")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="TindakanDisiplin_user_id" type="hidden" name="TindakanDisiplin_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Gol Upah Persero </div>
+		            <div class="infoFieldinput"><input id="TindakanDisiplin_gol_upah_persero" type="text" name="TindakanDisiplin_gol_upah_persero" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("TindakanDisiplin_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("TindakanDisiplin_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveDetailEmployee('TindakanDisiplin');" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditTindakanDisiplin")
+    .Visible(false)
+    .Title("Edit Tindakan Disiplin")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="TindakanDisiplin_edit_id" type="hidden" name="TindakanDisiplin_id" value="" />
+                    <input id="TindakanDisiplin_edit_user_id" type="hidden" name="TindakanDisiplin_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Gol Upah Persero </div>
+		            <div class="infoFieldinput"><input id="TindakanDisiplin_edit_gol_upah_persero" type="text" name="TindakanDisiplin_edit_gol_upah_persero" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("TindakanDisiplin_edit_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("TindakanDisiplin_edit_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditDetailEmployee('TindakanDisiplin');" />
+	            </p>
+		            
+	         </div>
+        </text>)
+)

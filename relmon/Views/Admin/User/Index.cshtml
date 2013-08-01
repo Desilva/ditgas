@@ -1,0 +1,323 @@
+﻿@model IEnumerable<relmon.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+
+//    function OnRowDataBound(e) {
+//        var dataItem = e.dataItem;
+//        var row = e.row;
+//        if (dataItem.rm_role == 1) {
+//            row.cells[3].innerHTML = 'Admin data input';
+//        } else {
+//            row.cells[3].innerHTML = 'Admin data master';
+//        }
+
+    //    }
+
+    $(document).ready(function () {
+        $('[id|="ACL"]').change(function () {
+            if ($(this).attr("checked") == "checked") {
+                $('[id|="' + $(this).attr('id') + '"]:not(:disabled)').attr("checked", "checked");
+            } else {
+                $('[id|="' + $(this).attr('id') + '"]:not(:disabled)').removeAttr("checked");
+            }
+        });
+    });
+
+    function OnComplete(e) {
+        if (e.name == null) {
+            var detailWindow = $("#AddUser").data("tWindow");
+            detailWindow.center().open();
+        } else {
+            if (e.name == "EditUser") {
+                var detailWindow = $("#EditUser").data("tWindow");
+                user = e.response;
+                $.each(user, function (index, value) {
+                    if(index != "password"){
+                        $('#EditUser #edit_' + index).val(value);
+                    }
+                });
+                detailWindow.center().open();
+            }
+            else if (e.name == "EditACL") {
+                var detailWindow = $("#EditACL").data("tWindow");
+                $('[id|=ACL]:not(:disabled)').removeAttr("checked"); //buang dulu semua checked nya
+                acl = e.response;
+                $.each(acl, function (index, value) { // user_id dan acl
+                    var pageName = "";
+                    if (index == "user_id") {
+                        $('#acl_edit_user_id').val(value);
+                    }
+                    else {
+                        $.each(value, function (index2, value2) { // per acl
+                            $.each(value2, function (index3, value3) { // per atribut acl
+                                if (index3 == "page_name") {
+                                    pageName = value3;
+                                }
+                                else if (index3 == "allow_view") {
+                                    if (value3 == 1)
+                                        $('[id|="ACL-view"][id$="' + pageName + '"]').attr("checked", "checked");
+                                }
+                                else if (index3 == "allow_create") {
+                                    if (value3 == 1)
+                                        $('[id|="ACL-create"][id$="' + pageName + '"]').attr("checked", "checked");
+                                }
+                                else if (index3 == "allow_update") {
+                                    if (value3 == 1)
+                                        $('[id|="ACL-update"][id$="' + pageName + '"]').attr("checked", "checked");
+                                }
+                                else if (index3 == "allow_delete") {
+                                    if (value3 == 1)
+                                        $('[id|="ACL-delete"][id$="' + pageName + '"]').attr("checked", "checked");
+                                }
+                                else if (index3 == "allow_print") {
+                                    if (value3 == 1)
+                                        $('[id|="ACL-print"][id$="' + pageName + '"]').attr("checked", "checked");
+                                }
+                            });
+                        });
+                    }
+                });
+                detailWindow.center().open();
+            }
+        }
+    }
+
+    function SaveUser() {
+
+        if ($('#AddUser #username').val() == '') {
+            alert('Username masih kosong');
+            return;
+        }
+
+        if ($('#AddUser #password').val() == '') {
+            alert('Password masih kosong');
+            return;
+        }
+
+        if ($('#AddUser #password').val() != $('#AddUser #confirmpassword').val()) {
+            alert('Password tidak sama');
+            return;
+        }
+
+        var values =
+        {
+            "id": $('#AddUser #employee').val(),
+            "username": $('#AddUser #username').val(),
+            "password": $('#AddUser #password').val(),
+            "confirmpassword": $('#AddUser #confirmpassword').val()
+        }
+
+        $.post("User/Create", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#User').data('tGrid');
+            grid.ajaxRequest();
+            $("#AddUser").data("tWindow").close();
+
+            $('#AddUser #employee').val('');
+            $('#AddUser #username').val('');
+            $('#AddUser #password').val('');
+            $('#AddUser #confirmpassword').val('');
+        });
+    }
+
+    function EditUser() {
+
+        if ($('#EditUser #edit_password').val() != $('#EditUser #edit_confirmpassword').val()) {
+            alert('Password tidak sama');
+            return;
+        }
+
+        var values =
+        {
+            "id": $('#EditUser #edit_id').val(),
+            "username": $('#EditUser #edit_username').val(),
+            "password": $('#EditUser #edit_password').val(),
+            "confirmpassword": $('#EditUser #edit_confirmpassword').val()
+        }
+
+        $.post("User/update", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#User').data('tGrid');
+            grid.ajaxRequest();
+            $("#EditUser").data("tWindow").close();
+        });
+    }
+
+//    function onLoadTreeViewACL(e) {
+//        $.post("ACL/GetACL", "", function (data) {
+//            alert('Data tersimpan');
+//            var grid = $('#User').data('tGrid');
+//            grid.ajaxRequest();
+//            $("#EditUser").data("tWindow").close();
+//        });
+//    }
+
+    function EditACL() {
+        var values = 
+        {
+            "user_id": $('#acl_edit_user_id').val(),
+//            "pageDetailsJson": $('[id|="ACL"]').val()
+            "acl": $('[id|="ACL"]').serialize()
+        }
+//        var values = $('#ACLEditForm').serialize();
+        $.post("ACL/updateBatch", values, function (data) {
+            alert('Data tersimpan');
+            $("#EditACL").data("tWindow").close();
+        });
+    }
+
+</script>
+
+<h2>User Management</h2>
+
+@(Html.Telerik().Grid<relmon.Models.user>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("User")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addUser" })
+            .Text("Add User")
+            .Ajax(true)
+            .Action("addUser", "User")
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "User")
+                .Delete("_DeleteAjaxEditing", "User");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.username).Width(150).Title("Username");
+            columns.Bound(o => o.fullname).Width(150).Title("Fullname");
+            columns.Bound(o => o.users_jabatan_parent.company2.nama).Width(150).Title("Perusahaan");
+            columns.Bound(o => o.users_jabatan_parent.nama).Width(150).Title("Jabatan");
+            columns.Command(commands =>
+            {
+                commands.Custom("EditACL")
+                        .HtmlAttributes(new { title = "Page Access", style = "color: transparent;min-width: 4px;background: url(../Content/image/file.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetACL", "ACL");
+                commands.Custom("EditUser")
+                        .HtmlAttributes(new { title = "Edit", style = "color: transparent;min-width: 4px;background: url(../Content/image/edit.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetail", "User");
+                commands.Delete()
+                        .HtmlAttributes(new { title = "Delete", style = "color: transparent;min-width: 4px;background: url(../Content/image/delete.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" });
+                
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            //columns.Command(commands =>
+            //{
+
+            //}).Width(100).Title("Page Access").HtmlAttributes(new { style = "text-align: center" });
+
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddUser")
+    .Visible(false)
+    .Title("Add User")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+		            <input id="id" type="hidden" name="id" value="" />
+
+		            <div class="info_inside_left">Username </div>
+		            <div class="infoFieldinput"><input id="username" type="text" name="username" value="" /></div>
+		
+                    <div class="info_inside_left">Password</div>
+		            <div class="infoFieldinput"><input id="password" type="password" name="password" value="" /></div>
+
+                    <div class="info_inside_left">Confirm Password</div>
+		            <div class="infoFieldinput"><input id="confirmpassword" type="password" name="confirmpassword" value="" /></div>
+
+		            <div class="info_inside_left">Employee</div>
+		            <div class="infoFieldinput">
+                        @Html.DropDownList("employee")
+                    </div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveUser();" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditUser")
+    .Visible(false)
+    .Title("Edit User")
+    .Modal(true)
+    .Width(400)
+    .Content(@<text>
+               <div class="info">
+		            <input id="edit_id" type="hidden" name="id" value="" />
+
+                    <div class="info_inside_left">Username </div>
+		            <div class="infoFieldinput"><input id="edit_username" type="text" name="username" value="" /></div>
+		
+                    <div class="info_inside_left">Password</div>
+		            <div class="infoFieldinput"><input id="edit_password" type="password" name="password" value="" /></div>
+
+                    <div class="info_inside_left">Confirm Password</div>
+		            <div class="infoFieldinput"><input id="edit_confirmpassword" type="password" name="confirmpassword" value="" /></div>	            
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditUser();" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+
+
+@{Html.Telerik().Window()
+    .Name("EditACL")
+    .Visible(false)
+    .Title("Edit Page Access")
+    .Modal(true)
+    .Width(1000)
+    .Height(500)
+    .Content(@<text>
+               <div class="info">
+		            <input id="acl_edit_user_id" type="hidden" name="user_id" value="" />
+                        <div class="treeViewBox">
+                                @(Html.Telerik().TreeView()
+                                        .Name("EditACLDetails")
+                                        .ClientEvents(clientEvent =>
+                                        {
+                                            //clientEvent.OnLoad("onLoadTreeViewACL");
+                                        })
+                                        .Items(ViewBag.actionTreeViewItemFactory)
+                                 )
+                        </div>
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditACL();" />
+	            </p>
+	         </div>
+        </text>)
+    .Render();
+    }

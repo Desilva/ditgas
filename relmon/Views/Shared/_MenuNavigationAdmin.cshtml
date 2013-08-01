@@ -1,0 +1,27 @@
+﻿@{
+    var htmlAttributes = new { style = "float: left;width: 180px;position: absolute; margin-left: 10px;" };    
+}
+@(
+    
+    Html.Telerik().Menu()
+        .Name("Menu")
+        .HtmlAttributes(htmlAttributes)
+        .Orientation(MenuOrientation.Vertical)
+        .ClientEvents(events => events.OnSelect("onSelectMenuAdmin"))
+        .Items(menu =>
+        {
+            menu.Add()
+                .Text("Fracas");
+            menu.Add()
+                .Text("Readines Navigator");
+            menu.Add()
+                .Text("Mechanical Availibility")
+                .Items(item =>
+                {
+                    item.Add().Text("MA Area");
+                    item.Add().Text("Ma Unit");
+                });
+            menu.Add()
+                .Text("Plant Availibility");
+        })
+)

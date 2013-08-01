@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "MasaJabatan";
+}
+
+<h2>Status Pekerja</h2>
+
+<script type="text/javascript">
+    function loadGridUser(companyId) {
+        $("#gridUser").load("/DataSdmAp/GridUserMasaJabatan/" + companyId);
+    }
+
+    $(document).ready(function () {
+        loadGridUser('@ViewBag.firstCompany');
+
+        $("#companiesListItem").change(function () {
+            loadGridUser($("#companiesListItem").val());
+        });
+    });
+</script>
+
+<div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">
+@*@(Html.Telerik().DropDownList()
+        .Name("id_ap")
+        .ClientEvents(events => events
+                .OnChange("onChange")
+                    .OnLoad("onDropDownListLoad")
+        )
+        .BindTo(new SelectList(ViewBag.companies, "id", "nama"))
+)
+    <select name="id_ap" id="id_ap">
+        <option value="">-- Pilih Anak Perusahaan --</option>
+    </select>*@
+        @Html.DropDownList("companiesListItem")
+</div>
+<div id="gridUser"></div>

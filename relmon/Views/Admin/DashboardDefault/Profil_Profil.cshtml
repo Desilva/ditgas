@@ -1,0 +1,11 @@
+﻿<script type="text/javascript">
+    var ckEditorEditProfil;
+
+    function refreshUploadProfil() {
+        $.post("DashboardDefault/Profil_Profil_Content", "", function (result) {
+            $("#profilContainer").html(result);
+        });
+    }
+</script>
+<div id="profilContainer"></div>
+<iframe id="refresh_targetProfil" name="refresh_targetProfil" src="" style="display:none;" onload="refreshUploadProfil();"></iframe>

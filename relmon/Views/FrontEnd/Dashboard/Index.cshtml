@@ -1,0 +1,234 @@
+﻿@using relmon
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<script type="text/javascript" src="../../../Scripts/crawler.js"></script>
+<script type="text/javascript" src="../../../Scripts/marquee.js"></script>
+<script type="text/javascript" src="../../../Scripts/slideshow.js"></script>   
+<script type="text/javascript" src="../../../Scripts/easypaginate.js"></script>   
+
+<script type="text/javascript">
+    $.post("Dashboard/GetSlideshow", "", function (data) {
+        var imgArray = new Array();
+        $.each(data, function (index, value) {
+            imgArray.push([value]);
+        });
+        var mygallery = new fadeSlideShow({
+            wrapperid: "fadeshow2", //ID of blank DIV on page to house Slideshow   
+            dimensions: [1000, 300], //width/height of gallery in pixels. Should reflect dimensions of largest image
+            imagearray: imgArray,
+            displaymode: { type: 'auto', pause: 1000, cycles: 0, wraparound: false },
+            persist: false, //remember last viewed slide and recall within same session?   
+            fadeduration: 2000, //transition duration (milliseconds)  
+            descreveal: "ondemand",
+            togglerid: ""
+        })
+    });
+
+    $.post("Dashboard/GetHighlight", "", function (data) {
+        $.each(data, function (index, value) {
+            $("#mycrawler").append("<img src='" + value + "' alt='' title='' />");
+        });
+
+        marqueeInit({
+            uniqueid: 'mycrawler',
+            style: {
+                'margin-bottom': '20px',
+                'margin-left': '10px',
+                'padding': '1px',
+                'width': '980px',
+                'height': '90px'
+            },
+            inc: 0, //speed - pixel increment for each iteration of this marquee's movement
+            mouse: 'false', //mouseover behavior ('pause' 'cursor driven' or false)
+            moveatleast: 1,
+            neutral: 150,
+            savedirection: true
+        });
+    });
+
+    $.post("Dashboard/GetBanner", "", function (value) {
+//        $("#banner").append("<img src='" + value + "' alt='' title='' />");
+        $("#banner-judul").append(value['judul']);
+        $("#banner-isi").append(value['isi']);
+    });
+
+    jQuery(function ($) {
+        $.post("Dashboard/GetNews", "", function (data) {
+            $.each(data, function (index, value) {
+                var result = "<li><table>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'></td>";
+                result += "    <td style='width:99%;'>";
+                result += "        " + value.tgl_update + "";
+                result += "    </td>";
+                result += "</tr>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'></td>";
+                result += "    <td class='review' style='width:99%;'>";
+                result += "        <p class='review'>";
+                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "        </p>";
+                result += "    </td>";
+                result += "</tr>";
+                result += "</table></li>";
+                $("#pagination-news").append(result);
+            });
+
+            $('#pagination-news').easyPaginate({
+                step: 3,
+                div: "#pagination-news"
+            });
+        });
+    });
+
+    jQuery(function ($) {
+        $.post("Dashboard/GetInformasi", "", function (data) {
+            $.each(data, function (index, value) {
+                var result = "<li><table>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'>";
+                result += "        <img src='../../../Content/image/li-wajik-ijo.png' alt=''/>";
+                result += "    </td>";
+                result += "    <td style='width:99%;'>";
+                result += "        " + value.tgl_update + "";
+                result += "    </td>";
+                result += "</tr>";
+                result += "<tr>";
+                result += "     <td style='width:1%;'></td>";
+                result += "     <td>";
+                result += "        <text style='font-size: 11px;'>Posted by " + value.poster + " in " + value.kategori + "</text>";
+                result += "    </td>";
+                result += "</tr>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'></td>";
+                result += "    <td class='review' style='width:99%;'>";
+                result += "        <p class='review'>";
+                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "        </p>";
+                result += "    </td>";
+                result += "</tr>";
+                result += "</table></li>";
+                $("#pagination-informasi").append(result);
+            });
+
+            $('#pagination-informasi').easyPaginate({
+                step: 3,
+                div: "#pagination-informasi"
+            });
+        });
+    });
+
+    jQuery(function ($) {
+        $.post("Dashboard/GetKebijakan", "", function (data) {
+            $.each(data, function (index, value) {
+                var result = "<li><table>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'>";
+                result += "        <img src='../../../Content/image/li-wajik-ijo.png' alt=''/>";
+                result += "    </td>";
+                result += "    <td style='width:99%;'>";
+                result += "        " + value.tgl_update + "";
+                result += "    </td>";
+                result += "</tr>";
+                result += "<tr>";
+                result += "     <td style='width:1%;'></td>";
+                result += "     <td>";
+                result += "        <text style='font-size: 11px;'>Posted by "+value.poster+"</text>";
+                result += "    </td>";
+                result += "</tr>";
+                result += "<tr>";
+                result += "    <td style='width:1%;'></td>";
+                result += "    <td class='review' style='width:99%;'>";
+                result += "        <p class='review'>";
+                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "        </p>";
+                result += "    </td>";
+                result += "</tr>";
+                result += "</table></li>";
+                $("#pagination-kebijakan").append(result);
+            });
+
+            $('#pagination-kebijakan').easyPaginate({
+                step: 3,
+                div: "#pagination-kebijakan"
+            });
+        });
+    });
+    
+</script>
+
+<div id="dashboard">
+    <div id="topDash">
+        <!--<h2>@ViewBag.nama-->
+            <!--<img src='@Url.Content("~/Content/image/icon/help.png")' alt="" style="cursor:pointer" onclick="openHelp();" />-->
+        <!--</h2>-->
+	</div>
+
+    <br/>
+    <!-- Image Slide Show Start -->
+    <div id="fadeshow2" style="z-index: -1;"></div>
+    <!-- Image Slide Show End -->
+    <br/>
+    
+    <div id="banner">
+        <div id="banner-left">
+            <div class="judul">
+                News & General Information
+            </div>
+            <div class="content">
+                <ul id="pagination-news" style="min-height:250px; list-style-type:none; padding-left:0; margin-top:0">
+                </ul>
+            </div>
+        </div>
+        <div id="banner-right">
+            <div id="banner-judul">
+            </div>
+            <div id="banner-isi">
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+
+    @(Html.Telerik().PanelBar()
+        .Name("RoadMap")
+        .HtmlAttributes(new { style = "width: 1000px; margin-bottom: 10px;" })
+        .Items(panelBarItem =>
+        {
+            panelBarItem.Add()
+                .Text("Road Map Natural Gas Technology Application")
+                .Content(@<text>
+                <iframe id="frame-content" name="frame-content" src="/Dashboard/GetPdfRoadMap" width="960" height="400" style="border:0px solid #000;margin-left:20px;margin-top:20px;"></iframe>
+                </text>)
+                .Expanded(false);
+        })
+        .ExpandMode(PanelBarExpandMode.Multiple)
+    )
+
+    <div class="ultah"><h4>Highlight</h4></div>
+    <div class="marquee" id="mycrawler" style="float:left;"></div>
+
+    <!--img src="@Url.Content("~/Content/image/pjs/8.jpg")" alt="" title="" style="height:90px;margin-left:10px;"/-->
+
+
+    <div id="left-content">
+        <div class="titlethumb">
+            <span>Informasi</span>
+        </div>
+        <div class="content">
+            <ul id="pagination-informasi" style="min-height:400px; list-style-type:none">
+            </ul>
+        </div>    
+    </div>
+    <div id="right-content">
+        <div class="titlethumb">
+            <span>Kebijakan</span>
+        </div>
+        <div class="content">
+            <ul id="pagination-kebijakan" style="min-height:400px; list-style-type:none">
+            </ul>
+        </div>
+    </div>
+</div>

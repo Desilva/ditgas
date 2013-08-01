@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using relmon.Models;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using iTextSharp.text.pdf;
+using System.IO;
+using relmon.Utilities;
+
+namespace relmon.Controllers.FrontEnd
+{
+    public class DashboardController : Controller
+    {
+        private RelmonStoreEntities db = new RelmonStoreEntities();
+        //
+        // GET: /Dasboard/
+
+        const int MAX_KONTEN_INFORMASI = 100;
+        const int MAX_KONTEN_KEBIJAKAN = 100;
+
+        public ActionResult Index()
+        {
+            Config.menu = Config.MenuFrontEnd.DASHBOARD;
+            ViewBag.nama = "Home";
+            ViewBag.selectedMenu = "home";
+
+            
+            return View();
+        }
+
+<<<<<<< .mine
+        public ActionResult RoadMap()
+        {
+            return PartialView();
+        }
+
+=======
+        public JsonResult GetSlideshow()
+        {
+            List<string> listResult = db.dashboard_home_default
+                .Where(x => x.tipe == "slideshow")
+                .Select(x => x.konten)
+                .ToList();
+            return Json(listResult);
+        }
+
+        public JsonResult GetHighlight()
+        {
+            List<string> listResult = db.dashboard_home_default
+                .Where(x => x.tipe == "highlight")
+                .Select(x => x.konten)
+                .ToList();
+            return Json(listResult);
+        }
+
+        public JsonResult GetBanner()
+        {
+            string result = db.dashboard_home_default
+                .Where(x => x.tipe == "banner")
+                .Select(x => x.konten)
+                .FirstOrDefault();
+            return Json(result);
+        }
+
+        public JsonResult GetInformasi()
+        {
+            var listResultTemp = (from x in db.dashboard_home_text
+                              join y in db.users on x.poster_user_id equals y.id
+                              where (x.tipe == "informasi")
+                         orderby x.tgl_update
+                         select new
+                         {
+                             id = x.id,
+                             tgl_update = x.tgl_update,
+                             konten = x.konten,
+                             kategori = x.kategori,
+                             poster = y.username
+                         }).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    id = result.id,
+                    tgl_update = result.tgl_update.ToString("MMM dd, yyyy"),
+                    konten = (result.konten.Length > MAX_KONTEN_INFORMASI) ? result.konten.Substring(0, MAX_KONTEN_INFORMASI) + "..." : result.konten,
+                    kategori = result.kategori,
+                    poster = result.poster
+                });
+            }
+
+            return Json(listResult);
+        }
+
+        public JsonResult GetKebijakan()
+        {
+            var listResultTemp = (from x in db.dashboard_home_text
+                                  join y in db.users on x.poster_user_id equals y.id
+                                  where (x.tipe == "kebijakan")
+                                  orderby x.tgl_update
+                                  select new
+                                  {
+                                      id = x.id,
+                                      tgl_update = x.tgl_update,
+                                      konten = x.konten,
+                                      poster = y.username
+                                  }).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    id = result.id,
+                    tgl_update = result.tgl_update.ToString("MMM dd, yyyy"),
+                    konten = (result.konten.Length > MAX_KONTEN_KEBIJAKAN) ? result.konten.Substring(0, MAX_KONTEN_KEBIJAKAN) + "..." : result.konten,
+                    poster = result.poster
+                });
+            }
+
+            return Json(listResult);
+        }
+
+>>>>>>> .r1041
+        public ActionResult GetPdfRoadMap()
+        {
+            string result = (from x in db.dashboard_home_default
+                                  where (x.tipe == "pdfroadmap")
+                                  select x.konten).FirstOrDefault();
+
+            string file = Server.MapPath(Url.Content(result));
+            PdfReader reader = new PdfReader(file);
+            MemoryStream pdfStream = new MemoryStream();
+
+            PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+
+            reader.Close();
+            pdfStamper.Close();
+            pdfStream.Flush();
+            pdfStream.Close();
+
+            byte[] pdfArray = pdfStream.ToArray();
+            return new BinaryContentResult(pdfArray, "application/pdf");
+        }
+    }
+}

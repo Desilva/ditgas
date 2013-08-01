@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+            .Items(parent =>
+            {
+                parent.Add()
+                    .Text("Slideshow")
+                    .LoadContentFrom("Home_Slideshow", "DashboardDefault")
+                    .Selected(true);
+                parent.Add()
+                    .Text("News")
+                    .LoadContentFrom("Home_News", "DashboardText");
+                parent.Add()
+                    .Text("Banner")
+                    .LoadContentFrom("Home_Banner", "DashboardDefault");
+                parent.Add()
+                    .Text("Road Map")
+                    .LoadContentFrom("Home_RoadMap", "DashboardDefault");
+                parent.Add()
+                    .Text("Highlight")
+                    .LoadContentFrom("Home_Highlight", "DashboardDefault");
+                parent.Add()
+                    .Text("Informasi")
+                    .LoadContentFrom("Home_Informasi", "DashboardText");
+                parent.Add()
+                    .Text("Kebijakan")
+                    .LoadContentFrom("Home_Kebijakan", "DashboardText");
+            /*parent.Add()
+                .Text("Struktur Organisasi")
+                .LoadContentFrom("StrukturOrganisasi", "DataBisnisDitGas");
+            parent.Add()
+                .Text("Visi Misi")
+                .LoadContentFrom("RencanaKerja", "DataBisnisDitGas");
+            parent.Add()
+                .Text("RJPP")
+                .LoadContentFrom("Rjpp", "DataBisnisDitGasAdmin");
+            parent.Add()
+                .Text("RKAP")
+                .LoadContentFrom("Rkap", "DataBisnisDitGasAdmin");
+            parent.Add()
+                .Text("Bussiness Report")
+                .LoadContentFrom("BussinessReport", "DataBisnisDitGasAdmin");
+            parent.Add()
+                .Text("KPI")
+                .LoadContentFrom("Kinerja", "DataBisnisDitGasAdmin");
+            parent.Add()
+                .Text("Project Status")
+                .LoadContentFrom("ProjectStatus", "DataBisnisDitGasAdmin");
+            parent.Add()
+                .Text("Product")
+                .LoadContentFrom("Product", "DataBisnisDitGasAdmin");*/
+            /*parent.Add()
+                .Text("JMG")
+                .LoadContentFrom("jng", "DataBisnisDitGas");*/
+        })
+)

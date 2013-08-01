@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function refreshUploadVisiMisi() {
+        $.post("DashboardDefault/Profil_VisiMisi_Content", "", function (result) {
+            $("#visiMisiContainer").html(result);
+        });
+    }
+    $(document).ready(function () {
+        refreshUploadVisiMisi();
+    });
+</script>
+<div id="visiMisiContainer"></div>
+<iframe id="refresh_targetVisiMisi" name="refresh_targetVisiMisi" src="" style="display:none;" onload="refreshUploadVisiMisi();"></iframe>

@@ -1,0 +1,69 @@
+﻿<script type="text/javascript">
+    function onSelectMenuAdmin2(e) {
+        var item = $(e.item);
+        // ======== Home ======= //
+        if (item.find('> .t-link').text() == "Home") {
+            $('#content').load('');
+        } else if (item.find('> .t-link').text() == "Profil Dit. Gas") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "SHE - QMS") {
+            $('#content').html('');
+        }
+        // ======== Data Bisnis ======= //
+        else if (item.find('> .t-link').text() == "Dit. Gas") {
+            $('#content').html('');
+        }
+        else if (item.find('> .t-link').text() == "JMG") {
+            $('#content').html('');
+        }
+        else if (item.find('> .t-link').text() == "Anak Perusahaan") {
+            $('#content').load('DataBisnisApAdmin');
+        }
+        else if (item.find('> .t-link').text() == "Afiliasi") {
+            $('#content').html('');
+        }
+        // ======== SDM ======= //
+        else if (item.find('> .t-link').text() == "SDM") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Aturan & Regulasi") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kontak") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Kalender") {
+            $('#content').html('');
+        } else if (item.find('> .t-link').text() == "Lain - Lain") {
+            $('#content').html('');
+        }
+    }
+</script>
+@*
+@{
+    var htmlAttributes = new { style = "float: left;margin-left: 10px;" };    
+}
+
+@(
+    
+    Html.Telerik().Menu()
+        .Name("Menu")
+        .HtmlAttributes(htmlAttributes)
+        .ClientEvents(events => events.OnSelect("onSelectMenuAdmin2"))
+        .Items(item =>
+        {
+            item.Add().Text("Home");
+            item.Add().Text("Profil Dit. Gas");
+            item.Add().Text("SHE - QMS");
+            item.Add().Text("Data Bisnis")
+                .Items(item2 =>
+                {
+                    item2.Add().Text("Dit. Gas");
+                    item2.Add().Text("JMG");
+                    item2.Add().Text("Anak Perusahaan");
+                    item2.Add().Text("Afiliasi");
+                });
+            item.Add().Text("SDM");
+            item.Add().Text("Aturan & Regulasi");
+            item.Add().Text("Kontak");
+            item.Add().Text("Kalender");
+            item.Add().Text("Lain - Lain");
+        })
+)*@

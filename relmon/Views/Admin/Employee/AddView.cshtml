@@ -1,0 +1,345 @@
+﻿@model relmon.Models.user
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Employee</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#id_company").bind("change", function () {
+            if ($('#id_company').val() != '') {
+                //$('#realmod_checker_area').css("display","block");
+                $.post(
+			        "Employee/GetRole",
+			        {
+			            id_company: $('#id_company').val()
+			        },
+			        function (data) {
+			            hasil = eval(data);
+			            $("#rm_role").html("");
+			            $('<option value="">-- Pilih Jabatan --</option>').appendTo("#rm_role");
+			            for (var i = 0; i < hasil.length; i++) {
+			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#rm_role");
+			            }
+			            //$('#realmod_checker_area').css("display", "none");
+			        }
+			    );
+            } else {
+                //$('#realmod_checker_area').css("display", "none");
+            }
+        });
+    })
+
+
+    function save() {
+
+        if ($('#fullname').val() == "") {
+            alert('Nama masih kosong');
+            return 0;
+        }
+        else if ($('#id_company').val() == "") {
+            alert('Perusahaan belum dipilih');
+            return 0;
+        }
+        else if ($('#rm_role').val() == "") {
+            alert('Jabatan belum dipilih');
+            return 0;
+        }
+
+        var values =
+        {
+            "fullname": $('#fullname').val(),
+            "rm_role": $('#rm_role').val(),
+            "no_pekerja": $('#no_pekerja').val(),
+            "lokasi": $('#lokasi').val(),
+            "direktorat": $('#direktorat').val(),
+            "tempat_lahir": $('#tempat_lahir').val(),
+            "tgl_lahir": $('#tgl_lahir').val(),
+            "jenis_kelamin": $('#jenis_kelamin').val(),
+            "agama": $('#agama').val(),
+            "susunan_keluarga": $('#susunan_keluarga').val(),
+            "NPWP": $('#NPWP').val(),
+            "alamat_pajak": $('#alamat_pajak').val(),
+            "alamat_rumah": $('#alamat_rumah').val(),
+            "alamat_ktp": $('#alamat_ktp').val(),
+            "sub_area": $('#sub_area').val(),
+            "tgl_aktif": $('#tgl_aktif').val(),
+            "tmt_dapen_dplk": $('#tmt_dapen_dplk').val(),
+            "tmt_jabatan": $('#tmt_jabatan').val(),
+            "tmt_gol_jabatan": $('#tmt_gol_jabatan').val(),
+            "gol_upah_persero": $('#gol_upah_persero').val(),
+            "tmt_gol_upah_persero": $('#tmt_gol_upah_persero').val(),
+            "gol_upah_ap": $('#gol_upah_ap').val(),
+            "tmt_gol_upah_ap": $('#tmt_gol_upah_ap').val(),
+            "layering": $('#layering').val(),
+            "pendidikan_terakhir": $('#pendidikan_terakhir').val(),
+            "status_pekerja": $('#status_pekerja').val()
+        }
+
+        $.post("Employee/Create", values, function (data) {
+            alert('Data tersimpan');
+            $('#content').load('Employee');
+        });
+
+    }
+
+//    function clearError() {
+//        var field = ["tag_num", "nama", "econ", "ram_crit", "id_discipline", "installed_date", "sertifikasi", "warranty", "vendor", "id_tag_type", "data_sheet_path"];
+//        $.each(field, function (index, value) {
+//            $('#' + value).next('div').html('');
+//        });
+//    }
+</script>
+
+<div class="fieldR">* Required Field</div>
+
+@Html.ValidationSummary(true)
+<fieldset>
+    <legend>employee</legend>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.fullname)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.fullname)
+        <div class="errorM"></div>
+    </div>
+
+     <div class="editor-label">
+        Company<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+         @Html.DropDownList("id_company", "--- Pilih Perusahaan ---")
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.rm_role)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        <select id="rm_role" name="rm_role">
+            <option value="0">--- Pilih Jabatan ---</option>
+        </select>
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.no_pekerja)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.no_pekerja)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.lokasi)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.lokasi)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.direktorat)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.direktorat)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tempat_lahir)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.tempat_lahir)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tgl_lahir)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tgl_lahir)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.jenis_kelamin)
+    </div>
+    <div class="editor-field">
+        <select id="jenis_kelamin" name="jenis_kelamin">
+            <option value="0">Perempuan</option>
+            <option value="1">Laki-Laki</option>
+        </select>
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.agama)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.agama)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.susunan_keluarga)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.susunan_keluarga)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.NPWP)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.NPWP)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.alamat_pajak)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.alamat_rumah)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.alamat_ktp)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.alamat_ktp)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.sub_area)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.sub_area)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tgl_aktif)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tgl_aktif)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_dapen_dplk)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_dapen_dplk)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_jabatan)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_jabatan)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_jabatan)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_jabatan)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.gol_upah_persero)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.EditorFor(model => model.gol_upah_persero)*@
+        @Html.Telerik().DropDownList().Name("gol_upah_persero").BindTo(ViewBag.golUpahPersero);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_upah_persero)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_upah_persero)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.gol_upah_ap)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.EditorFor(model => model.gol_upah_ap)*@
+        @Html.Telerik().DropDownList().Name("gol_upah_ap").BindTo(ViewBag.golUpahAp);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.tmt_gol_upah_ap)
+    </div>
+    <div class="editor-field">
+        @(Html.Telerik().DatePickerFor(model => model.tmt_gol_upah_ap)
+              .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+              .Value(DateTime.Now)
+        )
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.layering)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.layering)
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.pendidikan_terakhir)<a class="bintang">*</a>
+    </div>
+    <div class="editor-field">
+        @*Html.EditorFor(model => model.pendidikan_terakhir)*@
+        @Html.Telerik().DropDownList().Name("pendidikan_terakhir").BindTo(ViewBag.pendidikanTerakhir);
+        <div class="errorM"></div>
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.status_pekerja)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.status_pekerja)
+        <div class="errorM"></div>
+    </div>
+
+    <p>
+        <input type="submit" value="Create" onclick="save()"/>
+    </p>
+</fieldset>

@@ -1,0 +1,24 @@
+﻿@using System.IO;
+
+
+@{
+    ViewBag.Title = "AturanPertamina";
+}
+
+<h3>Aturan Pertamina</h3>
+<div id="content-kinerja">
+<ul>
+    @foreach (var fullPath in ViewBag.content)
+    {
+        var fileName = Path.GetFileName(fullPath);
+        <li>@Html.ActionLink((string)fileName, "Download", new { file = fileName})</li>
+    }
+</ul>
+</div>
+
+<!--<h2>Pedoman dan Kerja Sama Bisnis</h2>
+<iframe id="frame-content" name="frame-content" src="/AturanRegulasi/getPDF/1" width="960" height="400" style="border:0px solid #000;"></iframe>
+<h2>Pedoman Pendirian Anak Perusahaan dan Perusahaan Patungan</h2>
+<iframe id="frame-content" name="frame-content" src="/AturanRegulasi/getPDF/2" width="960" height="400" style="border:0px solid #000;"></iframe>
+<h2>Pengusulan dan Persetujuan Investasi Pengembangan dan Kerja Sama Bisnis</h2>
+<iframe id="frame-content" name="frame-content" src="/AturanRegulasi/getPDF/3" width="960" height="400" style="border:0px solid #000;"></iframe>-->

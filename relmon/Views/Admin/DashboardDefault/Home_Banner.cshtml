@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function refreshUploadBanner() {
+        $.post("DashboardDefault/Home_Banner_Content", "", function (result) {
+            $("#bannerContainer").html(result);
+        });
+    }
+    $(document).ready(function () {
+        refreshUploadBanner();
+    });
+</script>
+<span id="bannerContainer"></span>
+<iframe id="refresh_targetBanner" name="refresh_targetBanner" src="" style="display:none;" onload="refreshUploadBanner();"></iframe>

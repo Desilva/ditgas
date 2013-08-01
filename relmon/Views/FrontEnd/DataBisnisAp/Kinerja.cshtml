@@ -1,0 +1,12 @@
+﻿@using System.IO;
+<h3>Kinerja</h3>
+
+<div id="content-kinerja">
+<ul>
+    @foreach (var fullPath in ViewBag.content)
+    {
+        var fileName = Path.GetFileName(fullPath);
+        <li>@Html.ActionLink((string)fileName, "Download", new { file = fileName , id = ViewBag.id})</li>
+    }
+</ul>
+</div>

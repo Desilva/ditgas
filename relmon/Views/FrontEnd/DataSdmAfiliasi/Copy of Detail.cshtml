@@ -1,0 +1,1359 @@
+﻿<html>
+    <head><!-- saprl:702 sysid:PEP -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-style-type" content="text/css">
+        <style>
+            body 
+            {
+                background-color:#F2F2F2; 
+                color:#000000; 
+                font-family:Arial,helvetica,sans-serif; 
+                font-size:9pt; 
+            }
+            table 
+            {
+                font-family:Arial,helvetica,sans-serif; 
+                font-size:9pt; 
+            }
+            button 
+            {
+                font-family:Arial,helvetica,sans-serif; 
+                font-size:9pt; }
+            input{ font-family:Arial,Helvetica,sans-serif; font-size:9pt; }
+            select{ font-family:Arial,helvetica,sans-serif; font-size:9pt; }
+            a{ text-decoration:none; color:#0063A4; }
+            a:hover{ text-decoration: underline; } 
+            a:active{ color: #FFFFFF; } 
+            a:visited{ color: #666666; }
+            .HEADING{ font-size:17pt; }
+            .KEY{ background-color:#CDE8FB; }
+            .SUCCESS{ background-color:#CEF8AE; }
+            .WARNING{ background-color:#FDBCBC; }
+            .ButtonUrl 
+            {
+                background-color:#F2F2F2; 
+                background-image:url(back.gif); 
+                height:19 px; text-align:center; 
+                border-right:outset #E2E1D0 1pt; 
+                border-left:outset #E2E1D0 1pt; 
+                padding-left:5px; 
+                padding-right:5px; 
+                width:100%; cursor:hand; }
+            .HEADER1{ background:#6780B8; font-family:Arial,helvetica,sans-serif; color:#FFFFFF; }
+    </style>
+    <script language="JavaScript">
+        var enter_pressed = " "; function ButtonClick(form, button) { if (enter_pressed == " ") { fname = form.name; form.sapbu_cl.value = button.id; form.sapse_cl.value = " "; form.sapin_cl.value = " "; document[fname].submit(); } else { enter_pressed = " "; } } function SelectChange(form, select) { fname = form.name; form.sapbu_cl.value = " "; form.sapse_cl.value = select.id; form.sapin_cl.value = " "; document[fname].submit(); } function InputHelpF1(form, input) { fname = form.name; form.sapbu_cl.value = " "; form.sapse_cl.value = " "; form.sapin_cl.value = input.id + "sapHELPF1"; document[fname].submit(); } function InputKeyDown(form, input) { form.sapbu_cl.value = " "; form.sapse_cl.value = " "; if (event.keyCode == 115) { form.sapin_cl.value = input.id + "sapHELPF4"; fname = form.name; document[fname].submit(); } if (event.keyCode == 13 || event.keyCode == 10) { form.sapin_cl.value = input.id + "sapENTER"; enter_pressed = "X"; fname = form.name; document[fname].submit(); } } function toggle(areaname) { target = document.all(areaname); if (target.style.display == "none") { target.style.display = ""; } else { target.style.display = "none"; } }</script>
+    </head>
+<body bottommargin="0">
+    <!%_BODYSTART><!%_A1T1!>
+    <table id="A1T1" border="0" width="100%" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col id="COL1" width="100%">
+            <col id="COL2" width="100%">
+        </colgroup>
+        <tbody>
+            <tr bgcolor="">
+                <td id="A1T1C1R1" align="LEFT">
+                </td>
+            </tr>
+            <tr bgcolor="">
+            </tr>
+            <tr bgcolor="">
+            </tr>
+        </tbody>
+    </table>
+    <!%_/A1T1!>
+    <br>
+    <!%_A1T2!>
+    <table id="A1T2" border="0" width="100%" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col id="COL1" width="75%">
+            <col id="COL2" width="25%">
+        </colgroup>
+        <tbody>
+            <tr bgcolor="">
+                <td id="A1T2C2R1" align="RIGHT" valign="TOP">
+                    <!%_CURSOR!><!A1T2C2>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!%_/A1T2!>
+    <br>
+    <br>
+    <!%_A1T3!>
+    <table id="A1T3" border="0" width="75%" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col id="COL1">
+        </colgroup>
+        <tbody>
+        </tbody>
+    </table>
+    <!%_/A1T3!>
+    <br>
+    <span style="font-size: 11pt; font-weight: bold;">PERSONAL DATA</span>
+    <hr>
+    <!%_A1T4!>
+    <table id="A1T4" border="0" width="100%" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col id="COL1" width="30%">
+            <col id="COL2" width="45%">
+            <col id="COL3" width="25%">
+        </colgroup>
+        <tbody>
+            <tr bgcolor="">
+                <td id="A1T4C1R1">
+                    <span style="font-size: 9pt;">Nama</span>
+                </td>
+                <td id="A1T4C2R1">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.fullname</span>
+                </td>
+                <td id="A1T4C3R1" rowspan="11" align="RIGHT" valign="TOP">
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R2">
+                    <span style="font-size: 9pt;">No. Pekerja</span>
+                </td>
+                <td id="A1T4C2R2">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.no_pekerja</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R3">
+                    <span style="font-size: 9pt;">J a b a t a n</span>
+                </td>
+                <td id="A1T4C2R3" colspan="2">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.users_jabatan_parent.nama</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R4">
+                    <span style="font-size: 9pt;">Lokasi</span>
+                </td>
+                <td id="A1T4C2R4">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.lokasi</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R5">
+                    <span style="font-size: 9pt;">Direktorat / Fungsi</span>
+                </td>
+                <td id="A1T4C2R5" colspan="2">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.direktorat</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R6">
+                    <span style="font-size: 9pt;">Tempat, Tanggal Lahir</span>
+                </td>
+                <td id="A1T4C2R6">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.tempat_lahir, @ViewBag.userselected.tgl_lahir</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R7">
+                    <span style="font-size: 9pt;">Jenis Kelamin</span>
+                </td>
+                <td id="A1T4C2R7">
+                    <span style="font-size: 9pt;">: @((ViewBag.userselected.jenis_kelamin == 0)?"Perempuan":"Laki-laki")</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R8">
+                    <span style="font-size: 9pt;">Agama</span>
+                </td>
+                <td id="A1T4C2R8">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.agama</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R9">
+                    <span style="font-size: 9pt;">Susunan Keluarga</span>
+                </td>
+                <td id="A1T4C2R9">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.susunan_keluarga</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R10">
+                    <span style="font-size: 9pt;">N P W P</span>
+                </td>
+                <td id="A1T4C2R10">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.NPWP</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R11">
+                    <span style="font-size: 9pt;">Alamat Pajak</span>
+                </td>
+                <td id="A1T4C2R11">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.alamat_pajak</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R12">
+                    <span style="font-size: 9pt;">Alamat Rumah</span>
+                </td>
+                <td id="A1T4C2R12">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.alamat_rumah</span>
+                </td>
+                <td id="A1T4C3R12" align="RIGHT" valign="TOP">
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R13">
+                    <span style="font-size: 9pt;">Alamat Sesuai KTP</span>
+                </td>
+                <td id="A1T4C2R13">
+                    <span style="font-size: 9pt;">: @ViewBag.userselected.alamat_ktp</span>
+                </td>
+                <td id="A1T4C3R13" align="RIGHT" valign="TOP">
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T4C1R14">
+                    <!%_CURSOR!><!A1T4C1>
+                </td>
+                <td id="A1T4C2R14">
+                    <!%_CURSOR!><!A1T4C2>
+                </td>
+                <td id="A1T4C3R14" align="RIGHT" valign="TOP">
+                    <!%_CURSOR!><!A1T4C3>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!%_/A1T4!>
+    <br>
+    <br>
+    <br>
+    <span style="font-size: 11pt; font-weight: bold;">PENDIDIKAN FORMAL</span>
+    <hr>
+    <!%_A1T5!>
+    <table id="A1T5" border="0" width="100%" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col id="COL1" width="40%">
+            <col id="COL2" width="35%">
+            <col id="COL3" width="25%">
+        </colgroup>
+        <tbody>
+            <tr bgcolor="">
+                <td id="A1T5C1R1">
+                    <span style="font-size: 9pt;">BANDUNG</span>
+                </td>
+                <td id="A1T5C2R1">
+                    <span style="font-size: 9pt;">SD</span>
+                </td>
+                <td id="A1T5C3R1">
+                    <span style="font-size: 9pt;">02.01.1965 - 31.12.1970</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T5C1R2">
+                    <span style="font-size: 9pt;">BANDUNG</span>
+                </td>
+                <td id="A1T5C2R2">
+                    <span style="font-size: 9pt;">SMP</span>
+                </td>
+                <td id="A1T5C3R2">
+                    <span style="font-size: 9pt;">02.01.1971 - 31.12.1973</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T5C1R3">
+                    <span style="font-size: 9pt;">Bandung</span>
+                </td>
+                <td id="A1T5C2R3">
+                    <span style="font-size: 9pt;">SMA-B/Pasti/IPA</span>
+                </td>
+                <td id="A1T5C3R3">
+                    <span style="font-size: 9pt;">02.01.1974 - 31.12.1976</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T5C1R4">
+                    <span style="font-size: 9pt;">Institut Teknologi Bandung/Bandung</span>
+                </td>
+                <td id="A1T5C2R4">
+                    <span style="font-size: 9pt;">S1-Teknik Geologi</span>
+                </td>
+                <td id="A1T5C3R4">
+                    <span style="font-size: 9pt;">02.01.1980 - 18.10.1986</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T5C1R5">
+                    <span style="font-size: 9pt;">Universitas Gadjah Mada/Yogyakarta</span>
+                </td>
+                <td id="A1T5C2R5">
+                    <span style="font-size: 9pt;">S2-Administrasi Bisnis</span>
+                </td>
+                <td id="A1T5C3R5">
+                    <span style="font-size: 9pt;">12.04.1996 - 19.02.1998</span>
+                </td>
+            </tr>
+            <tr bgcolor="">
+                <td id="A1T5C1R6">
+                    <!%_CURSOR!><!A1T5C1>
+                </td>
+                <td id="A1T5C2R6">
+                    <!%_CURSOR!><!A1T5C2>
+                </td>
+                <td id="A1T5C3R6">
+                    <!%_CURSOR!><!A1T5C3>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!%_/A1T5!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">KURSUS - KURSUS</span>
+        <hr>
+        <!%_A1T6!>
+        <table id="A1T6" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="55%">
+                <col id="COL3" width="25%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T6C1R1">
+                        <span style="font-size: 9pt;">13.03.1989 - 08.09.1989</span>
+                    </td>
+                    <td id="A1T6C2R1">
+                        <span style="font-size: 9pt;">Pendidikan BPS - BPST EP ANGKATAN I -</span>
+                    </td>
+                    <td id="A1T6C3R1">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R2">
+                        <span style="font-size: 9pt;">19.06.1989 - 24.06.1989</span>
+                    </td>
+                    <td id="A1T6C2R2">
+                        <span style="font-size: 9pt;">Training - PENATARAN P-4 POLA PENDUKUNG 45 JAM -</span>
+                    </td>
+                    <td id="A1T6C3R2">
+                        <span style="font-size: 9pt;">Surat Keterangan</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R3">
+                        <span style="font-size: 9pt;">01.02.1990 - 05.02.1990</span>
+                    </td>
+                    <td id="A1T6C2R3">
+                        <span style="font-size: 9pt;">Training - PETROLEUM GEOCHEMISTRY -</span>
+                    </td>
+                    <td id="A1T6C3R3">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R4">
+                        <span style="font-size: 9pt;">19.03.1990 - 23.03.1990</span>
+                    </td>
+                    <td id="A1T6C2R4">
+                        <span style="font-size: 9pt;">Training - STRUCTURAL GEOLOGY, -</span>
+                    </td>
+                    <td id="A1T6C3R4">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R5">
+                        <span style="font-size: 9pt;">25.06.1990 - 27.06.1990</span>
+                    </td>
+                    <td id="A1T6C2R5">
+                        <span style="font-size: 9pt;">Training - RESERVES ESTIMATION, -</span>
+                    </td>
+                    <td id="A1T6C3R5">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R6">
+                        <span style="font-size: 9pt;">03.12.1990 - 07.12.1990</span>
+                    </td>
+                    <td id="A1T6C2R6">
+                        <span style="font-size: 9pt;">Training - GEOKIMIA MINYAK DAN GAS BUMI - Bandung</span>
+                    </td>
+                    <td id="A1T6C3R6">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R7">
+                        <span style="font-size: 9pt;">16.01.1991 - 20.01.1991</span>
+                    </td>
+                    <td id="A1T6C2R7">
+                        <span style="font-size: 9pt;">Training - BASIN ANALYSIS METHOD &amp; TECHNIQUE, -</span>
+                    </td>
+                    <td id="A1T6C3R7">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R8">
+                        <span style="font-size: 9pt;">23.01.1991 - 02.02.1991</span>
+                    </td>
+                    <td id="A1T6C2R8">
+                        <span style="font-size: 9pt;">Training - TEKNIK MENGAJAR, -</span>
+                    </td>
+                    <td id="A1T6C3R8">
+                        <span style="font-size: 9pt;">Surat Keterangan</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R9">
+                        <span style="font-size: 9pt;">01.03.1991 - 08.03.1991</span>
+                    </td>
+                    <td id="A1T6C2R9">
+                        <span style="font-size: 9pt;">Training - APPLIED SEDIMENTOLOGY IN HYDROCARBON EXPL.,
+                            -</span>
+                    </td>
+                    <td id="A1T6C3R9">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R10">
+                        <span style="font-size: 9pt;">18.11.1991 - 22.11.1991</span>
+                    </td>
+                    <td id="A1T6C2R10">
+                        <span style="font-size: 9pt;">Training - INTEGRATION OF LOG AND SEISMIC DATA, -</span>
+                    </td>
+                    <td id="A1T6C3R10">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R11">
+                        <span style="font-size: 9pt;">11.12.1991 - 24.12.1991</span>
+                    </td>
+                    <td id="A1T6C2R11">
+                        <span style="font-size: 9pt;">Training - KURSUS PRINSIP-PRINSIP PENGAWASAN LANJUTAN
+                            - KPPL/KPPA, -</span>
+                    </td>
+                    <td id="A1T6C3R11">
+                        <span style="font-size: 9pt;">Surat Keterangan</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R12">
+                        <span style="font-size: 9pt;">20.01.1992 - 24.01.1992</span>
+                    </td>
+                    <td id="A1T6C2R12">
+                        <span style="font-size: 9pt;">Training - BASIC SAESMIC STRATIGRAPHY, -</span>
+                    </td>
+                    <td id="A1T6C3R12">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R13">
+                        <span style="font-size: 9pt;">03.03.1992 - 08.03.1992</span>
+                    </td>
+                    <td id="A1T6C2R13">
+                        <span style="font-size: 9pt;">Training - EKSPLORATION METHOD FOR SANDSTONE RESERVOIR,
+                            -</span>
+                    </td>
+                    <td id="A1T6C3R13">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R14">
+                        <span style="font-size: 9pt;">21.09.1992 - 24.09.1992</span>
+                    </td>
+                    <td id="A1T6C2R14">
+                        <span style="font-size: 9pt;">Training - SISTEM TATA KERJA ANGK.I, -</span>
+                    </td>
+                    <td id="A1T6C3R14">
+                        <span style="font-size: 9pt;">Surat Keterangan</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R15">
+                        <span style="font-size: 9pt;">17.01.1994 - 21.01.1994</span>
+                    </td>
+                    <td id="A1T6C2R15">
+                        <span style="font-size: 9pt;">Training - ADVANCE SAESMIC STRATIGRAPHY, -</span>
+                    </td>
+                    <td id="A1T6C3R15">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R16">
+                        <span style="font-size: 9pt;">20.04.1994 - 21.04.1994</span>
+                    </td>
+                    <td id="A1T6C2R16">
+                        <span style="font-size: 9pt;">Training - AAPG EDUCATION DEPARTEMENT PROGRAM - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R16">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R17">
+                        <span style="font-size: 9pt;">25.04.1994 - 29.04.1994</span>
+                    </td>
+                    <td id="A1T6C2R17">
+                        <span style="font-size: 9pt;">Training - QUANTITATIVE TECHNIQUES FOR THE ANALYSIS OF
+                            GEOLOGICAL STRUCTURES'' - Bandung</span>
+                    </td>
+                    <td id="A1T6C3R17">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R18">
+                        <span style="font-size: 9pt;">14.09.1995 - 15.09.1995</span>
+                    </td>
+                    <td id="A1T6C2R18">
+                        <span style="font-size: 9pt;">Training - AMERICAN ASOCIATION OF PETROLEUM GEOLOGISTS
+                            - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R18">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R19">
+                        <span style="font-size: 9pt;">06.12.1995 - 07.12.1995</span>
+                    </td>
+                    <td id="A1T6C2R19">
+                        <span style="font-size: 9pt;">Training - KONGRES AHLI ILMU KEBUMIAN NASIONAL 1995 -
+                            Yogyakarta</span>
+                    </td>
+                    <td id="A1T6C3R19">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R20">
+                        <span style="font-size: 9pt;">06.01.1997 - 16.04.1997</span>
+                    </td>
+                    <td id="A1T6C2R20">
+                        <span style="font-size: 9pt;">Training - INTERSHIP PROGRAM PREPARATION - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R20">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R21">
+                        <span style="font-size: 9pt;">08.03.1997 - 08.03.1997</span>
+                    </td>
+                    <td id="A1T6C2R21">
+                        <span style="font-size: 9pt;">Training - TEST TOEFL, -</span>
+                    </td>
+                    <td id="A1T6C3R21">
+                        <span style="font-size: 9pt;">Tanpa Keterangan</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R22">
+                        <span style="font-size: 9pt;">09.08.1997 - 17.11.1997</span>
+                    </td>
+                    <td id="A1T6C2R22">
+                        <span style="font-size: 9pt;">Training - ACHIEVING ACADEMIC EXCELLENCE PROG. IN MARKETING,L,UNIV.KENT
+                            -</span>
+                    </td>
+                    <td id="A1T6C3R22">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R23">
+                        <span style="font-size: 9pt;">20.03.1998 - 22.03.1998</span>
+                    </td>
+                    <td id="A1T6C2R23">
+                        <span style="font-size: 9pt;">Training - OUTDOOR MANAGEMENT DEVELOPMENT TRAINING ''PRINSIP
+                            - PRINSIP MANAJEMEN KPPM XXI PERTAMINA&quot; - Banten</span>
+                    </td>
+                    <td id="A1T6C3R23">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R24">
+                        <span style="font-size: 9pt;">06.06.2001 - 08.06.2001</span>
+                    </td>
+                    <td id="A1T6C2R24">
+                        <span style="font-size: 9pt;">Training - THE ASSESSMENT,CLASIFICATION AND REPORTING
+                            OF RESERVE SEMINAR - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R24">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R25">
+                        <span style="font-size: 9pt;">03.04.2003 - 07.04.2003</span>
+                    </td>
+                    <td id="A1T6C2R25">
+                        <span style="font-size: 9pt;">Training - CEMENTING TECHNOLOGY SHARING WORKSHOP - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R25">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R26">
+                        <span style="font-size: 9pt;">06.06.2005 - 08.06.2005</span>
+                    </td>
+                    <td id="A1T6C2R26">
+                        <span style="font-size: 9pt;">Training - PENGELOLAAN RANTAI SUPLAI KONTRAKTOR KERJASAMA
+                            DI LINGKUNGAN KEGIATAN USAHA MINYAK DAN GAS BUMI - Bandung</span>
+                    </td>
+                    <td id="A1T6C3R26">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R27">
+                        <span style="font-size: 9pt;">07.12.2005 - 09.12.2005</span>
+                    </td>
+                    <td id="A1T6C2R27">
+                        <span style="font-size: 9pt;">Training - SEMINAR STRATEGI KETAHANAN ENERGI JAWA BARAT
+                            - Bandung</span>
+                    </td>
+                    <td id="A1T6C3R27">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R28">
+                        <span style="font-size: 9pt;">21.12.2006 - 22.12.2006</span>
+                    </td>
+                    <td id="A1T6C2R28">
+                        <span style="font-size: 9pt;">Training - HOW TO DEAL WITH MEDIA - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R28">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R29">
+                        <span style="font-size: 9pt;">20.09.2007 - 21.09.2007</span>
+                    </td>
+                    <td id="A1T6C2R29">
+                        <span style="font-size: 9pt;">Training - PROGRAM TRANSFORMATION LEADERSHIP ENGINE (TLE)
+                            ANGKATAN-I/2007 - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R29">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R30">
+                        <span style="font-size: 9pt;">21.07.2008 - 23.07.2008</span>
+                    </td>
+                    <td id="A1T6C2R30">
+                        <span style="font-size: 9pt;">Training - COMPETENCE IN OIL &amp; GAS INDUSTRY - Jakarta</span>
+                    </td>
+                    <td id="A1T6C3R30">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R31">
+                        <span style="font-size: 9pt;">19.08.2010 - 20.08.2010</span>
+                    </td>
+                    <td id="A1T6C2R31">
+                        <span style="font-size: 9pt;">Training - PERAN CIVITAS AKADEMICA DALAM MENDUKUNG PERTAHANAN
+                            NEGARA DI LAUT - Bandung</span>
+                    </td>
+                    <td id="A1T6C3R31">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R32">
+                        <span style="font-size: 9pt;">11.01.2011 - 11.01.2011</span>
+                    </td>
+                    <td id="A1T6C2R32">
+                        <span style="font-size: 9pt;">Training - ELECKTRONIK KORRESPONDENSI - Kantor Pusat PT.
+                            Pertamina, GU Lt. 21</span>
+                    </td>
+                    <td id="A1T6C3R32">
+                        <span style="font-size: 9pt;">Sertifikat</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T6C1R33">
+                        <!%_CURSOR!><!A1T6C1>
+                    </td>
+                    <td id="A1T6C2R33">
+                        <!%_CURSOR!><!A1T6C2>
+                    </td>
+                    <td id="A1T6C3R33">
+                        <!%_CURSOR!><!A1T6C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T6!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">SERTIFIKASI dan KEANGGOTAAN PROFESI</span>
+        <hr>
+        <!%_A1T7!>
+        <table id="A1T7" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="55%">
+                <col id="COL3" width="25%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T7C1R1">
+                        <!%_CURSOR!><!A1T7C1>
+                    </td>
+                    <td id="A1T7C2R1">
+                        <!%_CURSOR!><!A1T7C2>
+                    </td>
+                    <td id="A1T7C3R1">
+                        <!%_CURSOR!><!A1T7C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T7!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">PENGALAMAN KERJA DI PERTAMINA</span>
+        <hr>
+        <!%_A1T8!>
+        <table id="A1T8" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="35%">
+                <col id="COL2" width="15%">
+                <col id="COL3" width="25%">
+                <col id="COL4" width="25%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T8C1R1">
+                        <span style="font-size: 9pt;">SUMBAGUT / AST.EKSPLORASI</span>
+                    </td>
+                    <td id="A1T8C2R1">
+                    </td>
+                    <td id="A1T8C3R1">
+                        <span style="font-size: 9pt;">P'BRANDAN</span>
+                    </td>
+                    <td id="A1T8C4R1">
+                        <span style="font-size: 9pt;">09.09.1989 - 26.02.1990</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R2">
+                        <span style="font-size: 9pt;">SUMBAGUT / PWS.EVAL.SURFACE</span>
+                    </td>
+                    <td id="A1T8C2R2">
+                    </td>
+                    <td id="A1T8C3R2">
+                        <span style="font-size: 9pt;">P'BRANDAN</span>
+                    </td>
+                    <td id="A1T8C4R2">
+                        <span style="font-size: 9pt;">27.02.1990 - 29.03.1993</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R3">
+                        <span style="font-size: 9pt;">DIT.EP-JIAN TEKNO / AHLI LAB.GEOLOGI</span>
+                    </td>
+                    <td id="A1T8C2R3">
+                    </td>
+                    <td id="A1T8C3R3">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R3">
+                        <span style="font-size: 9pt;">30.03.1993 - 09.02.1995</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R4">
+                        <span style="font-size: 9pt;">Analis Utama Evaluasi Cadangan Migas</span>
+                    </td>
+                    <td id="A1T8C2R4">
+                    </td>
+                    <td id="A1T8C3R4">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R4">
+                        <span style="font-size: 9pt;">10.02.1995 - 10.02.1997</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R5">
+                        <span style="font-size: 9pt;">DIT EP-PPM /PJ AHLI UT EVAL EPL MIGAS</span>
+                    </td>
+                    <td id="A1T8C2R5">
+                    </td>
+                    <td id="A1T8C3R5">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R5">
+                        <span style="font-size: 9pt;">11.02.1997 - 12.02.1998</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R6">
+                        <span style="font-size: 9pt;">DIT EP-PPM /PJ AHLI UT REN EPL MIGAS</span>
+                    </td>
+                    <td id="A1T8C2R6">
+                    </td>
+                    <td id="A1T8C3R6">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R6">
+                        <span style="font-size: 9pt;">13.02.1998 - 31.03.2000</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R7">
+                        <span style="font-size: 9pt;">DIT.EP/AHLI UT.STRATEGI USH MINYAK</span>
+                    </td>
+                    <td id="A1T8C2R7">
+                    </td>
+                    <td id="A1T8C3R7">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R7">
+                        <span style="font-size: 9pt;">01.04.2000 - 31.08.2000</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R8">
+                        <span style="font-size: 9pt;">DIT.EP - EPL/KA.INVESTASI REN.EPL</span>
+                    </td>
+                    <td id="A1T8C2R8">
+                    </td>
+                    <td id="A1T8C3R8">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R8">
+                        <span style="font-size: 9pt;">01.09.2000 - 31.07.2001</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R9">
+                        <span style="font-size: 9pt;">DIT.HL-NV / AST MAN PERENCANAAN EKS</span>
+                    </td>
+                    <td id="A1T8C2R9">
+                    </td>
+                    <td id="A1T8C3R9">
+                        <span style="font-size: 9pt;">JAKARTA</span>
+                    </td>
+                    <td id="A1T8C4R9">
+                        <span style="font-size: 9pt;">01.08.2001 - 31.08.2001</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R10">
+                        <span style="font-size: 9pt;">Manajer Jasa Eksplorasi New Venture</span>
+                    </td>
+                    <td id="A1T8C2R10">
+                    </td>
+                    <td id="A1T8C3R10">
+                        <span style="font-size: 9pt;">Dit. Hulu</span>
+                    </td>
+                    <td id="A1T8C4R10">
+                        <span style="font-size: 9pt;">01.09.2001 - 10.05.2004</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R11">
+                        <span style="font-size: 9pt;">Manajer Perencanaan &amp; Jasa Eksplorasi</span>
+                    </td>
+                    <td id="A1T8C2R11">
+                    </td>
+                    <td id="A1T8C3R11">
+                        <span style="font-size: 9pt;">Dit. Hulu</span>
+                    </td>
+                    <td id="A1T8C4R11">
+                        <span style="font-size: 9pt;">11.05.2004 - 27.05.2004</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R12">
+                        <span style="font-size: 9pt;">Direktur Operasi</span>
+                    </td>
+                    <td id="A1T8C2R12">
+                    </td>
+                    <td id="A1T8C3R12">
+                        <span style="font-size: 9pt;">PT ELNUSA</span>
+                    </td>
+                    <td id="A1T8C4R12">
+                        <span style="font-size: 9pt;">28.05.2004 - 30.06.2010</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R13">
+                        <span style="font-size: 9pt;">Non Establish</span>
+                    </td>
+                    <td id="A1T8C2R13">
+                    </td>
+                    <td id="A1T8C3R13">
+                        <span style="font-size: 9pt;">Dit.Hulu-Kantor Pusat PT Pertamina</span>
+                    </td>
+                    <td id="A1T8C4R13">
+                        <span style="font-size: 9pt;">01.07.2010 - 31.12.2010</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R14">
+                        <span style="font-size: 9pt;">Non Establish</span>
+                    </td>
+                    <td id="A1T8C2R14">
+                    </td>
+                    <td id="A1T8C3R14">
+                        <span style="font-size: 9pt;">Dit.Hulu-Kantor Pusat PT Pertamina</span>
+                    </td>
+                    <td id="A1T8C4R14">
+                        <span style="font-size: 9pt;">01.01.2011 - 31.07.2012</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R15">
+                        <span style="font-size: 9pt;">Direktur Komersial&amp;Teknis Pertagas Niaga</span>
+                    </td>
+                    <td id="A1T8C2R15">
+                    </td>
+                    <td id="A1T8C3R15">
+                        <span style="font-size: 9pt;">Korporat-Kantor Pusat PERTAGAS</span>
+                    </td>
+                    <td id="A1T8C4R15">
+                        <span style="font-size: 9pt;">01.08.2012 - 31.12.9999</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T8C1R16">
+                        <!%_CURSOR!><!A1T8C1>
+                    </td>
+                    <td id="A1T8C2R16">
+                        <!%_CURSOR!><!A1T8C2>
+                    </td>
+                    <td id="A1T8C3R16">
+                        <!%_CURSOR!><!A1T8C3>
+                    </td>
+                    <td id="A1T8C4R16">
+                        <!%_CURSOR!><!A1T8C4>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T8!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">PENGALAMAN KERJA DI LUAR PERTAMINA</span>
+        <hr>
+        <!%_A1T9!>
+        <table id="A1T9" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="55%">
+                <col id="COL3" width="25%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T9C1R1">
+                        <!%_CURSOR!><!A1T9C1>
+                    </td>
+                    <td id="A1T9C2R1">
+                        <!%_CURSOR!><!A1T9C2>
+                    </td>
+                    <td id="A1T9C3R1">
+                        <!%_CURSOR!><!A1T9C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T9!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">STATUS TERAKHIR</span>
+        <hr>
+        <!%_A1T10!>
+        <table id="A1T10" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="30%">
+                <col id="COL3" width="50%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T10C1R1">
+                        <span style="font-size: 9pt;">Tanggal Dinas Aktif</span>
+                    </td>
+                    <td id="A1T10C2R1">
+                    </td>
+                    <td id="A1T10C3R1">
+                        <span style="font-size: 9pt;">09.09.1989</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T10C1R2">
+                        <span style="font-size: 9pt;">TMT Peserta Dapen/DPLK</span>
+                    </td>
+                    <td id="A1T10C2R2">
+                    </td>
+                    <td id="A1T10C3R2">
+                        <span style="font-size: 9pt;">09.09.1989</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T10C1R3">
+                        <span style="font-size: 9pt;">Jabatan</span>
+                    </td>
+                    <td id="A1T10C2R3">
+                        <span style="font-size: 9pt;">Direktur Komersial&amp;Teknis Pertagas Niaga</span>
+                    </td>
+                    <td id="A1T10C3R3">
+                        <span style="font-size: 9pt;">01.08.2012</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T10C1R4">
+                        <span style="font-size: 9pt;">Golongan Jabatan</span>
+                    </td>
+                    <td id="A1T10C2R4">
+                        <span style="font-size: 9pt;"></span>
+                    </td>
+                    <td id="A1T10C3R4">
+                        <span style="font-size: 9pt;"></span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T10C1R5">
+                        <span style="font-size: 9pt;">Golongan Upah</span>
+                    </td>
+                    <td id="A1T10C2R5">
+                        <span style="font-size: 9pt;">P1</span>
+                    </td>
+                    <td id="A1T10C3R5">
+                        <span style="font-size: 9pt;">01.10.2006</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T10C1R6">
+                        <span style="font-size: 9pt;">Golongan Upah Persero</span><!%_CURSOR!><!A1T10C1>
+                    </td>
+                    <td id="A1T10C2R6">
+                        <span style="font-size: 9pt;">P1</span><!%_CURSOR!><!A1T10C2>
+                    </td>
+                    <td id="A1T10C3R6">
+                        <span style="font-size: 9pt;">01.04.2009</span><!%_CURSOR!><!A1T10C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T10!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">RIWAYAT GOLONGAN UPAH PERSERO</span>
+        <hr>
+        <!%_A1T11!>
+        <table id="A1T11" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="80%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T11C1R1">
+                        <span style="font-size: 9pt;">09.09.1989 - 30.09.1992</span>
+                    </td>
+                    <td id="A1T11C2R1">
+                        <span style="font-size: 9pt;">07</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R2">
+                        <span style="font-size: 9pt;">01.10.1992 - 30.09.1996</span>
+                    </td>
+                    <td id="A1T11C2R2">
+                        <span style="font-size: 9pt;">06</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R3">
+                        <span style="font-size: 9pt;">01.10.1996 - 31.03.1999</span>
+                    </td>
+                    <td id="A1T11C2R3">
+                        <span style="font-size: 9pt;">05</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R4">
+                        <span style="font-size: 9pt;">01.04.1999 - 31.03.2002</span>
+                    </td>
+                    <td id="A1T11C2R4">
+                        <span style="font-size: 9pt;">04</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R5">
+                        <span style="font-size: 9pt;">01.04.2002 - 31.10.2004</span>
+                    </td>
+                    <td id="A1T11C2R5">
+                        <span style="font-size: 9pt;">03</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R6">
+                        <span style="font-size: 9pt;">01.11.2004 - 30.09.2006</span>
+                    </td>
+                    <td id="A1T11C2R6">
+                        <span style="font-size: 9pt;">02</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R7">
+                        <span style="font-size: 9pt;">01.10.2006 - 31.03.2009</span>
+                    </td>
+                    <td id="A1T11C2R7">
+                        <span style="font-size: 9pt;">01</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R8">
+                        <span style="font-size: 9pt;">01.04.2009 - 31.07.2012</span>
+                    </td>
+                    <td id="A1T11C2R8">
+                        <span style="font-size: 9pt;">P1</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T11C1R9">
+                        <!%_CURSOR!><!A1T11C1>
+                    </td>
+                    <td id="A1T11C2R9">
+                        <!%_CURSOR!><!A1T11C2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T11!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">NILAI KINERJA (5 TAHUN TERAKHIR)</span>
+        <hr>
+        <!%_A1T12!>
+        <table id="A1T12" border="0" width="50%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="5%">
+                <col id="COL2" width="5%">
+                <col id="COL3" width="5%">
+                <col id="COL4" width="5%">
+                <col id="COL5" width="5%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T12C1R1">
+                        <span style="font-size: 9pt;">-</span><!%_CURSOR!><!A1T12C1>
+                    </td>
+                    <td id="A1T12C2R1">
+                        <span style="font-size: 9pt;">-</span><!%_CURSOR!><!A1T12C2>
+                    </td>
+                    <td id="A1T12C3R1">
+                        <span style="font-size: 9pt;">-</span><!%_CURSOR!><!A1T12C3>
+                    </td>
+                    <td id="A1T12C4R1">
+                        <span style="font-size: 9pt;">-</span><!%_CURSOR!><!A1T12C4>
+                    </td>
+                    <td id="A1T12C5R1">
+                        <span style="font-size: 9pt;">-</span><!%_CURSOR!><!A1T12C5>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T12!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">PENUGASAN</span>
+        <hr>
+        <!%_A1T13!>
+        <table id="A1T13" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="80%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T13C1R1">
+                        <!%_CURSOR!><!A1T13C1>
+                    </td>
+                    <td id="A1T13C2R1">
+                        <!%_CURSOR!><!A1T13C2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T13!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">PENGHARGAAN</span>
+        <hr>
+        <!%_A1T14!>
+        <table id="A1T14" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="80%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T14C1R1">
+                        <!%_CURSOR!><!A1T14C1>
+                    </td>
+                    <td id="A1T14C2R1">
+                        <!%_CURSOR!><!A1T14C2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T14!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">TINDAKAN DISIPLIN</span>
+        <hr>
+        <!%_A1T15!>
+        <table id="A1T15" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="50%">
+                <col id="COL3" width="30%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T15C1R1">
+                        <!%_CURSOR!><!A1T15C1>
+                    </td>
+                    <td id="A1T15C2R1">
+                        <!%_CURSOR!><!A1T15C2>
+                    </td>
+                    <td id="A1T15C3R1">
+                        <!%_CURSOR!><!A1T15C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T15!>
+        <br>
+        <br>
+        <br>
+        <span style="font-size: 11pt; font-weight: bold;">DATA KELUARGA</span>
+        <hr>
+        <!%_A1T16!>
+        <table id="A1T16" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="20%">
+                <col id="COL2" width="30%">
+                <col id="COL3" width="50%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T16C1R1">
+                        <span style="font-size: 9pt;">Tita Roospita</span>
+                    </td>
+                    <td id="A1T16C2R1">
+                        <span style="font-size: 9pt;">Istri/Suami</span>
+                    </td>
+                    <td id="A1T16C3R1">
+                        <span style="font-size: 9pt;">BANDUNG , 07.08.1960</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T16C1R2">
+                        <span style="font-size: 9pt;">Intan Karinaputri</span>
+                    </td>
+                    <td id="A1T16C2R2">
+                        <span style="font-size: 9pt;">Anak</span>
+                    </td>
+                    <td id="A1T16C3R2">
+                        <span style="font-size: 9pt;">JAKARTA , 31.10.1987</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T16C1R3">
+                        <span style="font-size: 9pt;">Pristan K. S.</span>
+                    </td>
+                    <td id="A1T16C2R3">
+                        <span style="font-size: 9pt;">Anak</span>
+                    </td>
+                    <td id="A1T16C3R3">
+                        <span style="font-size: 9pt;">P.BRANDAN , 04.05.1991</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T16C1R4">
+                        <span style="font-size: 9pt;">Rininta Karisna P.</span>
+                    </td>
+                    <td id="A1T16C2R4">
+                        <span style="font-size: 9pt;">Anak</span>
+                    </td>
+                    <td id="A1T16C3R4">
+                        <span style="font-size: 9pt;">JAKARTA , 27.03.2000</span>
+                    </td>
+                </tr>
+                <tr bgcolor="">
+                    <td id="A1T16C1R5">
+                        <!%_CURSOR!><!A1T16C1>
+                    </td>
+                    <td id="A1T16C2R5">
+                        <!%_CURSOR!><!A1T16C2>
+                    </td>
+                    <td id="A1T16C3R5">
+                        <!%_CURSOR!><!A1T16C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T16!>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <!%_A1T17!>
+        <table id="A1T17" border="0" width="100%" cellpadding="0" cellspacing="0">
+            <colgroup>
+                <col id="COL1" width="15%">
+                <col id="COL2" width="60%">
+                <col id="COL3" width="35%">
+            </colgroup>
+            <tbody>
+                <tr bgcolor="">
+                    <td id="A1T17C1R1">
+                        <!%_CURSOR!><!A1T17C1>
+                    </td>
+                    <td id="A1T17C2R1">
+                        <!%_CURSOR!><!A1T17C2>
+                    </td>
+                    <td id="A1T17C3R1" align="CENTER" valign="CENTER">
+                        <span style="font-size: 9pt; font-weight: bold;"></span><!%_CURSOR!><!A1T17C3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!%_/A1T17!><!%_CURSOR!><!A1><!%_BODYEND></body></html>

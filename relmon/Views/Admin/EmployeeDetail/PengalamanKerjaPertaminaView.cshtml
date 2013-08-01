@@ -1,0 +1,122 @@
+﻿
+<h2>Pengalaman Kerja di Pertamina</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_pengalaman_kerja>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("PengalamanKerjaPertamina")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addPengalamanKerjaPertamina" })
+            .Text("Add")
+            .Ajax(true)
+            .Action("addDetailEmployee", "EmployeeDetail", new { kategori = "PengalamanKerjaPertamina" })
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "PengalamanKerjaPertamina" })
+                .Delete("_DeleteAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "PengalamanKerjaPertamina" });
+
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.jabatan).Width(150).Title("Jabatan");
+            columns.Bound(o => o.lokasi).Width(150).Title("Lokasi");
+            columns.Bound(o => o.tgl_awal).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Awal");
+            columns.Bound(o => o.tgl_akhir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Akhir");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditPengalamanKerjaPertamina")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetailDetailEmployee", "EmployeeDetail", new { kategori = "PengalamanKerjaPertamina" });
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                    .OnComplete("OnCompleteDetailEmployee")
+        )
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddPengalamanKerjaPertamina")
+    .Visible(false)
+    .Title("Add Pengalaman Kerja Pertamina")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="PengalamanKerjaPertamina_user_id" type="hidden" name="PengalamanKerjaPertamina_user_id" value="@ViewBag.userId" />
+                    <input id="PengalamanKerjaPertamina_nama_perusahaan" type="hidden" name="PengalamanKerjaPertamina_nama_perusahaan" value="@ViewBag.nama_perusahaan" />
+                    
+                    <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="PengalamanKerjaPertamina_lokasi" type="text" name="PengalamanKerjaPertamina_lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Jabatan </div>
+		            <div class="infoFieldinput"><input id="PengalamanKerjaPertamina_jabatan" type="text" name="PengalamanKerjaPertamina_jabatan" value="" /></div>
+
+		            <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("PengalamanKerjaPertamina_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("PengalamanKerjaPertamina_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveDetailEmployee('PengalamanKerjaPertamina');" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditPengalamanKerjaPertamina")
+    .Visible(false)
+    .Title("Edit PengalamanKerjaPertamina")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="PengalamanKerjaPertamina_edit_id" type="hidden" name="PengalamanKerjaPertamina_id" value="" />
+                    <input id="PengalamanKerjaPertamina_edit_user_id" type="hidden" name="PengalamanKerjaPertamina_user_id" value="@ViewBag.userId" />
+                    <input id="PengalamanKerjaPertamina_edit_nama_perusahaan" type="hidden" name="PengalamanKerjaPertamina_nama_perusahaan" value="@ViewBag.nama_perusahaan" />
+
+                    <div class="info_inside_left">Lokasi </div>
+		            <div class="infoFieldinput"><input id="PengalamanKerjaPertamina_edit_lokasi" type="text" name="PengalamanKerjaPertamina_lokasi" value="" /></div>
+
+		            <div class="info_inside_left">Jabatan </div>
+		            <div class="infoFieldinput"><input id="PengalamanKerjaPertamina_edit_jabatan" type="text" name="PengalamanKerjaPertamina_jabatan" value="" /></div>
+
+		            <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("PengalamanKerjaPertamina_edit_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("PengalamanKerjaPertamina_edit_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditDetailEmployee('PengalamanKerjaPertamina');" />
+	            </p>
+		            
+	         </div>
+        </text>)
+)

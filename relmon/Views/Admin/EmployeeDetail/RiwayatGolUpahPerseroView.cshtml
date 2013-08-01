@@ -1,0 +1,113 @@
+﻿
+<h2>Riwayat Golongan Upah Persero</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_riwayat_gol_upah_persero>()
+        .HtmlAttributes(new { style = "width:695px" })
+        .Name("RiwayatGolUpahPersero")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addRiwayatGolUpahPersero" })
+            .Text("Add")
+            .Ajax(true)
+            .Action("addDetailEmployee", "EmployeeDetail", new { kategori = "RiwayatGolUpahPersero" })
+        )
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "RiwayatGolUpahPersero" })
+                .Delete("_DeleteAjaxEditingDetailEmployee", "EmployeeDetail", new { userId = ViewBag.userId, kategori = "RiwayatGolUpahPersero" });
+
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.gol_upah_persero).Width(150).Title("Gol Upah Persero");
+            columns.Bound(o => o.tgl_awal).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Awal");
+            columns.Bound(o => o.tgl_akhir).Format("{0:dd/MM/yyyy}").Width(150).Title("Tgl Akhir");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditRiwayatGolUpahPersero")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetDetailDetailEmployee", "EmployeeDetail", new { kategori = "RiwayatGolUpahPersero" });
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+            ;
+
+        })
+        .ClientEvents(
+            events => events
+                    .OnComplete("OnCompleteDetailEmployee")
+        )
+        .Editable(editing => editing.Mode(GridEditMode.InLine))
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+        .Resizable(resizing => resizing.Columns(true))
+        .Reorderable(config => config.Columns(true))
+        .ColumnContextMenu()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddRiwayatGolUpahPersero")
+    .Visible(false)
+    .Title("Add Riwayat Gol Upah Persero")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="RiwayatGolUpahPersero_user_id" type="hidden" name="RiwayatGolUpahPersero_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Gol Upah Persero </div>
+		            <div class="infoFieldinput"><input id="RiwayatGolUpahPersero_gol_upah_persero" type="text" name="RiwayatGolUpahPersero_gol_upah_persero" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("RiwayatGolUpahPersero_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("RiwayatGolUpahPersero_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveDetailEmployee('RiwayatGolUpahPersero');" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditRiwayatGolUpahPersero")
+    .Visible(false)
+    .Title("Edit Riwayat Gol Upah Persero")
+    .Modal(true)
+    .Width(400)
+    
+    .Content(@<text>
+               <div class="info">
+                    <input id="RiwayatGolUpahPersero_edit_id" type="hidden" name="RiwayatGolUpahPersero_id" value="" />
+                    <input id="RiwayatGolUpahPersero_edit_user_id" type="hidden" name="RiwayatGolUpahPersero_user_id" value="@ViewBag.userId" />
+
+		            <div class="info_inside_left">Gol Upah Persero </div>
+		            <div class="infoFieldinput"><input id="RiwayatGolUpahPersero_edit_gol_upah_persero" type="text" name="RiwayatGolUpahPersero_edit_gol_upah_persero" value="" /></div>
+
+                    <div class="info_inside_left">Tanggal Awal </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("RiwayatGolUpahPersero_edit_tgl_awal"))</div>
+
+                    <div class="info_inside_left">Tanggal Akhir </div>
+		            <div class="infoFieldinput">@(Html.Telerik().DatePicker().Name("RiwayatGolUpahPersero_edit_tgl_akhir"))</div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditDetailEmployee('RiwayatGolUpahPersero');" />
+	            </p>
+		            
+	         </div>
+        </text>)
+)

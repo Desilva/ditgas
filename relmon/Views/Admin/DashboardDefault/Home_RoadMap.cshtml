@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function refreshUploadRoadMap() {
+        $.post("DashboardDefault/Home_RoadMap_Content", "", function (result) {
+            $("#roadMapContainer").html(result);
+        });
+    }
+    $(document).ready(function () {
+        refreshUploadRoadMap();
+    });
+</script>
+<div id="roadMapContainer"></div>
+<iframe id="refresh_targetRoadMap" name="refresh_targetRoadMap" src="" style="display:none;" onload="refreshUploadRoadMap();"></iframe>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#id_ap").bind("change", function () {
+            if ($('#id_ap').val() != '') {
+                $("#id_afiliasi").html("");
+                $('<option value="">-- Pilih Afiliasi --</option>').appendTo("#id_afiliasi");
+
+                var hasil = new Array();
+
+                if ($('#id_ap').val() == 4) {
+                    hasil[0] = new Array(); //hasil[1] = new Array(); hasil[2] = new Array(); hasil[3] = new Array();
+                    hasil[0][0] = 1;
+                    hasil[0][1] = "Perta Samtan Gas";
+                    /*hasil[0][0] = 0;
+                    hasil[0][1] = "Perta Daya Gas";
+                    hasil[1][0] = 1;
+                    hasil[1][1] = "Perta Samtan Gas";
+                    hasil[2][0] = 2;
+                    hasil[2][1] = "Pertagas Niaga";
+                    hasil[3][0] = 3;
+                    hasil[3][1] = "Perta Kalimantan Gas";*/
+                }
+
+                for (var i = 0; i < hasil.length; i++) {
+                    $("<option value='" + hasil[i][0] + "'>" + hasil[i][1] + "</option>").appendTo("#id_afiliasi");
+                }
+            }
+        });
+
+        $("#id_afiliasi").bind("change", function () {
+            if ($('#id_afiliasi').val() != '') {
+                $('#content_profile').load('DataBisnisAfiliasi/Connector/' + $('#id_afiliasi').val());
+            }
+        });
+
+        $('#content_profile').load('DataBisnisAfiliasi/Connector/1');
+    })
+
+</script>
+
+<h2>Data Bisnis Afiliasi</h2>
+<div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="id_ap" id="id_ap">
+        <option value="0">PT Badak</option>
+        <option value="1">PT Arun</option>
+        <option value="2">PT Donggi Senoro</option>
+        <option value="3">PT Nusantara Regas</option>
+        <option value="4" selected="selected">PT Pertagas</option>
+    </select>
+</div>
+<div class="Asearch"><b>Afiliasi</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="id_afiliasi" id="id_afiliasi">
+        <!--<option value="0">Perta Daya Gas</option>-->
+        <option value="1">Perta Samtan Gas</option>
+        <!--<option value="2">Pertagas Niaga</option>
+        <option value="3">Perta Kalimantan Gas</option>-->
+    </select>
+</div>
+<br/>
+<div id="content_profile"></div>

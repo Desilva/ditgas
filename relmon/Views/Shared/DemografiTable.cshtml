@@ -1,0 +1,85 @@
+﻿@model IEnumerable<relmon.Models.user>
+               
+<table class='table-demografi'>
+@{foreach (List<Dictionary<string, string>> oneRowHeader in ViewBag.tableContent.tableHeader)
+  {   
+      <tr>
+      @{foreach (Dictionary<string, string> oneCellHeader in oneRowHeader)
+        {
+          <th @(oneCellHeader["span"]) >@(oneCellHeader["text"])</th>
+        }
+      }
+      </tr>
+  }
+}
+@{foreach (Dictionary<string, string> oneRow in ViewBag.tableContent.tableContent)
+  {   
+      <tr>
+        @{foreach (string namaCell in ViewBag.tableContent.cellsName)
+          {
+            <td class="@(oneRow["class-" + namaCell])" >
+            @(oneRow[namaCell])
+            </td> 
+          }
+        }
+      </tr>
+  }
+}
+</table>
+
+@{
+    int it=0;
+    foreach (var chartContent in ViewBag.chartContent)
+    {
+        @(Html.Telerik().Chart()
+            .Name("chart"+it)
+            .Theme("Office2010Blue")
+            .Title(title => title
+                .Text(chartContent.title))
+            .Legend(legend => legend
+                .Position(ChartLegendPosition.Right)
+                .Font("16px Arial,Helvetica,sans-serif")
+            )
+            .Series(series =>
+            {
+                string legendTitle = chartContent.legendTitle;
+                series.Column("").Color("#EFEFEF").Name(legendTitle).Stack(true);
+                //string[] colors = new string[] { "#F433FF", "#9E7BFF", "#F665AB", "#82CAFF", "#5EFB6E",
+                //                                 "#C8BBBE", "#9AFEFF", "#FFCC00", "#E3319D", "#FF0000",
+                //                                 "#FFFFFF", "#FFFF00", "#FAAFBA", "#254117", "#736F6E",
+                //                                 "#000000", "#A52A2A", "#F778A1", "#4AA02C", "#7FE817" };
+                //int colorIt = 0;
+                Random fixedRandom = new Random(129);
+                foreach (Tuple<string, List<int>> seri in chartContent.series)
+                {
+                    string colorName = System.Drawing.Color.FromArgb(fixedRandom.Next(0, 255), fixedRandom.Next(0, 255), fixedRandom.Next(0, 255)).Name.Substring(2); // buang alpha nya
+                    series.Column(seri.Item2).Stack(true).Name(seri.Item1).Color("#" + colorName);
+                    //series.Column(new List<int> {seri.Item2.Sum()}).Name(seri.Item1).Labels(true);
+                    //colorIt++;
+                }
+                List<int> seriesSum = chartContent.seriesSum;
+                series.Column(seriesSum).Color("#EFEFEF")
+                    .Border(0, "#EFEFEF", ChartDashType.Solid)
+                    .Opacity(0)
+                    .Overlay(ChartBarSeriesOverlay.None)
+                    .Tooltip(false)
+                    .Labels(labels => labels
+                        .Position(ChartBarLabelsPosition.InsideBase)
+                        .Visible(true)
+                    );
+            })
+            .CategoryAxis(axis => axis
+                .Categories(chartContent.categories)
+                .Title(chartContent.xTitle)
+            )
+            .ValueAxis(axis => axis
+                .Numeric().Labels(labels => labels.Format("{0:#,##0}")).Max(10)
+                .Title(chartContent.yTitle)
+
+            )
+            .HtmlAttributes(new { style = "width: 750px; height: "+ViewBag.heightGrafik.ToString()+"px; margin: auto;" })
+            .Tooltip(true)
+        )
+        it++;
+    }
+}

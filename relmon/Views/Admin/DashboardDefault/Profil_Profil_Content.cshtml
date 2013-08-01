@@ -1,0 +1,59 @@
+﻿<script type="text/javascript">
+    function EditProfil() {
+        var detailWindow = $("#EditProfil").data("tWindow");
+        detailWindow.center().open();
+    }
+
+    function SaveProfil() {
+        $.post("DashboardDefault/saveProfil",
+            {
+                "konten": escape(ckEditorEditProfil.getData())
+            },
+            function (result) {
+                refreshUploadProfil();
+                $("#EditProfil").data("tWindow").close();
+            });
+        }
+
+        $(document).ready(function () {
+        ckEditorEditProfil = CKEDITOR.replace('edit_kontenProfil', {
+            uiColor: '#14B8C4',
+            htmlEncodeOutput: true,
+            filebrowserBrowseUrl: '/Scripts/Filemanager/index.html',
+            filebrowserImageBrowseUrl: '/Scripts/Filemanager/index.html?type=Images',
+            filebrowserFlashBrowseUrl: '/Scripts/Filemanager/index.html?type=Flash',
+            removePlugins: 'about'
+        });
+    });
+</script>
+        <div class="profil">
+            @Html.Raw(ViewBag.profil)
+        </div>
+<br />
+<hr />
+<input type="button" value="Edit" onclick="EditProfil()" />
+
+@(Html.Telerik().Window()
+    .Name("EditProfil")
+    .Visible(false)
+        .Title("Edit Profil")
+    .Modal(true)
+    .Width(800)
+    .Height(400)
+    .Draggable(true)
+    .Content(@<text>
+        <div class="info">
+		    <input id="poster_user_id" type="hidden" name="poster_user_id" value="" />
+		    <input id="kategori" type="hidden" name="kategori" value="" />
+		    <input id="ringkasan" type="hidden" name="ringkasan" value="" />
+
+		    <textarea id="edit_kontenProfil" name="isi" rows="7" cols="40">@(ViewBag.profil)</textarea>
+
+            <br />
+
+            <p class='submit'>
+		        <input name='Save' value='Save' type='submit' onclick='SaveProfil();' />
+	        </p>
+	    </div>
+        </text>)
+    )

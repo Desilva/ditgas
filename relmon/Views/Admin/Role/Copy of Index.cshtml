@@ -1,0 +1,238 @@
+﻿@model IEnumerable<relmon.Models.users_jabatan>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+
+    function OnComplete(e) {
+        if (e.name == null) {
+            var detailWindow = $("#AddRole").data("tWindow");
+            detailWindow.center().open();
+        } else {
+            if (e.name == "EditRole") {
+                var detailWindow = $("#EditRole").data("tWindow");
+                jabatan = e.response;
+                $.each(jabatan, function (index, value) {
+                    $('#edit_' + index).val(value);
+                });
+                detailWindow.center().open();
+            } 
+        }
+    }
+
+    function SaveRole() {
+
+        var values =
+        {
+            "nama"              : $('#nama').val(),
+            "parent"            : $('#parent').val(),
+            "deskripsi"         : $('#deskripsi').val()
+        }
+
+        // CATETAN
+        // coba hapus lagi rolenya, terus bikin lagi, bisa ngga? kalo bisa,
+        // ID nya gimana? kalo lanjut setelah id terakir bagus, bisa bikin
+        // dummy aja ID 0 nya. kalo ga bisa, bingung deh
+
+        $.post("Role/Create", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Role').data('tGrid');
+            grid.ajaxRequest();
+            $("#AddRole").data("tWindow").close();
+        });
+    }
+
+    function EditRole() {
+
+        var values =
+        {
+            "nama": $('#nama').val(),
+            "parent": $('#parent').val(),
+            "deskripsi": $('#deskripsi').val()
+        }
+
+        $.post("Role/update", values, function (data) {
+            alert('Data tersimpan');
+            var grid = $('#Role').data('tGrid');
+            grid.ajaxRequest();
+            $("#EditRole").data("tWindow").close();
+        });
+    }
+
+</script>
+
+<h2>Role Management</h2>
+
+@(Html.Telerik().Grid<relmon.Models.users_jabatan>()
+    .Name("Role")
+    .ToolBar(commands => commands
+            .Custom()
+            .HtmlAttributes(new { id = "addRole" })
+            .Text("Add Role")
+            .Ajax(true)
+            .Action("AddRole", "Role")
+    )
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.id).Width(140);
+        columns.Bound(o => o.nama).Width(140);
+        columns.Bound(o => o.parent).Width(140);
+        columns.Bound(o => o.deskripsi).Width(140);
+    })
+    .DetailView(jabatan1 => jabatan1.ClientTemplate(
+            Html.Telerik().Grid<relmon.Models.users_jabatan>()
+                .Name("Jabatan1_<#= id #>")
+                .Columns(columns =>
+                {
+                    columns.Bound(o1 => o1.id).Width(140);
+                    columns.Bound(o1 => o1.nama).Width(140);
+                    columns.Bound(o1 => o1.parent).Width(140);
+                    columns.Bound(o1 => o1.deskripsi).Width(140);
+                })
+                .DetailView(jabatan2 => jabatan2.ClientTemplate(
+                    Html.Telerik().Grid<relmon.Models.users_jabatan>()
+                        .Name("Jabatan2_<#= id #>")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(o2 => o2.id).Width(140);
+                            columns.Bound(o2 => o2.nama).Width(140);
+                            columns.Bound(o2 => o2.parent).Width(140);
+                            columns.Bound(o2 => o2.deskripsi).Width(140);
+                        })
+                        .DetailView(jabatan3 => jabatan3.ClientTemplate(
+                            Html.Telerik().Grid<relmon.Models.users_jabatan>()
+                                .Name("Jabatan3_<#= id #>")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(o3 => o3.id).Width(140);
+                                    columns.Bound(o3 => o3.nama).Width(140);
+                                    columns.Bound(o3 => o3.parent).Width(140);
+                                    columns.Bound(o3 => o3.deskripsi).Width(140);
+                                })
+                                .DetailView(jabatan4 => jabatan4.ClientTemplate(
+                                    Html.Telerik().Grid<relmon.Models.users_jabatan>()
+                                        .Name("Jabatan4_<#= id #>")
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(o4 => o4.id).Width(140);
+                                            columns.Bound(o4 => o4.nama).Width(140);
+                                            columns.Bound(o4 => o4.parent).Width(140);
+                                            columns.Bound(o4 => o4.deskripsi).Width(140);
+                                        })
+                                        .DetailView(jabatan5 => jabatan5.ClientTemplate(
+                                            Html.Telerik().Grid<relmon.Models.users_jabatan>()
+                                                .Name("Jabatan5_<#= id #>")
+                                                .Columns(columns =>
+                                                {
+                                                    columns.Bound(o5 => o5.id).Width(140);
+                                                    columns.Bound(o5 => o5.nama).Width(140);
+                                                    columns.Bound(o5 => o5.parent).Width(140);
+                                                    columns.Bound(o5 => o5.deskripsi).Width(140);
+                                                })
+                                                .DataBinding(dataBinding => dataBinding.Ajax()
+                                                            .Select("_SelectAjaxEditing", "Role", new { parentID = "<#= id #>" }))
+                                                .Pageable()
+                                                .Sortable()
+                                                .Filterable()
+                                                .ToHtmlString()
+                                            ))
+                                        .DataBinding(dataBinding => dataBinding.Ajax()
+                                                    .Select("_SelectAjaxEditing", "Role", new { parentID = "<#= id #>" }))
+                                        .Pageable()
+                                        .Sortable()
+                                        .Filterable()
+                                        .ToHtmlString()
+                                    ))
+                                .DataBinding(dataBinding => dataBinding.Ajax()
+                                            .Select("_SelectAjaxEditing", "Role", new { parentID = "<#= id #>" }))
+                                .Pageable()
+                                .Sortable()
+                                .Filterable()
+                                .ToHtmlString()
+                            ))
+                        .DataBinding(dataBinding => dataBinding.Ajax()
+                                    .Select("_SelectAjaxEditing", "Role", new { parentID = "<#= id #>" }))
+                        .Pageable()
+                        .Sortable()
+                        .Filterable()
+                        .ToHtmlString()
+                    ))
+                .DataBinding(dataBinding => dataBinding.Ajax()
+                               .Select("_SelectAjaxEditing", "Role", new { parentID = "<#= id #>" }))
+                .Pageable()
+                .Sortable()
+                .Filterable()
+                .ToHtmlString()
+    ))
+    .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("_SelectAjaxEditing", "Role", new { parentID = 0 }))
+    .Pageable(paging => paging.PageSize(5))
+    .Scrollable(scrolling => scrolling.Height(580))
+    .Sortable()
+)
+
+@(Html.Telerik().Window()
+    .Name("AddRole")
+    .Visible(false)
+    .Title("Add Jabatan")
+    .Modal(true)
+    .Width(400)
+    .Height(280)
+    .Content(@<text>
+               <div class="info">
+		            <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="nama" type="text" name="nama" value="" /></div>
+		
+		            <div class="info_inside_left">Parent</div>
+		            <div class="infoFieldinput">
+                        <select name="parent" id="parent">                        
+                            <option value="-1">Admin data master</option>
+                            <option value="-2">Admin data input</option>     
+                            <option value="0">Tes role atas</option>
+                        </select>
+                    </div>
+
+		            <div class="info_inside_left">Deskripsi </div>
+		            <div class="infoFieldinput"><input id="deskripsi" type="text" name="deskripsi" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Add" type="submit" onclick="SaveRole();" />
+	            </p>
+	         </div>
+        </text>)
+)
+
+@(Html.Telerik().Window()
+    .Name("EditRole")
+    .Visible(false)
+    .Title("Edit Jabatan")
+    .Modal(true)
+    .Width(400)
+    .Height(250)
+    .Content(@<text>
+               <div class="info">
+                <div class="info_inside_left">Nama </div>
+		            <div class="infoFieldinput"><input id="edit_nama" type="text" name="nama" value="" /></div>
+		
+		            <div class="info_inside_left">Parent</div>
+		            <div class="infoFieldinput">
+                        <select name="edit_parent" id="edit_parent">                        
+                            <option value="0">Admin data master</option>
+                            <option value="1">Admin data input</option>
+                        </select>
+                    </div>
+
+		            <div class="info_inside_left">Deskripsi </div>
+		            <div class="infoFieldinput"><input id="edit_deskripsi" type="text" name="edit_deskripsi" value="" /></div>
+
+	            <p class="submit">
+		            <input name="Submit" value="Save" type="submit" onclick="EditRole();" />
+	            </p>
+	         </div>
+        </text>)
+)

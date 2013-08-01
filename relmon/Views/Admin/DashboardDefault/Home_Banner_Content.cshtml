@@ -1,0 +1,56 @@
+﻿<script type="text/javascript">
+    function EditBanner() {
+        var detailWindow = $("#EditBanner").data("tWindow");
+        detailWindow.center().open();
+    }
+
+    function SaveBanner() {
+        $.post("DashboardDefault/saveBanner",
+            {
+                judul: $("#EditBanner #judul").val(),
+                isi: $("#EditBanner #isi").val()
+            },
+            function (result) {
+                refreshUploadBanner();
+                $("#EditBanner").data("tWindow").close();
+        });
+    }
+</script>
+    <div id="banner">
+        <div id="banner-right">
+            <div id="banner-judul">
+                @ViewBag.banner_judul
+            </div>
+            <div id="banner-isi">
+                @ViewBag.banner_isi
+            </div>
+        </div>
+    </div>
+<br />
+<hr />
+<input type="button" value="Edit" onclick="EditBanner()" />
+
+@(Html.Telerik().Window()
+    .Name("EditBanner")
+    .Visible(false)
+    .Title("Edit Banner")
+    .Modal(true)
+    .Width(800)
+    .Height(400)
+    .Draggable(true)
+    .Content(@<text>
+        <div class="info">
+            <div class="info_inside_left">Judul </div>
+		    <div class="infoFieldinput"><input id="judul" type="text" name="judul" value="@ViewBag.banner_judul" /></div>
+                
+		    <div class="info_inside_left">Isi </div>
+		    <div class="infoFieldinput"><textarea id="isi" name="isi" rows="7" cols="40">@ViewBag.banner_isi</textarea></div>
+
+            <br />
+
+            <p class='submit'>
+		        <input name='Save' value='Save' type='submit' onclick='SaveBanner();' />
+	        </p>
+	    </div>
+        </text>)
+    )

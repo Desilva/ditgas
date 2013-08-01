@@ -1,0 +1,118 @@
+﻿@model relmon.Models.equipment_readiness_nav
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>equipment_readiness_nav</legend>
+
+    <div class="display-label">equipment</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.equipment.tag_num)
+    </div>
+
+    <div class="display-label">operation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.operation)
+    </div>
+
+    <div class="display-label">boc</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.boc)
+    </div>
+
+    <div class="display-label">bec</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.bec)
+    </div>
+
+    <div class="display-label">monitoring</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.monitoring)
+    </div>
+
+    <div class="display-label">performance</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.performance)
+    </div>
+
+    <div class="display-label">cm_program</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.cm_program)
+    </div>
+
+    <div class="display-label">maintenance</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.maintenance)
+    </div>
+
+    <div class="display-label">pm_program</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.pm_program)
+    </div>
+
+    <div class="display-label">overhaul</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.overhaul)
+    </div>
+
+    <div class="display-label">spares</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.spares)
+    </div>
+
+    <div class="display-label">lifecycle_spare</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lifecycle_spare)
+    </div>
+
+    <div class="display-label">main_act_spare</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.main_act_spare)
+    </div>
+
+    <div class="display-label">safe_operation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.safe_operation)
+    </div>
+
+    <div class="display-label">safeguard</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.safeguard)
+    </div>
+
+    <div class="display-label">accesories</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.accesories)
+    </div>
+
+    <div class="display-label">score</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.score)
+    </div>
+
+    <div class="display-label">capacity</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.capacity)
+    </div>
+
+    <div class="display-label">quality</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.quality)
+    </div>
+
+    <div class="display-label">sertifikasi</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.sertifikasi)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

@@ -1,0 +1,52 @@
+﻿@(Html.Telerik().Grid<relmon.Models.user>()
+        //.HtmlAttributes(new { style = "padding:0 0 0 10px;" })
+        .Name("sdmAp")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectAjaxEditing", "DataSdmAp");
+        })
+        .Columns(columns =>
+        {
+            columns.Command(commands =>
+            {
+                commands.Custom("Detail")
+                    .Text("Detail")
+                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(../../Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
+                    .DataRouteValues(route => route.Add(o => o.id).RouteKey("userId"))
+                    .Action("detail", "DataSdmAp");
+            }).Width(50).Title("Opsi");
+            columns.Bound(o => o.username).Hidden();
+            columns.Bound(o => o.fullname).Width(200).Title("Nama");
+            columns.Bound(o => o.no_pekerja).Title("No Pekerja").Width(100);
+            columns.Bound(o => o.tgl_lahir).Format("{0:dd/MM/yyyy}").Title("Tanggal Lahir").Width(150);
+            columns.Bound(o => o.tgl_mppk).Format("{0:dd/MM/yyyy}").Title("Tanggal MPPK").Width(150);
+            columns.Bound(o => o.tgl_pensiun).Format("{0:dd/MM/yyyy}").Title("Tanggal Pensiun").Width(150);
+            columns.Bound(o => o.users_jabatan_parent.nama_cost_centre).Title("Cost Centre").Width(200);
+            columns.Bound(o => o.tgl_aktif).Format("{0:dd/MM/yyyy}").Title("Tanggal Aktif").Width(150);
+            columns.Bound(o => o.users_jabatan_parent.nama).Title("Jabatan").Width(200);
+            columns.Bound(o => o.tmt_jabatan).Format("{0:dd/MM/yyyy}").Title("TMT Jabatan").Width(150);
+            columns.Bound(o => o.users_jabatan_parent.golongan).Title("Gol Jabatan").Width(150);
+            columns.Bound(o => o.tmt_gol_jabatan).Format("{0:dd/MM/yyyy}").Title("TMT Gol Jabatan").Width(150);           
+            columns.Bound(o => o.gol_upah_persero).Title("Gol Upah Persero").Width(150);
+            columns.Bound(o => o.tmt_gol_upah_persero).Format("{0:dd/MM/yyyy}").Title("TMT Gol Upah Persero").Width(150);
+            columns.Bound(o => o.gol_upah_ap).Title("Gol Upah Ap").Width(150);
+            columns.Bound(o => o.tmt_gol_upah_ap).Format("{0:dd/MM/yyyy}").Title("TMT Gol Upah Ap").Width(150);
+            columns.Bound(o => o.pendidikan_terakhir).Title("Pendidikan").Width(150);
+            //columns.Bound(o => o.sub_area).Title("Sub Area").Width(150).Hidden();
+            //columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150); ;
+            //columns.Bound(o => o.notice).Title("Notice").Width(150); ;
+        })
+        //.Pageable(p => p.PageSize(30))
+        .Pageable(p => p.Style(GridPagerStyles.Status).PageOnScroll(true))
+        .Sortable()
+        .Groupable()
+        .Filterable()
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+
+)
