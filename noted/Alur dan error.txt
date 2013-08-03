@@ -1,0 +1,17 @@
+- thumbnail image upload (slideshow, highlight)
+- menu sebelum login
+  * ilangin data bisnis, SHE, SDM
+- pagination news and general information
+- tampilan kalo content panjang
+- profil ga keluar
+
+
+alur 
+LOGIN
+- user login ke halaman front end
+- ada menu admin page di kanan atas
+- kalo ada role create update atau delete dia punya menu admin page
+KALENDAR
+- kalendar ada 2 kategori umum ama primary
+- kalendar umum semua bisa liat bisa crud
+- kalendar pribadi hanya yang buat dan yang diundang 
