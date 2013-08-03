@@ -79,7 +79,8 @@
 
             $('#pagination-news').easyPaginate({
                 step: 3,
-                div: "#pagination-news"
+                div: "#pagination-news",
+                anchor: "#banner-left"
             });
         });
     });
@@ -116,7 +117,8 @@
 
             $('#pagination-informasi').easyPaginate({
                 step: 3,
-                div: "#pagination-informasi"
+                div: "#pagination-informasi",
+                anchor: "#pagination-informasi"
             });
         });
     });
@@ -153,7 +155,8 @@
 
             $('#pagination-kebijakan').easyPaginate({
                 step: 3,
-                div: "#pagination-kebijakan"
+                div: "#pagination-kebijakan",
+                anchor: "#pagination-kebijakan"
             });
         });
     });
@@ -178,8 +181,8 @@
             <div class="judul">
                 News & General Information
             </div>
-            <div class="content">
-                <ul id="pagination-news" style="min-height:250px; list-style-type:none; padding-left:0; margin-top:0">
+            <div class="content" id="pagination-news-anchor">
+                <ul id="pagination-news" style="min-height:140px; max-height:140px; list-style-type:none; padding-left:0; margin-top:0">
                 </ul>
             </div>
         </div>
@@ -218,7 +221,7 @@
             <span>Informasi</span>
         </div>
         <div class="content">
-            <ul id="pagination-informasi" style="min-height:400px; list-style-type:none">
+            <ul id="pagination-informasi" style="min-height:400px; max-height:400px; list-style-type:none">
             </ul>
         </div>    
     </div>
@@ -227,7 +230,7 @@
             <span>Kebijakan</span>
         </div>
         <div class="content">
-            <ul id="pagination-kebijakan" style="min-height:400px; list-style-type:none">
+            <ul id="pagination-kebijakan" style="min-height:400px; max-height:400px; list-style-type:none">
             </ul>
         </div>
     </div>

@@ -12,11 +12,15 @@ namespace relmon.Utilities
         //
         // GET: /ACLHandler/
 
-        public static bool isUserAllowedTo(string pageName, int userId, string action)
+        public static bool isUserAllowedTo(string pageName, int? userId, string action)
         {
             ACLContainer aclContainer = new ACLContainer();
             if (aclContainer.getPageDefaultAction(pageName, action)) //kalo defaultnya true, alias bisa diubah2, alias ga semua user boleh lakuin action di page ini
             {
+                if (userId == null)
+                {
+                    return false;
+                }
                 RelmonStoreEntities db = new RelmonStoreEntities();
                 var currentACL = db.acls.Where(a => (a.user_id == userId) && (a.page_name == pageName));
                 if (currentACL.Count() == 1)
@@ -39,7 +43,34 @@ namespace relmon.Utilities
             }
         }
 
-        public static bool isMenuShown(string pageName, int userId)
+        public static bool isAdminMenuShown(string pageName, int? userId)
+        {
+            ACLContainer aclContainer = new ACLContainer();
+            var pageFound = aclContainer.pageList.Find(pageName);
+            if (pageFound.isValid())
+            {
+                List<Tuple<string, string>> arrayChild = pageFound.toArray();
+                foreach (Tuple<string, string> childTuple in arrayChild)
+                {
+                    string childPageName = childTuple.Item2;
+                    if (isUserAllowedTo(childPageName, userId, "create"))
+                    {
+                        return true;
+                    }
+                    else if (isUserAllowedTo(childPageName, userId, "update"))
+                    {
+                        return true;
+                    }
+                    else if (isUserAllowedTo(childPageName, userId, "delete"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool isMenuShown(string pageName, int? userId)
         {
             ACLContainer aclContainer = new ACLContainer();
             var pageFound = aclContainer.pageList.Find(pageName);

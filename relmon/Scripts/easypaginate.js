@@ -42,6 +42,7 @@
         var timeout;
         var clicked = false;
         var div = options.div;
+        var anchor = options.anchor;
 
         function show() {
             clearTimeout(timeout);
@@ -84,7 +85,7 @@
                 var olnext = $('<span ></span>').appendTo(ol2);
 
                 if (options.nextprev) {
-                    prev = $('<li class="previous"><a href="' + options.div + '">« Prev</a></li>')
+                    prev = $('<li class="previous"><a href="' + options.anchor + '">« Prev</a></li>')
 						.hide()
 						.appendTo(olprev)
 						.click(function () {
@@ -96,7 +97,7 @@
 
                 if (options.numeric) {
                     for (var i = 1; i <= pages; i++) {
-                        $('<li divid="' + options.div + '" data-index="' + i + '"><a href="' + options.div + '">' + i + '</a></li>')
+                        $('<li divid="' + options.anchor + '" data-index="' + i + '"><a href="' + options.anchor + '">' + i + '</a></li>')
 						.appendTo(olnum)
 						.click(function () {
 						    clicked = true;
@@ -107,7 +108,7 @@
                 };
 
                 if (options.nextprev) {
-                    next = $('<li class="next"><a href="' + options.div + '">Next »</a></li>')
+                    next = $('<li class="next"><a href="' + options.anchor + '">Next »</a></li>')
 						.hide()
 						.appendTo(olnext)
 						.click(function () {
