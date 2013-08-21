@@ -41,5 +41,8 @@ namespace relmon.Models
         public DbSet<users_riwayat_gol_upah_persero> users_riwayat_gol_upah_persero { get; set; }
         public DbSet<users_sertifikasi> users_sertifikasi { get; set; }
         public DbSet<users_tindakan_disiplin> users_tindakan_disiplin { get; set; }
+        public DbSet<bisnis_bussiness_report> bisnis_bussiness_report { get; set; }
+        public DbSet<bisnis_kpi> bisnis_kpi { get; set; }
+        public DbSet<bisnis_main> bisnis_main { get; set; }
     }
 }

@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using System.IO;
 using relmon.Utilities;
 using iTextSharp.text.pdf;
+using relmon.Models;
 
 namespace relmon.Controllers.FrontEnd
 {
     public class DataBisnisApController : Controller
     {
+        private RelmonStoreEntities db = new RelmonStoreEntities();
         //
         // GET: /DataBisnisAp/
 
@@ -238,6 +240,17 @@ namespace relmon.Controllers.FrontEnd
 
             byte[] pdfArray = pdfStream.ToArray();
             return new BinaryContentResult(pdfArray, "application/pdf");
+        }
+
+
+        public string GetStruktur(int id)
+        {
+            var result = (from x in db.bisnis_main
+                          where x.company_id == id
+                          select x
+                         ).ToList();
+            var get = result.First();
+            return Config.upload+"\\Data Bisnis\\" + id + "\\struktur organisasi\\"+get.struktur;
         }
     }
 }
