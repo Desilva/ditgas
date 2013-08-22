@@ -388,9 +388,11 @@ namespace relmon.Controllers.Admin
         }
 
         //select data user
-        private ViewResult binding()
+        protected ViewResult binding()
         {
+            var getId = this.getCompanyId();
             List<bisnis_bussiness_report> result = (from x in db.bisnis_bussiness_report
+                                                    where x.company_id == getId
                                                     select x).ToList();
 
             return View(new GridModel<bisnis_bussiness_report>
@@ -517,10 +519,12 @@ namespace relmon.Controllers.Admin
         }
 
         //select data user
-        private ViewResult bindingkinerja()
+        protected ViewResult bindingkinerja()
         {
+            var getId = this.getCompanyId();
             List<bisnis_kpi> result = (from x in db.bisnis_kpi
-                                                    select x).ToList();
+                                       where x.company_id == getId
+                                       select x).ToList();
 
             return View(new GridModel<bisnis_kpi>
             {

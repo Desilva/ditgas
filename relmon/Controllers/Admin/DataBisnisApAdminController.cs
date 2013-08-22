@@ -8,6 +8,7 @@ using relmon.Utilities;
 using iTextSharp.text.pdf;
 using relmon.Models;
 using System.Data;
+using Telerik.Web.Mvc;
 
 namespace relmon.Controllers.Admin
 {
@@ -182,6 +183,7 @@ namespace relmon.Controllers.Admin
         #region visi misi
         public ActionResult RencanaKerja(int id)
         {
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
                           where x.company_id == id
                           select x
@@ -297,6 +299,8 @@ namespace relmon.Controllers.Admin
         //    return Kinerja();
         //}
         #endregion
+
+
 
 
         [HttpPost]
