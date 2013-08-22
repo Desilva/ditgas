@@ -1,57 +1,281 @@
 ﻿<script src="../../../Content/schedular/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_editors.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_minical.js" type="text/javascript" charset="utf-8"></script>
-
+<script src="../../../Content/schedular/ext/dhtmlxscheduler_readonly.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_dhx_terrace.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="../../../Content/schedular/dhtmlxscheduler_dhx_terrace.css" type="text/css" media="screen"
 	    title="no title" charset="utf-8">
-
+<style>
+    .dhx_cal_event.high div, .dhx_cal_event_line.high{
+        background-color:red !important; 
+        color:white !important;
+    }
+    .dhx_cal_event.low div, .dhx_cal_event_line.low{
+        background-color: #BBBBBB !important; 
+        color:white !important;
+    }
+    
+</style>
 <script type="text/javascript" charset="utf-8">
-    function init() {        
+    function getSearchResult() {
+        var user = document.getElementById("searchText").value;
+        $.post("Kalendar/GetFindResult", { find: user }, function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                var selectedValues = [];
+                $("#share_list option").each(function () {
+                    selectedValues.push($(this).val());
+                });
+                if (selectedValues.length != 0) {
+                    var exist = false;
+                    for (var i = 0; i < selectedValues.length; i++) {
+                        if (value.fullname == selectedValues[i]) {
+                            exist = true;
+                        }
+                    }
+                    if (!exist) {
+                        get += "<option value='" + value.fullname + "'>" + value.fullname + "</option>";
+                    }
+                } else {
+                    get += "<option value='" + value.fullname + "'>" + value.fullname + "</option>";
+                }
+
+
+
+            });
+            $("#search_list").html(get);
+        });
+    }
+
+    function insertList() {
+        var selectedValues = [];    
+        $("#search_list :selected").each(function(){
+            selectedValues.push($(this).val());
+        });
+        if (selectedValues.length != 0) {
+            for (var i = 0; i < selectedValues.length; i++) {
+                $("#share_list").append('<option value="' + selectedValues[i] + '">' + selectedValues[i] + '</option>');
+                $("#search_list option[value='" + selectedValues[i] +"']").remove();
+            }
+        }
+    }
+
+    function insertAll() {
+        var selectedValues = [];
+        $("#search_list option").each(function () {
+            selectedValues.push($(this).val());
+        });
+        if (selectedValues.length != 0) {
+            for (var i = 0; i < selectedValues.length; i++) {
+                $("#share_list").append('<option value="' + selectedValues[i] + '">' + selectedValues[i] + '</option>');
+                $("#search_list option[value='" + selectedValues[i] + "']").remove();
+            }
+        }
+    }
+
+    function removeList() {
+        var selectedValues = [];
+        $("#share_list :selected").each(function () {
+            selectedValues.push($(this).val());
+        });
+        if (selectedValues.length != 0) {
+            for (var i = 0; i < selectedValues.length; i++) {
+                $("#share_list option[value='" + selectedValues[i] + "']").remove();
+            }
+        }
+    }
+
+    function removeAll() {
+        var selectedValues = [];
+        $("#share_list option").each(function () {
+            selectedValues.push($(this).val());
+        });
+        if (selectedValues.length != 0) {
+            for (var i = 0; i < selectedValues.length; i++) {
+                $("#share_list option[value='" + selectedValues[i] + "']").remove();
+            }
+        }
+    }
+
+
+    function init() {
+              
 	    scheduler.config.multi_day = true;
 	    scheduler.config.fix_tab_position = false; // tabs are positioned correctly, no need to fix it
 	    scheduler.config.minicalendar.mark_events = false; // events won't be marked on minicalendar
-
-	    var pizza_size = [
-			{ key: 1, label: 'Small' },
-			{ key: 2, label: 'Medium' },
-			{ key: 3, label: 'Large' }
-		];
-
-	    scheduler.locale.labels.section_text = 'Text';
-	    scheduler.locale.labels.section_checkbox = 'Checkbox';
-	    scheduler.locale.labels.section_radiobutton = 'Radiobutton';
-	    scheduler.locale.labels.section_select = 'Select';
-	    scheduler.locale.labels.section_template = 'Template';
-
-	    scheduler.config.lightbox.sections = [
-			{ name: "text", height: 50, map_to: "text", type: "textarea", focus: true },
-			{ name: "checkbox", map_to: "single_checkbox", type: "checkbox", checked_value: "registrable", unchecked_value: "unchecked" },
-			{ name: "radiobutton", height: 58, options: pizza_size, map_to: "radiobutton_option", type: "radio", vertical: true },
-			{ name: "select", height: 21, map_to: "type", type: "select", options: pizza_size },
-			{ name: "template", height: 21, map_to: "text", type: "template" },
-			{ name: "time", height: 72, type: "calendar_time", map_to: "auto" },
-			{ name: "time", height: 72, type: "time", map_to: "auto" }
-		];
-
 	    scheduler.config.full_day = true;
 
+	    $.post("Kalendar/CheckUser", "", function (authorize) {
+	        if (authorize == "public") {
+	            scheduler.config.readonly_form = true;
+	            scheduler.attachEvent("onBeforeDrag", function () { return false; }); //block event resize and drag
+	            scheduler.attachEvent("onClick", function () { return false; }); //block selection menus
+	            scheduler.config.dblclick_create = false; //block event creation by doubleclick
+	        } else {
+	            scheduler.locale.labels.section_text = 'Title';
+	            scheduler.locale.labels.section_description = 'Description';
+	            scheduler.locale.labels.section_type = 'Type';
+	            scheduler.locale.labels.section_priority = 'Priority';
 
-	    scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-	    scheduler.init('scheduler_here', new Date(2013, 2, 5), "month");
-	    scheduler.load("events.xml", function () {
-	        //scheduler.showLightbox(47);
+
+	            scheduler.locale.labels.section_group = 'Share';
+	            scheduler.form_blocks["share"] = {
+	                render: function (sns) {
+	                    var temp = "";
+	                    temp += "<div style='padding:0px 0px 0px 130px'>";
+	                    temp += "    <span>Username : </span><input type='text' id='searchText'/><input type='button' onclick='getSearchResult()' value='Search'><br/>";
+	                    temp += "    <div style='overflow:hidden;'>";
+	                    temp += "        <div style='float:left;'>";
+	                    temp += "            <span>Search result :</span><br />";
+	                    temp += "            <select size='7' id='search_list' style='width:200px;' multiple='multiple'></select>";
+	                    temp += "        </div>";
+	                    temp += "        <div style='float:left;padding:10px 5px 10px 5px;'>";
+	                    temp += "            <input type='button' onclick='insertList()' value='>' style='width:30px'><br/>";
+	                    temp += "            <input type='button' onclick='insertAll()' value='>>' style='width:30px'><br/>";
+	                    temp += "            <input type='button' onclick='removeList()' value='<' style='width:30px'><br/>";
+	                    temp += "            <input type='button' onclick='removeAll()' value='<<'style='width:30px'><br/>";
+	                    temp += "        </div>";
+	                    temp += "        <div style='float:left;'>";
+	                    temp += "             <span>Share with :</span><br />";
+	                    temp += "            <select size='7' id='share_list' style='width:200px;' multiple='multiple'></select>";
+	                    temp += "        </div>";
+	                    temp += "    </div>";
+	                    temp += "</div>";
+
+	                    return temp;
+	                },
+	                set_value: function (node, value, ev) {
+//	                    alert(value);
+	                    $.post("Kalendar/GetShareList", { find: value }, function (data) {
+
+
+	                        var get = "";
+	                        $.each(data, function (index, value) {
+
+	                            get += "<option value='" + value.member + "'>" + value.member + "</option>";
+
+	                        });
+	                        $("#share_list").html(get);
+	                    });
+	                },
+	                get_value: function (node, ev) {
+	                    var selectedValues = [];
+	                    $("#share_list option").each(function () {
+	                        selectedValues.push($(this).val());
+	                    });
+
+	                    return selectedValues;
+	                },
+	                focus: function (node) {
+
+	                }
+	            }
+
+
+
+	            var priority_choice = [
+            { key: "high", label: 'High' },
+            { key: "normal", label: 'Normal' },
+            { key: "low", label: 'Low' }
+        ];
+
+	            //	            scheduler.config.lightbox.sections
+
+
+	            scheduler.attachEvent("onBeforeLightbox", function (event_id) {
+	                var configLb = [
+			            { name: "text", height: 20, map_to: "text", type: "textarea", focus: true },
+                        { name: "description", height: 75, map_to: "description", type: "textarea" },
+                        { name: "time", height: 72, type: "calendar_time", map_to: "auto" },
+                        { name: "priority", height: 50, options: priority_choice, map_to: "priority", type: "radio", vertical: true, default_value: "normal" }
+		            ];
+
+	                if (authorize == "user") {
+	                    configLb.push({ name: "group", height: 50, map_to: "group_id", type: "share" });
+	                }
+	                scheduler.config.lightbox.sections = configLb;
+	                scheduler.resetLightbox(); // resetting lightbox to apply new section label
+
+
+	                return true; // lightbox will be displayed
+	            });
+
+
+
+	        }
 	    });
 
+
+
+
+
+
+
+
+	    scheduler.templates.event_class = function (start, end, event) {
+	        if (event.priority == "high") {
+	            return "high";
+	        } else if (event.priority == "normal") {
+	            return "normal";
+	        } else {
+	            return "low";
+	        }
+	    }
+        
+	    scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+	    scheduler.init('scheduler_here', new Date(), "month");
+	    dp = scheduler.dataProcessor = new dataProcessor("/Kalendar/Save");
+	    dp.init(scheduler);
+	    dp.setTransactionMode("POST", false);
+	    scheduler.load("/Kalendar/Data", "json");
+
+	    scheduler.attachEvent("onEventSave", function (id, data, is_new_event) {
+	        if (!data.text) {
+	            dhtmlx.message("Event text cant be empty!");
+	            return false;
+	        }
+	        //	        var app = {} // use your own namespace
+
+	        //	        app.confirm = function (m, cb) {
+	        //	            dhtmlx.confirm({
+	        //	                title: "Save",
+	        //	                type: "confirm-warning",
+	        //	                text: "Are you sure you want to do it?",
+	        //	                callback: function (result) { if (result) cb() }
+	        //	            });
+	        //	        }
+	        //	        app.confirm("Sure you want to do this?", function () {
+	        //	            return true;
+	        //	        })
+	        var r = confirm("Are you sure?");
+	        if (r) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    });
+
+	   scheduler.dataProcessor.attachEvent("onBeforeUpdate", function (id, status, data) {
+
+	        
+	        if (!data.text) {
+	            dhtmlx.message("Event text cant be empty!");
+	            return false;
+	        }
+	        return true;
+	    });
 	}
 
 
 	$(document).ready(function () {
 	    init();
+	    
 	});
+
+
 </script>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kalendar";
 }
 
 <h2>Kalendar meeting</h2>
@@ -68,5 +292,5 @@
 	<div class="dhx_cal_header">
 	</div>
 	<div class="dhx_cal_data">
-	</div>
+    </div>
 </div>

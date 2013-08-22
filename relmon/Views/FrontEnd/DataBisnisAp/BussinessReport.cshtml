@@ -1,11 +1,82 @@
-﻿<br/>
-@{
-    if (ViewBag.exist)
-    {
-        <iframe id="frame-content" name="frame-content" src="/DataBisnisAp/GetPdfBusiness/@ViewBag.id" width="960" height="400" style="border:0px solid #000;"></iframe>    
-    }else{
-        <span><b>No File Business Report</b></span>
-    }    
-}
+﻿@using System.IO;
+
+<script>
+
+    $(".target").change(function () {
+
+        if ($("#tahun").val() != "" && $("#bulan").val() != "") {
+
+            $("#frame-content3").contents().find("html").remove();
+            $('#image').attr('src', '');
+            $('#contentReport').empty();
+
+            $.post("DataBisnisAp/GetReportType", {id:@ViewBag.id, tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+                if (data == "pdf") {
+                    //                alert("aaa");
+                    loadIframe('frame-content3', '/DataBisnisAp/GetPdfReport?id='+@ViewBag.id+'&tahun=' + $("#tahun").val() + '&bulan=' + $("#bulan").val());
+                } else if (data == "image") {
+
+                    $.post("DataBisnisAp/GetImage", {id:@ViewBag.id, tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+                        //                    alert(data);
+                        ////                    $('#image').attr('src', data);
+                        //                    $('#content').html(data);
+                        $('#image').attr('src', data);
+                        //                    alert("sudah");
+                    });
+
+                } else {
+                    var dl = "";
+                    $("#contentReport").append(dl);
+                }
+            });
+        }
+    });
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            currentYear--;
+        }
+
+    });
+</script>
+<h3>Business Report</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun" class="target">
+        <option value ="">--</option>
+        
+    </select>
+    
+</div>
+<div class="Asearch"><b>Bulan</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="bulan" id="bulan" class="target">
+        <option value ="">--</option>
+        <option value="Januari">Januari</option>
+        <option value="Februari">Februari</option>
+        <option value="Maret">Maret</option>
+        <option value="April">April</option>
+        <option value="Mei">Mei</option>
+        <option value="Juni">Juni</option>
+        <option value="Juli">Juli</option>
+        <option value="Agustus">Agustus</option>
+        <option value="September">September</option>
+        <option value="Oktober">Oktober</option>
+        <option value="November">November</option>
+        <option value="Desember">Desember</option>
+    </select>
+</div>
 <br/>
-<br/>
+
+
+<div id="contentReport">
+
+</div>
+<iframe id="frame-content3" name="frame-content" width="960" height="400" style="border:0px solid #000;"></iframe>
+<img id="image" />

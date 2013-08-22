@@ -3,34 +3,34 @@
         .Items(parent => {
             parent.Add()
                 .Text("Profil")
-                .LoadContentFrom("Profil/"+@ViewBag.id, "DataBisnisAfiliasi")
+                .LoadContentFrom("Profil/" + ViewBag.id, "DataBisnisApAdmin")
                 .Selected(true);
             parent.Add()
                 .Text("Struktur Organisasi")
-                .LoadContentFrom("StrukturOrganisasi", "DataBisnisAfiliasi");
+                .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("AD/ART")
-                .LoadContentFrom("AdArt", "DataBisnisAfiliasi");
+                .LoadContentFrom("AdArt/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("Visi Misi")
-                .LoadContentFrom("RencanaKerja", "DataBisnisAfiliasi");
+                .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("RJPP")
-                .LoadContentFrom("Rjpp", "DataBisnisAfiliasi");
+                .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("RKAP")
-                .LoadContentFrom("Rkap", "DataBisnisAfiliasi");
+                .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("Bussiness Report")
-                .LoadContentFrom("BussinessReport", "DataBisnisAfiliasi");
+                .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("KPI")
-                .LoadContentFrom("Kinerja", "DataBisnisAfiliasi");
+                .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("Project Status")
-                .LoadContentFrom("ProjectStatus", "DataBisnisAfiliasi");
+                .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
-                .Text("Product")
-                .LoadContentFrom("Product", "DataBisnisAfiliasi");
+                .Text("Product dan Jasa")
+                .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
         })
-)
+    )

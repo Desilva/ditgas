@@ -10,7 +10,7 @@
                 .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("AD/ART")
-                .LoadContentFrom("AdArt", "DataBisnisApAdmin");
+                .LoadContentFrom("AdArt/" + ViewBag.id, "DataBisnisApAdmin");
             parent.Add()
                 .Text("Visi Misi")
                 .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisApAdmin");

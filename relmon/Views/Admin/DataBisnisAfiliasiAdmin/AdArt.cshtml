@@ -1,6 +1,116 @@
-﻿<h3>AD/ART</h3>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-<br/><br/>
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+﻿
+@model relmon.Models.bisnis_main
+<h4>Pengaturan Tampilan AD/ART</h4> 
+
+<script>
+    function onSuccess(e) {
+        var files = e.files;
+        if (e.operation == "upload") {
+            //save to database
+            $.post("DataBisnisApAdmin/UploadAdArt", { filename: files[0].name }, function (data) {
+                if (data == "True") {
+                    alert("File berhasil di-upload");
+                    loadIframe('frame-content', '/DataBisnisAp/getPDF/3');
+                } else {
+                    alert("File tidak berhasil di-upload");
+                }
+
+            });
+
+        } else if (e.operation == "remove") {
+            $.post("DataBisnisApAdmin/DeleteAdArt", "", function (data) {
+                if (data == "True") {
+                    alert("File berhasil dihapus");
+                    $("#frame-content").empty();
+                } else {
+                    alert("File tidak berhasil dihapus");
+                }
+            });
+        }
+    }
+
+    function onLoad(e) {
+        console.log(e);
+    }
+
+    function onUpload(e) {
+        // Array with information about the uploaded files
+        var files = e.files;
+
+        // Check the extension of each file and abort the upload if it is not .jpg
+        if (files[0].extension != ".pdf") {
+            alert("Only .pdf files can be uploaded")
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    function onRemove(e) {
+        var r = confirm("Apakah anda yakin?");
+        if (r) {
+            return true;
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        
+        if ('@(Model.ad_art)' != "") {
+            //alert("tes masuk");
+            loadIframe('frame-content', '/DataBisnisAp/getPDF/3');
+        }
+        var $fileList, $files, item, _fn, _i, _len;
+
+        $fileList = $("#existing-files");
+
+        if ($fileList.length > 0) {
+            $(".t-upload").append($fileList);
+            $files = $(".t-file");
+            _fn = function (item) {
+                var $item, fileId, filenames;
+                $item = $(item);
+                fileId = $item.data("att-id");
+                filenames = [
+                          {
+                              name: fileId
+                          }
+                        ];
+                return $item.data("fileNames", filenames);
+            };
+            for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                item = $files[_i];
+                _fn(item);
+            }
+            $fileList.show();
+        }
+
+    });
+</script>
+
+    @(Html.Telerik().Upload()
+                 .Name("attachmentsAdArt2")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+            .OnUpload("onUpload")
+            .OnRemove("onRemove")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save", "Upload","attachments", new { dir = "Data Bisnis\\"+Model.company_id+"\\adart"})
+                    .Remove("Remove", "Upload", new { dir = "Data Bisnis\\"+Model.company_id+"\\adart" })
+            .AutoUpload(true)
+        )
+    )
+    <div class="controls">
+		@{
+            if (!string.IsNullOrWhiteSpace(Model.ad_art)){
+                <ul id="existing-files" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.ad_art)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.ad_art)">@(Model.ad_art)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+            }
+        }                       
+	</div>
+
 <br/>
-<br/>
+<iframe id="frame-content" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>

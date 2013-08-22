@@ -3,25 +3,29 @@
 }
 
 <script type="text/javascript">
-$(document).ready(function () {
-    $("#id_ap").bind("change", function () {
-        if ($('#id_ap').val() != '') {
-            $('#content_profile').load('DataBisnisApAdmin/Connector/' + $('#id_ap').val());
-        }
-    });
+    $(document).ready(function () {
+        $.post("DataBisnisApAdmin/GetCompanyList", { parent: 0 }, function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                get += '<option value="' + value.id + '">' + value.member + '</option>'
+            });
+            $("#id_ap").append(get);
+        });
 
-    $('#content_profile').load('DataBisnisApAdmin/Connector/0');
-})
+        $("#id_ap").bind("change", function () {
+            if ($('#id_ap').val() != '') {
+                $('#content_profile').load('DataBisnisApAdmin/Connector/' + $('#id_ap').val());
+            }
+        });
+        
+//        $('#content_profile').load('DataBisnisApAdmin/Connector/'+);
+    })
 
 </script>
 
 <div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">
     <select name="id_ap" id="id_ap">
-        <option value="0">PT Badak</option>
-        <option value="1">PT Arun</option>
-        <option value="2">PT Donggi Senoro</option>
-        <option value="3">PT Nusantara Regas</option>
-        <option value="4">PT Pertagas</option>
+        <option value="">-- Pilih Anak Perusahaan --</option>
     </select>
 </div>
 <br/>

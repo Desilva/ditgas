@@ -1,7 +1,66 @@
-﻿<h3>Kinerja</h3>
+﻿@using System.IO;
+
+<script>
+
+    $(".target").change(function () {
+
+        if ($("#tahun2").val() != "") {
+
+            $("#frame-content4").contents().find("html").remove();
+            $('#image2').attr('src', '');
+            $('#contentReport2').empty();
+
+            $.post("DataBisnisDitgas/GetKinerjaType", { tahun: $("#tahun2").val() }, function (data) {
+                if (data == "pdf") {
+                    //                alert("aaa");
+                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfKinerja?tahun=' + $("#tahun").val());
+                } else if (data == "image") {
+
+                    $.post("DataBisnisDitgas/GetImageKinerja", { tahun: $("#tahun2").val() }, function (data) {
+                        //                    alert(data);
+                        ////                    $('#image').attr('src', data);
+                        //                    $('#content').html(data);
+                        $('#image2').attr('src', data);
+                        //                    alert("sudah");
+                    });
+
+                } else {
+                    var dl = "";
+                    $("#contentReport2").append(dl);
+                }
+            });
+        }
+    });
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun2").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            currentYear--;
+        }
+
+    });
+</script>
+<h3>Business Report</h3>
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="id_ap" id="id_ap">
-        <option value="">2007 - 2010</option>
+    <select name="tahun" id="tahun2" class="target">
+        <option value ="">--</option>
+        
     </select>
+    
 </div>
-<iframe id="frame-content" name="frame-content" src="/DataBisnisDitGas/getPDF/0" width="960" height="400" style="border:0px solid #000;"></iframe>
+
+<br/>
+
+
+<div id="contentReport">
+
+</div>
+<iframe id="frame-content4" name="frame-content" width="960" height="400" style="border:0px solid #000;"></iframe>
+<img id="image" />

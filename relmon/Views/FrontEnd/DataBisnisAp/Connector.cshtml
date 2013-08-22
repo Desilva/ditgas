@@ -1,4 +1,4 @@
-﻿@( Html.Telerik().TabStrip()
+﻿@*@( Html.Telerik().TabStrip()
         .Name("TabStrip")
         .Items(parent => {
             parent.Add()
@@ -10,7 +10,44 @@
                 .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisAp");
             parent.Add()
                 .Text("AD/ART")
-                .LoadContentFrom("AdArt", "DataBisnisAp");
+                .LoadContentFrom("AdArt/"+ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("Visi Misi")
+                .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("RJPP")
+                .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("RKAP")
+                .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("Bussiness Report")
+                .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("KPI")
+                .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("Project Status")
+                .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("Product dan Jasa")
+                .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisAp");
+        })
+    )*@
+
+    @( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+        .Items(parent => {
+            parent.Add()
+                .Text("Profil")
+                .LoadContentFrom("Profil/" + ViewBag.id, "DataBisnisAp")
+                .Selected(true);
+            parent.Add()
+                .Text("Struktur Organisasi")
+                .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisAp");
+            parent.Add()
+                .Text("AD/ART")
+                .LoadContentFrom("AdArt/"+ViewBag.id, "DataBisnisAp");
             parent.Add()
                 .Text("Visi Misi")
                 .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisAp");

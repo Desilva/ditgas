@@ -1,31 +1,114 @@
-﻿<h4>Upload File RKAP</h4> 
+﻿@model relmon.Models.bisnis_main
+<h4>Upload File RKAP</h4> 
 
 <script>
     function onSuccess(e) {
         var files = e.files;
         if (e.operation == "upload") {
             //save to database
-            loadIframe('frame-content', '/DataBisnisDitGas/getPDF/2');
+            $.post("DataBisnisDitGasAdmin/UploadRkap", { filename: files[0].name }, function (data) {
+                if (data == "True") {
+                    alert("File berhasil di-upload");
+                    loadIframe('frame-content2', '/DataBisnisDitGas/getPDF/2');
+                } else {
+                    alert("File tidak berhasil di-upload");
+                }
+
+            });
+
+        } else if (e.operation == "remove") {
+            $.post("DataBisnisDitGasAdmin/DeleteRkap", "", function (data) {
+                if (data == "True") {
+                    $("#frame-content").contents().find("html").remove();
+
+                    alert("File berhasil dihapus");
+                } else {
+                    alert("File tidak berhasil dihapus");
+                }
+            });
         }
     }
 
     function onLoad(e) {
         console.log(e);
     }
-</script>
 
-@(Html.Telerik().Upload()
+    function onUpload(e) {
+        // Array with information about the uploaded files
+        var files = e.files;
+
+        // Check the extension of each file and abort the upload if it is not .jpg
+        if (files[0].extension != ".pdf") {
+            alert("Only .pdf files can be uploaded")
+            e.preventDefault();
+            return false;
+        }
+    }
+    function onRemove(e) {
+        var r = confirm("Apakah anda yakin?");
+        if (r) {
+            return true;
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        alert('@(Model.rkap)');
+        if ('@(Model.rkap)' != "") {
+            loadIframe('frame-content2', '/DataBisnisDitGas/getPDF/2');
+        }
+        var $fileList, $files, item, _fn, _i, _len;
+
+        $fileList = $("#existing-files2");
+
+        if ($fileList.length > 0) {
+            $("#uprakp .t-upload").append($fileList);
+            $files = $(".t-file");
+            _fn = function (item) {
+                var $item, fileId, filenames;
+                $item = $(item);
+                fileId = $item.data("att-id");
+                filenames = [
+                          {
+                              name: fileId
+                          }
+                        ];
+                return $item.data("fileNames", filenames);
+            };
+            for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                item = $files[_i];
+                _fn(item);
+            }
+            $fileList.show();
+        }
+
+    });
+</script>
+<div id="uprakp">
+    @(Html.Telerik().Upload()
         .Name("attachmentsRkap")
         .ClientEvents(events => events
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
+            .OnUpload("onUpload")
+            .OnRemove("onRemove")
         )
         .Multiple(false)
         .Async(async => async
-            .Save("Save", "Upload", "attachments")
-            .Remove("Remove", "Upload")
+                    .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + Model.company_id + "\\rkap" })
+                    .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\rkap" })
             .AutoUpload(true)
         )
     )
+    <div class="controls">
+		@{
+            if (!string.IsNullOrWhiteSpace(Model.rkap)){
+                <ul id="existing-files2" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.rkap)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.rkap)">@(Model.rkap)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+            }
+        }                       
+	</div>
+</div>
 <br/>
-<iframe id="frame-content" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>
+<iframe id="frame-content2" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>

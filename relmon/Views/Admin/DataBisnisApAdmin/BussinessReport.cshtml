@@ -1,42 +1,404 @@
-﻿<h4>Upload File Business Report</h4> 
-
+﻿
 <script>
+    var filename = "";
+    var editfilename = "";
+    var editId = "";
+    //    var deleted_id = "";
     function onSuccess(e) {
         var files = e.files;
         if (e.operation == "upload") {
-            //save to database
-            loadIframe('frame-content', '/DataBisnisAp/GetPdfBusiness/@ViewBag.id');
+            filename = files[0].name
+        } else if (e.operation == "remove") {
+            filename = "";
         }
     }
 
     function onLoad(e) {
         console.log(e);
     }
-</script>
 
-@(Html.Telerik().Upload()
-        .Name("attachmentsBusinessReport")
+    function onRemove(e) {
+        var r = confirm("Apakah anda yakin?");
+        if (r) {
+            return true;
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    }
+    function onClose(e) {
+
+        var values =
+            {
+                "fileNames": editfilename,
+                "dir": "Data Bisnis"
+            }
+        $.post("Upload/Remove", values, function (data) {
+
+        });
+        editfilename = "";
+    }
+
+    function OnComplete(e) {
+
+        if (e.name == "EditBusinessReport") {
+            var detailWindow = $("#EditBusinessReport").data("tWindow");
+            vals = e.response;
+            $("#tahun2").val(vals.tahun);
+            $("#bulan2").val(vals.bulan);
+            $("#deskripsi2").val(vals.deskripsi);
+
+            filename = vals.content;
+            editId = vals.id;
+            if (vals.content != "" && vals.content != null) {
+                //ada file
+                editfilename = vals.content;
+                var passing = "\\" + vals.tahun + "\\" + vals.bulan;
+                //backup file ny ke folder awal
+                var values =
+                {
+                    "filename": filename,
+                    "destDir": "Data Bisnis",
+                    "sourceDir": "Data Bisnis\\"+@(Session["company_view"])+"\\Bussiness Report" + passing
+
+                }
+                $.post("Upload/Copy", values, function (data) {
+
+                });
+
+                $("#ifexist").empty();
+                $("#lightbox .t-upload .t-upload-files").remove();
+                var app = " <ul id='existing-files' class='t-upload-files t-reset' style='display: none;'><li class='t-file' data-att-id='" + vals.content + "'><span class='t-icon t-success'>uploaded</span><span class='t-filename' title='" + vals.content + "'>" + vals.content + "<span class='t-progress'><span class='t-state-selected t-progress-status' style='width: 100%;'></span></span></span><button type='button' class='t-button t-button-icontext t-upload-action'><span class='t-icon t-delete'></span>Remove</button></li></ul>";
+                $("#ifexist").append(app);
+
+                var $fileList, $files, item, _fn, _i, _len;
+                $fileList = $("#existing-files");
+                if ($fileList.length > 0) {
+                    $("#lightbox .t-upload").append($fileList);
+                    $files = $("#lightbox .t-file");
+                    _fn = function (item) {
+                        var $item, fileId, filenames;
+                        $item = $(item);
+                        fileId = $item.data("att-id");
+                        filenames = [
+                          {
+                              name: fileId
+                          }
+                        ];
+                        return $item.data("fileNames", filenames);
+                    };
+                    for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                        item = $files[_i];
+                        _fn(item);
+                    }
+                    $fileList.show();
+                }
+
+            } else {
+                //ga ad file
+                filename = "";
+                $("#ifexist").empty();
+                $("#lightbox .t-upload #existing-files").remove();
+            }
+            detailWindow.center().open();
+
+
+        }
+    }
+
+    $("#saveBussinessDitGas").click(function () {
+        var values =
+        {
+            "tahun": document.getElementById("tahun").value,
+            "bulan": document.getElementById("bulan").value,
+            "company_id": @(Session["company_view"]),
+            "deskripsi": document.getElementById("deskripsi").value,
+            "content": filename
+        }
+
+        $.post("DataBisnisApAdmin/UploadBussinessReport", values, function (data) {
+            if (data == "true") {
+                alert('Data tersimpan');
+                var grid = $('#BisnisReport').data('tGrid');
+                grid.ajaxRequest();
+                resetForm();
+            } else if (data == "false") {
+                alert('Data tidak tersimpan');
+            } else if (data == "exist") {
+                var r = confirm("Report pada bulan tersebut sudah ada. Apakah anda ingin menggantinya?");
+                if (r) {
+                    $.post("DataBisnisApAdmin/UpdateBussinessReport", values, function (data) {
+                        if (data == "true") {
+                            alert('Data tersimpan');
+                            var grid = $('#BisnisReport').data('tGrid');
+                            grid.ajaxRequest();
+                            resetForm();
+                        } else if (data == "false") {
+                            alert('Data tidak tersimpan');
+                        }
+                    });
+                }
+            }
+
+        });
+    });
+
+    function resetForm() {
+
+
+        if (filename != "") {
+
+            var values =
+            {
+                "filename": filename,
+                "destDir": "Data Bisnis\\"+@(Session["company_view"])+"\\Bussiness Report\\" + document.getElementById("tahun").value + "\\" + document.getElementById("bulan").value,
+                "sourceDir": "Data Bisnis"
+
+            }
+            $.post("Upload/Move", values, function (data) {
+
+            });
+            filename = "";
+        }
+        $("#mainupload .t-upload-files").remove();
+        $("#deskripsi").val('');
+    }
+
+    $("#saveBussinessDitGas2").click(function () {
+        var values =
+        {
+            "id": editId,
+            "tahun": document.getElementById("tahun2").value,
+            "bulan": document.getElementById("bulan2").value,
+            "company_id": @(Session["company_view"]),
+            "deskripsi": document.getElementById("deskripsi2").value,
+            "content": filename
+        }
+        $.post("DataBisnisApAdmin/UpdateBussinessReport", values, function (data) {
+
+            if (data == "true") {
+                alert('Data tersimpan');
+                var grid = $('#BisnisReport').data('tGrid');
+                grid.ajaxRequest();
+                $("#EditBusinessReport").data("tWindow").close();
+
+                var values =
+                {
+                    "filename": filename,
+                    "destDir": "Data Bisnis\\"+@(Session["company_view"])+"\\Bussiness Report\\" + $("#tahun2").val() + "\\" + $("#bulan2").val(),
+                    "sourceDir": "Data Bisnis"
+
+                }
+
+                $.post("Upload/CleanMove", values, function (data) {
+
+                });
+                editId = "";
+            } else if (data == "false") {
+                alert('Data tidak tersimpan');
+            } else if (data == "exist") {
+                var r = confirm("Report pada bulan tersebut sudah ada. Apakah anda ingin menggantinya?");
+                if (r) {
+                    $.post("DataBisnisApAdmin/UpdateBussinessReport", values, function (data) {
+                        if (data == "true") {
+
+                            alert('Data tersimpan');
+                            var grid = $('#BisnisReport').data('tGrid');
+                            grid.ajaxRequest();
+                            $("#EditBusinessReport").data("tWindow").close();
+
+                            var values =
+                                {
+                                    "filename": filename,
+                                    "destDir": "Data Bisnis\\"+@(Session["company_view"])+"\\Bussiness Report\\" + $("#tahun2").val() + "\\" + $("#bulan2").val(),
+                                    "sourceDir": "Data Bisnis"
+                                }
+
+                            $.post("Upload/CleanMove", values, function (data) {
+
+                            });
+                            editId = "";
+                        } else if (data == "false") {
+                            alert('Data tidak tersimpan');
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            $("#tahun2").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            currentYear--;
+        }
+
+    });
+</script>
+<h3>Pengaturan Business Report</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun">
+
+    </select>
+    
+</div>
+<div class="Asearch"><b>Bulan</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="bulan" id="bulan">
+        <option value="Januari">Januari</option>
+        <option value="Februari">Februari</option>
+        <option value="Maret">Maret</option>
+        <option value="April">April</option>
+        <option value="Mei">Mei</option>
+        <option value="Juni">Juni</option>
+        <option value="Juli">Juli</option>
+        <option value="Agustus">Agustus</option>
+        <option value="September">September</option>
+        <option value="Oktober">Oktober</option>
+        <option value="November">November</option>
+        <option value="Desember">Desember</option>
+    </select>
+</div>
+
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainupload">
+    @(Html.Telerik().Upload()
+                .Name("attachmentsBussinessReport")
         .ClientEvents(events => events
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
+            .OnRemove("onRemove")
         )
         .Multiple(false)
         .Async(async => async
-            .Save("Save", "Upload", "attachments")
-            .Remove("Remove", "Upload")
+            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis"})
+            .Remove("Remove", "Upload", new { dir = "Data Bisnis" })
             .AutoUpload(true)
         )
+        
     )
+</div>
 
-<br/>
+<div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
+    <textarea id="deskripsi" rows="10" cols="60"></textarea>
+</div>
+<p>
+	<input type="submit" id="saveBussinessDitGas" value="Simpan" />
+</p>
+<hr/>
+<h4>Tabel Bisnis Report</h4>
+@(Html.Telerik().Grid<relmon.Models.bisnis_bussiness_report>()
+        .Name("BisnisReport")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })  
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectBisnisReport", "DataBisnisApAdmin")
+                .Delete("_DeleteBisnisReport", "DataBisnisApAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.tahun).Width(150).Title("Tahun");
+            columns.Bound(o => o.bulan).Title("Bulan");
+            columns.Bound(o => o.deskripsi).Title("Deskripsi");
+            columns.Bound(o => o.content).Title("Filename");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditBusinessReport")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetReport", "DataBisnisApAdmin");
 
-@{
-    if (ViewBag.exist)
-    {
-        <iframe id="frame-content" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>    
-    }else{
-        <span><b>No File Business Report</b></span>
-    }    
-}
-<br/>
-<br/>
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+                //.OnDelete("OnDelete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+
+
+@(Html.Telerik().Window()
+        .Name("EditBusinessReport")
+    .Visible(false)
+    .Title("Edit Bussiness Report")
+    .Modal(true)
+    .Width(675)
+    .Height(350)
+    .Draggable(true)
+    .ClientEvents(events=>events.OnClose("onClose"))
+    .Content(@<text>
+        <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+            <select name="tahun" id="tahun2">
+
+            </select>
+    
+        </div>
+        <div class="Asearch"><b>Bulan</b></div><div class="titik2"> : </div><div class="Ainput">
+            <select name="bulan" id="bulan2">
+                <option value="Januari">Januari</option>
+                <option value="Februari">Februari</option>
+                <option value="Maret">Maret</option>
+                <option value="April">April</option>
+                <option value="Mei">Mei</option>
+                <option value="Juni">Juni</option>
+                <option value="Juli">Juli</option>
+                <option value="Agustus">Agustus</option>
+                <option value="September">September</option>
+                <option value="Oktober">Oktober</option>
+                <option value="November">November</option>
+                <option value="Desember">Desember</option>
+            </select>
+        </div>
+
+        <div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div id="lightbox" class="Ainput" id="editUpload">
+            
+           @(Html.Telerik().Upload()
+                                .Name("attachmentsBussinessReport2")
+                        .ClientEvents(events => events
+                            .OnSuccess("onSuccess")
+                            .OnLoad("onLoad")
+                        )
+                        .Multiple(false)
+                        .Async(async => async
+                                    .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis"})
+                                    .Remove("Remove", "Upload", new { dir = "Data Bisnis"})
+                                    .AutoUpload(true)
+                        )
+                        )
+            <div class="controls" id="ifexist"></div>
+        </div>
+
+        <div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
+            <textarea id="deskripsi2" rows="10" cols="60"></textarea>
+        </div>
+        <p>
+	        <input type="submit" id="saveBussinessDitGas2" value="Simpan" />
+        </p>
+        </text>)
+        )
+<br />
