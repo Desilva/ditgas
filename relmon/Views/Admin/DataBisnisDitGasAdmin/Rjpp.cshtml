@@ -9,7 +9,7 @@
     }
 </textarea>
 <p>
-	<input type="submit" id="save" value="Simpan" />
+	<input type="submit" id="saveRjpp" value="Simpan" />
 </p>
 <script type="text/javascript">
 
@@ -24,9 +24,8 @@
         
     });
 
-    $("#save").click(function () {
-
-        $.post("DataBisnisDitGasAdmin/UploadRjpp", {rjpp: escape(editor.getData())}, function (data) {
+    $("#saveRjpp").click(function () {
+        $.post("DataBisnisDitGasAdmin/UploadRjpp/@ViewBag.id", { rjpp: escape(editor.getData()) }, function (data) {
             if (data == "True") {
                 alert("Data berhasil disimpan");
             } else {

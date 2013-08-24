@@ -6,7 +6,7 @@
         var files = e.files;
         if (e.operation == "upload") {
             //save to database
-            $.post("DataBisnisDitGasAdmin/UploadRencanaKerja", { filename: files[0].name }, function (data) {
+            $.post("DataBisnisApAdmin/UploadRencanaKerja/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
                     loadIframe('frame-content-visi', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=3');
@@ -17,7 +17,7 @@
             });
 
         } else if (e.operation == "remove") {
-            $.post("DataBisnisDitGasAdmin/DeleteRencanaKerja", "", function (data) {
+            $.post("DataBisnisApAdmin/DeleteRencanaKerja/@ViewBag.id", "", function (data) {
                 if (data == "True") {
                     alert("File berhasil dihapus");
                     $("#frame-content-visi").contents().find('html').html('');

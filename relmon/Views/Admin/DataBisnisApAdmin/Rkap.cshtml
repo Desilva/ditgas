@@ -9,8 +9,7 @@
             $.post("DataBisnisApAdmin/UploadRkap", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
-
-                    loadIframe('frame-content-visi', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
+                    loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
                 } else {
                     alert("File tidak berhasil di-upload");
                 }
@@ -57,7 +56,7 @@
     $(document).ready(function () {
 
         if ('@(Model.rkap)' != "") {
-            loadIframe('frame-content-visi', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
+            loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
         }
         var $fileList, $files, item, _fn, _i, _len;
 

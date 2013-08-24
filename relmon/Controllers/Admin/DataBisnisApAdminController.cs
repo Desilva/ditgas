@@ -30,14 +30,10 @@ namespace relmon.Controllers.Admin
             return PartialView();
         }
 
-        public override int getCompanyId()
-        {
-            return Int32.Parse(Session["company_view"].ToString());
-        }
-
         #region Profil
         public ActionResult Profil(int id)
         {
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
                           where x.company_id == id
                           select x
@@ -58,18 +54,17 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public bool UploadProfil(string profil)
+        public bool UploadProfil(int id, string profil)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                         ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = getId;
+                items.company_id = id;
                 items.profile = HttpUtility.UrlDecode(profil);
 
                 db.bisnis_main.Add(items);
@@ -94,10 +89,10 @@ namespace relmon.Controllers.Admin
 
         #endregion
 
-
         #region struktur
         public ActionResult StrukturOrganisasi(int id)
         {
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
                           where x.company_id == id
                           select x
@@ -118,19 +113,17 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public bool UploadStruktur()
+        public bool UploadStruktur(int id,string filename)
         {
-            var filename = Request["filename"];
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = getId;
+                items.company_id = id;
                 items.struktur = filename;
                 db.bisnis_main.Add(items);
 
@@ -153,11 +146,10 @@ namespace relmon.Controllers.Admin
             }
         }
 
-        public bool DeleteStruktur()
+        public bool DeleteStruktur(int id)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
@@ -177,6 +169,16 @@ namespace relmon.Controllers.Admin
                 Console.Write(a.Message);
                 return false;
             }
+        }
+
+        public string GetStruktur(int id)
+        {
+            var result = (from x in db.bisnis_main
+                          where x.company_id == id
+                          select x
+                         ).ToList();
+            var get = result.First();
+            return "../../upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
         }
         #endregion
 
@@ -204,19 +206,17 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public bool UploadRencanaKerja()
+        public bool UploadRencanaKerja(int id,string filename)
         {
-            var filename = Request["filename"];
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = getId;
+                items.company_id = id;
                 items.visimisi = filename;
                 db.bisnis_main.Add(items);
 
@@ -239,11 +239,10 @@ namespace relmon.Controllers.Admin
             }
         }
 
-        public bool DeleteRencanaKerja()
+        public bool DeleteRencanaKerja(int id)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
@@ -267,47 +266,10 @@ namespace relmon.Controllers.Admin
         #endregion
 
 
-        #region inherited view
-        //public ActionResult AdArt(int id)
-        //{
-        //    ViewBag.id = id;
-        //    return AdArt();
-        //}
-
-        //public ActionResult Rkap(int id)
-        //{
-        //    ViewBag.id = id;
-        //    return Rkap();
-        //}
-
-        //public ActionResult Rjpp(int id)
-        //{
-        //    ViewBag.id = id;
-        //    return Rjpp();
-        //}
-
-        //public ActionResult BussinessReport(int id)
-        //{
-
-        //    ViewBag.id = id;
-        //    return BussinessReport();
-        //}
-
-        //public ActionResult Kinerja(int id)
-        //{
-        //    ViewBag.id = id;
-        //    return Kinerja();
-        //}
-        #endregion
-
-
-
-
         [HttpPost]
-        public JsonResult GetCompanyList()
+        public JsonResult GetCompanyList(int parent)
         {
-            string find = Request["parent"];
-            int parent = Int32.Parse(find);
+            //int parentInt = Int32.Parse(parent);
             var listResultTemp = (from x in db.companies
                                   where (x.parent == parent)
                                   select new
@@ -328,32 +290,6 @@ namespace relmon.Controllers.Admin
 
             return Json(listResult);
         }
-
-
-        //public ActionResult StrukturOrganisasi(int id)
-        //{
-
-        //    switch (id)
-        //    {
-        //        case 0:
-        //            ViewBag.content = "../../Content/data/struktur-org/ap/" + id + "/struktur.png";
-        //            break;
-        //        case 1:
-        //            ViewBag.content = "../../Content/data/struktur-org/ap/" + id + "/struktur.png";
-        //            break;
-        //        case 2:
-        //            ViewBag.content = "../../Content/data/struktur-org/ap/" + id + "/struktur.png";
-        //            break;
-        //        case 3:
-        //            ViewBag.content = "../../Content/data/struktur-org/ap/" + id + "/struktur.png";
-        //            break;
-        //        case 4:
-        //            ViewBag.content = "../../Content/data/struktur-org/ap/" + id + "/struktur.png";
-        //            break;
-        //    }
-        //    return PartialView();
-        //}
-
 
         public ActionResult ProjectStatus(int id)
         {

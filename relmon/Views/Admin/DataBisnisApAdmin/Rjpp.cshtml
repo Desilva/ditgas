@@ -25,7 +25,7 @@
     });
 
     $("#saveRjppAp").click(function () {
-        $.post("DataBisnisApAdmin/UploadRjpp", { rjpp: escape(editor.getData()) }, function (data) {
+        $.post("DataBisnisApAdmin/UploadRjpp/@ViewBag.id", { rjpp: escape(editor.getData()) }, function (data) {
             if (data == "True") {
                 alert("Data berhasil disimpan");
             } else {

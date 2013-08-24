@@ -26,7 +26,7 @@
 
     $("#saveProfile").click(function () {
 
-        $.post("DataBisnisApAdmin/UploadProfil", { profil: escape(editor.getData()) }, function (data) {
+        $.post("DataBisnisApAdmin/UploadProfil/@ViewBag.id", { profil: escape(editor.getData()) }, function (data) {
             if (data == "True") {
                 alert("Data berhasil disimpan");
             } else {

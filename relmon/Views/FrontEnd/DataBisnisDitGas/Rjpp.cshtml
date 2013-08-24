@@ -1,12 +1,2 @@
-﻿<script>
-    $(document).ready(function () {
-        $.post("DataBisnisDitGas/GetRjpp", "", function (data) {
-            $("#rjpp").append(data);
-        })
-    });
-</script>
-
-<h3>RJPP</h3>
-<div id="rjpp">
-
-</div>
+﻿@(new HtmlString(@ViewBag.content))
+<br/>

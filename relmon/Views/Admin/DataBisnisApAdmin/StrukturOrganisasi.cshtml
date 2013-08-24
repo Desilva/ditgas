@@ -6,11 +6,13 @@
         var files = e.files;
         if (e.operation == "upload") {
             //save to database
-            $.post("DataBisnisApAdmin/UploadStruktur", { filename: files[0].name }, function (data) {
+            $.post("DataBisnisApAdmin/UploadStruktur/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
 
-                    loadImage('struktur', '@ViewBag.content');
+                    $.post("DataBisnisApAdmin/GetStruktur/@ViewBag.id", "", function (data) {
+                        loadImage('struktur', data);
+                    });
                 } else {
                     alert("File tidak berhasil di-upload");
                 }
@@ -18,7 +20,7 @@
             });
 
         } else if (e.operation == "remove") {
-            $.post("DataBisnisApAdmin/DeleteStruktur", "", function (data) {
+            $.post("DataBisnisApAdmin/DeleteStruktur/@ViewBag.id", "", function (data) {
                 if (data == "True") {
                     alert("File berhasil dihapus");
                     $("#frame-content").contents().find('html').html('');
@@ -54,10 +56,12 @@
     }
 
     $(document).ready(function () {
-
         if ('@(Model.struktur)' != "") {
-            loadImage('struktur', '@ViewBag.content');
+            $.post("DataBisnisApAdmin/GetStruktur/@ViewBag.id", "", function (data) {
+                 loadImage('struktur', data);
+            });
         }
+
         var $fileList, $files, item, _fn, _i, _len;
 
         $fileList = $("#existing-files");

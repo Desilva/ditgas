@@ -7,26 +7,30 @@
         if ($("#tahun").val() != "" && $("#bulan").val() != "") {
 
             $("#frame-content3").contents().find("html").remove();
-            $('#image').attr('src', '');
+            $('#image').hide();
             $('#contentReport').empty();
 
-            $.post("DataBisnisDitgas/GetReportType", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+            $.post("DataBisnisDitgas/GetReportType/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
                 if (data == "pdf") {
-                    //                alert("aaa");
-                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfReport?tahun=' + $("#tahun").val() + '&bulan=' + $("#bulan").val());
+                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfReport/@ViewBag.id?tahun=' + $("#tahun").val() + '&bulan=' + $("#bulan").val());
                 } else if (data == "image") {
 
-                    $.post("DataBisnisDitgas/GetImage", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
-                        //                    alert(data);
-                        ////                    $('#image').attr('src', data);
-                        //                    $('#content').html(data);
+                    $.post("DataBisnisDitgas/GetImage/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
                         $('#image').attr('src', data);
-                        //                    alert("sudah");
+                        $('#image').show();
                     });
 
+                } else if (data == "other") {
+                    $.post("DataBisnisDitgas/GetOther/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+
+//                      
+                        var dl = "<a href='DataBisnisDitGas/Download?filename="+ data +"&id="+@ViewBag.id+"&tahun="+$("#tahun").val()+"&bulan="+$("#bulan").val()+"'>"+data+"</a>";
+                        $("#contentReport").html(dl);
+                    });
+                   
                 } else {
-                    var dl = "";
-                    $("#contentReport").append(dl);
+                    var dl = "<p>Bussiness Report tidak tersedia</p>";
+                    $("#contentReport").html(dl);
                 }
             });
         }
@@ -50,7 +54,6 @@
 <h3>Business Report</h3>
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
     <select name="tahun" id="tahun" class="target">
-        <option value ="">--</option>
         
     </select>
     
@@ -74,9 +77,9 @@
 </div>
 <br/>
 
-
+<img id="image" />
 <div id="contentReport">
 
 </div>
 <iframe id="frame-content3" name="frame-content" width="960" height="400" style="border:0px solid #000;"></iframe>
-<img id="image" />
+

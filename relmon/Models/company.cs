@@ -18,9 +18,6 @@ namespace relmon.Models
         {
             this.acls = new HashSet<acl>();
             this.users_jabatan = new HashSet<users_jabatan>();
-            //this.bisnis_main = new HashSet<bisnis_main>();
-            //this.bisnis_bussiness_report = new HashSet<bisnis_bussiness_report>();
-            //this.bisnis_kpi = new HashSet<bisnis_kpi>();
         }
     
         public int id { get; set; }
@@ -29,14 +26,13 @@ namespace relmon.Models
         public string deskripsi { get; set; }
     
         public virtual ICollection<acl> acls { get; set; }
-        public virtual ICollection<users_jabatan> users_jabatan { internal get; set; }
-        //public virtual ICollection<bisnis_main> bisnis_main { internal get; set; }
-        //public virtual ICollection<bisnis_bussiness_report> bisnis_bussiness_report { internal get; set; }
-        //public virtual ICollection<bisnis_kpi> bisnis_kpi { internal get; set; }
-        public virtual string nama_parent { get; set; }
+        public virtual bisnis_main bisnis_main { get; set; }
+        public virtual ICollection<users_jabatan> users_jabatan { get; 
+		set; }
+		public virtual string nama_parent { get; set; }
     }
-
-    public partial class company2
+	
+	public partial class company2
     {
         public company2()
         {

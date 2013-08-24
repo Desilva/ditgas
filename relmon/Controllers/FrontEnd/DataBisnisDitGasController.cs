@@ -13,168 +13,99 @@ namespace relmon.Controllers.FrontEnd
 {
     public class DataBisnisDitGasController : Controller
     {
-        private RelmonStoreEntities db = new RelmonStoreEntities();
-        //
-        // GET: /DataBisnisDitGas/
+        protected RelmonStoreEntities db = new RelmonStoreEntities();
+
         public ActionResult Index()
         {
             ViewBag.selectedMenu = "databisnis";
             return View();
         }
 
-        public ActionResult AdArt()
+        
+        public ActionResult AdArt(int id)
         {
+            ViewBag.id = id;
             return PartialView();
         }
 
-        public ActionResult RencanaKerja()
+        public ActionResult Rkap(int id)
         {
+            ViewBag.id = id;
             return PartialView();
         }
 
-        public ActionResult Rjpp()
-        {
-            return PartialView();
-        }
+        
 
-        public ActionResult Rkap()
+        public ActionResult Rjpp(int id)
         {
-            return PartialView();
-        }
-
-        public ActionResult BussinessReport()
-        {
-            return PartialView();
-        }
-
-        public ActionResult Kinerja()
-        {
-            return PartialView();
-        }
-
-        public ActionResult ProjectStatus()
-        {
-            return PartialView();
-        }
-
-        public ActionResult Product()
-        {
-            return PartialView();
-        }
-
-        //
-        // 0 -> kinerja
-        // 1 -> bisnis report
-        //
-        public ActionResult GetPdf(int id)
-        {
-            var getId = 0;
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
             var get = result.First();
-            string file ="";
-            if(id == 1){//adart
-         //       string abs = Config.upload + "\\DataBisnis\\" + getId + "\\adart\\" + get.ad_art;
-         //       String RelativePath = "~/" + abs.Substring(HttpContext.Request.PhysicalApplicationPath.Length)
-         //.Replace("\\", "/");
-                //var a = Config.upload + "\\DataBisnis\\" + getId + "\\adart\\" + get.ad_art;
-
-                file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + getId + "/adart/" + get.ad_art));
-            }else if(id == 2){
-                //file = Server.MapPath(Url.Content(Config.upload+"\\DataBisnis\\"+getId+"\\rkap\\"+get.rkap));
-                //file = Server.MapPath(Url.Content("~/Content/data/rkap/rkap.pdf"));
-                file = Server.MapPath(Url.Content("~/upload/Data Bisnis/"+getId+"/rkap/" + get.rkap));
-            }
-            //else if (id == 3)
-            //{
-            //    file = Server.MapPath(Url.Content("~/Content/data/rkap/rkap.pdf"));
-            //}
-            //else if (id == 4)
-            //{
-
-            //    file = Server.MapPath(Url.Content("~/Content/data/rkap/adart.pdf"));
-            //}
-            //else
-            //{
-            //    file = Server.MapPath(Url.Content("~/Content/data/bisnis-report/September_2012.pdf"));
-            //}
-            try
+            ViewBag.content = get.rjpp;
+            if (string.IsNullOrWhiteSpace(get.rjpp))
             {
-
-                PdfReader reader = new PdfReader(file);
-                MemoryStream pdfStream = new MemoryStream();
-
-                PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
-
-                reader.Close();
-                pdfStamper.Close();
-                pdfStream.Flush();
-                pdfStream.Close();
-
-                byte[] pdfArray = pdfStream.ToArray();
-                return new BinaryContentResult(pdfArray, "application/pdf");
+                ViewBag.content = "RJPP belum tersedia";
             }
-            catch (IOException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            return PartialView();
         }
 
-
-        public string GetRjpp()
+        public ActionResult BussinessReport(int id)
         {
-            var getId = 0;
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult Kinerja(int id)
+        {
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult ProjectStatus(int id)
+        {
+
+            ViewBag.id = id;
+            ViewBag.exist = false;
+            string filePath = Request.MapPath(Url.Content("~/Content/data/project-status/ap/" + id + "/project-status.pdf"));
+            if (System.IO.File.Exists(filePath))
+            {
+                ViewBag.exist = true;
+            }
+            return PartialView();
+        }
+
+        public ActionResult Product(int id)
+        {
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult GetPdf(int id, int nomer)
+        {
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
-            var get = result.First();
-            return get.rjpp;
-        }
 
-
-        public string GetReportType(int tahun, string bulan)
-        {
-            var getId = 0;
-            var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == getId && x.tahun == tahun && x.bulan.Equals(bulan)
-                          select x
-                         ).ToList();
-            var get = result.First();
-            if (get.content.Substring(get.content.Length - 3).Equals("pdf"))
+            if (result.Count != 0)
             {
-                return "pdf";
-            }
-            else if (get.content.Substring(get.content.Length - 3).Equals("jpg") || get.content.Substring(get.content.Length - 3).Equals("png"))
-            {
-                return "image";
-            }
-            else
-            {
-                //ViewBag.report = Directory.EnumerateFiles(Server.MapPath(Config.upload + "\\DataBisnis\\" + getId + "\\Bussiness Report\\" + get.tahun + "\\" + get.bulan + "\\" + get.content));
-                //List<string> result = new List<string>();
-
-                //foreach (string file in Directory.EnumerateFiles(path, "*.*",
-                //      SearchOption.AllDirectories)
-                //      .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wma")))
-                //{
-                //    result.Add(file);
-                //}
-                return "other";
-            }
-        }
-        public ActionResult GetPdfReport(int tahun, string bulan)
-        {
-            var getId = 0;
-            var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == getId && x.tahun == tahun && x.bulan.Equals(bulan)
-                          select x
-                         ).ToList();
-            var get = result.First();
-                string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + getId + "/Bussiness Report/" + get.tahun + "/"+get.bulan +"/"+get.content));
+                var get = result.First();
+                string file = "";
+                if (nomer == 1)
+                {//adart
+                    file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/adart/" + get.ad_art));
+                }
+                else if (nomer == 2)
+                {
+                    file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/rkap/" + get.rkap));
+                }
+                else if (nomer == 3)
+                {
+                    file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/rencana kerja/" + get.visimisi));
+                }
                 try
                 {
 
@@ -195,61 +126,53 @@ namespace relmon.Controllers.FrontEnd
                 {
                     Console.WriteLine(e.Message);
                     return null;
-                } 
-        }
-
-        public string GetImage(int tahun, string bulan)
-        {
-            var getId = 0;
-            var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == getId && x.tahun == tahun && x.bulan.Equals(bulan)
-                          select x
-                         ).ToList();
-            var get = result.First();
-            return "../../Upload/Data Bisnis/"+getId+"/Bussiness Report/"+get.tahun+"/"+get.bulan+"/"+get.content;
-                
-        }
-
-
-        public string GetKinerjaType(int tahun)
-        {
-            var getId = 0;
-            var result = (from x in db.bisnis_kpi
-                          where x.company_id == getId && x.tahun == tahun
-                          select x
-                         ).ToList();
-            var get = result.First();
-            if (get.content.Substring(get.content.Length - 3).Equals("pdf"))
-            {
-                return "pdf";
-            }
-            else if (get.content.Substring(get.content.Length - 3).Equals("jpg") || get.content.Substring(get.content.Length - 3).Equals("png"))
-            {
-                return "image";
+                }
             }
             else
             {
-                //ViewBag.report = Directory.EnumerateFiles(Server.MapPath(Config.upload + "\\DataBisnis\\" + getId + "\\Bussiness Report\\" + get.tahun + "\\" + get.bulan + "\\" + get.content));
-                //List<string> result = new List<string>();
-
-                //foreach (string file in Directory.EnumerateFiles(path, "*.*",
-                //      SearchOption.AllDirectories)
-                //      .Where(s => s.EndsWith(".mp3") || s.EndsWith(".wma")))
-                //{
-                //    result.Add(file);
-                //}
-                return "other";
+                return null;
             }
         }
-        public ActionResult GetPdfKinerja(int tahun)
+
+        public string GetReportType(int id, int tahun, string bulan)
         {
-            var getId = 0;
-            var result = (from x in db.bisnis_kpi
-                          where x.company_id == getId && x.tahun == tahun
+            var result = (from x in db.bisnis_bussiness_report
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          select x
+                         ).ToList();
+            if (result.Count != 0)
+            {
+                var get = result.First();
+                if (get.content.Substring(get.content.Length - 3).Equals("pdf"))
+                {
+                    return "pdf";
+                }
+                else if (get.content.Substring(get.content.Length - 3).Equals("jpg") || get.content.Substring(get.content.Length - 3).Equals("png"))
+                {
+                    return "image";
+                }
+                else
+                {
+                    return "other";
+                }
+            }
+            else
+            {
+                return "blank";
+            }
+        }
+
+
+
+        public ActionResult GetPdfReport(int id, int tahun, string bulan)
+        {
+
+            var result = (from x in db.bisnis_bussiness_report
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
                           select x
                          ).ToList();
             var get = result.First();
-            string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + getId + "/Kinerja/" + get.tahun + "/"+ get.content));
+            string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/Bussiness Report/" + get.tahun + "/" + get.bulan + "/" + get.content));
             try
             {
 
@@ -273,28 +196,136 @@ namespace relmon.Controllers.FrontEnd
             }
         }
 
-        public string GetImageKinerja(int tahun, string bulan)
+        public string GetImage(int id, int tahun, string bulan)
         {
-            var getId = 0;
-            var result = (from x in db.bisnis_kpi
-                          where x.company_id == getId && x.tahun == tahun
+            var result = (from x in db.bisnis_bussiness_report
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
                           select x
                          ).ToList();
             var get = result.First();
-            return "../../Upload/Data Bisnis/" + getId + "/Kinerja/" + get.tahun + "/"+ get.content;
+            return "../../Upload/Data Bisnis/" + id + "/Bussiness Report/" + get.tahun + "/" + get.bulan + "/" + get.content;
 
         }
-        public ActionResult Download(string file, string id)
+
+        public string GetOther(int id, int tahun, string bulan)
+        {
+            var result = (from x in db.bisnis_bussiness_report
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          select x
+                         ).ToList();
+            var get = result.First();
+            return get.content;
+        }
+
+        public ActionResult Download(string filename, string id,string bulan,string tahun)
         {
             try
             {
-                var fs = System.IO.File.OpenRead(Server.MapPath("~/Content/data/kinerja/ap/" + id + "/" + file));
-                string fileType = MyTools.getFileType(file);
-                return File(fs, fileType, file);
+                var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/Data Bisnis/"+id+"/Bussiness Report/"+tahun+"/" +bulan+"/"+ filename));
+                string fileType = MyTools.getFileType(filename);
+                return File(fs, fileType, filename);
             }
             catch
             {
-                throw new HttpException(404, "Couldn't find " + file);
+                throw new HttpException(404, "Couldn't find " + filename);
+            }
+        }
+
+
+        public string GetReportType2(int id, int tahun)
+        {
+            var result = (from x in db.bisnis_kpi
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            if (result.Count != 0)
+            {
+                var get = result.First();
+                if (get.content.Substring(get.content.Length - 3).Equals("pdf"))
+                {
+                    return "pdf";
+                }
+                else if (get.content.Substring(get.content.Length - 3).Equals("jpg") || get.content.Substring(get.content.Length - 3).Equals("png"))
+                {
+                    return "image";
+                }
+                else
+                {
+                    return "other";
+                }
+            }
+            else
+            {
+                return "blank";
+            }
+        }
+
+
+
+        public ActionResult GetPdfReport2(int id, int tahun)
+        {
+
+            var result = (from x in db.bisnis_kpi
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            var get = result.First();
+            string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/Kinerja/" + get.tahun + "/" + get.content));
+            try
+            {
+
+                PdfReader reader = new PdfReader(file);
+                MemoryStream pdfStream = new MemoryStream();
+
+                PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+
+                reader.Close();
+                pdfStamper.Close();
+                pdfStream.Flush();
+                pdfStream.Close();
+
+                byte[] pdfArray = pdfStream.ToArray();
+                return new BinaryContentResult(pdfArray, "application/pdf");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public string GetImage2(int id, int tahun)
+        {
+            var result = (from x in db.bisnis_kpi
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            var get = result.First();
+            return "../../Upload/Data Bisnis/" + id + "/Kinerja/" + get.tahun + "/" + get.content;
+
+        }
+
+        public string GetOther2(int id, int tahun)
+        {
+            var result = (from x in db.bisnis_kpi
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            var get = result.First();
+            return get.content;
+        }
+
+        public ActionResult Download2(string filename, string id,string tahun)
+        {
+            try
+            {
+                var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/Data Bisnis/" + id + "/Kinerja/" + tahun + "/" + filename));
+                string fileType = MyTools.getFileType(filename);
+                return File(fs, fileType, filename);
+            }
+            catch
+            {
+                throw new HttpException(404, "Couldn't find " + filename);
             }
         }
     }

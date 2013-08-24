@@ -22,22 +22,23 @@ namespace relmon.Controllers.Admin
         public virtual ActionResult Index()
         {
             ViewBag.selectedMenu = "databisnis";
-            Session["company_view"] = 0;
+            ViewBag.id = 0;
             return PartialView();
         }
+
         # region AdArt
-        public ActionResult AdArt()
+        public ActionResult AdArt(int id)
         {
-            int getId = getCompanyId();
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
             if (result.Count == 0)
             {
                 bisnis_main e = new bisnis_main();
                 e.ad_art = "";
-                e.company_id = getId;
+                e.company_id = id;
                 return PartialView(e);
             }
             else
@@ -50,24 +51,17 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public bool UploadAdArt()
+        public bool UploadAdArt(int id, string filename)
         {
-            var filename = Request["filename"];
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = this.getCompanyId();
-                //var temp = (from x in db.companies
-                //            where x.nama.Equals("Direktorat Gas")
-                //            select x
-                //         ).ToList();
-                //items.company = temp.First();
+                items.company_id = id;
                 items.ad_art = filename;
                 db.bisnis_main.Add(items);
 
@@ -92,11 +86,10 @@ namespace relmon.Controllers.Admin
 
         }
 
-        public bool DeleteAdArt()
+        public bool DeleteAdArt(int id)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
@@ -120,24 +113,18 @@ namespace relmon.Controllers.Admin
 
         #endregion
 
-        //public ActionResult RencanaKerja()
-        //{
-        //    return PartialView();
-        //}
-
         # region Rjpp
-        public ActionResult Rjpp()
+        public ActionResult Rjpp(int id)
         {
-            var getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
             if (result.Count == 0)
             {
                 bisnis_main e = new bisnis_main();
                 e.rjpp = "";
-                e.company_id = getId;
+                e.company_id = id;
                 return PartialView(e);
             }
             else
@@ -149,18 +136,17 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public bool UploadRjpp(string rjpp)
+        public bool UploadRjpp(int id, string rjpp)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                         ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = getId;
+                items.company_id = id;
                 items.rjpp = HttpUtility.UrlDecode(rjpp);
 
                 db.bisnis_main.Add(items);
@@ -185,18 +171,18 @@ namespace relmon.Controllers.Admin
         #endregion
 
         # region Rkap
-        public ActionResult Rkap()
+        public ActionResult Rkap(int id)
         {
-            var getId = this.getCompanyId();
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
             if (result.Count == 0)
             {
                 bisnis_main e = new bisnis_main();
                 e.rkap = "";
-                e.company_id = getId;
+                e.company_id = id;
                 return PartialView(e);
             }
             else
@@ -205,35 +191,20 @@ namespace relmon.Controllers.Admin
                 return PartialView(e);
 
             }
-            //bisnis_main e = db.bisnis_main.Find(0);
-            //if (e == null)
-            //{
-            //    e = new bisnis_main();
-            //    e.rkap = "";
-            //    e.company_id = 0;
-            //}
-            //return PartialView(e);
         }
 
         [HttpPost]
-        public bool UploadRkap()
+        public bool UploadRkap(int id,string filename)
         {
-            var filename = Request["filename"];
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
             if (result.Count == 0)
             {
                 bisnis_main items = new bisnis_main();
-                items.company_id = this.getCompanyId();
-                //var temp = (from x in db.companies
-                //            where x.nama.Equals("Direktorat Gas")
-                //            select x
-                //         ).ToList();
-                //items.company = temp.First();
+                items.company_id = id;
                 items.rkap = filename;
                 db.bisnis_main.Add(items);
 
@@ -258,11 +229,10 @@ namespace relmon.Controllers.Admin
 
         }
 
-        public bool DeleteRkap()
+        public bool DeleteRkap(int id)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_main
-                          where x.company_id == getId
+                          where x.company_id == id
                           select x
                          ).ToList();
 
@@ -294,15 +264,13 @@ namespace relmon.Controllers.Admin
         [HttpPost]
         public string UploadBussinessReport(bisnis_bussiness_report bisnis_bussiness_report)
         {
-            int getId = this.getCompanyId();
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == getId && x.bulan.Equals(bisnis_bussiness_report.bulan) && x.tahun == bisnis_bussiness_report.tahun
+                          where x.company_id == bisnis_bussiness_report.company_id && x.bulan.Equals(bisnis_bussiness_report.bulan) && x.tahun == bisnis_bussiness_report.tahun
                           select x
                         ).ToList();
 
             if (result.Count == 0)
             {
-                bisnis_bussiness_report.company_id = getId;
                 db.bisnis_bussiness_report.Add(bisnis_bussiness_report);
                 try
                 {
@@ -317,10 +285,6 @@ namespace relmon.Controllers.Admin
             }
             else
             {
-                //bisnis_bussiness_report items = result.First();
-                //items.deskripsi = bisnis_bussiness_report.deskripsi;
-                //items.content = bisnis_bussiness_report.content;
-                //db.Entry(items).State = EntityState.Modified;
                 return "exist";
             }
 
@@ -353,46 +317,46 @@ namespace relmon.Controllers.Admin
         
 
         [GridAction]
-        public ActionResult _SelectBisnisReport()
+        public ActionResult _SelectBisnisReport(int id)
         {
-            return binding();
+            return binding(id);
         }
 
         //
         // Ajax delete binding
         [AcceptVerbs(HttpVerbs.Post)]
         [GridAction]
-        public ActionResult _DeleteBisnisReport(int id)
+        public ActionResult _DeleteBisnisReport(int id) //row_id
         {
-            //string tipe = delete(id);
+            //delete dr database
             var tempResult = (from x in db.bisnis_bussiness_report
                               where x.id == id
                               select x).ToList();
+            var comp_id = -1;
             if (tempResult.Count != 0)
             {
                 bisnis_bussiness_report result = tempResult.First();
-                
+                comp_id = result.company_id;
+                //delete file
                 UploadController upload = new UploadController();
                 string[] file = new string[1];
                 file[0] = result.content;
                 if(!string.IsNullOrWhiteSpace(file[0])){
-                    string companyName = this.getCompanyName(result.company_id);
-                    upload.Remove(file, "Data Bisnis\\" + companyName + "\\Bussiness Report\\" + result.tahun + "\\" + result.bulan);
+                    upload.Remove(file, "Data Bisnis\\" + result.company_id + "\\Bussiness Report\\" + result.tahun + "\\" + result.bulan);
                 }
                 
                 db.bisnis_bussiness_report.Remove(result);
                 db.SaveChanges();
             }
 
-            return binding();
+            return binding(comp_id);
         }
 
         //select data user
-        protected ViewResult binding()
+        protected ViewResult binding(int id)
         {
-            var getId = this.getCompanyId();
             List<bisnis_bussiness_report> result = (from x in db.bisnis_bussiness_report
-                                                    where x.company_id == getId
+                                                    where x.company_id == id
                                                     select x).ToList();
 
             return View(new GridModel<bisnis_bussiness_report>
@@ -426,15 +390,13 @@ namespace relmon.Controllers.Admin
         [HttpPost]
         public string UploadKinerja(bisnis_kpi bisnis_kpi)
         {
-            int getId = this.getCompanyId();
-            var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == getId && x.tahun == bisnis_kpi.tahun
+            var result = (from x in db.bisnis_kpi
+                          where x.company_id == bisnis_kpi.id && x.tahun == bisnis_kpi.tahun
                           select x
                         ).ToList();
 
             if (result.Count == 0)
             {
-                bisnis_kpi.company_id = getId;
                 db.bisnis_kpi.Add(bisnis_kpi);
                 try
                 {
@@ -480,32 +442,33 @@ namespace relmon.Controllers.Admin
         
 
         [GridAction]
-        public ActionResult _SelectKinerja()
+        public ActionResult _SelectKinerja(int id)
         {
-            return bindingkinerja();
+            return bindingkinerja(id);
         }
 
         //
         // Ajax delete binding
         [AcceptVerbs(HttpVerbs.Post)]
         [GridAction]
-        public ActionResult _DeleteKinerja(int id)
+        public ActionResult _DeleteKinerja(int id) //row_id
         {
             //string tipe = delete(id);
             var tempResult = (from x in db.bisnis_kpi
                               where x.id == id
                               select x).ToList();
+            var comp_id = -1;
             if (tempResult.Count != 0)
             {
                 bisnis_kpi result = tempResult.First();
-
+                comp_id = result.company_id;
                 UploadController upload = new UploadController();
+                
                 string[] file = new string[1];
                 file[0] = result.content;
                 if (!string.IsNullOrWhiteSpace(file[0]))
                 {
-                    string companyName = this.getCompanyName(result.company_id);
-                    upload.Remove(file, "Data Bisnis\\" + companyName + "\\Kinerja\\" + result.tahun);
+                    upload.Remove(file, "Data Bisnis\\" + result.company_id + "\\Kinerja\\" + result.tahun);
                 }
 
                 db.bisnis_kpi.Remove(result);
@@ -515,15 +478,14 @@ namespace relmon.Controllers.Admin
 
 
 
-            return bindingkinerja();
+            return bindingkinerja(comp_id);
         }
 
         //select data user
-        protected ViewResult bindingkinerja()
+        protected ViewResult bindingkinerja(int id)
         {
-            var getId = this.getCompanyId();
             List<bisnis_kpi> result = (from x in db.bisnis_kpi
-                                       where x.company_id == getId
+                                       where x.company_id == id
                                        select x).ToList();
 
             return View(new GridModel<bisnis_kpi>
@@ -547,6 +509,11 @@ namespace relmon.Controllers.Admin
         }
         #endregion
 
+        //public ActionResult RencanaKerja()
+        //{
+        //    return PartialView();
+        //}
+
         //public ActionResult ProjectStatus()
         //{
         //    return PartialView();
@@ -557,78 +524,13 @@ namespace relmon.Controllers.Admin
         //    return PartialView();
         //}
 
-
-
-        public virtual int getCompanyId()
-        {
-
-            return 0;
-            //this.getCompanyId2("Direktorat Gas");
-        }
-
-        public int getCompanyId2(string name)
-        {
-            var result = (from x in db.companies
-                          where x.nama.Equals(name)
-                          select x
-                         ).ToList();
-            return result.First().id;
-        }
-
-        public string getCompanyName(int id)
-        {
-            var result = (from x in db.companies
-                          where x.id == id
-                          select x
-                         ).ToList();
-            return result.First().nama;
-        }
-        //
-        // 0 -> kinerja
-        // 1 -> bisnis report
-        //
-        //public ActionResult GetPdf(int id)
+        //public string getCompanyName(int id)
         //{
-        //    string file ="";
-        //    if(id == 0){
-        //        file = Server.MapPath(Url.Content("~/Content/kinerja/Kinerja Perusahaan 2007 -2010.pdf"));
-        //    }else if(id == 1){
-        //        file = Server.MapPath(Url.Content("~/Content/data/bisnis-report/September_2012.pdf"));
-        //    }
-        //    else if (id == 2)
-        //    {
-        //        file = Server.MapPath(Url.Content("~/Content/data/rkap/rkap.pdf"));
-        //    }
-        //    else if (id == 3)
-        //    {
-        //        file = Server.MapPath(Url.Content("~/Content/data/rkap/adart.pdf"));
-        //    }
-        //    else
-        //    {
-        //        file = Server.MapPath(Url.Content("~/Content/data/bisnis-report/September_2012.pdf"));
-        //    }
-             
-        //    PdfReader reader = new PdfReader(file);
-        //    MemoryStream pdfStream = new MemoryStream();
-
-        //    PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
-
-        //    reader.Close();
-        //    pdfStamper.Close();
-        //    pdfStream.Flush();
-        //    pdfStream.Close();
-
-        //    byte[] pdfArray = pdfStream.ToArray();
-        //    return new BinaryContentResult(pdfArray, "application/pdf");
+        //    var result = (from x in db.companies
+        //                  where x.id == id
+        //                  select x
+        //                 ).ToList();
+        //    return result.First().nama;
         //}
-
-
-       
-
-        
-
-        
-
-        
     }
 }

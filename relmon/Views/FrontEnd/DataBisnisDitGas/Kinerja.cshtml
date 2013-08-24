@@ -2,31 +2,34 @@
 
 <script>
 
-    $(".target").change(function () {
-
+    $(".target2").change(function () {
         if ($("#tahun2").val() != "") {
 
             $("#frame-content4").contents().find("html").remove();
-            $('#image2').attr('src', '');
+            $('#image2').hide();
             $('#contentReport2').empty();
 
-            $.post("DataBisnisDitgas/GetKinerjaType", { tahun: $("#tahun2").val() }, function (data) {
+            $.post("DataBisnisDitgas/GetReportType2/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
                 if (data == "pdf") {
-                    //                alert("aaa");
-                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfKinerja?tahun=' + $("#tahun").val());
+                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfReport/@ViewBag.id?tahun=' + $("#tahun").val());
                 } else if (data == "image") {
 
-                    $.post("DataBisnisDitgas/GetImageKinerja", { tahun: $("#tahun2").val() }, function (data) {
-                        //                    alert(data);
-                        ////                    $('#image').attr('src', data);
-                        //                    $('#content').html(data);
+                    $.post("DataBisnisDitgas/GetImage2/@ViewBag.id", { tahun: $("#tahun2").val() }, function (data) {
                         $('#image2').attr('src', data);
-                        //                    alert("sudah");
+                        $('#image2').show();
                     });
 
+                } else if (data == "other") {
+                    $.post("DataBisnisDitgas/GetOther2/@ViewBag.id", { tahun: $("#tahun").val()}, function (data) {
+
+//                      
+                        var dl = "<a href='DataBisnisDitGas/Download2?filename="+ data +"&id="+@ViewBag.id+"&tahun="+$("#tahun").val()+"'>"+data+"</a>";
+                        $("#contentReport2").html(dl);
+                    });
+                   
                 } else {
-                    var dl = "";
-                    $("#contentReport2").append(dl);
+                    var dl = "<p>Bussiness Report tidak tersedia</p>";
+                    $("#contentReport2").html(dl);
                 }
             });
         }
@@ -49,7 +52,7 @@
 </script>
 <h3>Business Report</h3>
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahun2" class="target">
+    <select name="tahun" id="tahun2" class="target2">
         <option value ="">--</option>
         
     </select>
@@ -58,9 +61,9 @@
 
 <br/>
 
-
-<div id="contentReport">
+<img id="image" />
+<div id="contentReport2">
 
 </div>
 <iframe id="frame-content4" name="frame-content" width="960" height="400" style="border:0px solid #000;"></iframe>
-<img id="image" />
+

@@ -6,10 +6,10 @@
         var files = e.files;
         if (e.operation == "upload") {
             //save to database
-            $.post("DataBisnisApAdmin/UploadAdArt", { filename: files[0].name }, function (data) {
+            $.post("DataBisnisApAdmin/UploadAdArt/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
-                    loadIframe('frame-content-visi', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
+                    loadIframe('frame-content-adart', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
                 } else {
                     alert("File tidak berhasil di-upload");
                 }
@@ -17,7 +17,7 @@
             });
 
         } else if (e.operation == "remove") {
-            $.post("DataBisnisApAdmin/DeleteAdArt", "", function (data) {
+            $.post("DataBisnisApAdmin/DeleteAdArt/@ViewBag.id", "", function (data) {
                 if (data == "True") {
                     alert("File berhasil dihapus");
                     $("#frame-content-adart").contents().find('html').html('');
@@ -58,7 +58,7 @@
         
         if ('@(Model.ad_art)' != "") {
             //alert("tes masuk");
-            loadIframe('frame-content-visi', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
+            loadIframe('frame-content-adart', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
         }
         var $fileList, $files, item, _fn, _i, _len;
 

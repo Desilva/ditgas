@@ -9,7 +9,7 @@ namespace relmon
     {
 
         public static string conectionString = "Data Source=YOSEF-PC;Initial Catalog=ditgas_db;Integrated Security=True";
-        public static string upload = "D:\\upload";
+        public static string upload = "C:\\Users\\ASUS\\Desktop\\test\\relmon\\Upload";
         public static string Title = "MONITORING BISNIS";
         public static string Area = "Direktorat Gas";
         public static string currency = "$";
