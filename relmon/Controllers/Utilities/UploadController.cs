@@ -20,8 +20,8 @@ namespace relmon.Controllers.Utilities
                 var fileName = Path.GetFileName(file.FileName);
                 //var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
 
-                var physicalPath = Path.Combine(Config.upload, dir, fileName);
-                var folderPath = Path.Combine(Config.upload,dir);
+                var physicalPath = Path.Combine(Server.MapPath("~/Upload"), dir, fileName);
+                var folderPath = Path.Combine(Server.MapPath("~/Upload"), dir);
                 if (!System.IO.Directory.Exists(folderPath))
                 {
                     System.IO.Directory.CreateDirectory(folderPath);
@@ -42,7 +42,7 @@ namespace relmon.Controllers.Utilities
                 foreach (var fullName in fileNames)
                 {
                     var fileName = Path.GetFileName(fullName);
-                    var physicalPath = Path.Combine(Config.upload, dir, fileName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/Upload"), dir, fileName);
 
                     // TODO: Verify user permissions
                     if (System.IO.File.Exists(physicalPath))
@@ -61,11 +61,11 @@ namespace relmon.Controllers.Utilities
             if (!string.IsNullOrWhiteSpace(filename) && !filename.Equals("null"))
             {
                 var name = Path.GetFileName(filename);
-                var sourcePath = Path.Combine(Config.upload, sourceDir, name);
-                var destPath = Path.Combine(Config.upload, destDir, name);
-                if (!System.IO.Directory.Exists(Path.Combine(Config.upload, destDir)))
+                var sourcePath = Path.Combine(Server.MapPath("~/Upload"), sourceDir, name);
+                var destPath = Path.Combine(Server.MapPath("~/Upload"), destDir, name);
+                if (!System.IO.Directory.Exists(Path.Combine(Server.MapPath("~/Upload"), destDir)))
                 {
-                    System.IO.Directory.CreateDirectory(Path.Combine(Config.upload, destDir));
+                    System.IO.Directory.CreateDirectory(Path.Combine(Server.MapPath("~/Upload"), destDir));
                 }
                 
                     System.IO.File.Move(sourcePath, destPath);
@@ -75,37 +75,37 @@ namespace relmon.Controllers.Utilities
             return Content("");
         }
 
-        public ActionResult Copy(string filename, string sourceDir, string destDir)
-        {
-            if (!string.IsNullOrWhiteSpace(filename) && !filename.Equals("null"))
-            {
-                var name = Path.GetFileName(filename);
-                var sourcePath = Path.Combine(Config.upload, sourceDir, name);
-                var destPath = Path.Combine(Config.upload, destDir, name);
+        //public ActionResult Copy(string filename, string sourceDir, string destDir)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(filename) && !filename.Equals("null"))
+        //    {
+        //        var name = Path.GetFileName(filename);
+        //        var sourcePath = Path.Combine(Config.upload, sourceDir, name);
+        //        var destPath = Path.Combine(Config.upload, destDir, name);
                 
-                    System.IO.File.Copy(sourcePath, destPath);
-            }
-            return Content("");
-        }
+        //            System.IO.File.Copy(sourcePath, destPath);
+        //    }
+        //    return Content("");
+        //}
 
-        public ActionResult CleanMove(string filename, string sourceDir, string destDir)
-        {
+        //public ActionResult CleanMove(string filename, string sourceDir, string destDir)
+        //{
 
-            var destFolder = Path.Combine(Config.upload, destDir);
+        //    var destFolder = Path.Combine(Config.upload, destDir);
 
-            if (System.IO.Directory.Exists(Path.Combine(Config.upload, destDir)))
-            {
-                System.IO.DirectoryInfo getDir = new DirectoryInfo(destFolder);
-                foreach (FileInfo file in getDir.GetFiles())
-                {
-                    file.Delete();
-                }
-            }
-            if (!string.IsNullOrWhiteSpace(filename))
-            {
-                this.Move(filename, sourceDir, destDir);
-            }
-                return Content("");
-        }
+        //    if (System.IO.Directory.Exists(Path.Combine(Config.upload, destDir)))
+        //    {
+        //        System.IO.DirectoryInfo getDir = new DirectoryInfo(destFolder);
+        //        foreach (FileInfo file in getDir.GetFiles())
+        //        {
+        //            file.Delete();
+        //        }
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(filename))
+        //    {
+        //        this.Move(filename, sourceDir, destDir);
+        //    }
+        //        return Content("");
+        //}
     }
 }

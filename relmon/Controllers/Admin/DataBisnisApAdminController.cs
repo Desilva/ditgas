@@ -26,7 +26,6 @@ namespace relmon.Controllers.Admin
         public ActionResult Connector(int id)
         {
             ViewBag.id = id;
-            Session["company_view"] = id;
             return PartialView();
         }
 
@@ -63,6 +62,24 @@ namespace relmon.Controllers.Admin
 
             if (result.Count == 0)
             {
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+
+                if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+                else if (category == 2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Profil.name + id, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+                
                 bisnis_main items = new bisnis_main();
                 items.company_id = id;
                 items.profile = HttpUtility.UrlDecode(profil);
@@ -71,6 +88,24 @@ namespace relmon.Controllers.Admin
             }
             else
             {
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+
+                if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name, aclId, "update"))
+                    {
+                        return false;
+                    }
+                }
+                else if (category == 2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Profil.name + id, aclId, "update"))
+                    {
+                        return false;
+                    }
+                }
+
                 bisnis_main items = result.First();
                 items.profile = HttpUtility.UrlDecode(profil);
                 db.Entry(items).State = EntityState.Modified;

@@ -1,6 +1,8 @@
 ﻿@model relmon.Models.bisnis_main
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
 <h4>Upload File AD/ART</h4> 
-
 <script>
     function onSuccess(e) {
         var files = e.files;
@@ -9,8 +11,6 @@
             $.post("DataBisnisDitGasAdmin/UploadAdArt/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
-
-//                    loadIframe('frame-content', '/DataBisnisDitGas/getPDF/1');
                     loadIframe('frame-content', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
                 } else {
                     alert("File tidak berhasil di-upload");
@@ -35,6 +35,30 @@
     }
 
     function onUpload(e) {
+        @{
+            int aclId = (int)Session["id"];
+            
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId, "create")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
         // Array with information about the uploaded files
         var files = e.files;
 
@@ -47,6 +71,30 @@
     }
 
     function onRemove(e) {
+         @{
+             int aclId2 = (int)Session["id"];
+
+             int category2 = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+             
+                if(category2==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId, "delete")){
+                        <text>return false;</text>
+                    }
+                }else if(category2==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+        }
         var r = confirm("Apakah anda yakin?");
         if (r) {
             return true;
@@ -57,8 +105,8 @@
     }
 
     $(document).ready(function () {
+
         if ('@(Model.ad_art)' != "") {
-            //alert("tes masuk");
             loadIframe('frame-content', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
         }
         var $fileList, $files, item, _fn, _i, _len;
@@ -99,14 +147,15 @@
         )
         .Multiple(false)
         .Async(async => async
-            .Save("Save", "Upload","attachments", new { dir = "Data Bisnis\\"+ViewBag.id+"\\adart"})
+            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + ViewBag.id + "\\adart" })
                     .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + ViewBag.id + "\\adart" })
             .AutoUpload(true)
         )
     )
     <div class="controls">
 		@{
-            if (!string.IsNullOrWhiteSpace(Model.ad_art)){
+            if (!string.IsNullOrWhiteSpace(Model.ad_art))
+            {
                 <ul id="existing-files" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.ad_art)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.ad_art)">@(Model.ad_art)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
             }
         }                       

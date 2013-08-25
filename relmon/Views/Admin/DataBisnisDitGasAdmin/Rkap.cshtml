@@ -1,4 +1,12 @@
 ﻿@model relmon.Models.bisnis_main
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+@{
+    int aclId = (int)Session["id"];
+    int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+    
+}
 <h4>Upload File RKAP</h4> 
 
 <script>
@@ -9,7 +17,7 @@
             $.post("DataBisnisDitGasAdmin/UploadRkap/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
-                    loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
+                    loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf/@ViewBag.id?nomer=2');
                 } else {
                     alert("File tidak berhasil di-upload");
                 }
@@ -34,6 +42,28 @@
     }
 
     function onUpload(e) {
+        @{
+            
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
         // Array with information about the uploaded files
         var files = e.files;
 
@@ -45,6 +75,27 @@
         }
     }
     function onRemove(e) {
+            @{
+             
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "delete")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+        }
         var r = confirm("Apakah anda yakin?");
         if (r) {
             return true;
@@ -55,7 +106,6 @@
     }
 
     $(document).ready(function () {
-        alert('@(Model.rkap)');
         if ('@(Model.rkap)' != "") {
             loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
         }

@@ -116,6 +116,7 @@ namespace relmon.Controllers.Admin
         # region Rjpp
         public ActionResult Rjpp(int id)
         {
+            ViewBag.id = id;
             var result = (from x in db.bisnis_main
                           where x.company_id == id
                           select x
@@ -145,6 +146,28 @@ namespace relmon.Controllers.Admin
 
             if (result.Count == 0)
             {
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create")){
+                        return false;
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + id, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + id, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+            
+            
                 bisnis_main items = new bisnis_main();
                 items.company_id = id;
                 items.rjpp = HttpUtility.UrlDecode(rjpp);
@@ -153,6 +176,30 @@ namespace relmon.Controllers.Admin
             }
             else
             {
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+
+                if (category == 0)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+                else if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + id, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + id, aclId, "create"))
+                    {
+                        return false;
+                    }
+                }
                 bisnis_main items = result.First();
                 items.rjpp = HttpUtility.UrlDecode(rjpp);
                 db.Entry(items).State = EntityState.Modified;
@@ -256,9 +303,27 @@ namespace relmon.Controllers.Admin
         #endregion
 
         # region Bussiness Report
-        public ActionResult BussinessReport()
+        public ActionResult BussinessReport(int id, int rowId)
         {
-            return PartialView();
+            ViewBag.id = id;
+            var result = (from x in db.bisnis_bussiness_report
+                          where x.id == rowId
+                          select x
+                        ).ToList();
+            if (result.Count == 0)
+            {
+                bisnis_bussiness_report e = new bisnis_bussiness_report();
+                e.company_id = id;
+                ViewBag.baru = 1;
+                return PartialView(e);
+                
+            }
+            else
+            {
+                bisnis_bussiness_report e = result.First();
+                ViewBag.baru = 0;
+                return PartialView(e);
+            }
         }
 
         [HttpPost]
@@ -294,7 +359,7 @@ namespace relmon.Controllers.Admin
         public string UpdateBussinessReport(bisnis_bussiness_report bisnis_bussiness_report)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.id == bisnis_bussiness_report.id
+                          where x.company_id == bisnis_bussiness_report.company_id && x.tahun == bisnis_bussiness_report.tahun && x.bulan == bisnis_bussiness_report.bulan
                           select x
                         ).ToList();
             bisnis_bussiness_report items = result.First();
@@ -328,6 +393,7 @@ namespace relmon.Controllers.Admin
         [GridAction]
         public ActionResult _DeleteBisnisReport(int id) //row_id
         {
+
             //delete dr database
             var tempResult = (from x in db.bisnis_bussiness_report
                               where x.id == id
@@ -337,6 +403,31 @@ namespace relmon.Controllers.Admin
             {
                 bisnis_bussiness_report result = tempResult.First();
                 comp_id = result.company_id;
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+
+                if (category == 0)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
+                else if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + id, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + id, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
+
                 //delete file
                 UploadController upload = new UploadController();
                 string[] file = new string[1];
@@ -369,6 +460,7 @@ namespace relmon.Controllers.Admin
         public JsonResult GetReport(int id)
         {
             bisnis_bussiness_report x = db.bisnis_bussiness_report.Find(id);
+            ViewBag.upload = x.content;
             return Json(new
             {
                 id = x.id,
@@ -382,9 +474,27 @@ namespace relmon.Controllers.Admin
         # endregion
 
         # region KPI
-        public ActionResult Kinerja()
+        public ActionResult Kinerja(int id, int rowId)
         {
-            return PartialView();
+            ViewBag.id = id;
+            var result = (from x in db.bisnis_kpi
+                          where x.id == rowId
+                          select x
+                        ).ToList();
+            if (result.Count == 0)
+            {
+                bisnis_kpi e = new bisnis_kpi();
+                e.company_id = id;
+                ViewBag.baru = 1;
+                return PartialView(e);
+
+            }
+            else
+            {
+                bisnis_kpi e = result.First();
+                ViewBag.baru = 0;
+                return PartialView(e);
+            }
         }
 
         [HttpPost]
@@ -462,6 +572,29 @@ namespace relmon.Controllers.Admin
             {
                 bisnis_kpi result = tempResult.First();
                 comp_id = result.company_id;
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(id);
+                if (category == 0)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
+                else if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + id, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + id, aclId, "delete"))
+                    {
+                        return binding(comp_id);
+                    }
+                }
                 UploadController upload = new UploadController();
                 
                 string[] file = new string[1];
@@ -509,6 +642,41 @@ namespace relmon.Controllers.Admin
         }
         #endregion
 
+
+        public static int GetCategory(int id)
+        {
+            RelmonStoreEntities db = new RelmonStoreEntities();
+            if (id == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                var listResultTemp = (from x in db.companies
+                                      where (x.id == id)
+                                      select new
+                                      {
+                                          id = x.id,
+                                          parent = x.parent
+                                      }).ToList();
+                if (listResultTemp.Count == 1)
+                {
+                    var result = listResultTemp.First();
+                    if (result.parent == 0)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
         //public ActionResult RencanaKerja()
         //{
         //    return PartialView();

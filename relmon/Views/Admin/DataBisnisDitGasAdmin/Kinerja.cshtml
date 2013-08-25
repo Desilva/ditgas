@@ -1,261 +1,307 @@
-﻿
+﻿@model relmon.Models.bisnis_kpi
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+@{
+    int aclId = (int)Session["id"];
+    int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+}
 <script>
-    var filename = "";
-    var editfilename = "";
-    var editId = "";
-    //    var deleted_id = "";
-    function onSuccess(e) {
-        var files = e.files;
-        if (e.operation == "upload") {
-            filename = files[0].name
-        } else if (e.operation == "remove") {
-            filename = "";
-        }
-    }
-
-    function onLoad(e) {
-        console.log(e);
-    }
-
-    function onRemove(e) {
-        var r = confirm("Apakah anda yakin?");
-        if (r) {
-            return true;
-        } else {
-            e.preventDefault();
-            return false;
-        }
-    }
-    function onClose(e) {
-
-        var values =
-            {
-                "fileNames": editfilename,
-                "dir": "Data Bisnis"
+        var filename = "";
+        function onSuccess(e) {
+            var files = e.files;
+            if (e.operation == "upload") {
+                filename = files[0].name
+            } else if (e.operation == "remove") {
+                filename = "";
             }
-        $.post("Upload/Remove", values, function (data) {
+        }
 
-        });
-        editfilename = "";
-    }
-
-    function OnComplete(e) {
-        if (e.name == "EditKinerja") {
-            var detailWindow = $("#EditKinerja").data("tWindow");
-            vals = e.response;
-            $("#tahun2K").val(vals.tahun);
-            $("#deskripsi2K").val(vals.deskripsi);
-
-            filename = vals.content;
-            editId = vals.id;
-            if (vals.content != "" && vals.content != null) {
-                //ada file
-
-                editfilename = vals.content;
-                var passing = "\\" + vals.tahun;
-                //backup file ny ke folder awal
-                var values =
-                {
-                    "filename": filename,
-                    "destDir": "Data Bisnis",
-                    "sourceDir": "Data Bisnis\\"+@(Session["company_view"])+"\\Kinerja" + passing
-
-                }
-                $.post("Upload/Copy", values, function (data) {
-
-                });
-
-                $("#ifexistK").empty();
-                $("#lightboxK .t-upload .t-upload-files").remove();
-                var app = " <ul id='existing-filesK' class='t-upload-files t-reset' style='display: none;'><li class='t-file' data-att-id='" + vals.content + "'><span class='t-icon t-success'>uploaded</span><span class='t-filename' title='" + vals.content + "'>" + vals.content + "<span class='t-progress'><span class='t-state-selected t-progress-status' style='width: 100%;'></span></span></span><button type='button' class='t-button t-button-icontext t-upload-action'><span class='t-icon t-delete'></span>Remove</button></li></ul>";
-                $("#ifexistK").append(app);
-
-                var $fileList, $files, item, _fn, _i, _len;
-                $fileList = $("#existing-filesK");
-                if ($fileList.length > 0) {
-                    $("#lightbox .t-upload").append($fileList);
-                    $files = $("#lightboxK .t-file");
-                    _fn = function (item) {
-                        var $item, fileId, filenames;
-                        $item = $(item);
-                        fileId = $item.data("att-id");
-                        filenames = [
-                          {
-                              name: fileId
-                          }
-                        ];
-                        return $item.data("fileNames", filenames);
-                    };
-                    for (_i = 0, _len = $files.length; _i < _len; _i++) {
-                        item = $files[_i];
-                        _fn(item);
+        function onLoad(e) {
+            console.log(e);
+        }
+        function onUpload(e) {
+        @{
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "create")){
+                        <text>return false;</text>
                     }
-                    $fileList.show();
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
                 }
-
-            } else {
-                //ga ad file
-                filename = "null";
-                $("#ifexistK").empty();
-                $("#lightboxK .t-upload #existing-filesK").remove();
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
             }
-            detailWindow.center().open();
-
-
-        }
     }
-
-    $("#saveKinerjaDitGas").click(function () {
-        var values =
-        {
-            "tahun": document.getElementById("tahun").value,
-            "company_id": 0,
-            "deskripsi": document.getElementById("deskripsi").value,
-            "content": filename
+        function onRemove(e) {
+            @{
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "delete")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
+            var r = confirm("Apakah anda yakin?");
+            if (r) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
         }
 
-        $.post("DataBisnisDitGasAdmin/UploadKinerja", values, function (data) {
-            if (data == "true") {
-                alert('Data tersimpan');
-                var grid = $('#Kinerja').data('tGrid');
-                grid.ajaxRequest();
-                resetForm();
-            } else if (data == "false") {
-                alert('Data tidak tersimpan');
-            } else if (data == "exist") {
-                var r = confirm("Kinerja pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
-                if (r) {
-                    $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
-                        if (data == "true") {
-                            alert('Data tersimpan');
-                            var grid = $('#Kinerja').data('tGrid');
-                            grid.ajaxRequest();
-                            resetForm();
-                        } else if (data == "false") {
-                            alert('Data tidak tersimpan');
-                        }
-                    });
+        function OnComplete(e) {
+            if (e.name == "EditKinerja") {
+                @{
+             
+                if(category==0){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "update")){
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
+                               $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "KPI"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }else if(category==1){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "KPI"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+                else
+                {
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "KPI"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+            
                 }
             }
-
-        });
-    });
-
-    function resetForm() {
-
-
-        if (filename != "") {
-
+        }
+        $("#saveKinerjaDitGas").click(function () {
             var values =
             {
-                "filename": filename,
-                "destDir": "Data Bisnis\\Direktorat Gas\\Kinerja\\" + document.getElementById("tahun").value,
-                "sourceDir": "Data Bisnis"
-
+                "tahun": document.getElementById("tahun2").value,
+                "company_id": '@ViewBag.id',
+                "deskripsi": document.getElementById("deskripsi").value,
+                "content": filename
             }
-            $.post("Upload/Move", values, function (data) {
-
-            });
-            filename = "";
-        }
-        $("#mainuploadK .t-upload-files").remove();
-        $("#deskripsiK").val('');
-    }
-
-    $("#saveKinerjaDitGas2").click(function () {
-        var values =
-        {
-            "id": editId,
-            "tahun": document.getElementById("tahun2").value,
-            "company_id": 0,
-            "deskripsi": document.getElementById("deskripsi2").value,
-            "content": filename
-        }
-        $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
-
-            if (data == "true") {
-                alert('Data tersimpan');
-                var grid = $('#Kinerja').data('tGrid');
-                grid.ajaxRequest();
-                $("#EditKinerja").data("tWindow").close();
-
-                var values =
-                {
-                    "filename": filename,
-                    "destDir": "Data Bisnis\\Direktorat Gas\\Kinerja\\" + $("#tahun2K").val(),
-                    "sourceDir": "Data Bisnis"
-
+            var allowed = true;
+            @{
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "create")){
+                        <text>alllowed = false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
                 }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
+                }
+            }
+            if(allowed==true){
+                $.post("DataBisnisDitGasAdmin/UploadKinerja", values, function (data) {
+                    if (data == "true") {
+                        alert('Data tersimpan');
+                        var grid = $('#KinerjaReport').data('tGrid');
+                        grid.ajaxRequest();
+                        if ('@ViewBag.baru' == 1) {
+                            var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\" + document.getElementById("tahun").value;
+                            var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\0";
+                            var values =
+                            {
+                                "filename": filename,
+                                "destDir": destDir,
+                                "sourceDir": sourceDir
 
-                $.post("Upload/CleanMove", values, function (data) {
+                            }
+                            $.post("Upload/Move", values, function (data) { });
+                        }
+
+                        resetForm();
+                    } else if (data == "false") {
+                        alert('Data tidak tersimpan');
+                    } else if (data == "exist") {
+                        var r = true;
+                      @{
+                            if(category==0){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "update")){
+                                    <text>r=false;</text>
+                                }
+                            }else if(category==1){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                            else
+                            {
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                        }
+                        r = confirm("Report pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
+                        if (r) {
+                            $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
+                                if (data == "true") {
+                                    alert('Data tersimpan');
+                                    var grid = $('#BisnisReport').data('tGrid');
+                                    grid.ajaxRequest();
+                                    if ('@ViewBag.baru' == 1) {
+                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\" + document.getElementById("tahun").value;
+                                        var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\0";
+                                        var values =
+                                        {
+                                            "filename": filename,
+                                            "destDir": destDir,
+                                            "sourceDir": sourceDir
+
+                                        }
+                                        $.post("Upload/Move", values, function (data) { });
+                                    }
+                                    resetForm();
+                                } else if (data == "false") {
+                                    alert('Data tidak tersimpan');
+                                }
+                            });
+                        }
+                    }
 
                 });
-                editId = "";
-
-            } else if (data == "false") {
-                alert('Data tidak tersimpan');
-            } else if (data == "exist") {
-                var r = confirm("Kinerja pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
-                if (r) {
-                    $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
-                        if (data == "true") {
-
-                            alert('Data tersimpan');
-                            var grid = $('#Kinerja').data('tGrid');
-                            grid.ajaxRequest();
-                            $("#EditKinerja").data("tWindow").close();
-
-                            var values =
-                                {
-                                    "filename": filename,
-                                    "destDir": "Data Bisnis\\Direktorat Gas\\Kinerja\\" + $("#tahun2K").val(),
-                                    "sourceDir": "Data Bisnis"
-                                }
-
-                            $.post("Upload/CleanMove", values, function (data) {
-
-                            });
-                            editId = "";
-                        } else if (data == "false") {
-                            alert('Data tidak tersimpan');
-                        }
-                    });
-                }
             }
         });
-    });
 
-    $(document).ready(function () {
+        function resetForm() {
 
-        var currentYear = new Date().getFullYear();
-
-        for (var i = 1; i <= 10; i++) {
-            $("#tahunK").append(
-                $("<option></option>")
-                .attr("value", currentYear)
-                .text(currentYear)
-            );
-            $("#tahun2K").append(
-                $("<option></option>")
-                .attr("value", currentYear)
-                .text(currentYear)
-            );
-            currentYear--;
+            var tabStrip = $("#TabStrip").data("tTabStrip");
+            $.post("DataBisnisDitGasAdmin/Kinerja/@ViewBag.id", { rowId: -1 }, function (data) {
+                $( "#TabStrip .t-link" ).each(function(index) {
+                        if($(this).text() == "KPI"){
+                            $("#TabStrip-"+(index+1)).html(data);
+                        }
+                    });
+            });
         }
 
-    });
+        $("#cancelbutton2").click(function () {
+            resetForm();
+        });
+        $(document).ready(function () {
+            var currentYear = new Date().getFullYear();
+
+            for (var i = 1; i <= 10; i++) {
+                $("#tahun2").append(
+                    $("<option></option>")
+                    .attr("value", currentYear)
+                    .text(currentYear)
+                );
+                currentYear--;
+            }
+            
+            if('@ViewBag.baru' == 0){
+                $("#tahun2").val('@Model.tahun');
+                $("#deskripsi2").val('@Model.deskripsi');
+                $('#tahun2').attr('disabled', 'disabled');
+            }
+
+            var $fileList, $files, item, _fn, _i, _len;
+
+            $fileList = $("#existing-files4");
+
+            if ($fileList.length > 0) {
+                $("#mainupload2 .t-upload").append($fileList);
+                $files = $(".t-file");
+                _fn = function (item) {
+                    var $item, fileId, filenames;
+                    $item = $(item);
+                    fileId = $item.data("att-id");
+                    filenames = [
+                              {
+                                  name: fileId
+                              }
+                            ];
+                    return $item.data("fileNames", filenames);
+                };
+                for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                    item = $files[_i];
+                    _fn(item);
+                }
+                $fileList.show();
+            }
+        });
 </script>
-<h3>Pengaturan KPI</h3>
+
+<h3>Pengaturan Business Report</h3>
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahunK">
+    <select name="tahun" id="tahun2">
 
     </select>
     
 </div>
 
-<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainuploadK">
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainupload2">
     @(Html.Telerik().Upload()
-                .Name("attachmentsKinerja")
+                .Name("attachmentsBussinessReport")
         .ClientEvents(events => events
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
@@ -263,28 +309,36 @@
         )
         .Multiple(false)
         .Async(async => async
-            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis"})
-            .Remove("Remove", "Upload", new { dir = "Data Bisnis" })
+            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + Model.company_id + "\\Kinerja\\" + Model.tahun })
+            .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\Kinerja\\" + Model.tahun })
             .AutoUpload(true)
         )
-        
+
     )
+   <div class="controls">
+		@{
+            if (!string.IsNullOrWhiteSpace(Model.content))
+            {
+                <ul id="existing-files4" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.content)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.content)">@(Model.content)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+            }
+        }                    
+	</div>
 </div>
 
 <div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
-    <textarea id="deskripsiK" rows="10" cols="60"></textarea>
+    <textarea id="deskripsi2" rows="10" cols="60"></textarea>
 </div>
 <p>
-	<input type="submit" id="saveKinerjaDitGas" value="Simpan" />
+	<input type="submit" id="saveKinerjaDitGas" value="Simpan" /><input type="button" id="cancelbutton2" value="Batal" />
 </p>
 <hr/>
-<h4>Tabel KPI</h4>
+<h4>Tabel Kinerja</h4>
 @(Html.Telerik().Grid<relmon.Models.bisnis_kpi>()
-        .Name("Kinerja")
+        .Name("KinerjaReport")
         .DataKeys(keys =>
         {
             keys.Add(p => p.id);
-        })  
+        })
         .DataBinding(dataBinding =>
         {
             dataBinding.Ajax()
@@ -295,7 +349,6 @@
         {
             columns.Bound(o => o.id).Hidden();
             columns.Bound(o => o.tahun).Width(150).Title("Tahun");
-            //columns.Bound(o => o.bulan).Title("Bulan");
             columns.Bound(o => o.deskripsi).Title("Deskripsi");
             columns.Bound(o => o.content).Title("Filename");
             columns.Command(commands =>
@@ -312,7 +365,6 @@
         .ClientEvents(
             events => events
                 .OnComplete("OnComplete")
-                //.OnDelete("OnDelete")
         )
         .Pageable(p => p.PageSize(15))
         .Sortable()
@@ -322,49 +374,3 @@
         .Selectable()
         .Groupable()
 )
-
-
-@(Html.Telerik().Window()
-        .Name("EditKinerja")
-    .Visible(false)
-    .Title("Edit Kinerja")
-    .Modal(true)
-    .Width(675)
-    .Height(350)
-    .Draggable(true)
-    .ClientEvents(events=>events.OnClose("onClose"))
-    .Content(@<text>
-        <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-            <select name="tahun" id="tahun2K">
-
-            </select>
-    
-        </div>
-
-        <div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div id="lightboxK" class="Ainput" id="editUploadK">
-            
-           @(Html.Telerik().Upload()
-                                .Name("attachmentsKinerja2")
-                        .ClientEvents(events => events
-                            .OnSuccess("onSuccess")
-                            .OnLoad("onLoad")
-                        )
-                        .Multiple(false)
-                        .Async(async => async
-                                    .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis"})
-                                    .Remove("Remove", "Upload", new { dir = "Data Bisnis"})
-                                    .AutoUpload(true)
-                        )
-                        )
-            <div class="controls" id="ifexistK"></div>
-        </div>
-
-        <div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
-            <textarea id="deskripsi2K" rows="10" cols="60"></textarea>
-        </div>
-        <p>
-	        <input type="submit" id="saveKinerjaDitGas2" value="Simpan" />
-        </p>
-        </text>)
-        )
-<br />

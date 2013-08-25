@@ -1,4 +1,7 @@
 ﻿@model relmon.Models.bisnis_main
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
 <h4>Upload Image Struktur Organisasi</h4> 
 
 <script type="text/javascript">
@@ -35,6 +38,26 @@
     }
 
     function onUpload(e) {
+        @{
+            int aclId = (int)Session["id"];
+            
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+
+                if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else if(category==2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
         // Array with information about the uploaded files
         var files = e.files;
 
@@ -46,6 +69,26 @@
         }
     }
     function onRemove(e) {
+            @{
+            int aclId2 = (int)Session["id"];
+            
+            int category2 = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+
+                if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else if(category==2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
         var r = confirm("Apakah anda yakin?");
         if (r) {
             return true;
