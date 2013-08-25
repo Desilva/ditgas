@@ -450,9 +450,23 @@ namespace relmon.Controllers.Admin
                                                     where x.company_id == id
                                                     select x).ToList();
 
-            return View(new GridModel<bisnis_bussiness_report>
+            List<BisnisBussinessReportContainer> temp = new List<BisnisBussinessReportContainer>();
+            foreach (bisnis_bussiness_report b in result) {
+                BisnisBussinessReportContainer x = new BisnisBussinessReportContainer
+                {
+                    id = b.id,
+                    tahun = b.tahun,
+                    deskripsi = b.deskripsi,
+                    content = b.content,
+                    company_id = b.company_id,
+                    bulan = b.bulan
+                };
+                temp.Add(x);
+            }
+
+            return View(new GridModel<BisnisBussinessReportContainer>
             {
-                Data = result
+                Data = temp
             });
         }
 
@@ -620,10 +634,22 @@ namespace relmon.Controllers.Admin
             List<bisnis_kpi> result = (from x in db.bisnis_kpi
                                        where x.company_id == id
                                        select x).ToList();
+            List<BisnisKPIContainer> temp = new List<BisnisKPIContainer>();
+            foreach(bisnis_kpi b in result ){
+                BisnisKPIContainer x = new BisnisKPIContainer()
+                {
+                    company_id = b.company_id,
+                    content = b.content,
+                    deskripsi = b.deskripsi,
+                    id = b.id,
+                    tahun = b.tahun
+                };
+                temp.Add(x);
+            }
 
-            return View(new GridModel<bisnis_kpi>
+            return View(new GridModel<BisnisKPIContainer>
             {
-                Data = result
+                Data = temp
             });
         }
 
