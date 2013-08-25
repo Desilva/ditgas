@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $.post("DataBisnisApAdmin/GetCompanyList", { parent: 0 }, function (data) {
+        $.post("DataBisnisApAdmin/GetCompanyList", { parent: 0, wcheck: false }, function (data) {
             var get = "";
             $.each(data, function (index, value) {
                 get += '<option value="' + value.id + '">' + value.member + '</option>'
@@ -17,7 +17,7 @@
                 $('<option value="">-- Pilih Afiliasi --</option>').appendTo("#id_afiliasi");
 
                 var parent = $('#id_ap').val();
-                $.post("DataBisnisApAdmin/GetCompanyList", { parent: parent }, function (data) {
+                $.post("DataBisnisAfiliasiAdmin/GetCompanyList", { parent: parent,wcheck:true }, function (data) {
                     var get = "";
                     $.each(data, function (index, value) {
                         get += '<option value="' + value.id + '">' + value.member + '</option>'

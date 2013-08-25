@@ -61,6 +61,7 @@ namespace relmon.Controllers
         {
             Session["role"] = null;
             Session["name"] = null;
+            Session["id"] = null;
             FormsAuthentication.SignOut();
             
             return RedirectToAction("LogOn", "Account");

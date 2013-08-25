@@ -20,7 +20,7 @@ namespace relmon.Models
         public int tahun { get; set; }
         public string deskripsi { get; set; }
     
-        //public virtual company company { get; set; }
+        public virtual company company { get; set; }
     }
     
 }

@@ -302,7 +302,7 @@ namespace relmon.Controllers.Admin
 
 
         [HttpPost]
-        public JsonResult GetCompanyList(int parent)
+        public JsonResult GetCompanyList(int parent, bool wcheck)
         {
             //int parentInt = Int32.Parse(parent);
             var listResultTemp = (from x in db.companies
@@ -316,14 +316,33 @@ namespace relmon.Controllers.Admin
             List<object> listResult = new List<object>();
             foreach (var result in listResultTemp)
             {
-                listResult.Add(new
+
+                if (wcheck)
                 {
-                    id = result.id,
-                    member = result.nama
-                });
+                    if (checkACL(result.nama))
+                    {
+                        listResult.Add(new
+                        {
+                            id = result.id,
+                            member = result.nama
+                        });
+                    }
+                }
+                else
+                {
+                    listResult.Add(new
+                    {
+                        id = result.id,
+                        member = result.nama
+                    });
+                }
             }
 
             return Json(listResult);
+        }
+
+        public virtual bool checkACL(string nama){
+            return ACLHandler.isUserAllowedTo(PageItem.DataBisnis_ApCompany.name +nama,(int) Session["id"], "view");
         }
 
         public ActionResult ProjectStatus(int id)
