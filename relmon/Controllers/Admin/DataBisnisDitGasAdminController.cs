@@ -501,7 +501,7 @@ namespace relmon.Controllers.Admin
         public string UploadKinerja(bisnis_kpi bisnis_kpi)
         {
             var result = (from x in db.bisnis_kpi
-                          where x.company_id == bisnis_kpi.id && x.tahun == bisnis_kpi.tahun
+                          where x.company_id == bisnis_kpi.company_id && x.tahun == bisnis_kpi.tahun
                           select x
                         ).ToList();
 

@@ -134,7 +134,7 @@
             {
                 "tahun": document.getElementById("tahun2").value,
                 "company_id": '@ViewBag.id',
-                "deskripsi": document.getElementById("deskripsi").value,
+                "deskripsi": document.getElementById("deskripsi2").value,
                 "content": filename
             }
             var allowed = true;
@@ -157,6 +157,7 @@
                     }
                 }
             }
+
             if(allowed==true){
                 $.post("DataBisnisDitGasAdmin/UploadKinerja", values, function (data) {
                     if (data == "true") {
