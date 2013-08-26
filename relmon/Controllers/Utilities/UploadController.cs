@@ -42,7 +42,10 @@ namespace relmon.Controllers.Utilities
                 foreach (var fullName in fileNames)
                 {
                     var fileName = Path.GetFileName(fullName);
-                    var physicalPath = Path.Combine(Server.MapPath("~/Upload"), dir, fileName);
+                    string home = System.AppDomain.CurrentDomain.BaseDirectory;
+                    string physicalPath = home + "Upload\\" + dir +"\\"+ fileName;
+
+                    //var physicalPath = Path.Combine(test, dir, fileName);
 
                     // TODO: Verify user permissions
                     if (System.IO.File.Exists(physicalPath))

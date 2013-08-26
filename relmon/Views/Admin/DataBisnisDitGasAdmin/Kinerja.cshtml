@@ -203,6 +203,13 @@
                         }
                         r = confirm("Report pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
                         if (r) {
+                            var values =
+                            {
+                                "tahun": document.getElementById("tahun2").value,
+                                "company_id": '@ViewBag.id',
+                                "deskripsi": document.getElementById("deskripsi2").value,
+                                "content": filename
+                            }
                             $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
                                 if (data == "true") {
                                     alert('Data tersimpan');

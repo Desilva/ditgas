@@ -206,6 +206,14 @@
                         }
                     r = confirm("Report pada bulan tersebut sudah ada. Apakah anda ingin menggantinya?");
                     if (r) {
+                        var values =
+                        {
+                            "tahun": document.getElementById("tahun").value,
+                            "bulan": document.getElementById("bulan").value,
+                            "company_id": '@ViewBag.id',
+                            "deskripsi": document.getElementById("deskripsi").value,
+                            "content": filename
+                        }
                         $.post("DataBisnisDitGasAdmin/UpdateBussinessReport", values, function (data) {
                             if (data == "true") {
                                 alert('Data tersimpan');
