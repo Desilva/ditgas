@@ -6,6 +6,9 @@
             $("#profilContainer").html(result);
         });
     }
+    $(document).ready(function () {
+        refreshUploadProfil();
+    });
 </script>
 <div id="profilContainer"></div>
 <iframe id="refresh_targetProfil" name="refresh_targetProfil" src="" style="display:none;" onload="refreshUploadProfil();"></iframe>
