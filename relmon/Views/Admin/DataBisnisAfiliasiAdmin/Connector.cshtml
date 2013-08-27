@@ -4,20 +4,20 @@
         .Name("TabStrip")
         .Items(parent => {
             int aclId = (int)Session["id"];
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name+ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Profil.name+ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                 .Text("Profil")
                 .LoadContentFrom("Profil/" + ViewBag.id, "DataBisnisApAdmin")
                 .Selected(true);
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name+ ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Struktur Organisasi")
                     .LoadContentFrom("StrukturOrganisasi/" + ViewBag.id, "DataBisnisApAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("AD/ART")
@@ -30,37 +30,37 @@
                     .Text("Visi Misi")
                     .LoadContentFrom("RencanaKerja/" + ViewBag.id, "DataBisnisApAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("RJPP")
                     .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("RKAP")
                     .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Bussiness Report")
                     .LoadContentFrom("BussinessReport/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("KPI")
                     .LoadContentFrom("Kinerja/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ProjectStatus.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Project Status")
                     .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Product dan Jasa")
