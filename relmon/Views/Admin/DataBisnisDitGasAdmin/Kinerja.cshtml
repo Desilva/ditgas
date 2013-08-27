@@ -165,7 +165,7 @@
                         var grid = $('#KinerjaReport').data('tGrid');
                         grid.ajaxRequest();
                         if ('@ViewBag.baru' == 1) {
-                            var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\" + document.getElementById("tahun").value;
+                            var destDir = "Data Bisnis\\" + '@(Model.company_id)' + "\\Kinerja\\"+ $("#tahun2").val();
                             var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\0";
                             var values =
                             {
@@ -176,7 +176,6 @@
                             }
                             $.post("Upload/Move", values, function (data) { });
                         }
-
                         resetForm();
                     } else if (data == "false") {
                         alert('Data tidak tersimpan');
@@ -213,10 +212,10 @@
                             $.post("DataBisnisDitGasAdmin/UpdateKinerja", values, function (data) {
                                 if (data == "true") {
                                     alert('Data tersimpan');
-                                    var grid = $('#BisnisReport').data('tGrid');
+                                    var grid = $('#KinerjaReport').data('tGrid');
                                     grid.ajaxRequest();
                                     if ('@ViewBag.baru' == 1) {
-                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\" + document.getElementById("tahun").value;
+                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\" + $("#tahun2").val();
                                         var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\Kinerja\\0";
                                         var values =
                                         {
@@ -240,7 +239,7 @@
         });
 
         function resetForm() {
-
+        alert("5");
             var tabStrip = $("#TabStrip").data("tTabStrip");
             $.post("DataBisnisDitGasAdmin/Kinerja/@ViewBag.id", { rowId: -1 }, function (data) {
                 $( "#TabStrip .t-link" ).each(function(index) {

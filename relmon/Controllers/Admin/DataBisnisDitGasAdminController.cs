@@ -544,7 +544,7 @@ namespace relmon.Controllers.Admin
         public string UpdateKinerja(bisnis_kpi bisnis_kpi)
         {
             var result = (from x in db.bisnis_kpi
-                          where x.id == bisnis_kpi.id
+                          where x.company_id == bisnis_kpi.company_id && x.tahun == bisnis_kpi.tahun
                           select x
                         ).ToList();
             bisnis_kpi items = result.First();

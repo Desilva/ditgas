@@ -72,6 +72,7 @@
         });
     }
     function ckEditorLoadNews() {
+        CKEDITOR.config.baseFloatZIndex = 20000;
         ckEditorAddNews = CKEDITOR.replace('kontenNews', {
             uiColor: '#14B8C4',
             htmlEncodeOutput: true,
@@ -82,6 +83,7 @@
         });
     }
     function ckEditorLoadEditNews() {
+        CKEDITOR.config.baseFloatZIndex = 20000;
         ckEditorEditNews = CKEDITOR.replace('edit_kontenNews', {
             uiColor: '#14B8C4',
             htmlEncodeOutput: true,
