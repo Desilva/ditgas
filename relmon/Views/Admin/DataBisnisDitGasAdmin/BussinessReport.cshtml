@@ -82,14 +82,15 @@
                     if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "update")){
                         <text>
                             var vals = e.response
-                            var tabStrip = $("#TabStrip").data("tTabStrip");
-                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
-                                $( "#TabStrip .t-link" ).each(function(index) {
-                                        if($(this).text() == "Bussiness Report"){
-                                            $("#TabStrip-"+(index+1)).html(data);
-                                        }
-                                    });
-                            });
+                            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
+//                            var tabStrip = $("#TabStrip").data("tTabStrip");
+//                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
+//                                $( "#TabStrip .t-link" ).each(function(index) {
+//                                        if($(this).text() == "Bussiness Report"){
+//                                            $("#TabStrip-"+(index+1)).html(data);
+//                                        }
+//                                    });
+//                            });
                         </text>
                     }
                 }else if(category==1){
@@ -97,14 +98,7 @@
                     {
                         <text>
                             var vals = e.response
-                            var tabStrip = $("#TabStrip").data("tTabStrip");
-                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
-                                $( "#TabStrip .t-link" ).each(function(index) {
-                                        if($(this).text() == "Bussiness Report"){
-                                            $("#TabStrip-"+(index+1)).html(data);
-                                        }
-                                    });
-                            });
+                            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
                         </text>
                     }
                 }
@@ -114,14 +108,7 @@
                     {
                         <text>
                             var vals = e.response
-                            var tabStrip = $("#TabStrip").data("tTabStrip");
-                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
-                                $( "#TabStrip .t-link" ).each(function(index) {
-                                        if($(this).text() == "Bussiness Report"){
-                                            $("#TabStrip-"+(index+1)).html(data);
-                                        }
-                                    });
-                            });
+                            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
                         </text>
                     }
                 }
@@ -137,7 +124,8 @@
             "bulan": document.getElementById("bulan").value,
             "company_id": '@ViewBag.id',
             "deskripsi": document.getElementById("deskripsi").value,
-            "content": filename
+            "content": filename,
+            "reportType" : '@ViewBag.type'
         }
 
            var allowed = true;
@@ -212,7 +200,8 @@
                             "bulan": document.getElementById("bulan").value,
                             "company_id": '@ViewBag.id',
                             "deskripsi": document.getElementById("deskripsi").value,
-                            "content": filename
+                            "content": filename,
+                            "reportType":'@ViewBag.type'
                         }
                         $.post("DataBisnisDitGasAdmin/UpdateBussinessReport", values, function (data) {
                             if (data == "true") {
@@ -244,21 +233,29 @@
     });
 
     function resetForm() {
-        var tabStrip = $("#TabStrip").data("tTabStrip");
-        $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1 }, function (data) {
-        
-            $( "#TabStrip .t-link" ).each(function(index) {
-                if($(this).text() == "Bussiness Report"){
-                    $("#TabStrip-"+(index+1)).html(data);
-                }
-            });
-           
-        });
+        $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=@ViewBag.type");
+
+//        var tabStrip = $("#TabStrip").data("tTabStrip");
+//        $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1 }, function (data) {
+//        
+//            $( "#TabStrip .t-link" ).each(function(index) {
+//                if($(this).text() == "Bussiness Report"){
+//                    $("#TabStrip-"+(index+1)).html(data);
+//                }
+//            });
+//           
+//        });
     }
 
     $("#cancelbutton").click(function () {
         resetForm();
     });
+
+    $("#addButton").click(function(){
+        $("#addnew").show();
+        $(window).scrollTop($("#addnew").offset().top).scrollLeft($("#addnew").offset().left);
+    });
+
     $(document).ready(function () {
         var currentYear = new Date().getFullYear();
 
@@ -276,7 +273,9 @@
             $("#deskripsi").val('@Model.deskripsi');
             $('#tahun').attr('disabled', 'disabled');
             $('#bulan').attr('disabled', 'disabled');
-
+            $('#addnew').show();
+            filename = '@Model.content';
+            $(window).scrollTop($("#addnew").offset().top).scrollLeft($("#addnew").offset().left);
         }
         var $fileList, $files, item, _fn, _i, _len;
 
@@ -306,62 +305,9 @@
 </script>
 
 <h3>Pengaturan Business Report</h3>
-<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahun">
 
-    </select>
-    
-</div>
-<div class="Asearch"><b>Bulan</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="bulan" id="bulan">
-        <option value="Januari">Januari</option>
-        <option value="Februari">Februari</option>
-        <option value="Maret">Maret</option>
-        <option value="April">April</option>
-        <option value="Mei">Mei</option>
-        <option value="Juni">Juni</option>
-        <option value="Juli">Juli</option>
-        <option value="Agustus">Agustus</option>
-        <option value="September">September</option>
-        <option value="Oktober">Oktober</option>
-        <option value="November">November</option>
-        <option value="Desember">Desember</option>
-    </select>
-</div>
-
-<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainupload">
-    @(Html.Telerik().Upload()
-                .Name("attachmentsBussinessReport")
-        .ClientEvents(events => events
-            .OnSuccess("onSuccess")
-            .OnLoad("onLoad")
-            .OnRemove("onRemove")
-        )
-        .Multiple(false)
-        .Async(async => async
-            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\"+Model.company_id+"\\Bussiness Report\\"+Model.tahun+"\\"+Model.bulan})
-            .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\Bussiness Report\\" + Model.tahun + "\\" + Model.bulan })
-            .AutoUpload(true)
-        )
-        
-    )
-   <div class="controls">
-		@{
-            if (!string.IsNullOrWhiteSpace(Model.content)){
-                <ul id="existing-files3" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.content)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.content)">@(Model.content)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
-            }
-        }                       
-	</div>
-</div>
-
-<div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
-    <textarea id="deskripsi" rows="10" cols="60"></textarea>
-</div>
-<p>
-	<input type="submit" id="saveBussinessDitGas" value="Simpan" /><input type="button" id="cancelbutton" value="Batal" />
-</p>
 <hr/>
-<h4>Tabel Bisnis Report</h4>
+<h4>Tabel Bisnis Report('@ViewBag.type')</h4>
 @(Html.Telerik().Grid<relmon.Models.BisnisBussinessReportContainer>()
         .Name("BisnisReport")
         .DataKeys(keys =>
@@ -377,7 +323,7 @@
         .Columns(columns =>
         {
             columns.Bound(o => o.id).Hidden();
-            columns.Bound(o => o.tahun).Width(150).Title("Tahun");
+            columns.Bound(o => o.tahun).Width(75).Title("Tahun");
             columns.Bound(o => o.bulan).Title("Bulan");
             columns.Bound(o => o.deskripsi).Title("Deskripsi");
             columns.Bound(o => o.content).Title("Filename");
@@ -404,3 +350,62 @@
         .Selectable()
         .Groupable()
 )
+<button id="addButton">Add new</button>
+<hr />
+<a name="add"></a>
+<div id = "addnew" style="display:none;">
+    <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+        <select name="tahun" id="tahun">
+
+        </select>
+    
+    </div>
+    <div class="Asearch"><b>Bulan</b></div><div class="titik2"> : </div><div class="Ainput">
+        <select name="bulan" id="bulan">
+            <option value="Januari">Januari</option>
+            <option value="Februari">Februari</option>
+            <option value="Maret">Maret</option>
+            <option value="April">April</option>
+            <option value="Mei">Mei</option>
+            <option value="Juni">Juni</option>
+            <option value="Juli">Juli</option>
+            <option value="Agustus">Agustus</option>
+            <option value="September">September</option>
+            <option value="Oktober">Oktober</option>
+            <option value="November">November</option>
+            <option value="Desember">Desember</option>
+        </select>
+    </div>
+
+    <div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainupload">
+        @(Html.Telerik().Upload()
+                    .Name("attachmentsBussinessReport")
+            .ClientEvents(events => events
+                .OnSuccess("onSuccess")
+                .OnLoad("onLoad")
+                .OnRemove("onRemove")
+            )
+            .Multiple(false)
+            .Async(async => async
+                .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\"+Model.company_id+"\\Bussiness Report\\"+Model.tahun+"\\"+Model.bulan})
+                .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\Bussiness Report\\" + Model.tahun + "\\" + Model.bulan })
+                .AutoUpload(true)
+            )
+        
+        )
+       <div class="controls">
+		    @{
+                if (!string.IsNullOrWhiteSpace(Model.content)){
+                    <ul id="existing-files3" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.content)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.content)">@(Model.content)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+                }
+            }                       
+	    </div>
+    </div>
+
+    <div class="Asearch"><b>Deskripsi</b></div><div class="titik2"> : </div><div class="Ainput">
+        <textarea id="deskripsi" rows="10" cols="60"></textarea>
+    </div>
+    <p>
+	    <input type="submit" id="saveBussinessDitGas" value="Simpan" /><input type="button" id="cancelbutton" value="Batal" />
+    </p>
+</div>

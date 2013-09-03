@@ -13,5 +13,6 @@ namespace relmon.Models
         public string bulan { get; set; }
         public int tahun { get; set; }
         public string deskripsi { get; set; }
+		public string reportType { get; set; }
     }
 }

@@ -1,0 +1,50 @@
+﻿
+<script type="text/javascript">
+    function onSelectPanel(e) {
+        var item = $(e.item);
+        
+
+        if (item.find('> .t-link').text() == "I. Executive Summary") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=executive_summary");
+        } else if (item.find('> .t-link').text() == "II. Operating Highlights") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operating_highlights");
+        } else if (item.find('> .t-link').text() == "III. Safety") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=safety");
+        } else if (item.find('> .t-link').text() == "IV. Operation Summary") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operation_summary");
+        } else if (item.find('> .t-link').text() == "V. Financial Report") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=financial_report");
+        } else if (item.find('> .t-link').text() == "VI. Project Status") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=project_status");
+        } else if (item.find('> .t-link').text() == "VII. Administration And Manning") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=administration_and_manning");
+        } else if (item.find('> .t-link').text() == "VIII. Minutes Of Meeting") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=minutes_of_meeting");
+        } 
+    }
+</script>
+<div style="overflow:hidden;">
+
+<div id="nav" style="float:left;">
+<h4>Section</h4>
+@(Html.Telerik().PanelBar()
+        .Name("PanelBar")
+        .HtmlAttributes(new { style = "width: 175px; margin-bottom: 30px;clear: both;margin-left: 10px;" })
+        .ClientEvents(eventsPanel => eventsPanel
+              .OnSelect("onSelectPanel")
+        )
+        .Items(panelBarItem =>
+        {
+            panelBarItem.Add().Text("I. Executive Summary");
+            panelBarItem.Add().Text("II. Operating Highlights");
+            panelBarItem.Add().Text("III. Safety");
+            panelBarItem.Add().Text("IV. Operation Summary");
+            panelBarItem.Add().Text("V. Financial Report");
+            panelBarItem.Add().Text("VI. Project Status");
+            panelBarItem.Add().Text("VII. Administration And Manning");
+            panelBarItem.Add().Text("VIII. Minutes Of Meeting");
+        })
+)
+</div>
+<div id="BRcontent" style="float:left;padding:0px 20px;width:720px;"></div>
+</div>

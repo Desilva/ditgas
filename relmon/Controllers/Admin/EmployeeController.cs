@@ -10,6 +10,13 @@ using Telerik.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
 using Telerik.Web.Mvc.UI;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Drawing.Imaging;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Xml;
+using com.mxgraph;
 
 namespace relmon.Controllers.Admin
 {
@@ -18,45 +25,47 @@ namespace relmon.Controllers.Admin
     {
         private RelmonStoreEntities db = new RelmonStoreEntities();
 
-        public class EmployeeTree
-        {
-            private RelmonStoreEntities db = new RelmonStoreEntities();
+        //public class EmployeeTree
+        //{
+        //    private RelmonStoreEntities db = new RelmonStoreEntities();
 
-            public user current;
-            public List<EmployeeTree> child;
+        //    public string current;
+        //    public List<EmployeeTree> child;
 
-            public EmployeeTree()
-            {
-                current = new user();
-                child = new List<EmployeeTree>();
-            }
+        //    //public EmployeeTree()
+        //    //{
+        //    //    current = new user();
+        //    //    child = new List<EmployeeTree>();
+        //    //}
 
-            public EmployeeTree(int id)
-            {
-                current = new user();
-                child = new List<EmployeeTree>();
+        //    public EmployeeTree(int id)
+        //    {
+        //        //current = new user();
+        //        current = "";
+        //        child = new List<EmployeeTree>();
 
-                current = db.users.Find(id);
-                users_jabatan currentJabatan = db.users_jabatan.Find(current.rm_role);
-                foreach (user u in db.users.Where(x => x.users_jabatan.parent == currentJabatan.id))
-                {
-                    child.Add(new EmployeeTree(u.id));
-                }
-            }
+        //        var tempUser = db.users.Find(id);
+        //        current = tempUser.fullname;
+        //        users_jabatan currentJabatan = db.users_jabatan.Find(tempUser.rm_role);
+        //        foreach (user u in db.users.Where(x => x.users_jabatan.parent == currentJabatan.id))
+        //        {
+        //            child.Add(new EmployeeTree(u.id));
+        //        }
+        //    }
 
-            public EmployeeTree(user user)
-            {
-                current = new user();
-                child = new List<EmployeeTree>();
+        //    //public EmployeeTree(user user)
+        //    //{
+        //    //    current = new user();
+        //    //    child = new List<EmployeeTree>();
 
-                current = user;
-                users_jabatan currentJabatan = db.users_jabatan.Find(current.rm_role);
-                foreach (user u in db.users.Where(x => x.users_jabatan.parent == currentJabatan.id))
-                {
-                    child.Add(new EmployeeTree(u));
-                }
-            }
-        }
+        //    //    current = user;
+        //    //    users_jabatan currentJabatan = db.users_jabatan.Find(current.rm_role);
+        //    //    foreach (user u in db.users.Where(x => x.users_jabatan.parent == currentJabatan.id))
+        //    //    {
+        //    //        child.Add(new EmployeeTree(u));
+        //    //    }
+        //    //}
+        //}
 
         #region view
 
@@ -440,17 +449,79 @@ namespace relmon.Controllers.Admin
 
         #region admin profil tab
 
-        public EmployeeTree getEmployeeTree(int id)
-        {
-            return new EmployeeTree(id);
-        }
+        //public EmployeeTree getEmployeeTree(int id)
+        //{
+        //    return new EmployeeTree(id);
+        //}
 
+        //public string getEmployeeTree(int id)
+        //{
+            
+        //    var serializer = new JavaScriptSerializer();
+        //    var jsonString = serializer.Serialize(new EmployeeTree(id));
+        //    return jsonString;
+        //}
         public ActionResult Profil_Organisasi()
         {
-            ViewBag.struktur = new EmployeeTree(0);
+            //ViewBag.struktur = new EmployeeTree(0);
             return PartialView();
         }
 
+        public string getXml()
+        {
+            var physicalPath = Path.Combine(Server.MapPath("~/Upload"), "struktur.xml");
+            if(System.IO.File.Exists(physicalPath){
+                 string getString = System.IO.File.ReadAllText(physicalPath);
+                return getString;
+            }
+           return "";
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public void ProcessRequest(string filename, string format, string bg, string w, string h, string xml,string xmlSave)
+        {
+            xml = HttpUtility.UrlDecode(xml);
+            string width = w;
+            string height = h;
+            xml = xml.Replace(HttpUtility.HtmlEncode("<p style=\"margin:0px;width:115px\">&nbsp;</p><h4 style=\"margin:0px;color:#1d258f;text-align:center;\">"), "\n    ");
+            xml = xml.Replace(HttpUtility.HtmlEncode("&nbsp;&nbsp;&nbsp;&nbsp;</h4><p style=\"text-align:left;margin:0px;color:black;text-indent:1px;float:left;width:20px\">"), "\n");
+            xml = xml.Replace(HttpUtility.HtmlEncode("</p><p style=\"text-align:right;margin:0px;color:black;\">"), "                                  ");
+            xml = xml.Replace(HttpUtility.HtmlEncode("</p>"), "");
+
+            if (xml != null && width != null && height != null && bg != null
+                    && filename != null && format != null)
+            {
+                //xml
+                xmlSave = HttpUtility.UrlDecode(xmlSave);
+                XmlDocument xdoc = new XmlDocument();
+                xdoc.LoadXml(xmlSave);
+                var physicalPath = Path.Combine(Server.MapPath("~/Upload"), "struktur.xml");
+                xdoc.Save(physicalPath);
+
+                //png
+                var imagePath = Path.Combine(Server.MapPath("~/Upload"), "struktur.png");
+                System.Drawing.Image image = mxUtils.CreateImage(int.Parse(width), int.Parse(height),
+                    ColorTranslator.FromHtml(bg));
+                Graphics g = Graphics.FromImage(image);
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                mxSaxOutputHandler handler = new mxSaxOutputHandler(new mxGdiCanvas2D(g));
+                handler.Read(new XmlTextReader(new StringReader(xml)));
+                image.Save(imagePath, ImageFormat.Png);
+                //HttpContext.Response.ContentType = "image/" + format;
+                //HttpContext.Response.AddHeader("Content-Disposition",
+                //  "attachment; filename=" + filename);
+
+                //MemoryStream memStream = new MemoryStream();
+                //image.Save(memStream, ImageFormat.Png);
+                //memStream.WriteTo(HttpContext.Response.OutputStream);
+            }
+            //HttpContext.Response.StatusCode = 200; /* OK */
+            //}
+            //else
+            //{
+            //    HttpContext.Response.StatusCode = 400; /* Bad Request */
+            //}
+        }
         #endregion
     }
 }
