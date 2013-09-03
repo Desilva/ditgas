@@ -303,9 +303,17 @@ namespace relmon.Controllers.Admin
         #endregion
 
         # region Bussiness Report
-        public ActionResult BussinessReport(int id, int rowId)
+
+        public ActionResult BussinessReportNavigator(int id)
         {
             ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult BussinessReport(int id, int rowId, string reportType)
+        {
+            ViewBag.id = id;
+            ViewBag.type = reportType;
             var result = (from x in db.bisnis_bussiness_report
                           where x.id == rowId
                           select x
@@ -330,7 +338,7 @@ namespace relmon.Controllers.Admin
         public string UploadBussinessReport(bisnis_bussiness_report bisnis_bussiness_report)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == bisnis_bussiness_report.company_id && x.bulan.Equals(bisnis_bussiness_report.bulan) && x.tahun == bisnis_bussiness_report.tahun
+                          where x.company_id == bisnis_bussiness_report.company_id && x.bulan.Equals(bisnis_bussiness_report.bulan) && x.tahun == bisnis_bussiness_report.tahun && x.reportType == bisnis_bussiness_report.reportType
                           select x
                         ).ToList();
 
@@ -359,7 +367,7 @@ namespace relmon.Controllers.Admin
         public string UpdateBussinessReport(bisnis_bussiness_report bisnis_bussiness_report)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == bisnis_bussiness_report.company_id && x.tahun == bisnis_bussiness_report.tahun && x.bulan == bisnis_bussiness_report.bulan
+                          where x.company_id == bisnis_bussiness_report.company_id && x.tahun == bisnis_bussiness_report.tahun && x.bulan == bisnis_bussiness_report.bulan && x.reportType == bisnis_bussiness_report.reportType
                           select x
                         ).ToList();
             bisnis_bussiness_report items = result.First();
@@ -367,6 +375,7 @@ namespace relmon.Controllers.Admin
             items.bulan = bisnis_bussiness_report.bulan;
             items.deskripsi = bisnis_bussiness_report.deskripsi;
             items.content = bisnis_bussiness_report.content;
+            items.reportType = bisnis_bussiness_report.reportType; 
             db.Entry(items).State = EntityState.Modified;
             try
             {
@@ -382,9 +391,9 @@ namespace relmon.Controllers.Admin
         
 
         [GridAction]
-        public ActionResult _SelectBisnisReport(int id)
+        public ActionResult _SelectBisnisReport(int id,string reportType)
         {
-            return binding(id);
+            return binding(id,reportType);
         }
 
         //
@@ -399,10 +408,12 @@ namespace relmon.Controllers.Admin
                               where x.id == id
                               select x).ToList();
             var comp_id = -1;
+            var reportType = "";
             if (tempResult.Count != 0)
             {
                 bisnis_bussiness_report result = tempResult.First();
                 comp_id = result.company_id;
+                reportType = result.reportType;
                 int aclId = (int)Session["id"];
                 int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
 
@@ -410,21 +421,21 @@ namespace relmon.Controllers.Admin
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return binding(comp_id, reportType);
                     }
                 }
                 else if (category == 1)
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + comp_id, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return binding(comp_id, reportType);
                     }
                 }
                 else if(category == 2)
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + comp_id, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return binding(comp_id, reportType);
                     }
                 }
 
@@ -440,14 +451,14 @@ namespace relmon.Controllers.Admin
                 db.SaveChanges();
             }
 
-            return binding(comp_id);
+            return binding(comp_id,reportType);
         }
 
         //select data user
-        protected ViewResult binding(int id)
+        protected ViewResult binding(int id, string reportType)
         {
             List<bisnis_bussiness_report> result = (from x in db.bisnis_bussiness_report
-                                                    where x.company_id == id
+                                                    where x.company_id == id && x.reportType== reportType
                                                     select x).ToList();
 
             List<BisnisBussinessReportContainer> temp = new List<BisnisBussinessReportContainer>();
@@ -459,7 +470,8 @@ namespace relmon.Controllers.Admin
                     deskripsi = b.deskripsi,
                     content = b.content,
                     company_id = b.company_id,
-                    bulan = b.bulan
+                    bulan = b.bulan,
+                    reportType = b.reportType
                 };
                 temp.Add(x);
             }
@@ -482,7 +494,8 @@ namespace relmon.Controllers.Admin
                 tahun = x.tahun,
                 bulan = x.bulan,
                 content = x.content,
-                deskripsi = x.deskripsi
+                deskripsi = x.deskripsi,
+                reportType = x.reportType
             });
         }
         # endregion
@@ -592,21 +605,21 @@ namespace relmon.Controllers.Admin
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return bindingkinerja(comp_id);
                     }
                 }
                 else if (category == 1)
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + comp_id, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return bindingkinerja(comp_id);
                     }
                 }
                 else
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + comp_id, aclId, "delete"))
                     {
-                        return binding(comp_id);
+                        return bindingkinerja(comp_id);
                     }
                 }
                 UploadController upload = new UploadController();

@@ -29,7 +29,6 @@ namespace relmon.Controllers.FrontEnd
             ViewBag.nama = "Home";
             ViewBag.selectedMenu = "home";
 
-            
             return View();
         }
 

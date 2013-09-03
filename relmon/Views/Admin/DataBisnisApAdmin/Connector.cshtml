@@ -46,7 +46,7 @@
             {
                 parent.Add()
                     .Text("Bussiness Report")
-                    .LoadContentFrom("BussinessReport/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("BussinessReportNavigator/" + ViewBag.id, "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
             {

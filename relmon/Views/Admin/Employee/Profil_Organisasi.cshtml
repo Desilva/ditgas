@@ -2,82 +2,205 @@
     mxBasePath = 'Scripts/mxGraph';
 </script>
 <script type="text/javascript" src="../../../Scripts/mxGraph/js/mxClient.js"></script>
-
 <script type="text/javascript">
-    // Program starts here. Creates a sample graph in the
-    // DOM node with the specified ID. This function is invoked
-    // from the onLoad event handler of the document (see below).
-    function main(container) {
-        // Checks if the browser is supported
+    function main() {
+        // Checks if browser is supported
         if (!mxClient.isBrowserSupported()) {
+            // Displays an error message if the browser is
+            // not supported.
             mxUtils.error('Browser is not supported!', 200, false);
         }
         else {
-            // Creates the graph inside the given container
-            var graph = new mxGraph(container);
+            // Defines an icon for creating new connections in the connection handler.
+            // This will automatically disable the highlighting of the source vertex.
+            mxConnectionHandler.prototype.connectImage = new mxImage('Scripts/mxGraph/images/connector.gif', 16, 16);
 
-            // Enables rubberband selection
-            new mxRubberband(graph);
+            // Creates the div for the toolbar
+            var tbContainer = document.createElement('div');
+             document.getElementById("toolbarMenu").appendChild(tbContainer);
 
-            // Gets the default parent for inserting new cells. This
-            // is normally the first child of the root (ie. layer 0).
-            var parent = graph.getDefaultParent();
+            // Creates new toolbar without event processing
+            var toolbar = new mxToolbar(tbContainer);
+            toolbar.enabled = false
 
-            graph.getModel().beginUpdate();
-            try {
-                // bikin struktur organisasi
-                $.post("Employee/getEmployeeTree",
-                    {
-                        "id": 0
-                    },
-                    function (result) {
-                        buildChildren(result, "", graph);
+            // Creates the div for the graph
+            var container = document.createElement('div');
+            document.getElementById("graphContainer").appendChild(container);
+
+            // Workaround for Internet Explorer ignoring certain styles
+            if (mxClient.IS_QUIRKS) {
+                document.body.style.overflow = 'hidden';
+                new mxDivResizer(tbContainer);
+                new mxDivResizer(container);
+            }
+
+            // Creates the model and the graph inside the container
+            // using the fastest rendering available on the browser
+            var editor = new mxEditor();
+            editor.setGraphContainer(container);
+            var graph = editor.graph;
+            // Enables new connections in the graph
+            graph.setConnectable(true);
+            graph.setMultigraph(true);
+            graph.setAutoSizeCells(true);
+            var style = graph.getStylesheet().getDefaultEdgeStyle();
+            style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
+
+
+            // Stops editing on enter or escape keypress
+            var keyHandler = new mxKeyHandler(graph);
+            var rubberband = new mxRubberband(graph);
+                
+                //addcommand
+                var clear = function (editor) {
+                    editor.graph.getModel().clear();
+                }
+                editor.addAction('clear', clear);
+
+                var save = function (editor) {
+                    var scale = 1;
+                    var bounds = editor.graph.getGraphBounds();
+
+                    // Creates XML node to hold output
+                    var xmlDoc = mxUtils.createXmlDocument();
+                    var root = xmlDoc.createElement('output');
+                    xmlDoc.appendChild(root);
+
+                    // Creates interface for rendering output
+                    var xmlCanvas = new mxXmlCanvas2D(root);
+                    xmlCanvas.scale(scale);
+                    xmlCanvas.translate(Math.round(-bounds.x * scale), Math.round(-bounds.y * scale));
+
+                    // Renders output to interface
+                    var imgExport = new mxImageExport();
+                    imgExport.drawState(editor.graph.getView().getState(editor.graph.model.root), xmlCanvas);
+
+                    // Puts request data together
+                    var filename = 'export.png';
+                    var format = 'png';
+                    var bg = '#FFFFFF';
+                    var w = Math.round((bounds.width + 4) * scale);
+                    var h = Math.round((bounds.height + 4) * scale);
+                    var xml = mxUtils.getXml(root);
+                    var enc = new mxCodec();
+                    var node = enc.encode(editor.graph.getModel());
+                    var xmlSaveFile = mxUtils.getPrettyXml(node);
+                    $.post("Employee/ProcessRequest", { filename: filename, format: format, bg: bg, w: w, h: h, xml: encodeURIComponent(xml), "xmlSave": encodeURIComponent(xmlSaveFile) }, function (data) {
+
                     });
+                };
+                editor.addAction('Save', save);
+
+                var load = function (editor) {
+                    editor.graph.getModel().clear();
+                    $.post("Employee/getXml", "", function (data) {
+                        var xml = data;
+                        var doc = mxUtils.parseXml(xml);
+                        var dec = new mxCodec(doc);
+                        dec.decode(doc.documentElement, editor.graph.getModel());
+                        
+                    });
+                    
+
+                };
+                editor.addAction('load', load);
 
 
+                //add button
+                var node = document.getElementById('graphMenu');
+                var buttons = ['Load','Clear', 'Delete', 'Undo', 'Redo','Save'];
 
+                for (var i = 0; i < buttons.length; i++) {
+                    var button = document.createElement('button');
+                                
+                    mxUtils.write(button, buttons[i]);
 
+                    var factory = function (name) {
 
+                        return function () {
+                            editor.execute(name);
+                        };
+                    };
+                    if (buttons[i] == "Save") {
+                        mxEvent.addListener(button, 'click', factory(buttons[i]));
+                    
+                    } else {
+                        mxEvent.addListener(button, 'click', factory(buttons[i].toLowerCase()));
+                    
+                    }
+                    node.appendChild(button);
+                }
 
+                //add rectangle
+                var addVertex = function (icon, w, h, style) {
+                    var vertex = new mxCell(null, new mxGeometry(0, 0, w, h), style);
+                    vertex.setVertex(true);
 
+                    var img = addToolbarItem(graph, toolbar, vertex, icon);
+                    img.enabled = true;
 
-
-
-
-
-
-
-
-
-
-
-
-//                var v1 = graph.insertVertex(parent, null, 'Hello,', 20, 20, 80, 30);
-//                var v2 = graph.insertVertex(parent, null, 'World!', 200, 150, 80, 30);
-//                var e1 = graph.insertEdge(parent, null, '', v1, v2);
-            }
-            finally {
-                // Updates the display
-                graph.getModel().endUpdate();
-            }
+                    graph.getSelectionModel().addListener(mxEvent.CHANGE, function () {
+                        var tmp = graph.isSelectionEmpty();
+                        mxUtils.setOpacity(img, (tmp) ? 100 : 20);
+                        img.enabled = tmp;
+                    });
+                };
+                addVertex('Scripts/mxGraph/images/rectangle.gif', 100, 40, '');
+                
         }
-    };
+    }
 
-    function buildChildren(cell, parent, graph)
-    {
-        var vParent = graph.insertVertex(graph.getDefaultParent(), null, cell.current.fullname, 20, 20, 80, 30);
-        $.each(cell[child], function (index, value) {
-            if (parent != "") {
-                var e = graph.insertEdge(graph.getDefaultParent(), null, '', parent, vParent);
-            }
-            buildChildren(cell[child], vParent, graph);
+    function addToolbarItem(graph, toolbar, prototype, image) {
+        // Function that is executed when the image is dropped on
+        // the graph. The cell argument points to the cell under
+        // the mousepointer if there is one.
+        var funct = function (graph, evt, cell, x, y) {
+            graph.stopEditing(false);
+
+            var vertex = graph.getModel().cloneCell(prototype);
+            
+            vertex.geometry.x = x;
+            vertex.geometry.y = y;
+
+            graph.addCell(vertex);
+            graph.setSelectionCell(vertex);
+        }
+
+        // Creates the image which is used as the drag icon (preview)
+        var img = toolbar.addMode(null, image, function (evt, cell) {
+            var pt = this.graph.getPointForEvent(evt);
+            funct(graph, evt, cell, pt.x, pt.y);
         });
+
+        // Disables dragging if element is disabled. This is a workaround
+        // for wrong event order in IE. Following is a dummy listener that
+        // is invoked as the last listener in IE.
+        mxEvent.addListener(img, 'mousedown', function (evt) {
+            // do nothing
+        });
+
+        // This listener is always called first before any other listener
+        // in all browsers.
+        mxEvent.addListener(img, 'mousedown', function (evt) {
+            if (img.enabled == false) {
+                mxEvent.consume(evt);
+            }
+        });
+
+        mxUtils.makeDraggable(img, graph, funct);
+
+        return img;
     }
 
     $(document).ready(function () {
-        main(document.getElementById('graphContainer'));
+        
+        main();
     });
 </script>
-
-<div id="graphContainer" style="overflow:hidden;width:100%;height:100%;background:url('editors/images/grid.gif')">
+<div id ="graphMenu">
+</div>
+<div style="overflow:hidden;">
+    <div id="toolbarMenu" style="float:left;"></div>
+    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;">
+    </div>
 </div>

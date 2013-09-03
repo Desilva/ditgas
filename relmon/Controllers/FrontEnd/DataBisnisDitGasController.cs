@@ -134,10 +134,10 @@ namespace relmon.Controllers.FrontEnd
             }
         }
 
-        public string GetReportType(int id, int tahun, string bulan)
+        public string GetReportType(int id, int tahun, string bulan,string type)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan) && x.reportType == type
                           select x
                          ).ToList();
             if (result.Count != 0)
@@ -164,11 +164,11 @@ namespace relmon.Controllers.FrontEnd
 
 
 
-        public ActionResult GetPdfReport(int id, int tahun, string bulan)
+        public ActionResult GetPdfReport(int id, int tahun, string bulan,string type)
         {
 
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan) && x.reportType == type
                           select x
                          ).ToList();
             var get = result.First();
@@ -196,10 +196,10 @@ namespace relmon.Controllers.FrontEnd
             }
         }
 
-        public string GetImage(int id, int tahun, string bulan)
+        public string GetImage(int id, int tahun, string bulan,string type)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan) && x.reportType == type
                           select x
                          ).ToList();
             var get = result.First();
@@ -207,10 +207,10 @@ namespace relmon.Controllers.FrontEnd
 
         }
 
-        public string GetOther(int id, int tahun, string bulan)
+        public string GetOther(int id, int tahun, string bulan,string type)
         {
             var result = (from x in db.bisnis_bussiness_report
-                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan)
+                          where x.company_id == id && x.tahun == tahun && x.bulan.Equals(bulan) && x.reportType == type
                           select x
                          ).ToList();
             var get = result.First();

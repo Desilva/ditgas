@@ -10,18 +10,18 @@
             $('#image').hide();
             $('#contentReport').empty();
 
-            $.post("DataBisnisDitgas/GetReportType/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+            $.post("DataBisnisDitgas/GetReportType/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val(), type:$("#section").val() }, function (data) {
                 if (data == "pdf") {
-                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfReport/@ViewBag.id?tahun=' + $("#tahun").val() + '&bulan=' + $("#bulan").val());
+                    loadIframe('frame-content3', '/DataBisnisDitGas/GetPdfReport/@ViewBag.id?tahun=' + $("#tahun").val() + '&bulan=' + $("#bulan").val() + '&type='+$("#section").val());
                 } else if (data == "image") {
 
-                    $.post("DataBisnisDitgas/GetImage/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+                    $.post("DataBisnisDitgas/GetImage/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val(), type:$("#section").val() }, function (data) {
                         $('#image').attr('src', data);
                         $('#image').show();
                     });
 
                 } else if (data == "other") {
-                    $.post("DataBisnisDitgas/GetOther/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val() }, function (data) {
+                    $.post("DataBisnisDitgas/GetOther/@ViewBag.id", { tahun: $("#tahun").val(), bulan: $("#bulan").val(), type:$("#section").val() }, function (data) {
 
 //                      
                         var dl = "<a href='DataBisnisDitGas/Download?filename="+ data +"&id="+@ViewBag.id+"&tahun="+$("#tahun").val()+"&bulan="+$("#bulan").val()+"'>"+data+"</a>";
@@ -75,6 +75,19 @@
         <option value="Desember">Desember</option>
     </select>
 </div>
+<div class="Asearch"><b>Section</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="section" id="section" class="target">
+        <option value="executive_summary">I. Executive Summary</option>
+        <option value="operating_highlights">II. Operating Highlights</option>
+        <option value="safety">III. Safety</option>
+        <option value="operation_summary">IV. Operation Summary</option>
+        <option value="financial_report">V. Financial Report</option>
+        <option value="project_status">VI. Project Status</option>
+        <option value="administration_and_manning">VII. Administration And Manning</option>
+        <option value="minutes_of_meeting">VIII. Minutes Of Meeting</option>
+    </select>
+</div>
+<br/>
 
 <img id="image" />
 <div id="contentReport">
