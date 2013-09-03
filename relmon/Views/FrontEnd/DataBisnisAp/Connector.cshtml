@@ -63,7 +63,7 @@
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
-                   .Text("Product dan Jasa")
+                   .Text("Product")
                    .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisDitGas");
             }
         })

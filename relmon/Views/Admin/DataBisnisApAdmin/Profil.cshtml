@@ -23,17 +23,18 @@
         removePlugins: 'about'
 
     });
+     $(document).ready(function () {
+        $("#saveProfile").click(function () {
 
-    $("#saveProfile").click(function () {
+            $.post("DataBisnisApAdmin/UploadProfil/@ViewBag.id", { profil: escape(editor.getData()) }, function (data) {
+                if (data == "True") {
+                    alert("Data berhasil disimpan");
+                } else {
+                    alert("Data tidak berhasil disimpan");
+                }
+            });
 
-        $.post("DataBisnisApAdmin/UploadProfil/@ViewBag.id", { profil: escape(editor.getData()) }, function (data) {
-            if (data == "True") {
-                alert("Data berhasil disimpan");
-            } else {
-                alert("Data tidak berhasil disimpan");
-            }
         });
-
-    });
+    })
 </script>
 
