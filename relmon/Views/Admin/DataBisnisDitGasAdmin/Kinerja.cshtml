@@ -239,7 +239,6 @@
         });
 
         function resetForm() {
-        alert("5");
             var tabStrip = $("#TabStrip").data("tTabStrip");
             $.post("DataBisnisDitGasAdmin/Kinerja/@ViewBag.id", { rowId: -1 }, function (data) {
                 $( "#TabStrip .t-link" ).each(function(index) {

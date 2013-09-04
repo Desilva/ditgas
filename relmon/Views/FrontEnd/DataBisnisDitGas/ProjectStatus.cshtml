@@ -1,14 +1,203 @@
-﻿<ul>
-    <li>
-        Arun Regasifikasi
-    </li>
-    <li>
-        LPG Linguifaction
-    </li>
-    <li>
-        FSRU Jateng
-    </li>
-    <li>
-        Waste to Energy
-    </li>
-</ul>
+﻿<!--<div style="width:180px;border-right:1px solid;">
+
+</div>-->
+@{
+    if((int)ViewBag.id == 1){
+<div id="column1-wrap">
+    <div id="column1">
+        
+    </div>
+</div>
+    }
+    else if ((int)ViewBag.id == 3)
+    {
+<div id="column1-wrap">
+    <div id="column1">
+        <ul>
+            <li>
+                <a href="#"> Arun Regasifikasi</a>
+            </li>
+            <li>
+                LPG Linguifaction
+            </li>
+            <li>
+                FSRU Jateng
+            </li>
+            <li>
+                Waste to Energy
+            </li>
+        </ul>
+    </div>
+</div>
+    }
+<div id="column2" style="display:none">
+    <h3 class="titleChartDashboard">Status Project Arun Regasifikasi</h3>
+    <br />
+    <div id="status" class="CSSTableGenerator" >
+        <table >
+            <tr>
+                <td>
+                    Tanggal
+                </td>
+                <td >
+                    Activity Log
+                </td>
+                <td>
+                    Oleh
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    23 Agustus 2013
+                </td>
+                <td>
+                    Log satu
+                </td>
+                <td>
+                    Agus
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    25 September 2013
+                </td>
+                <td>
+                    Log dua
+                </td>
+                <td>
+                    Anton
+                </td>
+            </tr>
+        </table>
+    </div>
+    <input type="submit" value="Print" onclick="" />
+    <input type="submit" value="Download" onclick="" />
+    <br /><br />
+</div>
+<div id="clear"></div>
+}
+
+<style>
+    #column1-wrap{
+        float: left;
+        width: 100%;
+    }
+    #column1{
+        margin-right: 790px;
+        border-right:1px solid;
+    }
+    #column2{
+        float: left;
+        width: 750px;
+        margin-left: -780px;
+        margin-top: 5px;
+        
+    }
+    #clear{
+        clear: both;
+    }
+    
+    .CSSTableGenerator {
+	    margin:0 0 20px 0;padding:0px;
+	    width:100%;
+	    box-shadow: 5px 5px 2px #888888;
+	    border:1px solid #000000;
+	
+	    -moz-border-radius-bottomleft:3px;
+	    -webkit-border-bottom-left-radius:3px;
+	    border-bottom-left-radius:3px;
+	
+	    -moz-border-radius-bottomright:3px;
+	    -webkit-border-bottom-right-radius:3px;
+	    border-bottom-right-radius:3px;
+	
+	    -moz-border-radius-topright:3px;
+	    -webkit-border-top-right-radius:3px;
+	    border-top-right-radius:3px;
+	
+	    -moz-border-radius-topleft:3px;
+	    -webkit-border-top-left-radius:3px;
+	    border-top-left-radius:3px;
+    }.CSSTableGenerator table{
+	    width:100%;
+	    height:100%;
+	    margin:0px;padding:0px;
+    }.CSSTableGenerator tr:last-child td:last-child {
+	    -moz-border-radius-bottomright:3px;
+	    -webkit-border-bottom-right-radius:3px;
+	    border-bottom-right-radius:3px;
+    }
+    .CSSTableGenerator table tr:first-child td:first-child {
+	    -moz-border-radius-topleft:3px;
+	    -webkit-border-top-left-radius:3px;
+	    border-top-left-radius:3px;
+    }
+    .CSSTableGenerator table tr:first-child td:last-child {
+	    -moz-border-radius-topright:3px;
+	    -webkit-border-top-right-radius:3px;
+	    border-top-right-radius:3px;
+    }.CSSTableGenerator tr:last-child td:first-child{
+	    -moz-border-radius-bottomleft:3px;
+	    -webkit-border-bottom-left-radius:3px;
+	    border-bottom-left-radius:3px;
+    }.CSSTableGenerator tr:hover td{
+	    background-color:#ffaaaa;
+		
+
+    }
+    .CSSTableGenerator td{
+	    vertical-align:middle;
+	
+	    background-color:#ffffff;
+
+	    border:1px solid #000000;
+	    border-width:0px 1px 1px 0px;
+	    text-align:left;
+	    padding:7px;
+	    font-size:10px;
+	    font-family:Arial;
+	    font-weight:normal;
+	    color:#000000;
+    }.CSSTableGenerator tr:last-child td{
+	    border-width:0px 1px 0px 0px;
+    }.CSSTableGenerator tr td:last-child{
+	    border-width:0px 0px 1px 0px;
+    }.CSSTableGenerator tr:last-child td:last-child{
+	    border-width:0px 0px 0px 0px;
+    }
+    .CSSTableGenerator tr:first-child td{
+		    background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+	    background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+	    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");	background: -o-linear-gradient(top,#ff5656,7f0000);
+
+	    background-color:#ff5656;
+	    border:0px solid #000000;
+	    text-align:center;
+	    border-width:0px 0px 1px 1px;
+	    font-size:14px;
+	    font-family:Arial;
+	    font-weight:bold;
+	    color:#ffffff;
+    }
+    .CSSTableGenerator tr:first-child:hover td{
+	    background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+	    background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+	    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");	background: -o-linear-gradient(top,#ff5656,7f0000);
+
+	    background-color:#ff5656;
+    }
+    .CSSTableGenerator tr:first-child td:first-child{
+	    border-width:0px 0px 1px 0px;
+    }
+    .CSSTableGenerator tr:first-child td:last-child{
+	    border-width:0px 0px 1px 1px;
+    }
+</style>
+
+<script>
+
+    $("a").click(function (event) {
+        event.preventDefault();
+        $('#column2').css('display', 'block');
+    });
+</script>

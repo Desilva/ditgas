@@ -1,27 +1,68 @@
-﻿@{
-    if(ViewBag.id == -1){
+﻿<!--<div style="width:180px;border-right:1px solid;">
+
+</div>-->
+
+<div id="column1-wrap">
+    <div id="column1">
         <ul>
             <li>
-                LNG
+                <a href="#" onclick="">LNG</a>
             </li>
             <li>
-                LPG
+                <a href="#" onclick="">LPG</a>
             </li>
             <li>
-                Kondensat
+                CNG
+            </li>
+            <li>
+                Shale Gas
+            </li>
+            <li>
+                Renewable Energy
+                <ul>
+                    <li>
+                         Bio Mass
+                    </li>
+                    <li>     
+                         Wind
+                    </li>
+                    <li>
+                         Solar Cell
+                    </li>
+                    <li>
+                         Geothermal
+                    </li>
+                </ul>
+            </li>
+            <li>
+                CBM
             </li>
         </ul>
-    }else{
-        <ul>
-            <li>
-                Asset
-            </li>
-            <li>
-                Material and Spare Part
-            </li>
-            <li>
-                Jasa
-            </li>
-        </ul>
+    </div>
+</div>
+<div id="column2">
+    <img id="LNG" src="" style="display:block"/>
+    <img id="LPG" src="" style="display:block"/>
+</div>
+<div id="clear"></div>
+
+<style>
+    #column1-wrap{
+        float: left;
+        width: 100%;
     }
-}
+    #column1{
+        margin-right: 790px;
+        border-right:1px solid;
+    }
+    #column2{
+        float: left;
+        width: 750px;
+        margin-left: -780px;
+        margin-top: 15px;
+        
+    }
+    #clear{
+        clear: both;
+    }
+</style>

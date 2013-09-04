@@ -29,7 +29,7 @@
 
     $.post("Dashboard/GetHighlight", "", function (data) {
         $.each(data, function (index, value) {
-            $("#mycrawler").append("<img src='" + value + "' alt='' title='' />");
+            $("#mycrawler").append("&nbsp;<img src='" + value + "' alt='' title='' />");
         });
 
         marqueeInit({
@@ -212,9 +212,6 @@
 
     <div class="ultah"><h4>Highlight</h4></div>
     <div class="marquee" id="mycrawler" style="float:left;"></div>
-
-    <!--img src="@Url.Content("~/Content/image/pjs/8.jpg")" alt="" title="" style="height:90px;margin-left:10px;"/-->
-
 
     <div id="left-content">
         <div class="titlethumb">
