@@ -195,21 +195,34 @@
             $("#properties").show();
             // Creates the form from the attributes of the user object
             var form = new mxForm();
-
             var attrs = cell.value;
-            var split = attrs.split("#");
-            $("#jabatan").html(split[0]);
-            $("#editUser").val(split[1]);
-            $("#userPJS").val(split[2]);
             $('.undefined').remove();
+            if (attrs != null) {
+                var split = attrs.split("#");
+                $("#jabatan").html(split[0]);
+                $("#editUser").val(split[1]);
+                $("#userPJS").val(split[2]);
+                
+
+                createComboBox(graph, form, cell);
+                div.appendChild(form.getTable());
+
+                $("#properties input").hide();
+            } else {
+                $("#jabatan").html("");
+                $("#editUser").val("");
+                $("#userPJS").val("");
+                createComboBox(graph, form, cell);
+                div.appendChild(form.getTable());
+            }
+            
 //            var del = document.getElementsByName("undefined");
 //            alert(del.length);
 //            if(del.length>0){
 //                div.removeChild(del);
 //            }
             
-            createComboBox(graph, form, cell);
-            div.appendChild(form.getTable());
+            
 //            for (var i = 0; i < attrs.length; i++) {
 //                createTextField(graph, form, cell, attrs[i]);
 //            }
@@ -217,18 +230,18 @@
             
 
 //            var opt = "";
-            if (attrs == "" || typeof attrs === "undefined") {
-            //baru bikin
-//                cell.value = "ff";
-                //                graph.updateCellSize(cell);
-//                opt = "<span>Nama :</span><select></select><br />";
-//                opt += "<span>PJS :</span><select></select><br />";
-            } else {
-                //udh ada nilai
-//                alert(cell.getAttribute("test",''));
-            }
+//            if (attrs == "" || typeof attrs === "undefined") {
+//            //baru bikin
+////                cell.value = "ff";
+//                //                graph.updateCellSize(cell);
+////                opt = "<span>Nama :</span><select></select><br />";
+////                opt += "<span>PJS :</span><select></select><br />";
+//            } else {
+//                //udh ada nilai
+////                alert(cell.getAttribute("test",''));
+//            }
             //            $("#properties").html(opt);
-            $("#properties input").hide();
+            
            
         }else{
             $("#properties").hide();
@@ -264,12 +277,12 @@
 //            }
             };
             
-            var cancel = function () {
+            var cancelEdit = function () {
                 $("#properties").hide();
 
                 
             }
-        var button = form.addButtons(applyHandler, cancel);
+            var button = form.addButtons(applyHandler, cancelEdit);
         
 
         if (mxClient.IS_IE) {
