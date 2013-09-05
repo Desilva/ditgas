@@ -43,6 +43,8 @@
             graph.setConnectable(true);
             graph.setMultigraph(true);
             graph.setAutoSizeCells(true);
+            graph.setPanning(true);
+            graph.panningHandler.useLeftButtonForPanning = true;
             var style = graph.getStylesheet().getDefaultEdgeStyle();
             style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
 
@@ -50,7 +52,24 @@
             // Stops editing on enter or escape keypress
             var keyHandler = new mxKeyHandler(graph);
             var rubberband = new mxRubberband(graph);
-                
+            
+            graph.isCellEditable = function (cell) {
+                return !this.getModel().isEdge(cell);
+            };
+
+            graph.convertValueToString = function (cell) {
+                if (cell.isVertex()) {
+                    //alert("asdaf"+cell.value);
+                    var str = cell.value + "";
+                    var n = str.split("#");
+                    n[0] = n[0].replace("&amp;", "&");
+                    return n[0] + "\n" + n[1] + "\n" + n[2];
+                }
+                else {
+                    return "";
+                }
+            };
+
                 //addcommand
                 var clear = function (editor) {
                     editor.graph.getModel().clear();
@@ -105,6 +124,7 @@
                 };
                 editor.addAction('load', load);
 
+                
 
                 //add button
                 var node = document.getElementById('graphMenu');
@@ -145,8 +165,124 @@
                         img.enabled = tmp;
                     });
                 };
-                addVertex('Scripts/mxGraph/images/rectangle.gif', 100, 40, '');
+                addVertex('Scripts/mxGraph/images/rectangle.gif', 100, 50, '');
+
+
+            graph.getSelectionModel().addListener(mxEvent.CHANGE, function (sender, evt) {
+                selectionChanged(graph);
+            });
+            
+        }
+    }
+
+    function selectionChanged(graph) {
+
+        var div = document.getElementById('properties');
+
+        // Forces focusout in IE
+        graph.container.focus();
+
+        // Clears the DIV the non-DOM way
+//        div.innerHTML = '';
+
+        // Gets the selection cell
+        var cell = graph.getSelectionCell();
+        if(cell==null){
+            $("#properties").hide();
+            //mxUtils.writeln(div, 'Nothing selected.');
+        }
+        else if (cell.isVertex()) {
+            $("#properties").show();
+            // Creates the form from the attributes of the user object
+            var form = new mxForm();
+
+            var attrs = cell.value;
+            var split = attrs.split("#");
+            $("#jabatan").html(split[0]);
+            $("#editUser").val(split[1]);
+            $("#userPJS").val(split[2]);
+            $('.undefined').remove();
+//            var del = document.getElementsByName("undefined");
+//            alert(del.length);
+//            if(del.length>0){
+//                div.removeChild(del);
+//            }
+            
+            createComboBox(graph, form, cell);
+            div.appendChild(form.getTable());
+//            for (var i = 0; i < attrs.length; i++) {
+//                createTextField(graph, form, cell, attrs[i]);
+//            }
+
+            
+
+//            var opt = "";
+            if (attrs == "" || typeof attrs === "undefined") {
+            //baru bikin
+//                cell.value = "ff";
+                //                graph.updateCellSize(cell);
+//                opt = "<span>Nama :</span><select></select><br />";
+//                opt += "<span>PJS :</span><select></select><br />";
+            } else {
+                //udh ada nilai
+//                alert(cell.getAttribute("test",''));
+            }
+            //            $("#properties").html(opt);
+            $("#properties input").hide();
+           
+        }else{
+            $("#properties").hide();
+             //mxUtils.writeln(div, 'Nothing selected.');
+        }
+       
+    }
+
+    function createComboBox(graph, form, cell) {
+//        var input = form.addText( 'Edit User', "asd");
+//        var combo = form.addCombo("user", false, 1);
+//        var opt = form.addOption(combo, "asdf", "adfsdf", false);
+//        var opt = form.addOption(combo, "asdf2", "adfsdf2", true);
+        //        var combo2 = form.addCombo("pjs", false, 1);
+        var applyHandler = function () {
+//            
+//            var newValue = input.value || '';
+//            var oldValue = cell.value;
+
+//            if (newValue != oldValue) {
+                graph.getModel().beginUpdate();
+
+                try {
+                    cell.value = $("#jabatan").html() + "#" + $("#editUser").val() + "#" + $("#userPJS").val();
+                    var edit = new mxCellAttributeChange(
+             		                           cell, "a", cell.value);
+                    graph.getModel().execute(edit);
+                    graph.updateCellSize(cell);
+                }
+                finally {
+                    graph.getModel().endUpdate();
+                }
+//            }
+            };
+            
+            var cancel = function () {
+                $("#properties").hide();
+
                 
+            }
+        var button = form.addButtons(applyHandler, cancel);
+        
+
+        if (mxClient.IS_IE) {
+            mxEvent.addListener(input, 'focusout', applyHandler);
+        }
+        else {
+            // Note: Known problem is the blurring of fields in
+            // Firefox by changing the selection, in which case
+            // no event is fired in FF and the change is lost.
+            // As a workaround you should use a local variable
+            // that stores the focused field and invoke blur
+            // explicitely where we do the graph.focus above.
+//            mxEvent.addListener(combo, 'change', applyHandler);
         }
     }
 
@@ -193,14 +329,58 @@
     }
 
     $(document).ready(function () {
-        
+        $.post("Employee/GetUserOrganization", "", function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                get += '<option value="' + value.nama + '">' + value.nama + '</option>'
+            });
+            $("#editUser").append(get);
+            $("#userPJS").append(get);
+
+        });
+
+        $("#editUser").bind("change", function () {
+            var name = $("#editUser").val();
+            $.post("Employee/GetJabatanFromName", { nama: name }, function (data) {
+                $("#jabatan").html(data);
+
+            });
+        });
+
         main();
     });
 </script>
 <div id ="graphMenu">
 </div>
+
 <div style="overflow:hidden;">
     <div id="toolbarMenu" style="float:left;"></div>
-    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;">
-    </div>
+    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;"> </div>
+    <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;">
+    <span>Edit User</span><br />
+    <table>
+        
+        <tr>
+            <td>Nama :</td>
+            <td>
+                <select name="editUser" id ="editUser">
+                    <option value ="">---</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Jabatan :</td>
+            <td><span id="jabatan"></span></td>
+        </tr>
+        <tr>
+            <td>PJS :</td>
+            <td>
+                <select name="userPJS" id ="userPJS">
+                    <option value ="">---</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    
+</div>
 </div>

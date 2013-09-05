@@ -1,7 +1,14 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-
+<script>
+    $(document).ready(function () {
+        var width = $('img').width();
+        if(width > 1000){
+            $('img').width(1000);
+        }
+    });
+</script>
 <h2>Struktur Organisasi Dit Gas</h2>
 <!--<img src="../../../Content/image/back-struk.jpg" alt="""/>-->
-<img src="../../../Upload/struktur.png" onerror="this.src='../../../Upload/default.jpg'" alt="" style="margin:-30px 0 0 -50px;width:1090px;"/>
+<img src="../../../Upload/struktur.png" onerror="this.src='../../../Upload/default.jpg'" alt=""/>

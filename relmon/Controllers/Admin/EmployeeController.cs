@@ -507,20 +507,54 @@ namespace relmon.Controllers.Admin
                 mxSaxOutputHandler handler = new mxSaxOutputHandler(new mxGdiCanvas2D(g));
                 handler.Read(new XmlTextReader(new StringReader(xml)));
                 image.Save(imagePath, ImageFormat.Png);
-                //HttpContext.Response.ContentType = "image/" + format;
-                //HttpContext.Response.AddHeader("Content-Disposition",
-                //  "attachment; filename=" + filename);
-
-                //MemoryStream memStream = new MemoryStream();
-                //image.Save(memStream, ImageFormat.Png);
-                //memStream.WriteTo(HttpContext.Response.OutputStream);
+     
             }
-            //HttpContext.Response.StatusCode = 200; /* OK */
-            //}
-            //else
-            //{
-            //    HttpContext.Response.StatusCode = 400; /* Bad Request */
-            //}
+
+        }
+
+        [HttpPost]
+        public JsonResult GetUserOrganization()
+        {
+            //int parentInt = Int32.Parse(parent);
+            var listResultTemp = (from u in db.users
+                                    join j in db.users_jabatan on u.rm_role equals j.id
+                                    where j.company_id == 0
+                                  select new
+                                  {
+                                      nama = u.fullname,
+                                      jabatan = j.nama
+                                  }).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    nama = result.nama,
+                    jabatan = result.jabatan
+                });
+            }
+
+            return Json(listResult);
+        }
+
+        [HttpPost]
+        public string GetJabatanFromName(string nama)
+        {
+            //int parentInt = Int32.Parse(parent);
+            var listResultTemp = (from u in db.users
+                                  join j in db.users_jabatan on u.rm_role equals j.id
+                                  where u.fullname == nama
+                                  select new
+                                  {
+                                      jabatan = j.nama
+                                  }).ToList();
+            if(listResultTemp.Count > 0){
+                var result = listResultTemp.First();
+                return result.jabatan;
+            }
+
+            return "";
         }
         #endregion
     }
