@@ -470,7 +470,7 @@ namespace relmon.Controllers.Admin
         public string getXml()
         {
             var physicalPath = Path.Combine(Server.MapPath("~/Upload"), "struktur.xml");
-            if(System.IO.File.Exists(physicalPath){
+            if(System.IO.File.Exists(physicalPath)){
                  string getString = System.IO.File.ReadAllText(physicalPath);
                 return getString;
             }
