@@ -26,13 +26,13 @@
             {
                 parent.Add()
                     .Text("RJPP")
-                    .LoadContentFrom("Rjpp/0", "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("Rjpp/0?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "view"))
             {
                 parent.Add()
                 .Text("RKAP")
-                .LoadContentFrom("Rkap/0", "DataBisnisDitGasAdmin");
+                .LoadContentFrom("Rkap/0?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "view"))
             {
@@ -46,12 +46,12 @@
                 .Text("KPI")
                 .LoadContentFrom("Kinerja/0?rowId=-1", "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ProjectStatus.name, aclId, "view"))
-            {
-                parent.Add()
-                .Text("Project Status")
-                .LoadContentFrom("ProjectStatus/0", "DataBisnisDitGasAdmin");
-            }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ProjectStatus.name, aclId, "view"))
+            //{
+            //    parent.Add()
+            //    .Text("Project Status")
+            //    .LoadContentFrom("ProjectStatus/0", "DataBisnisDitGasAdmin");
+            //}
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_Product.name, aclId, "view"))
             {
                 parent.Add()

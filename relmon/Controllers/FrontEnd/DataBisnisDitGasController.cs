@@ -34,24 +34,83 @@ namespace relmon.Controllers.FrontEnd
             return PartialView();
         }
 
-        
+        public ActionResult GetPdfReportRKAP(int id, int tahun)
+        {
+
+            var result = (from x in db.bisnis_rkap
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            var get = result.First();
+            string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/RKAP/" + get.tahun + "/" + get.content));
+            try
+            {
+
+                PdfReader reader = new PdfReader(file);
+                MemoryStream pdfStream = new MemoryStream();
+
+                PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+
+                reader.Close();
+                pdfStamper.Close();
+                pdfStream.Flush();
+                pdfStream.Close();
+
+                byte[] pdfArray = pdfStream.ToArray();
+                return new BinaryContentResult(pdfArray, "application/pdf");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
 
         public ActionResult Rjpp(int id)
         {
             ViewBag.id = id;
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
-                          select x
-                         ).ToList();
-            var get = result.First();
-            ViewBag.content = get.rjpp;
-            if (string.IsNullOrWhiteSpace(get.rjpp))
-            {
-                ViewBag.content = "RJPP belum tersedia";
-            }
             return PartialView();
         }
 
+        public ActionResult GetPdfReportRJPP(int id, int tahun)
+        {
+
+            var result = (from x in db.bisnis_rjpp
+                          where x.company_id == id && x.tahun == tahun
+                          select x
+                         ).ToList();
+            if (result.Count != 0)
+            {
+                var get = result.First();
+                string file = Server.MapPath(Url.Content("~/Upload/Data Bisnis/" + id + "/RJPP/" + get.tahun + "/" + get.content));
+                try
+                {
+
+                    PdfReader reader = new PdfReader(file);
+                    MemoryStream pdfStream = new MemoryStream();
+
+                    PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+
+                    reader.Close();
+                    pdfStamper.Close();
+                    pdfStream.Flush();
+                    pdfStream.Close();
+
+                    byte[] pdfArray = pdfStream.ToArray();
+                    return new BinaryContentResult(pdfArray, "application/pdf");
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
         public ActionResult BussinessReport(int id)
         {
             ViewBag.id = id;
@@ -64,24 +123,25 @@ namespace relmon.Controllers.FrontEnd
             return PartialView();
         }
 
-        public ActionResult ProjectStatus(int id)
-        {
+        //public ActionResult ProjectStatus(int id)
+        //{
 
-            ViewBag.id = id;
-            ViewBag.exist = false;
-            string filePath = Request.MapPath(Url.Content("~/Content/data/project-status/ap/" + id + "/project-status.pdf"));
-            if (System.IO.File.Exists(filePath))
-            {
-                ViewBag.exist = true;
-            }
-            return PartialView();
-        }
+        //    ViewBag.id = id;
+        //    ViewBag.exist = false;
+        //    string filePath = Request.MapPath(Url.Content("~/Content/data/project-status/ap/" + id + "/project-status.pdf"));
+        //    if (System.IO.File.Exists(filePath))
+        //    {
+        //        ViewBag.exist = true;
+        //    }
+        //    return PartialView();
+        //}
 
         public ActionResult Product(int id)
         {
             ViewBag.id = id;
             return PartialView();
         }
+        
 
         public ActionResult GetPdf(int id, int nomer)
         {
@@ -98,10 +158,10 @@ namespace relmon.Controllers.FrontEnd
                 {//adart
                     file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/adart/" + get.ad_art));
                 }
-                else if (nomer == 2)
-                {
-                    file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/rkap/" + get.rkap));
-                }
+                //else if (nomer == 2)
+                //{
+                //    file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/rkap/" + get.rkap));
+                //}
                 else if (nomer == 3)
                 {
                     file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/rencana kerja/" + get.visimisi));
@@ -134,6 +194,31 @@ namespace relmon.Controllers.FrontEnd
             }
         }
 
+
+
+
+        [HttpPost]
+        public JsonResult GetSectionList(int id)
+        {
+            //int parentInt = Int32.Parse(parent);
+            var listResultTemp = (from x in db.bisnis_bussiness_report
+                                  where x.company_id == id
+                                  select new
+                                  {
+                                      section = x.reportType
+                                  }).Distinct().ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                    listResult.Add(new
+                    {
+                        section = result.section
+                    });
+            }
+
+            return Json(listResult);
+        }
         public string GetReportType(int id, int tahun, string bulan,string type)
         {
             var result = (from x in db.bisnis_bussiness_report

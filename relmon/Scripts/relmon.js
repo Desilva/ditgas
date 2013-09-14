@@ -234,6 +234,12 @@ function onSelectMenuAdmin2(e) {
     } else if (item.find('> .t-link').text() == "Lain - Lain") {
         $('#content_admin2').html('');
     }
+	// ======== SHEQMS ======= //
+    else if (item.find('> .t-link').text() == "Kebijakan HSE") {
+		$('#content_admin2').load('SHEQMSAdmin/KebijakanHSE');
+    } else if (item.find('> .t-link').text() == "Safety Talk") {
+        $('#content_admin2').load('SHEQMSAdmin/SafetyTalk');
+    } 
 }
 
 //menu sdm

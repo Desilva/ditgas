@@ -1,2 +1,41 @@
-﻿<h3>RKAP</h3>
-<iframe id="frame-content" name="frame-content" src="/DataBisnisDitGas/getPDF/@ViewBag.id?nomer=2" width="960" height="400" style="border:0px solid #000;"></iframe>
+﻿@using System.IO;
+
+<script>
+
+    $(".targetRKAP").change(function () {
+        if ($("#tahunRKAP").val() != "") {
+
+            $("#frame-contentRKAP").contents().find("html").remove();
+
+            $("#frame-contentRJPP").show();
+            loadIframe('frame-contentRKAP', '/DataBisnisDitGas/GetPdfReportRKAP/@ViewBag.id?tahun=' + $("#tahunRKAP").val());
+
+        }
+    });
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahunRKAP").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            currentYear--;
+        }
+
+    });
+</script>
+<h3>RKAP</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahunRKAP" class="targetRKAP">
+        <option value ="">--</option>
+        
+    </select>
+    
+</div>
+
+<iframe id="frame-contentRKAP" name="frame-content" width="960" height="400" style="border:0px solid #000;display:none"></iframe>
+

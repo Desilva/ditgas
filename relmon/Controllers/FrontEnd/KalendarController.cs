@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 
 using relmon.Models;
-using DHTMLX.Common;
-using DHTMLX.Scheduler;
-using DHTMLX.Scheduler.Authentication;
-using DHTMLX.Scheduler.Controls;
-using DHTMLX.Scheduler.Data;
+using dhtmlxConnectors;
+using System.Globalization;
+//using DHTMLX.Common;
+//using DHTMLX.Scheduler;
+//using DHTMLX.Scheduler.Authentication;
+//using DHTMLX.Scheduler.Controls;
+//using DHTMLX.Scheduler.Data;
 
 namespace relmon.Controllers.FrontEnd
 {
@@ -26,18 +28,26 @@ namespace relmon.Controllers.FrontEnd
         {
             ViewBag.selectedMenu = "kalendar";
 
-            var scheduler = new DHXScheduler(this);
+            //var scheduler = new DHXScheduler(this);
+            //scheduler.EnableDynamicLoading(SchedulerDataLoader.DynamicalLoadingMode.Month);
+            IEnumerable<kalendar_event> items = (from o in context.kalendar_events
+                                                 select o)
+                        .AsEnumerable();
 
-            scheduler.EnableDynamicLoading(SchedulerDataLoader.DynamicalLoadingMode.Month);
-            scheduler.LoadData = true;
-            scheduler.EnableDataprocessor = true;
-            scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
+            var scheduler = new dhtmlxSchedulerConnector(items, "id", "start_date", "end_date", "description");
+
+
+            scheduler.SetDynamicLoading(30);//enable partial grid loading (30 records per r
+            //scheduler.
+            //scheduler.LoadData = true;
+            //scheduler.EnableDataprocessor = true;
+            //scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
 
 
             return View(scheduler);
         }
 
-        public ContentResult Data()
+        public JsonResult Data()
         {//events for loading to scheduler
 
             var authorize = this.CheckUser();
@@ -46,29 +56,46 @@ namespace relmon.Controllers.FrontEnd
             if (String.Compare(authorize, "admin", true) == 0)
             {
                 var items = from p in events
-                           where p.type.ToLower().Contains("umum")
-                           select p;
-                var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                data.DateFormat = "%Y-%m-%d %H:%i";
-                return (data);
+                            where p.type.ToLower().Contains("umum")
+                            select p;
+                List<object> listResult = new List<object>();
+                foreach (var result in items.ToList())
+                {
+                    string pattern = "yyyy-MM-dd HH:mm:ss";
+                    DateTime parsedDateStart;
+                    DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
+                                   DateTimeStyles.None, out parsedDateStart);
+                    DateTime parsedDateEnd;
+                    DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
+                                   DateTimeStyles.None, out parsedDateEnd);
+                    listResult.Add(new
+                    {
+
+                        result.id,
+                        result.text,
+                        parsedDateStart,
+                        parsedDateEnd,
+                        result.description,
+                        result.type,
+                        result.priority,
+                        result.create_by,
+                        result.group_id
+                    });
+                }
+                return Json(listResult);
+                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
+                //data.DateFormat = "%Y-%m-%d %H:%i";
+                //return (data);
             }
             else if (String.Compare(authorize, "user", true) == 0)
             {
-                //var a = (Int32) Int64.Parse(Session["id"].ToString());
-                //var b = Session["name"].ToString();
-                //var items = (from p in context.kalendar_events
-                //            join q in context.kalendar_groups on p.group_id equals q.group_id
-                //            where 
-                //            select p).Distinct();
+                
+                
+                
 
-                //p.type.ToLower().Contains("umum")
-                 //|| p.create_by == (Int32) Int64.Parse(Session["id"].ToString()) || q.member.ToLower().Contains(Session["name"].ToString())
-
-
-
-                var items = ( from p in context.kalendar_events
-                                where p.type.ToLower().Contains("umum") || p.create_by == (Int32)Int64.Parse(Session["id"].ToString())
-                                select p
+                var items = (from p in context.kalendar_events
+                             where p.type.ToLower().Contains("umum") || p.create_by == (Int32)Int64.Parse(Session["id"].ToString())
+                             select p
                             ).Union
                             (
                                 from p in context.kalendar_events
@@ -76,19 +103,70 @@ namespace relmon.Controllers.FrontEnd
                                 where q.member.ToLower().Contains(Session["name"].ToString())
                                 select p
                             ).Distinct();
+                List<object> listResult = new List<object>();
+                foreach (var result in items.ToList())
+                {
+                    string pattern = "yyyy-MM-dd HH:mm:ss";
+                    DateTime parsedDateStart;
+                    DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
+                                   DateTimeStyles.None, out parsedDateStart);
+                    DateTime parsedDateEnd;
+                    DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
+                                   DateTimeStyles.None, out parsedDateEnd);
+                    listResult.Add(new
+                    {
 
-                var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                data.DateFormat = "%Y-%m-%d %H:%i";
-                return (data);
+                        result.id,
+                        result.text,
+                        parsedDateStart,
+                        parsedDateEnd,
+                        result.description,
+                        result.type,
+                        result.priority,
+                        result.create_by,
+                        result.group_id
+                    });
+                }
+                return Json(listResult);
+                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
+                //data.DateFormat = "%Y-%m-%d %H:%i";
+                //return (data);
             }
             else
             {
                 var items = (from p in events
                              where p.type.ToLower().Contains("umum")
                              select p).ToList();
-                var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                data.DateFormat = "%Y-%m-%d %H:%i";
-                return (data);
+                List<object> listResult = new List<object>();
+                foreach (var result in items.ToList())
+                {
+                    string pattern = "yyyy-MM-dd HH:mm:ss";
+                    //DateTime parsedDateStart;
+                    //DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
+                    //               DateTimeStyles.None, out parsedDateStart);
+                    //DateTime parsedDateEnd;
+                    //DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
+                    //               DateTimeStyles.None, out parsedDateEnd);
+                    string start_date = result.start_date.ToString(pattern);
+                    string end_date = result.end_date.ToString(pattern);
+                    listResult.Add(new
+                    {
+
+                        result.id,
+                        result.text,
+                        start_date,
+                        end_date,
+                        result.description,
+                        result.type,
+                        result.priority,
+                        result.create_by,
+                        result.group_id
+                    });
+                }
+                return Json(listResult);
+                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
+                //data.DateFormat = "%Y-%m-%d %H:%i";
+                //return (data);
             }
 
         }
@@ -96,126 +174,133 @@ namespace relmon.Controllers.FrontEnd
         public ContentResult Save(int? id, FormCollection actionValues)
         {
 
+            //Console.WriteLine();
+            //return null;
 
-            var action = new DataAction(actionValues);
-            var data = new SchedularDataContext();
-            var authorize = this.CheckUser();
-            //var authorize = "user";
-            try
-            {
-                var changedEvent = DHXEventsHelper.Bind<kalendar_event>(actionValues, new System.Globalization.CultureInfo("en-US"));
-                if (String.Compare(authorize, "user", true) == 0)
-                {
-                    switch (action.Type)
-                    {
-                        case DataActionTypes.Insert:
-                            string[] AllStrings = actionValues["group_id"].Split(',');
-                            if (String.Compare(AllStrings[0], "") != 0)
-                            {
-                                Int32 getMax = 1;
-                                try
-                                {
-                                    getMax = context.kalendar_groups.Max(o => o.group_id) + 1;
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
+            //var action = new DataAction();
+            Console.WriteLine(actionValues.GetType());
+            
+            return null;
 
-                                for (int i = 0; i < AllStrings.Length; i++)
-                                {
-                                    kalendar_group newMember = new kalendar_group();
-                                    newMember.group_id = getMax;
-                                    newMember.member = AllStrings[i];
-                                    data.kalendar_groups.InsertOnSubmit(newMember);
-                                }
-                                changedEvent.group_id = getMax;
-                            }
+            //var data = new SchedularDataContext();
+            //var authorize = this.CheckUser();
+            ////var authorize = "user";
+            //try
+            //{
+            //    var changedEvent = DHXEventsHelper.Bind<kalendar_event>(actionValues, new System.Globalization.CultureInfo("en-US"));
+            //    if (String.Compare(authorize, "user", true) == 0)
+            //    {
+            //        switch (action.Type)
+            //        {
+            //            case DataActionTypes.Insert:
+            //                string[] AllStrings = actionValues["group_id"].Split(',');
+            //                if (String.Compare(AllStrings[0], "") != 0)
+            //                {
+            //                    Int32 getMax = 1;
+            //                    try
+            //                    {
+            //                        getMax = context.kalendar_groups.Max(o => o.group_id) + 1;
+            //                    }
+            //                    catch (Exception e)
+            //                    {
+            //                        Console.WriteLine(e.Message);
+            //                    }
 
-                            changedEvent.type = "pribadi";
-                            changedEvent.create_by = (Int32) Int64.Parse(Session["id"].ToString());
-                            data.kalendar_events.InsertOnSubmit(changedEvent);
-                            break;
-                        case DataActionTypes.Delete:
-                            var del_query =
-                                        from kalendar_group in context.kalendar_groups
-                                        where
-                                          kalendar_group.group_id == changedEvent.group_id
-                                        select kalendar_group;
-                            foreach (var del in del_query)
-                            {
-                                data.kalendar_groups.Attach(del);
-                                data.kalendar_groups.DeleteOnSubmit(del);
-                            }
-                            changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            data.kalendar_events.DeleteOnSubmit(changedEvent);
-                            break;
-                        default:// "update"
-                            var getId = (from p in context.kalendar_events
-                                         where p.id == changedEvent.id
-                                         select new { group_id = p.group_id });
-                            var gId = 0;
-                            foreach(var g in getId){
-                               gId  = (Int32)g.group_id;
-                            }
-                            var del_query2 =
-                                       from kalendar_group in context.kalendar_groups
-                                       where
-                                         kalendar_group.group_id == gId
-                                       select kalendar_group;
-                            foreach (var del in del_query2)
-                            {
-                                data.kalendar_groups.Attach(del);
-                                data.kalendar_groups.DeleteOnSubmit(del);
-                            }
-                            string[] AllStrings2 = actionValues["group_id"].Split(',');
-                            if (String.Compare(AllStrings2[0], "") != 0)
-                            {
-                                for (int i = 0; i < AllStrings2.Length; i++)
-                                {
-                                    kalendar_group newMember = new kalendar_group();
-                                    newMember.group_id = gId;
-                                    newMember.member = AllStrings2[i];
-                                    data.kalendar_groups.InsertOnSubmit(newMember);
-                                }
-                            }
-                            var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            changedEvent.group_id = gId;
-                            DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (action.Type)
-                    {
-                        case DataActionTypes.Insert:
+            //                    for (int i = 0; i < AllStrings.Length; i++)
+            //                    {
+            //                        kalendar_group newMember = new kalendar_group();
+            //                        newMember.group_id = getMax;
+            //                        newMember.member = AllStrings[i];
+            //                        data.kalendar_groups.InsertOnSubmit(newMember);
+            //                    }
+            //                    changedEvent.group_id = getMax;
+            //                }
 
-                            changedEvent.type = "umum";
-                            changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
-                            data.kalendar_events.InsertOnSubmit(changedEvent);
-                            break;
-                        case DataActionTypes.Delete:
-                            changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            data.kalendar_events.DeleteOnSubmit(changedEvent);
-                            break;
-                        default:// "update"  
-                            var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
-                            break;
-                    }
-                }
-                data.SubmitChanges();
-                action.TargetId = changedEvent.id;
-            }
-            catch (Exception a)
-            {
-                action.Type = DataActionTypes.Error;
-                Console.WriteLine(a);
-            }
+            //                changedEvent.type = "pribadi";
+            //                changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
+            //                data.kalendar_events.InsertOnSubmit(changedEvent);
+            //                break;
+            //            case DataActionTypes.Delete:
+            //                var del_query =
+            //                            from kalendar_group in context.kalendar_groups
+            //                            where
+            //                              kalendar_group.group_id == changedEvent.group_id
+            //                            select kalendar_group;
+            //                foreach (var del in del_query)
+            //                {
+            //                    data.kalendar_groups.Attach(del);
+            //                    data.kalendar_groups.DeleteOnSubmit(del);
+            //                }
+            //                changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
+            //                data.kalendar_events.DeleteOnSubmit(changedEvent);
+            //                break;
+            //            default:// "update"
+            //                var getId = (from p in context.kalendar_events
+            //                             where p.id == changedEvent.id
+            //                             select new { group_id = p.group_id });
+            //                var gId = 0;
+            //                foreach (var g in getId)
+            //                {
+            //                    gId = (Int32)g.group_id;
+            //                }
+            //                var del_query2 =
+            //                           from kalendar_group in context.kalendar_groups
+            //                           where
+            //                             kalendar_group.group_id == gId
+            //                           select kalendar_group;
+            //                foreach (var del in del_query2)
+            //                {
+            //                    data.kalendar_groups.Attach(del);
+            //                    data.kalendar_groups.DeleteOnSubmit(del);
+            //                }
+            //                string[] AllStrings2 = actionValues["group_id"].Split(',');
+            //                if (String.Compare(AllStrings2[0], "") != 0)
+            //                {
+            //                    for (int i = 0; i < AllStrings2.Length; i++)
+            //                    {
+            //                        kalendar_group newMember = new kalendar_group();
+            //                        newMember.group_id = gId;
+            //                        newMember.member = AllStrings2[i];
+            //                        data.kalendar_groups.InsertOnSubmit(newMember);
+            //                    }
+            //                }
+            //                var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
+            //                changedEvent.group_id = gId;
+            //                DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
+            //                break;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        switch (action.Type)
+            //        {
+            //            case DataActionTypes.Insert:
 
-            var response = new AjaxSaveResponse(action);
-            return (ContentResult)response;
+            //                changedEvent.type = "umum";
+            //                changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
+            //                data.kalendar_events.InsertOnSubmit(changedEvent);
+            //                break;
+            //            case DataActionTypes.Delete:
+            //                changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
+            //                data.kalendar_events.DeleteOnSubmit(changedEvent);
+            //                break;
+            //            default:// "update"  
+            //                var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
+            //                DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
+            //                break;
+            //        }
+            //    }
+            //    data.SubmitChanges();
+            //    action.TargetId = changedEvent.id;
+            //}
+            //catch (Exception a)
+            //{
+            //    action.Type = DataActionTypes.Error;
+            //    Console.WriteLine(a);
+            //}
+
+            //var response = new AjaxSaveResponse(action);
+            //return (ContentResult)response;
         }
 
         [HttpPost]
@@ -269,7 +354,7 @@ namespace relmon.Controllers.FrontEnd
             else
             {
                 var listResultTemp = (from x in db.users
-                                      where (x.fullname.ToLower().Contains(find.ToLower()) )
+                                      where (x.fullname.ToLower().Contains(find.ToLower()))
                                       select new
                                       {
                                           fullname = x.fullname
@@ -285,9 +370,9 @@ namespace relmon.Controllers.FrontEnd
 
                 return Json(listResult);
             }
-            
 
-           
+
+
         }
 
         public string CheckUser()

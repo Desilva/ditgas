@@ -44,5 +44,10 @@ namespace relmon.Models
         public DbSet<bisnis_bussiness_report> bisnis_bussiness_report { get; set; }
         public DbSet<bisnis_kpi> bisnis_kpi { get; set; }
         public DbSet<bisnis_main> bisnis_main { get; set; }
+        public DbSet<sheqms_kebijakan_HSE> sheqms_kebijakan_HSE { get; set; }
+        public DbSet<sheqms_safety_talk> sheqms_safety_talk { get; set; }
+        public DbSet<bisnis_rjpp> bisnis_rjpp { get; set; }
+        public DbSet<bisnis_rkap> bisnis_rkap { get; set; }
+        public DbSet<bisnis_product> bisnis_product { get; set; }
     }
 }

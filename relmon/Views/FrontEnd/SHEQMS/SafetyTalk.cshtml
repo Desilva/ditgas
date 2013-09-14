@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Safety Talk";
+}
+<script>
+    function OnComplete(e) {
+        var vals = e.response;
+        if (e.name == "DownloadJS") {
+            location.href = "SHEQMSAdmin/GetDL/" + vals;
+        }
+    } 
+</script>
+<h2>Safety Talk</h2>
+
+<h1>List video safety talk</h1>
+@(Html.Telerik().Grid<relmon.Models.sheqms_safety_talk>()
+        .Name("SafetyTalk1")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectSafety", "SHEQMS");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.filename).Title("Filename");
+            columns.Bound(o => o.date).Title("Date").Width(200);
+            columns.Bound(o => o.tipe).Title("Type").Width(100);
+            columns.Command(commands =>
+            {
+                commands.Custom("DownloadJS")
+                        .Text("Download")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetId", "SHEQMSAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
+<h1>List file safety talk</h1>
+@(Html.Telerik().Grid<relmon.Models.sheqms_safety_talk>()
+        .Name("SafetyTalk2")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectSafety2", "SHEQMS");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.filename).Title("Filename");
+            columns.Bound(o => o.date).Title("Date").Width(200);
+            columns.Bound(o => o.tipe).Title("Type").Width(100);
+            columns.Command(commands =>
+            {
+                commands.Custom("DownloadJS")
+                        .Text("Download")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetId", "SHEQMSAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)

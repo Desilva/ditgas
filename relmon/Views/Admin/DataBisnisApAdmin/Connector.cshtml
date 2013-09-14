@@ -34,37 +34,47 @@
             {
                 parent.Add()
                     .Text("RJPP")
-                    .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("Rjpp/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("RKAP")
-                    .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("Rkap/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "view"))
             {
-                parent.Add()
-                    .Text("Bussiness Report")
-                    .LoadContentFrom("BussinessReportNavigator/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                if (ViewBag.id == 2 || ViewBag.id == 3 || ViewBag.id == 4)
+                {
+                    parent.Add()
+                       .Text("Bussiness Report")
+                       .LoadContentFrom("BussinessReportNavigator/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                }
+               
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
             {
-                parent.Add()
+                if(ViewBag.id == 1 || ViewBag.id == 9){
+                    parent.Add()
                     .Text("KPI")
                     .LoadContentFrom("Kinerja/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
+                }
+                
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
-            {
-                parent.Add()
-                    .Text("Project Status")
-                    .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
-            }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
+            //{
+            //    parent.Add()
+            //        .Text("Project Status")
+            //        .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
+            //}
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
-                    .Text("Product dan Jasa")
-                    .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
+                   .Text("Product")
+                   .LoadContentFrom("Product/" + ViewBag.id + "?tahun=-1", "DataBisnisApAdmin");
+                //parent.Add()
+                //    .Text("Product")
+                //    .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
             }
         })
     )

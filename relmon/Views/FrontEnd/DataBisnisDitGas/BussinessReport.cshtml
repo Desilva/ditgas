@@ -49,6 +49,14 @@
             currentYear--;
         }
 
+        $.post("DataBisnisDitGas/GetSectionList/@ViewBag.id", "", function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                var vSection = value.section.split("_").join(" ");
+                get += '<option value="' + value.section + '">' + vSection + '</option>'
+            });
+            $("#section").append(get);
+        });
     });
 </script>
 <h3>Business Report</h3>
@@ -77,14 +85,7 @@
 </div>
 <div class="Asearch"><b>Section</b></div><div class="titik2"> : </div><div class="Ainput">
     <select name="section" id="section" class="target">
-        <option value="executive_summary">I. Executive Summary</option>
-        <option value="operating_highlights">II. Operating Highlights</option>
-        <option value="safety">III. Safety</option>
-        <option value="operation_summary">IV. Operation Summary</option>
-        <option value="financial_report">V. Financial Report</option>
-        <option value="project_status">VI. Project Status</option>
-        <option value="administration_and_manning">VII. Administration And Manning</option>
-        <option value="minutes_of_meeting">VIII. Minutes Of Meeting</option>
+        <option value ="">--</option>
     </select>
 </div>
 <br/>

@@ -3,6 +3,7 @@
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_minical.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_readonly.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../Content/schedular/ext/dhtmlxscheduler_dhx_terrace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../Scripts/dhtmlxConnector_net/codebase/connector.js" type="text/javascript"></script>
 <link rel="stylesheet" href="../../../Content/schedular/dhtmlxscheduler_dhx_terrace.css" type="text/css" media="screen"
 	    title="no title" charset="utf-8">
 <style>
@@ -99,7 +100,8 @@
 
 
     function init() {
-              
+        
+      
 	    scheduler.config.multi_day = true;
 	    scheduler.config.fix_tab_position = false; // tabs are positioned correctly, no need to fix it
 	    scheduler.config.minicalendar.mark_events = false; // events won't be marked on minicalendar
@@ -179,9 +181,6 @@
             { key: "low", label: 'Low' }
         ];
 
-	            //	            scheduler.config.lightbox.sections
-
-
 	            scheduler.attachEvent("onBeforeLightbox", function (event_id) {
 	                var configLb = [
 			            { name: "text", height: 20, map_to: "text", type: "textarea", focus: true },
@@ -221,32 +220,20 @@
 	            return "low";
 	        }
 	    }
-        
 	    scheduler.config.xml_date = "%Y-%m-%d %H:%i";
 	    scheduler.init('scheduler_here', new Date(), "month");
-	    dp = scheduler.dataProcessor = new dataProcessor("/Kalendar/Save");
+	    $.post("Kalendar/Data", "", function (data) {
+	        scheduler.parse(JSON.stringify(data), "json");
+	    });
+	    var dp = new dataProcessor("/Kalendar/Save");
 	    dp.init(scheduler);
 	    dp.setTransactionMode("POST", false);
-	    scheduler.load("/Kalendar/Data", "json");
 
 	    scheduler.attachEvent("onEventSave", function (id, data, is_new_event) {
 	        if (!data.text) {
 	            dhtmlx.message("Event text cant be empty!");
 	            return false;
 	        }
-	        //	        var app = {} // use your own namespace
-
-	        //	        app.confirm = function (m, cb) {
-	        //	            dhtmlx.confirm({
-	        //	                title: "Save",
-	        //	                type: "confirm-warning",
-	        //	                text: "Are you sure you want to do it?",
-	        //	                callback: function (result) { if (result) cb() }
-	        //	            });
-	        //	        }
-	        //	        app.confirm("Sure you want to do this?", function () {
-	        //	            return true;
-	        //	        })
 	        var r = confirm("Are you sure?");
 	        if (r) {
 	            return true;
@@ -277,7 +264,9 @@
 @{
     ViewBag.Title = "Kalendar";
 }
+<div id="test">
 
+</div>
 <h2>Kalendar meeting</h2>
 <div id="scheduler_here" class="dhx_cal_container" style='padding-top=10px; width:1000px; height:500px;'>
 	<div class="dhx_cal_navline">

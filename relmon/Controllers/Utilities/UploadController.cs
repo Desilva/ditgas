@@ -34,6 +34,47 @@ namespace relmon.Controllers.Utilities
             return Content("");
         }
 
+        public ActionResult Save2(IEnumerable<HttpPostedFileBase> attachments, string dir)
+        {
+
+            var fileName = "";
+            // The Name of the Upload component is "attachments" 
+            foreach (var file in attachments)
+            {
+                // Some browsers send file names with full path. This needs to be stripped.
+                var fileNameOri = Path.GetFileName(file.FileName);
+                fileName = fileNameOri;
+
+                var physicalPath = Path.Combine(Server.MapPath("~/Upload"), dir, fileName);
+                var folderPath = Path.Combine(Server.MapPath("~/Upload"), dir);
+                bool exist = true;
+                int num = 1;
+                while(exist){
+                    if (System.IO.File.Exists(physicalPath))
+                    {
+                        var split = fileNameOri.Split('.');
+                        fileName = split[0] + "("+num+")." + split[1];
+                        physicalPath = Path.Combine(Server.MapPath("~/Upload"), dir, fileName);
+                        num++;
+                    }
+                    else
+                    {
+                        exist = false;
+                    }
+                }
+                
+                if (!System.IO.Directory.Exists(folderPath))
+                {
+                    System.IO.Directory.CreateDirectory(folderPath);
+                }
+                // save file
+                file.SaveAs(physicalPath);
+
+            }
+            // Return an empty string to signify success
+            return Json(new { newFilename = fileName }); ;
+        }
+
         public ActionResult Remove(string[] fileNames, string dir)
         {
             // The parameter of the Remove action must be called "fileNames"
@@ -70,8 +111,10 @@ namespace relmon.Controllers.Utilities
                 {
                     System.IO.Directory.CreateDirectory(Path.Combine(Server.MapPath("~/Upload"), destDir));
                 }
-                
+                if(!System.IO.Directory.Exists(destPath)){
                     System.IO.File.Move(sourcePath, destPath);
+                }
+                    
                 
                 
             }

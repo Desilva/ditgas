@@ -357,12 +357,104 @@ namespace relmon.Controllers.Admin
             }
             return PartialView();
         }
+        #region product
 
-        public ActionResult Product(int id)
+        public ActionResult Product(int id,int tahun)
         {
             ViewBag.id = id;
+            ViewBag.tahun = tahun;
             return PartialView();
         }
+        protected ViewResult bindingProduct(int id, int tahun)
+        {
+            List<bisnis_product> result = (from x in db.bisnis_product
+                                       where x.company_id == id && x.tahun == tahun
+                                       select x).ToList();
+            List<BisnisProductContainer> temp = new List<BisnisProductContainer>();
+            foreach (bisnis_product b in result)
+            {
+                BisnisProductContainer x = new BisnisProductContainer()
+                {
+                    company_id = b.company_id,
+                    product = b.product,
+                    id = b.id,
+                    januari = b.januari,
+                    februari = b.februari,
+                    maret = b.maret,
+                    april =b.april,
+                    mei = b.mei,
+                    juni = b.juni,
+                    juli = b.juli,
+                    agustus = b.agustus,
+                    september = b.september,
+                    oktober = b.oktober,
+                    november = b.november,
+                    desember = b.desember
+                };
+                temp.Add(x);
+            }
+
+            return View(new GridModel<BisnisProductContainer>
+            {
+                Data = temp
+            });
+        }
+        [GridAction]
+        public ActionResult _SelectProduct(int id, int tahun)
+        {
+            return bindingProduct(id,tahun);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [GridAction]
+        public ActionResult _SaveProduct(int id, int tahun)
+        {
+            List<bisnis_product> result = (from x in db.bisnis_product
+                                           where x.id == id
+                                           select x).ToList();
+            var comp_id = -1;
+            
+            if(result.Count == 1){
+                bisnis_product getResult = result.First();
+                comp_id = getResult.company_id;
+                TryUpdateModel(getResult);
+                db.Entry(getResult).State = EntityState.Modified;
+            
+            }
+            db.SaveChanges();
+            return bindingProduct(comp_id, tahun);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        [GridAction]
+        public ActionResult _InsertProduct(int id, int tahun)
+        {
+            bisnis_product newProduct = new bisnis_product();
+            if(TryUpdateModel(newProduct)){
+                newProduct.company_id = id;
+                db.bisnis_product.Add(newProduct);
+                db.SaveChanges();
+            }
+            return bindingProduct(id, tahun);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        [GridAction]
+        public ActionResult _DeleteProduct(int id, int tahun)
+        {
+            List<bisnis_product> result = (from x in db.bisnis_product
+                                           where x.id == id
+                                           select x).ToList();
+            var comp_id = -1;
+            if (result.Count == 1)
+            {
+                bisnis_product getResult = result.First();
+                db.bisnis_product.Remove(getResult);
+                comp_id = getResult.company_id;
+            }
+
+            db.SaveChanges();
+            return bindingProduct(comp_id, tahun);
+        }
+        #endregion
 
     }
 }

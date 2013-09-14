@@ -34,7 +34,9 @@ namespace relmon.Models
 
         public static PageItem SHEQMS = new PageItem("SHE - QMS", "/hse");
         public static PageItem SHEQMS_DitGas = new PageItem("Ditgas", "PRTSHEQMSDitGas");
-        public static PageItem SHEQMS_Ap = new PageItem("Anak Perusahaan", "PRTSHEQMSAp");
+        public static PageItem SHEQMS_DitGas_KebijakanHSE = new PageItem("Kebijakan HSE", "/SHEQMSAdmin/KebijakanHSE");
+        public static PageItem SHEQMS_DitGas_SafetyTalk = new PageItem("Safety Talk", "/SHEQMSAdmin/SafetyTalk");
+        //public static PageItem SHEQMS_Ap = new PageItem("Anak Perusahaan", "PRTSHEQMSAp");
 
 
         public static PageItem DataBisnis = new PageItem("Data Bisnis", "PRTdatabisnis");
@@ -355,8 +357,9 @@ namespace relmon.Models
                 }).setEnableView(false),
                 new PageTree(PageItem.SHEQMS, new List<PageTree>
                 {
-                    new PageTree(PageItem.SHEQMS_DitGas),
-                    new PageTree(PageItem.SHEQMS_Ap)
+                    new PageTree(PageItem.SHEQMS_DitGas)
+                    //,
+                    //new PageTree(PageItem.SHEQMS_Ap)
                 }),
                 new PageTree(PageItem.DataBisnis, new List<PageTree>
                 {

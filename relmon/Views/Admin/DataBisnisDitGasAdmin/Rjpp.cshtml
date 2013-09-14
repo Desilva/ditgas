@@ -1,38 +1,384 @@
-﻿@model relmon.Models.bisnis_main
-<h4>Pengaturan Tampilan RJPP</h4> 
-<textarea cols="80" id="rjpp" name="rjpp" rows="10">
-   	@{
-        if (!string.IsNullOrWhiteSpace(Model.rjpp))
-        {
-            @(Model.rjpp)
+﻿@model relmon.Models.bisnis_rjpp
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+@{
+    int aclId = (int)Session["id"];
+    int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+}
+<script>
+        var filename = "";
+        function onSuccess(e) {
+            var files = e.files;
+            if (e.operation == "upload") {
+                filename = files[0].name
+            } else if (e.operation == "remove") {
+                filename = "";
+            }
         }
-    }
-</textarea>
-<p>
-	<input type="submit" id="saveRjpp" value="Simpan" />
-</p>
-<script type="text/javascript">
 
-    //CKEDITOR.replace('rjpp');
-    var editor = CKEDITOR.replace('rjpp', {
-        uiColor: '#14B8C4',
-        htmlEncodeOutput: true,
-        filebrowserBrowseUrl: '/Scripts/Filemanager/index.html',
-        filebrowserImageBrowseUrl: '/Scripts/Filemanager/index.html?type=Images',
-        filebrowserFlashBrowseUrl: '/Scripts/Filemanager/index.html?type=Flash',
-        removePlugins: 'about'
-        
-    });
+        function onLoad(e) {
+            console.log(e);
+        }
+        function onUpload(e) {
+        @{
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
+            // Array with information about the uploaded files
+            var files = e.files;
 
-    $("#saveRjpp").click(function () {
-        $.post("DataBisnisDitGasAdmin/UploadRjpp/@ViewBag.id", { rjpp: escape(editor.getData()) }, function (data) {
-            if (data == "True") {
-                alert("Data berhasil disimpan");
+            // Check the extension of each file and abort the upload if it is not .jpg
+            if (files[0].extension != ".pdf") {
+                alert("Only .pdf files can be uploaded")
+                e.preventDefault();
+                return false;
+            }
+        }
+        function onRemove(e) {
+            @{
+            
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "delete")){
+                        <text>return false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "delete"))
+                    {
+                        <text>return false;</text>
+                    }
+                }
+            
+            }
+            var r = confirm("Apakah anda yakin?");
+            if (r) {
+                return true;
             } else {
-                alert("Data tidak berhasil disimpan");
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        function OnComplete(e) {
+            if (e.name == "EditRJPP") {
+                @{
+             
+                if(category==0){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "update")){
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rjpp/@ViewBag.id", { rowId: vals.id }, function (data) {
+                               $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RJPP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }else if(category==1){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rjpp/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RJPP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+                else
+                {
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rjpp/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RJPP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+            
+                }
+            }
+        }
+        $("#saveRJPP").click(function () {
+            var values =
+            {
+                "tahun": document.getElementById("tahunRJPP").value,
+                "company_id": '@ViewBag.id',
+                "content": filename
+            }
+            var allowed = true;
+            @{
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create")){
+                        <text>alllowed = false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
+                }
+            }
+
+            if(allowed==true){
+                $.post("DataBisnisDitGasAdmin/UploadRJPP", values, function (data) {
+                    if (data == "true") {
+                        alert('Data tersimpan');
+                        var grid = $('#RJPPReport').data('tGrid');
+                        grid.ajaxRequest();
+                        if ('@ViewBag.baru' == 1) {
+                            var destDir = "Data Bisnis\\" + '@(Model.company_id)' + "\\RJPP\\"+ $("#tahunRJPP").val();
+                            var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RJPP\\0";
+                            var values =
+                            {
+                                "filename": filename,
+                                "destDir": destDir,
+                                "sourceDir": sourceDir
+
+                            }
+                            $.post("Upload/Move", values, function (data) { });
+                        }
+                        resetForm();
+                    } else if (data == "false") {
+                        alert('Data tidak tersimpan');
+                    } else if (data == "exist") {
+                        var r = true;
+                      @{
+                            if(category==0){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "update")){
+                                    <text>r=false;</text>
+                                }
+                            }else if(category==1){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                            else
+                            {
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                        }
+                        r = confirm("RJPP pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
+                        if (r) {
+                            var values =
+                            {
+                                "tahun": document.getElementById("tahunRJPP").value,
+                                "company_id": '@ViewBag.id',
+                                "content": filename
+                            }
+                            $.post("DataBisnisDitGasAdmin/UpdateRJPP", values, function (data) {
+                                if (data == "true") {
+                                    alert('Data tersimpan');
+                                    var grid = $('#RJPPReport').data('tGrid');
+                                    grid.ajaxRequest();
+                                    if ('@ViewBag.baru' == 1) {
+                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\RJPP\\" + $("#tahunRJPP").val();
+                                        var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RJPP\\0";
+                                        var values =
+                                        {
+                                            "filename": filename,
+                                            "destDir": destDir,
+                                            "sourceDir": sourceDir
+
+                                        }
+                                        $.post("Upload/Move", values, function (data) { });
+                                    }
+                                    resetForm();
+                                } else if (data == "false") {
+                                    alert('Data tidak tersimpan');
+                                }
+                            });
+                        }
+                    }
+
+                });
             }
         });
 
-    });
+        function resetForm() {
+            var tabStrip = $("#TabStrip").data("tTabStrip");
+            $.post("DataBisnisDitGasAdmin/Rjpp/@ViewBag.id", { rowId: -1 }, function (data) {
+                $( "#TabStrip .t-link" ).each(function(index) {
+                        if($(this).text() == "RJPP"){
+                            $("#TabStrip-"+(index+1)).html(data);
+                        }
+                    });
+            });
+        }
+
+        $("#cancelbuttonRJPP").click(function () {
+            resetForm();
+        });
+        $(document).ready(function () {
+            var currentYear = new Date().getFullYear();
+
+            for (var i = 1; i <= 10; i++) {
+                $("#tahunRJPP").append(
+                    $("<option></option>")
+                    .attr("value", currentYear)
+                    .text(currentYear)
+                );
+                currentYear--;
+            }
+            
+            if('@ViewBag.baru' == 0){
+                $("#tahunRJPP").val('@Model.tahun');
+                $('#tahunRJPP').attr('disabled', 'disabled');
+            }
+
+            var $fileList, $files, item, _fn, _i, _len;
+
+            $fileList = $("#existing-filesRJPP");
+
+            if ($fileList.length > 0) {
+                $("#mainuploadRJPP .t-upload").append($fileList);
+                $files = $(".t-file");
+                _fn = function (item) {
+                    var $item, fileId, filenames;
+                    $item = $(item);
+                    fileId = $item.data("att-id");
+                    filenames = [
+                              {
+                                  name: fileId
+                              }
+                            ];
+                    return $item.data("fileNames", filenames);
+                };
+                for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                    item = $files[_i];
+                    _fn(item);
+                }
+                $fileList.show();
+            }
+        });
 </script>
 
+<h3>Pengaturan RJPP</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahunRJPP">
+
+    </select>
+    
+</div>
+
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainuploadRJPP">
+    @(Html.Telerik().Upload()
+                        .Name("attachmentsRJPP")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+            .OnRemove("onRemove")
+        )
+        .Multiple(false)
+        .Async(async => async
+                    .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + Model.company_id + "\\RJPP\\" + Model.tahun })
+                    .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\RJPP\\" + Model.tahun })
+            .AutoUpload(true)
+        )
+
+    )
+   <div class="controls">
+		@{
+            if (!string.IsNullOrWhiteSpace(Model.content))
+            {
+                <ul id="existing-filesRJPP" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.content)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.content)">@(Model.content)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+            }
+        }                    
+	</div>
+</div>
+
+<p>
+	<input type="submit" id="saveRJPP" value="Simpan" /><input type="button" id="cancelbuttonRJPP" value="Batal" />
+</p>
+<hr/>
+<h4>Tabel RJPP</h4>
+@(Html.Telerik().Grid<relmon.Models.BisnisRJPPContainer>()
+            .Name("RJPPReport")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectRJPP", "DataBisnisDitGasAdmin")
+                .Delete("_DeleteRJPP", "DataBisnisDitGasAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.tahun).Width(150).Title("Tahun");
+            columns.Bound(o => o.content).Title("Filename");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditRJPP")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetRJPP", "DataBisnisDitGasAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)

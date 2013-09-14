@@ -19,6 +19,9 @@ namespace relmon.Models
             this.acls = new HashSet<acl>();
             this.bisnis_bussiness_report = new HashSet<bisnis_bussiness_report>();
             this.bisnis_kpi = new HashSet<bisnis_kpi>();
+            this.bisnis_product = new HashSet<bisnis_product>();
+            this.bisnis_rjpp = new HashSet<bisnis_rjpp>();
+            this.bisnis_rkap = new HashSet<bisnis_rkap>();
             this.users_jabatan = new HashSet<users_jabatan>();
         }
     
@@ -31,6 +34,9 @@ namespace relmon.Models
         public virtual ICollection<bisnis_bussiness_report> bisnis_bussiness_report { get; set; }
         public virtual ICollection<bisnis_kpi> bisnis_kpi { get; set; }
         public virtual bisnis_main bisnis_main { get; set; }
+        public virtual ICollection<bisnis_product> bisnis_product { get; set; }
+        public virtual ICollection<bisnis_rjpp> bisnis_rjpp { get; set; }
+        public virtual ICollection<bisnis_rkap> bisnis_rkap { get; set; }
         public virtual ICollection<users_jabatan> users_jabatan { get; set; }
 		public virtual string nama_parent { get; set; }
     }

@@ -34,13 +34,13 @@
             {
                 parent.Add()
                     .Text("RJPP")
-                    .LoadContentFrom("Rjpp/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("Rjpp/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("RKAP")
-                    .LoadContentFrom("Rkap/" + ViewBag.id, "DataBisnisDitGasAdmin");
+                    .LoadContentFrom("Rkap/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "view"))
             {
@@ -54,17 +54,17 @@
                     .Text("KPI")
                     .LoadContentFrom("Kinerja/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ProjectStatus.name + ViewBag.id, aclId, "view"))
-            {
-                parent.Add()
-                    .Text("Project Status")
-                    .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
-            }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ProjectStatus.name + ViewBag.id, aclId, "view"))
+            //{
+            //    parent.Add()
+            //        .Text("Project Status")
+            //        .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
+            //}
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
-                    .Text("Product dan Jasa")
-                    .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
+                    .Text("Product")
+                    .LoadContentFrom("Product/" + ViewBag.id + "?tahun=-1", "DataBisnisApAdmin");
             }
         })
     )
