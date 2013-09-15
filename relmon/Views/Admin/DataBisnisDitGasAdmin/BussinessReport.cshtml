@@ -233,18 +233,25 @@
     });
 
     function resetForm() {
-        $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=@ViewBag.type");
+        
+        if('@ViewBag.type' == 'all'){
+            var tabStrip = $("#TabStrip").data("tTabStrip");
+            alert("asdf");
+            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1,reportType:'@ViewBag.type' }, function (data) {
+                
+                $( "#TabStrip .t-link" ).each(function(index) {
+                    if($(this).text() == "Bussiness Report"){
+                        $("#TabStrip-"+(index+1)).html(data);
+                    }
+                });
+           
+            });
+        }else{
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=@ViewBag.type");
+        }
+        
 
-//        var tabStrip = $("#TabStrip").data("tTabStrip");
-//        $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1 }, function (data) {
 //        
-//            $( "#TabStrip .t-link" ).each(function(index) {
-//                if($(this).text() == "Bussiness Report"){
-//                    $("#TabStrip-"+(index+1)).html(data);
-//                }
-//            });
-//           
-//        });
     }
 
     $("#cancelbutton").click(function () {

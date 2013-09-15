@@ -224,11 +224,13 @@
 	    scheduler.init('scheduler_here', new Date(), "month");
 	    $.post("Kalendar/Data", "", function (data) {
 	        scheduler.parse(JSON.stringify(data), "json");
-	    });
+	    }); debugger;
 	    var dp = new dataProcessor("/Kalendar/Save");
-	    dp.init(scheduler);
+        
 	    dp.setTransactionMode("POST", false);
-
+	    dp.enableDataNames(true);
+	    dp.init(scheduler);
+	    debugger;
 	    scheduler.attachEvent("onEventSave", function (id, data, is_new_event) {
 	        if (!data.text) {
 	            dhtmlx.message("Event text cant be empty!");
@@ -255,8 +257,9 @@
 
 
 	$(document).ready(function () {
-	    init();
 	    
+	    init();
+
 	});
 
 
