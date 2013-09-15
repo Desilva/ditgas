@@ -12,15 +12,17 @@ using System.Collections.Generic;
 
 namespace relmon.Models
 {
-    public partial class bisnis_main
+    public partial class kalendar_events
     {
-        public int company_id { get; set; }
-        public string profile { get; set; }
-        public string struktur { get; set; }
-        public string visimisi { get; set; }
-        public string ad_art { get; set; }
-    
-        public virtual company company { get; set; }
+        public int id { get; set; }
+        public string text { get; set; }
+        public string description { get; set; }
+        public System.DateTime start_date { get; set; }
+        public System.DateTime end_date { get; set; }
+        public string type { get; set; }
+        public string priority { get; set; }
+        public Nullable<int> create_by { get; set; }
+        public Nullable<int> group_id { get; set; }
     }
     
 }

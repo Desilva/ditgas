@@ -44,22 +44,29 @@
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "view"))
             {
-                parent.Add()
-                .Text("Bussiness Report")
-                .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisDitGas");
+                if (ViewBag.id == 2 || ViewBag.id == 3 || ViewBag.id == 4)
+                {
+                    parent.Add()
+                    .Text("Bussiness Report")
+                    .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisDitGas");
+                }
             }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
             {
-                parent.Add()
-                .Text("KPI")
-                .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisDitGas");
+                if (ViewBag.id == 1 || ViewBag.id == 9)
+                {
+
+                    parent.Add()
+                    .Text("KPI")
+                    .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisDitGas");
+                }
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
-            {
-                parent.Add()
-                .Text("Project Status")
-                .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisDitGas");
-             }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
+            //{
+            //    parent.Add()
+            //    .Text("Project Status")
+            //    .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisDitGas");
+            // }
             if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()

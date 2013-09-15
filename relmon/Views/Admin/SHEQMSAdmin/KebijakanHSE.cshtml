@@ -1,0 +1,145 @@
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+
+<script>
+    var filename = "";
+    function onSuccess(e) {
+        var files = e.files;
+        if (e.operation == "upload") {
+            filename = e.response.newFilename;
+            //ganti upload
+        } else if (e.operation == "remove") {
+            filename = "";
+        }
+    }
+
+    function onLoad(e) {
+        console.log(e);
+    }
+    function onUpload(e) {
+
+    }
+    function onRemove(e) {
+        var r = confirm("Apakah anda yakin?");
+        if (r) {
+            return true;
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    function OnComplete(e) {
+        var vals = e.response;
+        if (e.name == "DownloadJS") {
+            location.href = "SHEQMSAdmin/GetDLHSE/" + vals;
+        }
+    }
+    $("#savebutton").click(function () {
+        //save
+        var now = new Date();
+        var d = now.getDate();
+        var m = now.getMonth() + 1;
+        var y = now.getFullYear();
+        var h = now.getHours();
+        var min = now.getMinutes();
+        var s = now.getSeconds();
+        var date = ((d <= 9 ? '0' + d : d) + "/" + (m <= 9 ? '0' + m : m) + "/" + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s));
+        var values =
+        {
+
+            "tipe": document.getElementById("tipeFile").value,
+            "date": date,
+            "filename": filename
+        }
+        if (filename != "") {
+            $.post("SHEQMSAdmin/UploadHSE", values, function (data) {
+                if (data == "true") {
+                    alert('Data tersimpan');
+                } else if (data == "false") {
+                    alert('Data gagal tersimpan');
+                }
+            });
+        }
+
+        $('#content_admin2').load('SHEQMSAdmin/KebijakanHSE');
+    });
+
+    $("#cancelbutton").click(function () {
+        $('#content_admin2').load('SHEQMSAdmin/KebijakanHSE');
+    });
+</script>
+<div class="Asearch"><b>Tipe File</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tipe" id="tipeFile">
+        <option value="File">File</option>
+        <option value="Video">Video</option>
+    </select>
+    
+</div>
+
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="upload">
+    @(Html.Telerik().Upload()
+        .Name("attachmentsKebijakanHSE")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+            .OnRemove("onRemove")
+            //.OnUpload("onUpload")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save2", "Upload", "attachments", new { dir = "SHE-QMS\\Kebijakan HSE" })
+            .Remove("Remove", "Upload", new { dir = "SHE-QMS\\Kebijakan HSE" })
+            .AutoUpload(true)
+        )
+
+    )
+</div>
+
+<p>
+	<input type="submit" id="savebutton" value="Simpan" /><input type="button" id="cancelbutton" value="Batal" />
+</p>
+<hr />
+
+@(Html.Telerik().Grid<relmon.Models.sheqms_kebijakan_HSE>()
+        .Name("KebijakanHSE")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectHSE", "SHEQMSAdmin")
+                .Delete("_DeleteHSE", "SHEQMSAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.filename).Title("Filename");
+            columns.Bound(o => o.date).Title("Date").Width(200);
+            columns.Bound(o => o.tipe).Title("Type").Width(100);
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("DownloadJS")
+                        .Text("Download")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetId", "SHEQMSAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)

@@ -114,191 +114,362 @@ namespace relmon.Controllers.Admin
         #endregion
 
         # region Rjpp
-        public ActionResult Rjpp(int id)
+
+        public ActionResult Rjpp(int id, int rowId)
         {
             ViewBag.id = id;
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
+            var result = (from x in db.bisnis_rjpp
+                          where x.id == rowId
                           select x
-                         ).ToList();
+                        ).ToList();
             if (result.Count == 0)
             {
-                bisnis_main e = new bisnis_main();
-                e.rjpp = "";
+                bisnis_rjpp e = new bisnis_rjpp();
                 e.company_id = id;
+                ViewBag.baru = 1;
                 return PartialView(e);
+
             }
             else
             {
-                bisnis_main e = result.First();
+                bisnis_rjpp e = result.First();
+                ViewBag.baru = 0;
                 return PartialView(e);
-
             }
         }
 
         [HttpPost]
-        public bool UploadRjpp(int id, string rjpp)
+        public string UploadRJPP(bisnis_rjpp bisnis_rjpp)
         {
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
+            var result = (from x in db.bisnis_rjpp
+                          where x.company_id == bisnis_rjpp.company_id && x.tahun == bisnis_rjpp.tahun
                           select x
                         ).ToList();
 
             if (result.Count == 0)
             {
-                int aclId = (int)Session["id"];
-                int category = DataBisnisDitGasAdminController.GetCategory(id);
-            
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create")){
-                        return false;
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + id, aclId, "create"))
-                    {
-                        return false;
-                    }
-                }
-                else
+                db.bisnis_rjpp.Add(bisnis_rjpp);
+                try
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + id, aclId, "create"))
-                    {
-                        return false;
-                    }
+                    db.SaveChanges();
+                    return "true";
                 }
-            
-            
-                bisnis_main items = new bisnis_main();
-                items.company_id = id;
-                items.rjpp = HttpUtility.UrlDecode(rjpp);
-
-                db.bisnis_main.Add(items);
+                catch (Exception a)
+                {
+                    Console.Write(a.Message);
+                    return "false";
+                }
             }
             else
             {
-                int aclId = (int)Session["id"];
-                int category = DataBisnisDitGasAdminController.GetCategory(id);
+                return "exist";
+            }
 
+        }
+
+        [HttpPost]
+        public string UpdateRJPP(bisnis_rjpp bisnis_rjpp)
+        {
+            var result = (from x in db.bisnis_rjpp
+                          where x.company_id == bisnis_rjpp.company_id && x.tahun == bisnis_rjpp.tahun
+                          select x
+                        ).ToList();
+            bisnis_rjpp items = result.First();
+            items.tahun = bisnis_rjpp.tahun;
+            items.content = bisnis_rjpp.content;
+            db.Entry(items).State = EntityState.Modified;
+            try
+            {
+                db.SaveChanges();
+                return "true";
+            }
+            catch (Exception a)
+            {
+                Console.Write(a.Message);
+                return "false";
+            }
+        }
+
+
+        [GridAction]
+        public ActionResult _SelectRJPP(int id)
+        {
+            return bindingRJPP(id);
+        }
+
+        //
+        // Ajax delete binding
+        [AcceptVerbs(HttpVerbs.Post)]
+        [GridAction]
+        public ActionResult _DeleteRJPP(int id) //row_id
+        {
+            //string tipe = delete(id);
+            var tempResult = (from x in db.bisnis_rjpp
+                              where x.id == id
+                              select x).ToList();
+            var comp_id = -1;
+            if (tempResult.Count != 0)
+            {
+                bisnis_rjpp result = tempResult.First();
+                comp_id = result.company_id;
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
                 if (category == 0)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RJPP.name, aclId, "delete"))
                     {
-                        return false;
+                        return bindingRJPP(comp_id);
                     }
                 }
                 else if (category == 1)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RJPP.name + comp_id, aclId, "delete"))
                     {
-                        return false;
+                        return bindingRJPP(comp_id);
                     }
                 }
                 else
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RJPP.name + comp_id, aclId, "delete"))
                     {
-                        return false;
+                        return bindingRJPP(comp_id);
                     }
                 }
-                bisnis_main items = result.First();
-                items.rjpp = HttpUtility.UrlDecode(rjpp);
-                db.Entry(items).State = EntityState.Modified;
-            }
-            try
-            {
+                UploadController upload = new UploadController();
+
+                string[] file = new string[1];
+                file[0] = result.content;
+                if (!string.IsNullOrWhiteSpace(file[0]))
+                {
+                    upload.Remove(file, "Data Bisnis\\" + result.company_id + "\\RJPP\\" + result.tahun);
+                }
+
+                db.bisnis_rjpp.Remove(result);
                 db.SaveChanges();
-                return true;
             }
-            catch (Exception a)
-            {
-                Console.Write(a.Message);
-                return false;
-            }
+
+
+
+
+            return bindingRJPP(comp_id);
         }
+
+        //select data user
+        protected ViewResult bindingRJPP(int id)
+        {
+            List<bisnis_rjpp> result = (from x in db.bisnis_rjpp
+                                        where x.company_id == id
+                                        select x).ToList();
+            List<BisnisRJPPContainer> temp = new List<BisnisRJPPContainer>();
+            foreach (bisnis_rjpp b in result)
+            {
+                BisnisRJPPContainer x = new BisnisRJPPContainer()
+                {
+                    company_id = b.company_id,
+                    content = b.content,
+                    id = b.id,
+                    tahun = b.tahun
+                };
+                temp.Add(x);
+            }
+
+            return View(new GridModel<BisnisRJPPContainer>
+            {
+                Data = temp
+            });
+        }
+
+
+        public JsonResult GetRJPP(int id)
+        {
+            bisnis_rjpp x = db.bisnis_rjpp.Find(id);
+            return Json(new
+            {
+                id = x.id,
+                company_id = x.company_id,
+                tahun = x.tahun,
+                content = x.content
+            });
+        }
+       
         #endregion
 
         # region Rkap
-        public ActionResult Rkap(int id)
+        public ActionResult Rkap(int id, int rowId)
         {
             ViewBag.id = id;
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
+            var result = (from x in db.bisnis_rkap
+                          where x.id == rowId
                           select x
-                         ).ToList();
+                        ).ToList();
             if (result.Count == 0)
             {
-                bisnis_main e = new bisnis_main();
-                e.rkap = "";
+                bisnis_rkap e = new bisnis_rkap();
                 e.company_id = id;
+                ViewBag.baru = 1;
                 return PartialView(e);
+
             }
             else
             {
-                bisnis_main e = result.First();
+                bisnis_rkap e = result.First();
+                ViewBag.baru = 0;
                 return PartialView(e);
-
             }
         }
 
         [HttpPost]
-        public bool UploadRkap(int id,string filename)
+        public string UploadRKAP(bisnis_rkap bisnis_rkap)
         {
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
+            var result = (from x in db.bisnis_rkap
+                          where x.company_id == bisnis_rkap.company_id && x.tahun == bisnis_rkap.tahun
                           select x
-                         ).ToList();
+                        ).ToList();
 
             if (result.Count == 0)
             {
-                bisnis_main items = new bisnis_main();
-                items.company_id = id;
-                items.rkap = filename;
-                db.bisnis_main.Add(items);
-
+                db.bisnis_rkap.Add(bisnis_rkap);
+                try
+                {
+                    db.SaveChanges();
+                    return "true";
+                }
+                catch (Exception a)
+                {
+                    Console.Write(a.Message);
+                    return "false";
+                }
             }
             else
             {
-                bisnis_main items = result.First();
-                items.rkap = filename;
-                db.Entry(items).State = EntityState.Modified;
+                return "exist";
             }
-            try
-            {
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception a)
-            {
-                Console.Write(a.Message);
-                return false;
-            }
-
 
         }
 
-        public bool DeleteRkap(int id)
+        [HttpPost]
+        public string UpdateRKAP(bisnis_rkap bisnis_rkap)
         {
-            var result = (from x in db.bisnis_main
-                          where x.company_id == id
+            var result = (from x in db.bisnis_rkap
+                          where x.company_id == bisnis_rkap.company_id && x.tahun == bisnis_rkap.tahun
                           select x
-                         ).ToList();
-
-            if (result.Count != 0)
-            {
-                bisnis_main items = result.First();
-                items.rkap = "";
-                db.Entry(items).State = EntityState.Modified;
-            }
+                        ).ToList();
+            bisnis_rkap items = result.First();
+            items.tahun = bisnis_rkap.tahun;
+            items.content = bisnis_rkap.content;
+            db.Entry(items).State = EntityState.Modified;
             try
             {
                 db.SaveChanges();
-                return true;
+                return "true";
             }
             catch (Exception a)
             {
                 Console.Write(a.Message);
-                return false;
+                return "false";
             }
+        }
+
+
+        [GridAction]
+        public ActionResult _SelectRKAP(int id)
+        {
+            return bindingRKAP(id);
+        }
+
+        //
+        // Ajax delete binding
+        [AcceptVerbs(HttpVerbs.Post)]
+        [GridAction]
+        public ActionResult _DeleteRKAP(int id) //row_id
+        {
+            //string tipe = delete(id);
+            var tempResult = (from x in db.bisnis_rkap
+                              where x.id == id
+                              select x).ToList();
+            var comp_id = -1;
+            if (tempResult.Count != 0)
+            {
+                bisnis_rkap result = tempResult.First();
+                comp_id = result.company_id;
+                int aclId = (int)Session["id"];
+                int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
+                if (category == 0)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "delete"))
+                    {
+                        return bindingRKAP(comp_id);
+                    }
+                }
+                else if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + comp_id, aclId, "delete"))
+                    {
+                        return bindingRKAP(comp_id);
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + comp_id, aclId, "delete"))
+                    {
+                        return bindingRKAP(comp_id);
+                    }
+                }
+                UploadController upload = new UploadController();
+
+                string[] file = new string[1];
+                file[0] = result.content;
+                if (!string.IsNullOrWhiteSpace(file[0]))
+                {
+                    upload.Remove(file, "Data Bisnis\\" + result.company_id + "\\RKAP\\" + result.tahun);
+                }
+
+                db.bisnis_rkap.Remove(result);
+                db.SaveChanges();
+            }
+
+
+
+
+            return bindingRKAP(comp_id);
+        }
+
+        //select data user
+        protected ViewResult bindingRKAP(int id)
+        {
+            List<bisnis_rkap> result = (from x in db.bisnis_rkap
+                                       where x.company_id == id
+                                       select x).ToList();
+            List<BisnisRKAPContainer> temp = new List<BisnisRKAPContainer>();
+            foreach (bisnis_rkap b in result)
+            {
+                BisnisRKAPContainer x = new BisnisRKAPContainer()
+                {
+                    company_id = b.company_id,
+                    content = b.content,
+                    id = b.id,
+                    tahun = b.tahun
+                };
+                temp.Add(x);
+            }
+
+            return View(new GridModel<BisnisRKAPContainer>
+            {
+                Data = temp
+            });
+        }
+
+
+        public JsonResult GetRKAP(int id)
+        {
+            bisnis_rkap x = db.bisnis_rkap.Find(id);
+            return Json(new
+            {
+                id = x.id,
+                company_id = x.company_id,
+                tahun = x.tahun,
+                content = x.content
+            });
         }
         #endregion
 

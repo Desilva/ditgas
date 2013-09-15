@@ -1,13 +1,102 @@
-﻿@{
-    <ul>
-        <li>
-            LNG
-        </li>
-        <li>
-            LPG
-        </li>
-        <li>
-            Kondensat
-        </li>
-    </ul>
-}
+﻿@model relmon.Models.BisnisProductContainer
+@using relmon.Controllers.Admin
+<script>
+//    function Grid_onDataBinding(e) {
+//        
+//        // pass additional values by setting the "data" field of the event argument
+//        e.data = {
+//            // the key ("category") specifies the variable name of the action method which will contain the specified value
+//            tahun: $("#tahun").val()
+//        };
+//    }
+
+    $("#tahun").bind("change", function () {
+        var tabStrip = $("#TabStrip").data("tTabStrip");
+        var tahun = $("#tahun").val();
+         $.post("DataBisnisApAdmin/Product/@ViewBag.id", { tahun: tahun }, function (data) {
+                $( "#TabStrip .t-link" ).each(function(index) {
+                        if($(this).text() == "Product"){
+                            $("#TabStrip-"+(index+1)).html(data);
+                        }
+                    });
+            });
+
+    });
+
+    $(document).ready(function () {
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun").append(
+                "<option value ='" + currentYear + "'>" + currentYear + "</option>"
+            );
+            currentYear--;
+        }
+
+        var tahun = @ViewBag.tahun;
+        if(tahun == -1){
+            tahun =  new Date().getFullYear();
+             $.post("DataBisnisApAdmin/Product/@ViewBag.id", { tahun: tahun }, function (data) {
+                $( "#TabStrip .t-link" ).each(function(index) {
+                        if($(this).text() == "Product"){
+                            $("#TabStrip-"+(index+1)).html(data);
+                        }
+                    });
+            });
+        }
+        $("#tahun").val(tahun);
+    });
+</script>
+
+<h4>Daftar Produk</h4>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+        <select name="tahun" id="tahun">
+
+        </select>
+    </div>
+
+@(Html.Telerik().Grid<relmon.Models.BisnisProductContainer>()
+        .Name("Grid")
+        .DataKeys(keys => 
+        {
+            keys.Add(p => p.id);
+        })
+        //.ClientEvents(events => events.OnDataBinding("Grid_onDataBinding"))
+        .ToolBar(commands => commands.Insert().ButtonType(GridButtonType.Text).ImageHtmlAttributes(new {style="margin-left:0"}))
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectProduct", "DataBisnisApAdmin", new { tahun = ViewBag.tahun })
+                .Insert("_InsertProduct", "DataBisnisApAdmin", new { tahun = ViewBag.tahun })
+                .Update("_SaveProduct", "DataBisnisApAdmin", new { tahun = ViewBag.tahun })
+                .Delete("_DeleteProduct", "DataBisnisApAdmin", new { tahun = ViewBag.tahun });
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.id).Hidden();
+            columns.Bound(p => p.product).Title("Product Name").Width(100);
+            columns.Bound(p => p.januari).Title("Jan").Width(50);
+            columns.Bound(p => p.februari).Title("Feb").Width(50);
+            columns.Bound(p => p.maret).Title("Mar").Width(50);
+            columns.Bound(p => p.april).Title("Apr").Width(50);
+            columns.Bound(p => p.mei).Title("May").Width(50);
+            columns.Bound(p => p.juni).Title("Jun").Width(50);
+            columns.Bound(p => p.juli).Title("Jul").Width(50);
+            columns.Bound(p => p.agustus).Title("Aug").Width(50);
+            columns.Bound(p => p.september).Title("Sep").Width(50);
+            columns.Bound(p => p.oktober).Title("Oct").Width(50);
+            columns.Bound(p => p.november).Title("Nov").Width(50);
+            columns.Bound(p => p.desember).Title("Des").Width(50);
+            columns.Command(commands =>
+            {
+                commands.Edit().ButtonType(GridButtonType.Text);
+                commands.Delete().ButtonType(GridButtonType.Text);
+            }).Width(180).Title("Commands");
+        })
+        .Pageable()
+        .Scrollable()
+        .Sortable()
+        .Editable(editing => editing.Mode(GridEditMode.InLine)
+        
+    )
+)

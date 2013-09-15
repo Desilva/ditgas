@@ -2,25 +2,27 @@
 <script type="text/javascript">
     function onSelectPanel(e) {
         var item = $(e.item);
-        
-
-        if (item.find('> .t-link').text() == "I. Executive Summary") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=executive_summary");
-        } else if (item.find('> .t-link').text() == "II. Operating Highlights") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operating_highlights");
-        } else if (item.find('> .t-link').text() == "III. Safety") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=safety");
-        } else if (item.find('> .t-link').text() == "IV. Operation Summary") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operation_summary");
-        } else if (item.find('> .t-link').text() == "V. Financial Report") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=financial_report");
-        } else if (item.find('> .t-link').text() == "VI. Project Status") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=project_status");
-        } else if (item.find('> .t-link').text() == "VII. Administration And Manning") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=administration_and_manning");
-        } else if (item.find('> .t-link').text() == "VIII. Minutes Of Meeting") {
-            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=minutes_of_meeting");
-        } 
+        var type = (item.find('> .t-link').text()).split(" ").join("_");
+        if (type != "II._Manufacturing") {
+            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=" + type);
+        }
+//        if ( == "I. Executive Summary") {
+//            
+//        } else if (item.find('> .t-link').text() == "II. Operating Highlights") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operating_highlights");
+//        } else if (item.find('> .t-link').text() == "III. Safety") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=safety");
+//        } else if (item.find('> .t-link').text() == "IV. Operation Summary") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=operation_summary");
+//        } else if (item.find('> .t-link').text() == "V. Financial Report") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=financial_report");
+//        } else if (item.find('> .t-link').text() == "VI. Project Status") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=project_status");
+//        } else if (item.find('> .t-link').text() == "VII. Administration And Manning") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=administration_and_manning");
+//        } else if (item.find('> .t-link').text() == "VIII. Minutes Of Meeting") {
+//            $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/0?rowId=-1&reportType=minutes_of_meeting");
+//        } 
     }
 </script>
 <div style="overflow:hidden;">
@@ -35,14 +37,39 @@
         )
         .Items(panelBarItem =>
         {
-            panelBarItem.Add().Text("I. Executive Summary");
-            panelBarItem.Add().Text("II. Operating Highlights");
-            panelBarItem.Add().Text("III. Safety");
-            panelBarItem.Add().Text("IV. Operation Summary");
-            panelBarItem.Add().Text("V. Financial Report");
-            panelBarItem.Add().Text("VI. Project Status");
-            panelBarItem.Add().Text("VII. Administration And Manning");
-            panelBarItem.Add().Text("VIII. Minutes Of Meeting");
+            if(ViewBag.id == 2){
+                panelBarItem.Add().Text("I. Summary");
+                panelBarItem.Add().Text("II. Manufacturing").Items(panelBarItem2=>{
+                    panelBarItem2.Add().Text("II.A. Production & Shipment");
+                    panelBarItem2.Add().Text("II.B. Feed Gas Supply");
+                    panelBarItem2.Add().Text("II.C. Plant Performance");
+                    panelBarItem2.Add().Text("II.D. Operation Highlights");
+                    panelBarItem2.Add().Text("II.E. Safety & Environment");
+                    panelBarItem2.Add().Text("II.F. Security");
+                });
+                panelBarItem.Add().Text("III. Financial Highlights");
+                panelBarItem.Add().Text("IV. Manpower");
+                panelBarItem.Add().Text("V. References");
+            }else if(ViewBag.id == 3){
+                panelBarItem.Add().Text("I. Executive Summary");
+                panelBarItem.Add().Text("II. Operating Highlights");
+                panelBarItem.Add().Text("III. Safety");
+                panelBarItem.Add().Text("IV. Operation Summary");
+                panelBarItem.Add().Text("V. Financial Report");
+                panelBarItem.Add().Text("VI. Project Status");
+                panelBarItem.Add().Text("VII. Administration And Manning");
+                panelBarItem.Add().Text("VIII. Minutes Of Meeting");
+            }else if(ViewBag.id == 4){
+                panelBarItem.Add().Text("I. Introduction");
+                panelBarItem.Add().Text("II. Restatement of Original DPB");
+                panelBarItem.Add().Text("III. Approval of DPB Update and 5% Over Budget");
+                panelBarItem.Add().Text("IV. Operation Summary");
+                panelBarItem.Add().Text("V. Financial Report");
+                panelBarItem.Add().Text("VI. Project Status");
+                panelBarItem.Add().Text("VII. Administration And Manning");
+                panelBarItem.Add().Text("VIII. Minutes Of Meeting");
+            }
+            
         })
 )
 </div>

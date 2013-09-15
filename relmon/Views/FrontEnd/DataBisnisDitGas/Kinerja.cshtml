@@ -11,7 +11,7 @@
 
             $.post("DataBisnisDitgas/GetReportType2/@ViewBag.id", { tahun: $("#tahun2").val() }, function (data) {
                 if (data == "pdf") {
-                    loadIframe('frame-content4', '/DataBisnisDitGas/GetPdfReport/@ViewBag.id?tahun=' + $("#tahun2").val());
+                    loadIframe('frame-content4', '/DataBisnisDitGas/GetPdfReport2/@ViewBag.id?tahun=' + $("#tahun2").val());
                 } else if (data == "image") {
 
                     $.post("DataBisnisDitgas/GetImage2/@ViewBag.id", { tahun: $("#tahun2").val() }, function (data) {

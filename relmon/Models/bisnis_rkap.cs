@@ -12,13 +12,12 @@ using System.Collections.Generic;
 
 namespace relmon.Models
 {
-    public partial class bisnis_main
+    public partial class bisnis_rkap
     {
+        public int id { get; set; }
         public int company_id { get; set; }
-        public string profile { get; set; }
-        public string struktur { get; set; }
-        public string visimisi { get; set; }
-        public string ad_art { get; set; }
+        public string content { get; set; }
+        public int tahun { get; set; }
     
         public virtual company company { get; set; }
     }

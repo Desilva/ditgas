@@ -1,2 +1,40 @@
-﻿@(new HtmlString(@ViewBag.content))
-<br/>
+﻿@using System.IO;
+
+<script>
+
+    $(".targetRJPP").change(function () {
+        if ($("#tahunRJPP").val() != "") {
+
+            $("#frame-contentRJPP").contents().find("html").remove();
+            $("#frame-contentRJPP").show();
+             loadIframe('frame-contentRJPP', '/DataBisnisDitGas/GetPdfReportRJPP/@ViewBag.id?tahun=' + $("#tahunRJPP").val());
+
+        }
+    });
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahunRJPP").append(
+                $("<option></option>")
+                .attr("value", currentYear)
+                .text(currentYear)
+            );
+            currentYear--;
+        }
+
+    });
+</script>
+<h3>RJPP</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahunRJPP" class="targetRJPP">
+        <option value ="">--</option>
+        
+    </select>
+    
+</div>
+
+<iframe id="frame-contentRJPP" name="frame-content" width="960" height="400" style="border:0px solid #000;display:none"></iframe>
+

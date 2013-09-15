@@ -82,7 +82,13 @@
                             {
                                 item.Add().Text(PageItem.Home.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Home.name, userId));
                                 item.Add().Text(PageItem.ProfilDitGas.text).Visible(ACLHandler.isAdminMenuShown(PageItem.ProfilDitGas.name, userId));
-                                item.Add().Text(PageItem.SHEQMS.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SHEQMS.name, userId));
+                                item.Add().Text(PageItem.SHEQMS.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SHEQMS.name, userId))
+                                    .Items(item2 =>
+                                    {
+                                        item2.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text);
+                                        item2.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text);
+                                    });
+                                    
                                 item.Add().Text(PageItem.DataBisnis.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis.name, userId))
                                     .Items(item2 =>
                                     {
@@ -121,31 +127,32 @@
                                    {
                                        item.Add().Text("Profil").Action("Index", "ProfilDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_Profil.name, userId));
                                        item.Add().Text("Visi Misi").Action("Index", "DirektoratDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_VisiMisi.name, userId));
+                                       //item.Add().Text("Strategic Planning").Action("Index", "StrategicPlaning");
                                        item.Add().Text("Organisasi").Action("Index", "OrganisasiDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_Organisasi.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas.name, userId));
                                menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
                                    .Items(item =>
                                    {
 
-                                       item.Add().Text("Dit. Gas")
-                                             .Items(itemDirGas =>
-                                             {
-                                                 itemDirGas.Add().Text("Kebijakan HSE");
-                                                 itemDirGas.Add().Text("Safety Talk");
+                                       //item.Add().Text("Dit. Gas")
+                                       //      .Items(itemDirGas =>
+                                       //      {
+                                       item.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Action("KebijakanHSE", "SHEQMS");
+                                       item.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text).Action("SafetyTalk", "SHEQMS");
                                                  //itemDirGas.Add().Text("Info Safety dan Security");
                                                  //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
-                                             }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas.name, userId));
-                                       item.Add().Text("Anak Perusahaan")
-                                            .Items(itemDirGas =>
-                                            {
-                                                itemDirGas.Add().Text("PT Badak");
-                                                itemDirGas.Add().Text("PT Arun");
-                                                itemDirGas.Add().Text("PT Nusantara Regas");
-                                                itemDirGas.Add().Text("PT Donggi Senoro");
-                                                itemDirGas.Add().Text("PT Pertagas");
+                                             //}).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas.name, userId));
+                                       //item.Add().Text("Anak Perusahaan")
+                                       //     .Items(itemDirGas =>
+                                       //     {
+                                       //         itemDirGas.Add().Text("PT Badak");
+                                       //         itemDirGas.Add().Text("PT Arun");
+                                       //         itemDirGas.Add().Text("PT Nusantara Regas");
+                                       //         itemDirGas.Add().Text("PT Donggi Senoro");
+                                       //         itemDirGas.Add().Text("PT Pertagas");
                                                 //itemDirGas.Add().Text("Demografi").Action("Index", "hse");
                                                 //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
-                                            }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_Ap.name, userId));
+                                            //}).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_Ap.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS.name, userId));
                                menu.Add().Text("Data Bisnis").HtmlAttributes(new { @id = "databisnis" })
                                    .Items(item =>

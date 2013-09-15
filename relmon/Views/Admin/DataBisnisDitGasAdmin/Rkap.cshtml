@@ -1,49 +1,27 @@
-﻿@model relmon.Models.bisnis_main
+﻿@model relmon.Models.bisnis_rkap
 @using relmon.Utilities;
 @using relmon.Controllers.Admin
 @using relmon.Models;
 @{
     int aclId = (int)Session["id"];
     int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
-    
 }
-<h4>Upload File RKAP</h4> 
-
 <script>
-    function onSuccess(e) {
-        var files = e.files;
-        if (e.operation == "upload") {
-            //save to database
-            $.post("DataBisnisDitGasAdmin/UploadRkap/@ViewBag.id", { filename: files[0].name }, function (data) {
-                if (data == "True") {
-                    alert("File berhasil di-upload");
-                    loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf/@ViewBag.id?nomer=2');
-                } else {
-                    alert("File tidak berhasil di-upload");
-                }
-
-            });
-
-        } else if (e.operation == "remove") {
-            $.post("DataBisnisDitGasAdmin/DeleteRkap/@ViewBag.id", "", function (data) {
-                if (data == "True") {
-                    $("#frame-content-rkap").contents().find("html").remove();
-
-                    alert("File berhasil dihapus");
-                } else {
-                    alert("File tidak berhasil dihapus");
-                }
-            });
+        var filename = "";
+        function onSuccess(e) {
+            var files = e.files;
+            if (e.operation == "upload") {
+                filename = files[0].name
+            } else if (e.operation == "remove") {
+                filename = "";
+            }
         }
-    }
 
-    function onLoad(e) {
-        console.log(e);
-    }
-
-    function onUpload(e) {
+        function onLoad(e) {
+            console.log(e);
+        }
+        function onUpload(e) {
         @{
-            
             
                 if(category==0){
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
@@ -64,19 +42,19 @@
                 }
             
             }
-        // Array with information about the uploaded files
-        var files = e.files;
+            // Array with information about the uploaded files
+            var files = e.files;
 
-        // Check the extension of each file and abort the upload if it is not .jpg
-        if (files[0].extension != ".pdf") {
-            alert("Only .pdf files can be uploaded")
-            e.preventDefault();
-            return false;
+            // Check the extension of each file and abort the upload if it is not .jpg
+            if (files[0].extension != ".pdf") {
+                alert("Only .pdf files can be uploaded")
+                e.preventDefault();
+                return false;
+            }
         }
-    }
-    function onRemove(e) {
+        function onRemove(e) {
             @{
-             
+            
                 if(category==0){
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "delete")){
                         <text>return false;</text>
@@ -95,70 +73,312 @@
                     }
                 }
             
-        }
-        var r = confirm("Apakah anda yakin?");
-        if (r) {
-            return true;
-        } else {
-            e.preventDefault();
-            return false;
-        }
-    }
-
-    $(document).ready(function () {
-        if ('@(Model.rkap)' != "") {
-            loadIframe('frame-content-rkap', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=2');
-        }
-        var $fileList, $files, item, _fn, _i, _len;
-
-        $fileList = $("#existing-files2");
-
-        if ($fileList.length > 0) {
-            $("#uprakp .t-upload").append($fileList);
-            $files = $(".t-file");
-            _fn = function (item) {
-                var $item, fileId, filenames;
-                $item = $(item);
-                fileId = $item.data("att-id");
-                filenames = [
-                          {
-                              name: fileId
-                          }
-                        ];
-                return $item.data("fileNames", filenames);
-            };
-            for (_i = 0, _len = $files.length; _i < _len; _i++) {
-                item = $files[_i];
-                _fn(item);
             }
-            $fileList.show();
+            var r = confirm("Apakah anda yakin?");
+            if (r) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
         }
 
-    });
+        function OnComplete(e) {
+            if (e.name == "EditRKAP") {
+                @{
+             
+                if(category==0){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "update")){
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rkap/@ViewBag.id", { rowId: vals.id }, function (data) {
+                               $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RKAP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }else if(category==1){
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rkap/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RKAP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+                else
+                {
+                    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>
+                            var vals = e.response;
+                            var tabStrip = $("#TabStrip").data("tTabStrip");
+                            $.post("DataBisnisDitGasAdmin/Rkap/@ViewBag.id", { rowId: vals.id }, function (data) {
+                                $( "#TabStrip .t-link" ).each(function(index) {
+                                    if($(this).text() == "RKAP"){
+                                        $("#TabStrip-"+(index+1)).html(data);
+                                    }
+                                });
+                            });
+                        </text>
+                    }
+                }
+            
+                }
+            }
+        }
+        $("#saveRKAP").click(function () {
+            var values =
+            {
+                "tahun": document.getElementById("tahunRKAP").value,
+                "company_id": '@ViewBag.id',
+                "content": filename
+            }
+            var allowed = true;
+            @{
+                if(category==0){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
+                        <text>alllowed = false;</text>
+                    }
+                }else if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
+                }
+                else
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alllowed = false;</text>
+                    }
+                }
+            }
+
+            if(allowed==true){
+                $.post("DataBisnisDitGasAdmin/UploadRKAP", values, function (data) {
+                    if (data == "true") {
+                        alert('Data tersimpan');
+                        var grid = $('#RKAPReport').data('tGrid');
+                        grid.ajaxRequest();
+                        if ('@ViewBag.baru' == 1) {
+                            var destDir = "Data Bisnis\\" + '@(Model.company_id)' + "\\RKAP\\"+ $("#tahunRKAP").val();
+                            var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
+                            var values =
+                            {
+                                "filename": filename,
+                                "destDir": destDir,
+                                "sourceDir": sourceDir
+
+                            }
+                            $.post("Upload/Move", values, function (data) { });
+                        }
+                        resetForm();
+                    } else if (data == "false") {
+                        alert('Data tidak tersimpan');
+                    } else if (data == "exist") {
+                        var r = true;
+                      @{
+                            if(category==0){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "update")){
+                                    <text>r=false;</text>
+                                }
+                            }else if(category==1){
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                            else
+                            {
+                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "update"))
+                                {
+                                    <text>r=false;</text>
+                                }
+                            }
+                        }
+                        r = confirm("RKAP pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
+                        if (r) {
+                            var values =
+                            {
+                                "tahun": document.getElementById("tahunRKAP").value,
+                                "company_id": '@ViewBag.id',
+                                "content": filename
+                            }
+                            $.post("DataBisnisDitGasAdmin/UpdateRKAP", values, function (data) {
+                                if (data == "true") {
+                                    alert('Data tersimpan');
+                                    var grid = $('#RKAPReport').data('tGrid');
+                                    grid.ajaxRequest();
+                                    if ('@ViewBag.baru' == 1) {
+                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\" + $("#tahunRKAP").val();
+                                        var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
+                                        var values =
+                                        {
+                                            "filename": filename,
+                                            "destDir": destDir,
+                                            "sourceDir": sourceDir
+
+                                        }
+                                        $.post("Upload/Move", values, function (data) { });
+                                    }
+                                    resetForm();
+                                } else if (data == "false") {
+                                    alert('Data tidak tersimpan');
+                                }
+                            });
+                        }
+                    }
+
+                });
+            }
+        });
+
+        function resetForm() {
+            var tabStrip = $("#TabStrip").data("tTabStrip");
+            $.post("DataBisnisDitGasAdmin/Rkap/@ViewBag.id", { rowId: -1 }, function (data) {
+                $( "#TabStrip .t-link" ).each(function(index) {
+                        if($(this).text() == "RKAP"){
+                            $("#TabStrip-"+(index+1)).html(data);
+                        }
+                    });
+            });
+        }
+
+        $("#cancelbuttonRKAP").click(function () {
+            resetForm();
+        });
+        $(document).ready(function () {
+            var currentYear = new Date().getFullYear();
+
+            for (var i = 1; i <= 10; i++) {
+                $("#tahunRKAP").append(
+                    $("<option></option>")
+                    .attr("value", currentYear)
+                    .text(currentYear)
+                );
+                currentYear--;
+            }
+            
+            if('@ViewBag.baru' == 0){
+                $("#tahunRKAP").val('@Model.tahun');
+                $('#tahunRKAP').attr('disabled', 'disabled');
+            }
+
+            var $fileList, $files, item, _fn, _i, _len;
+
+            $fileList = $("#existing-filesRKAP");
+
+            if ($fileList.length > 0) {
+                $("#mainuploadRKAP .t-upload").append($fileList);
+                $files = $(".t-file");
+                _fn = function (item) {
+                    var $item, fileId, filenames;
+                    $item = $(item);
+                    fileId = $item.data("att-id");
+                    filenames = [
+                              {
+                                  name: fileId
+                              }
+                            ];
+                    return $item.data("fileNames", filenames);
+                };
+                for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                    item = $files[_i];
+                    _fn(item);
+                }
+                $fileList.show();
+            }
+        });
 </script>
-<div id="uprakp">
+
+<h3>Pengaturan RKAP</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahunRKAP">
+
+    </select>
+    
+</div>
+
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="mainuploadRKAP">
     @(Html.Telerik().Upload()
-        .Name("attachmentsRkap")
+                        .Name("attachmentsRKAP")
         .ClientEvents(events => events
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
-            .OnUpload("onUpload")
             .OnRemove("onRemove")
         )
         .Multiple(false)
         .Async(async => async
-                            .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + ViewBag.id + "\\rkap" })
-                            .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + ViewBag.id + "\\rkap" })
+                    .Save("Save", "Upload", "attachments", new { dir = "Data Bisnis\\" + Model.company_id + "\\RKAP\\" + Model.tahun })
+                    .Remove("Remove", "Upload", new { dir = "Data Bisnis\\" + Model.company_id + "\\RKAP\\" + Model.tahun })
             .AutoUpload(true)
         )
+
     )
-    <div class="controls">
+   <div class="controls">
 		@{
-            if (!string.IsNullOrWhiteSpace(Model.rkap)){
-                <ul id="existing-files2" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.rkap)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.rkap)">@(Model.rkap)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
+            if (!string.IsNullOrWhiteSpace(Model.content))
+            {
+                <ul id="existing-filesRKAP" class="t-upload-files t-reset" style="display: none;"><li class="t-file" data-att-id="@(Model.content)"><span class="t-icon t-success">uploaded</span><span class="t-filename" title="@(Model.content)">@(Model.content)<span class="t-progress"><span class="t-state-selected t-progress-status" style="width: 100%;"></span></span></span><button type="button" class="t-button t-button-icontext t-upload-action"><span class="t-icon t-delete"></span>Remove</button></li></ul>
             }
-        }                       
+        }                    
 	</div>
 </div>
-<br/>
-<iframe id="frame-content-rkap" name="frame-content" src="" width="960" height="400" style="border:0px solid #000;"></iframe>
+
+<p>
+	<input type="submit" id="saveRKAP" value="Simpan" /><input type="button" id="cancelbuttonRKAP" value="Batal" />
+</p>
+<hr/>
+<h4>Tabel RKAP</h4>
+@(Html.Telerik().Grid<relmon.Models.BisnisRKAPContainer>()
+        .Name("RKAPReport")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectRKAP", "DataBisnisDitGasAdmin")
+                .Delete("_DeleteRKAP", "DataBisnisDitGasAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.tahun).Width(150).Title("Tahun");
+            columns.Bound(o => o.content).Title("Filename");
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("EditRKAP")
+                        .Text("Edit")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetRKAP", "DataBisnisDitGasAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)
