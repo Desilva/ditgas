@@ -60,11 +60,11 @@
                     .Text("Project Status")
                     .LoadContentFrom("ProjectStatus/" + ViewBag.id, "DataBisnisApAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
+            /*if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Product dan Jasa")
                     .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisApAdmin");
-            }
+            }*/
         })
     )

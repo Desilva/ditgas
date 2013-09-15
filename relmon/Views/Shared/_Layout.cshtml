@@ -121,7 +121,6 @@
                                    {
                                        item.Add().Text("Profil").Action("Index", "ProfilDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_Profil.name, userId));
                                        item.Add().Text("Visi Misi").Action("Index", "DirektoratDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_VisiMisi.name, userId));
-                                       //item.Add().Text("Strategic Planning").Action("Index", "StrategicPlaning");
                                        item.Add().Text("Organisasi").Action("Index", "OrganisasiDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_Organisasi.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas.name, userId));
                                menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
@@ -133,7 +132,7 @@
                                              {
                                                  itemDirGas.Add().Text("Kebijakan HSE");
                                                  itemDirGas.Add().Text("Safety Talk");
-                                                 itemDirGas.Add().Text("Info Safety dan Security");
+                                                 //itemDirGas.Add().Text("Info Safety dan Security");
                                                  //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
                                              }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas.name, userId));
                                        item.Add().Text("Anak Perusahaan")

@@ -457,9 +457,11 @@ namespace relmon.Controllers.Admin
         //select data user
         protected ViewResult binding(int id, string reportType)
         {
-            List<bisnis_bussiness_report> result = (from x in db.bisnis_bussiness_report
-                                                    where x.company_id == id && x.reportType== reportType
-                                                    select x).ToList();
+            //List<bisnis_bussiness_report> result = (from x in db.bisnis_bussiness_report
+            //                                        where x.company_id == id && x.reportType == reportType
+            //                                        select x).ToList();
+
+            List<bisnis_bussiness_report> result = db.bisnis_bussiness_report.Where(x => x.company_id == id).Where(x => x.reportType == reportType).ToList();
 
             List<BisnisBussinessReportContainer> temp = new List<BisnisBussinessReportContainer>();
             foreach (bisnis_bussiness_report b in result) {
