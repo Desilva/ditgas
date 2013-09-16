@@ -34,6 +34,7 @@
         }
 
         var tahun = @ViewBag.tahun;
+        //alert(tahun);
         if(tahun == -1){
             tahun =  new Date().getFullYear();
              $.post("DataBisnisApAdmin/Product/@ViewBag.id", { tahun: tahun }, function (data) {

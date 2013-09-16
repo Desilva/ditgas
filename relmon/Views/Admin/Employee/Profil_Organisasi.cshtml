@@ -47,7 +47,7 @@
             graph.panningHandler.useLeftButtonForPanning = true;
             var style = graph.getStylesheet().getDefaultEdgeStyle();
             style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
-
+            style[mxConstants.STYLE_OVERFLOW] = true;
 
             // Stops editing on enter or escape keypress
             var keyHandler = new mxKeyHandler(graph);
@@ -192,6 +192,7 @@
             //mxUtils.writeln(div, 'Nothing selected.');
         }
         else if (cell.isVertex()) {
+            
             $("#properties").show();
             // Creates the form from the attributes of the user object
             var form = new mxForm();
@@ -368,8 +369,8 @@
 
 <div style="overflow:hidden;">
     <div id="toolbarMenu" style="float:left;"></div>
-    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;"> </div>
-    <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;">
+    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%"> </div>
+    <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;position:absolute;left:800px;top:auto;">
     <span>Edit User</span><br />
     <table>
         
@@ -383,7 +384,7 @@
         </tr>
         <tr>
             <td>Jabatan :</td>
-            <td><span id="jabatan"></span></td>
+            <td><div id="jabatan"></div></td>
         </tr>
         <tr>
             <td>PJS :</td>

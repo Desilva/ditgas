@@ -12,6 +12,7 @@ namespace relmon.Models
         public int id { get; set; }
         public int company_id { get; set; }
         public string product { get; set; }
+        public int tahun { get; set; }
         [DataType("Integer")]
         public int januari { get; set; }
         [DataType("Integer")]

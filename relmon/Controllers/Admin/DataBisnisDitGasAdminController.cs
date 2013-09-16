@@ -493,6 +493,7 @@ namespace relmon.Controllers.Admin
             {
                 bisnis_bussiness_report e = new bisnis_bussiness_report();
                 e.company_id = id;
+                e.reportType = reportType;
                 ViewBag.baru = 1;
                 return PartialView(e);
                 

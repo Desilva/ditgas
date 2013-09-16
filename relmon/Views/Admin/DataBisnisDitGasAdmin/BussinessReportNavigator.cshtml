@@ -60,14 +60,19 @@
                 panelBarItem.Add().Text("VII. Administration And Manning");
                 panelBarItem.Add().Text("VIII. Minutes Of Meeting");
             }else if(ViewBag.id == 4){
-                panelBarItem.Add().Text("I. Introduction");
-                panelBarItem.Add().Text("II. Restatement of Original DPB");
-                panelBarItem.Add().Text("III. Approval of DPB Update and 5% Over Budget");
-                panelBarItem.Add().Text("IV. Operation Summary");
-                panelBarItem.Add().Text("V. Financial Report");
-                panelBarItem.Add().Text("VI. Project Status");
-                panelBarItem.Add().Text("VII. Administration And Manning");
-                panelBarItem.Add().Text("VIII. Minutes Of Meeting");
+                panelBarItem.Add().Text("I. Summary");
+                panelBarItem.Add().Text("II. Manufacturing").Items(panelBarItem2 =>
+                {
+                    panelBarItem2.Add().Text("II.A. Production & Shipment");
+                    panelBarItem2.Add().Text("II.B. Feed Gas Supply");
+                    panelBarItem2.Add().Text("II.C. Plant Performance");
+                    panelBarItem2.Add().Text("II.D. Operation Highlights");
+                    panelBarItem2.Add().Text("II.E. Safety & Environment");
+                    panelBarItem2.Add().Text("II.F. Security");
+                });
+                panelBarItem.Add().Text("III. Financial Highlights");
+                panelBarItem.Add().Text("IV. Manpower");
+                panelBarItem.Add().Text("V. References");
             }
             
         })

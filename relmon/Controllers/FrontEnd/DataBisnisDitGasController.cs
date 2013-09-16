@@ -136,11 +136,11 @@ namespace relmon.Controllers.FrontEnd
         //    return PartialView();
         //}
 
-        public ActionResult Product(int id)
-        {
-            ViewBag.id = id;
-            return PartialView();
-        }
+        //public ActionResult Product(int id)
+        //{
+        //    ViewBag.id = id;
+        //    return PartialView();
+        //}
         
 
         public ActionResult GetPdf(int id, int nomer)

@@ -44,7 +44,8 @@ namespace relmon.Controllers.FrontEnd
             //scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
 
 
-            return View(scheduler);
+            return View();
+            //return View(scheduler);
         }
 
         public JsonResult Data()
@@ -62,19 +63,15 @@ namespace relmon.Controllers.FrontEnd
                 foreach (var result in items.ToList())
                 {
                     string pattern = "yyyy-MM-dd HH:mm:ss";
-                    DateTime parsedDateStart;
-                    DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
-                                   DateTimeStyles.None, out parsedDateStart);
-                    DateTime parsedDateEnd;
-                    DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
-                                   DateTimeStyles.None, out parsedDateEnd);
+                    string start_date = result.start_date.ToString(pattern);
+                    string end_date = result.end_date.ToString(pattern);
                     listResult.Add(new
                     {
 
                         result.id,
                         result.text,
-                        parsedDateStart,
-                        parsedDateEnd,
+                        start_date,
+                        end_date,
                         result.description,
                         result.type,
                         result.priority,
@@ -107,19 +104,15 @@ namespace relmon.Controllers.FrontEnd
                 foreach (var result in items.ToList())
                 {
                     string pattern = "yyyy-MM-dd HH:mm:ss";
-                    DateTime parsedDateStart;
-                    DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
-                                   DateTimeStyles.None, out parsedDateStart);
-                    DateTime parsedDateEnd;
-                    DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
-                                   DateTimeStyles.None, out parsedDateEnd);
+                    string start_date = result.start_date.ToString(pattern);
+                    string end_date = result.end_date.ToString(pattern);
                     listResult.Add(new
                     {
 
                         result.id,
                         result.text,
-                        parsedDateStart,
-                        parsedDateEnd,
+                        start_date,
+                        end_date,
                         result.description,
                         result.type,
                         result.priority,
@@ -171,16 +164,68 @@ namespace relmon.Controllers.FrontEnd
 
         }
 
-        public ContentResult Save(int? id, FormCollection actionValues)
+        public ActionResult Save(kalendar_event changedUser, FormCollection form)
+        {
+            string action_type = form["!nativeeditor_status"];
+            long source_id = long.Parse(form["gr_id"]);
+            long target_id = long.Parse(form["gr_id"]);
+
+            
+            try
+            {
+                //switch (action_type)
+                //{
+                //    case "inserted":
+                //        context.Users.InsertOnSubmit(changedUser);
+                //        break;
+                //    case "deleted":
+                //        changedUser = context.Users.SingleOrDefault(u => u.id == source_id);
+                //        context.Users.DeleteOnSubmit(changedUser);
+                //        break;
+                //    default: // "updated"                          
+                //        changedUser = context.Users.SingleOrDefault(u => u.id == source_id);
+                //        UpdateModel(changedUser);
+                //        break;
+                //}
+                context.SubmitChanges();
+                target_id = changedUser.id;
+            }
+            catch (Exception e)
+            {
+                action_type = "error";
+            }
+            return View(new ActionResponseModel(action_type, source_id, target_id));
+        }
+
+        public ContentResult Save()
+        {
+            var data = new SchedularDataContext();
+            return null;
+        }
+        public ContentResult Save(FormCollection actionValues)
+        {
+            var data = new SchedularDataContext();
+            return null;
+        }
+
+        //public ContentResult Save(kalendar_event kalendar_event, FormCollection actionValues)
+        //{
+        //    var data = new SchedularDataContext();
+        //    return null;
+        //}
+        public ActionResult Save(int? id, FormCollection form)
         {
 
-            //Console.WriteLine();
-            //return null;
+            ViewBag.id = id;
+            var data = new SchedularDataContext();
 
             //var action = new DataAction();
-            Console.WriteLine(actionValues.GetType());
-            
-            return null;
+            Console.WriteLine(form.GetType());
+
+            string action_type = form["!nativeeditor_status"];
+            long source_id = long.Parse(form["gr_id"]);
+            long target_id = long.Parse(form["gr_id"]);
+            return View(new ActionResponseModel(action_type, source_id, target_id));
 
             //var data = new SchedularDataContext();
             //var authorize = this.CheckUser();
@@ -307,25 +352,33 @@ namespace relmon.Controllers.FrontEnd
         public JsonResult GetShareList()
         {
             var find = Request["find"];
-            var listResultTemp = (from x in context.kalendar_groups
-                                  where (x.group_id.Equals(find))
-                                  select new
-                                  {
-                                      id = x.group_id,
-                                      member = x.member
-                                  }).ToList();
-
-            List<object> listResult = new List<object>();
-            foreach (var result in listResultTemp)
+            if (find != null)
             {
-                listResult.Add(new
+                var listResultTemp = (from x in context.kalendar_groups
+                                      where (x.group_id.Equals(find))
+                                      select new
+                                      {
+                                          id = x.group_id,
+                                          member = x.member
+                                      }).ToList();
+
+                List<object> listResult = new List<object>();
+                foreach (var result in listResultTemp)
                 {
+                    listResult.Add(new
+                    {
 
-                    member = result.member
-                });
+                        member = result.member
+                    });
+                }
+
+                return Json(listResult);
             }
-
-            return Json(listResult);
+            else
+            {
+                return Json(null);
+            }
+            
         }
 
         [HttpPost]
