@@ -3,49 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
-
 using relmon.Models;
-using dhtmlxConnectors;
-using System.Globalization;
-//using DHTMLX.Common;
-//using DHTMLX.Scheduler;
-//using DHTMLX.Scheduler.Authentication;
-//using DHTMLX.Scheduler.Controls;
-//using DHTMLX.Scheduler.Data;
+using System.Web.Security;
 
 namespace relmon.Controllers.FrontEnd
 {
+    public class CalendarActionResponseModel
+    {
+        public String Status;
+        public Int64 Source_id;
+        public Int64 Target_id;
+
+        public CalendarActionResponseModel(String status, Int64 source_id, Int64 target_id)
+        {
+            Status = status;
+            Source_id = source_id;
+            Target_id = target_id;
+        }
+    }
+
+
     public class KalendarController : Controller
     {
-
         private RelmonStoreEntities db = new RelmonStoreEntities();
-        private SchedularDataContext context = new SchedularDataContext();
-        //
-        // GET: /Kalendar/
 
         public ActionResult Index()
         {
             ViewBag.selectedMenu = "kalendar";
-
-            //var scheduler = new DHXScheduler(this);
-            //scheduler.EnableDynamicLoading(SchedulerDataLoader.DynamicalLoadingMode.Month);
-            IEnumerable<kalendar_event> items = (from o in context.kalendar_events
-                                                 select o)
-                        .AsEnumerable();
-
-            var scheduler = new dhtmlxSchedulerConnector(items, "id", "start_date", "end_date", "description");
-
-
-            scheduler.SetDynamicLoading(30);//enable partial grid loading (30 records per r
-            //scheduler.
-            //scheduler.LoadData = true;
-            //scheduler.EnableDataprocessor = true;
-            //scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
-
-
             return View();
-            //return View(scheduler);
         }
 
         public JsonResult Data()
@@ -53,7 +38,7 @@ namespace relmon.Controllers.FrontEnd
 
             var authorize = this.CheckUser();
             ////var authorize = "user";
-            var events = (new SchedularDataContext()).kalendar_events;
+            var events = db.kalendar_events;
             if (String.Compare(authorize, "admin", true) == 0)
             {
                 var items = from p in events
@@ -65,6 +50,7 @@ namespace relmon.Controllers.FrontEnd
                     string pattern = "yyyy-MM-dd HH:mm:ss";
                     string start_date = result.start_date.ToString(pattern);
                     string end_date = result.end_date.ToString(pattern);
+                    
                     listResult.Add(new
                     {
 
@@ -72,6 +58,7 @@ namespace relmon.Controllers.FrontEnd
                         result.text,
                         start_date,
                         end_date,
+                        result.place,
                         result.description,
                         result.type,
                         result.priority,
@@ -80,24 +67,22 @@ namespace relmon.Controllers.FrontEnd
                     });
                 }
                 return Json(listResult);
-                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                //data.DateFormat = "%Y-%m-%d %H:%i";
-                //return (data);
             }
             else if (String.Compare(authorize, "user", true) == 0)
             {
-                
-                
-                
 
-                var items = (from p in context.kalendar_events
-                             where p.type.ToLower().Contains("umum") || p.create_by == (Int32)Int64.Parse(Session["id"].ToString())
+
+
+                var create = (Int32)Int64.Parse(Session["id"].ToString());
+                var member = Session["name"].ToString();
+                var items = (from p in db.kalendar_events
+                             where p.type.ToLower().Contains("umum") || p.create_by == create
                              select p
                             ).Union
                             (
-                                from p in context.kalendar_events
-                                join q in context.kalendar_groups on p.group_id equals q.group_id
-                                where q.member.ToLower().Contains(Session["name"].ToString())
+                                from p in db.kalendar_events
+                                join q in db.kalendar_group on p.group_id equals q.group_id
+                                where q.member.ToLower() == member
                                 select p
                             ).Distinct();
                 List<object> listResult = new List<object>();
@@ -113,6 +98,7 @@ namespace relmon.Controllers.FrontEnd
                         result.text,
                         start_date,
                         end_date,
+                        result.place,
                         result.description,
                         result.type,
                         result.priority,
@@ -121,9 +107,6 @@ namespace relmon.Controllers.FrontEnd
                     });
                 }
                 return Json(listResult);
-                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                //data.DateFormat = "%Y-%m-%d %H:%i";
-                //return (data);
             }
             else
             {
@@ -134,12 +117,6 @@ namespace relmon.Controllers.FrontEnd
                 foreach (var result in items.ToList())
                 {
                     string pattern = "yyyy-MM-dd HH:mm:ss";
-                    //DateTime parsedDateStart;
-                    //DateTime.TryParseExact(result.start_date.ToString(), pattern, null,
-                    //               DateTimeStyles.None, out parsedDateStart);
-                    //DateTime parsedDateEnd;
-                    //DateTime.TryParseExact(result.end_date.ToString(), pattern, null,
-                    //               DateTimeStyles.None, out parsedDateEnd);
                     string start_date = result.start_date.ToString(pattern);
                     string end_date = result.end_date.ToString(pattern);
                     listResult.Add(new
@@ -149,6 +126,7 @@ namespace relmon.Controllers.FrontEnd
                         result.text,
                         start_date,
                         end_date,
+                        result.place,
                         result.description,
                         result.type,
                         result.priority,
@@ -157,204 +135,155 @@ namespace relmon.Controllers.FrontEnd
                     });
                 }
                 return Json(listResult);
-                //var data = new SchedulerAjaxData(items.Select(e => new { e.id, e.text, e.start_date, e.end_date, e.description, e.type, e.priority, e.create_by, e.group_id }));
-                //data.DateFormat = "%Y-%m-%d %H:%i";
-                //return (data);
             }
 
         }
 
-        public ActionResult Save(kalendar_event changedUser, FormCollection form)
-        {
-            string action_type = form["!nativeeditor_status"];
-            long source_id = long.Parse(form["gr_id"]);
-            long target_id = long.Parse(form["gr_id"]);
 
-            
+
+
+        public ActionResult Save(FormCollection actionValues)
+        {
+            String ids = actionValues["ids"];
+            String action_type = actionValues[ids+"_!nativeeditor_status"];
+
+            Int64 source_id = Int64.Parse(actionValues[ids+"_id"]);
+            Int64 target_id = source_id;
+
+            var authorize = this.CheckUser();
+            //var authorize = "user";
+            var data = db;
             try
             {
-                //switch (action_type)
-                //{
-                //    case "inserted":
-                //        context.Users.InsertOnSubmit(changedUser);
-                //        break;
-                //    case "deleted":
-                //        changedUser = context.Users.SingleOrDefault(u => u.id == source_id);
-                //        context.Users.DeleteOnSubmit(changedUser);
-                //        break;
-                //    default: // "updated"                          
-                //        changedUser = context.Users.SingleOrDefault(u => u.id == source_id);
-                //        UpdateModel(changedUser);
-                //        break;
-                //}
-                context.SubmitChanges();
-                target_id = changedUser.id;
+                kalendar_events changedEvent = new kalendar_events();
+                changedEvent.id = (Int32)Int64.Parse(actionValues[ids+"_id"]);
+                changedEvent.text = actionValues[ids + "_text"];
+                changedEvent.start_date = Convert.ToDateTime(actionValues[ids+"_start_date"]);
+                changedEvent.end_date = Convert.ToDateTime(actionValues[ids + "_end_date"]);
+                changedEvent.place = actionValues[ids+"_place"];
+                changedEvent.description = actionValues[ids+"_description"];
+                changedEvent.type = actionValues[ids+"_type"];
+                changedEvent.priority = actionValues[ids+"_priority"];
+                if (String.Compare(authorize, "user", true) == 0)
+                {
+                    switch (action_type)
+                    {
+                        case "inserted":
+                            string[] AllStrings = actionValues[ids + "_group_id"].Split(',');
+                            if (String.Compare(AllStrings[0], "") != 0)
+                            {
+                                Int32 getMax = 1;
+                                try
+                                {
+                                    getMax = db.kalendar_group.Max(o => o.group_id) + 1;
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+
+                                for (int i = 0; i < AllStrings.Length; i++)
+                                {
+                                    kalendar_group newMember = new kalendar_group();
+                                    newMember.group_id = getMax;
+                                    newMember.member = AllStrings[i];
+                                    
+                                    data.kalendar_group.Add(newMember);
+                                }
+                                changedEvent.group_id = getMax;
+                            }
+
+                            //changedEvent.type = "pribadi";
+                            changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
+                            data.kalendar_events.Add(changedEvent);
+                            break;
+                        case "deleted":
+                            var del_query =
+                                        from kalendar_group in db.kalendar_group
+                                        where
+                                          kalendar_group.group_id == changedEvent.group_id
+                                        select kalendar_group;
+                            foreach (var del in del_query)
+                            {
+                                data.kalendar_group.Attach(del);
+                                data.kalendar_group.Remove(del);
+                            }
+                            changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == source_id);
+                            data.kalendar_events.Remove(changedEvent);
+                            break;
+                        default: // "updated"                          
+                            var getId = (from p in db.kalendar_events
+                                         where p.id == changedEvent.id
+                                         select new { group_id = p.group_id });
+                            var gId = 0;
+                            foreach (var g in getId)
+                            {
+                                gId = (Int32)g.group_id;
+                            }
+                            var del_query2 =
+                                       from kalendar_group in db.kalendar_group
+                                       where
+                                         kalendar_group.group_id == gId
+                                       select kalendar_group;
+                            foreach (var del in del_query2)
+                            {
+                                data.kalendar_group.Attach(del);
+                                data.kalendar_group.Remove(del);
+                            }
+                            string[] AllStrings2 = actionValues[ids + "_group_id"].Split(',');
+                            if (String.Compare(AllStrings2[0], "") != 0)
+                            {
+                                for (int i = 0; i < AllStrings2.Length; i++)
+                                {
+                                    kalendar_group newMember = new kalendar_group();
+                                    newMember.group_id = gId;
+                                    newMember.member = AllStrings2[i];
+                                    data.kalendar_group.Add(newMember);
+                                }
+                            }
+                            var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == source_id);
+                            changedEvent.group_id = gId;
+                            TryUpdateModel(changedEvent);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (action_type)
+                    {
+                        case "inserted":
+                            changedEvent.type = "umum";
+                            changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
+                            data.kalendar_events.Add(changedEvent);
+                            break;
+                        case "deleted":
+                            changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == source_id);
+                            data.kalendar_events.Remove(changedEvent);
+                            break;
+                        default: // "updated"                          
+                            changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == source_id);
+                            TryUpdateModel(changedEvent);
+                            break;
+                    }
+                }
+
+                data.SaveChanges();
+                target_id = changedEvent.id;
             }
-            catch (Exception e)
+            catch (Exception a)
             {
                 action_type = "error";
             }
-            return View(new ActionResponseModel(action_type, source_id, target_id));
-        }
-
-        public ContentResult Save()
-        {
-            var data = new SchedularDataContext();
-            return null;
-        }
-        public ContentResult Save(FormCollection actionValues)
-        {
-            var data = new SchedularDataContext();
-            return null;
-        }
-
-        //public ContentResult Save(kalendar_event kalendar_event, FormCollection actionValues)
-        //{
-        //    var data = new SchedularDataContext();
-        //    return null;
-        //}
-        public ActionResult Save(int? id, FormCollection form)
-        {
-
-            ViewBag.id = id;
-            var data = new SchedularDataContext();
-
-            //var action = new DataAction();
-            Console.WriteLine(form.GetType());
-
-            string action_type = form["!nativeeditor_status"];
-            long source_id = long.Parse(form["gr_id"]);
-            long target_id = long.Parse(form["gr_id"]);
-            return View(new ActionResponseModel(action_type, source_id, target_id));
-
-            //var data = new SchedularDataContext();
-            //var authorize = this.CheckUser();
-            ////var authorize = "user";
-            //try
-            //{
-            //    var changedEvent = DHXEventsHelper.Bind<kalendar_event>(actionValues, new System.Globalization.CultureInfo("en-US"));
-            //    if (String.Compare(authorize, "user", true) == 0)
-            //    {
-            //        switch (action.Type)
-            //        {
-            //            case DataActionTypes.Insert:
-            //                string[] AllStrings = actionValues["group_id"].Split(',');
-            //                if (String.Compare(AllStrings[0], "") != 0)
-            //                {
-            //                    Int32 getMax = 1;
-            //                    try
-            //                    {
-            //                        getMax = context.kalendar_groups.Max(o => o.group_id) + 1;
-            //                    }
-            //                    catch (Exception e)
-            //                    {
-            //                        Console.WriteLine(e.Message);
-            //                    }
-
-            //                    for (int i = 0; i < AllStrings.Length; i++)
-            //                    {
-            //                        kalendar_group newMember = new kalendar_group();
-            //                        newMember.group_id = getMax;
-            //                        newMember.member = AllStrings[i];
-            //                        data.kalendar_groups.InsertOnSubmit(newMember);
-            //                    }
-            //                    changedEvent.group_id = getMax;
-            //                }
-
-            //                changedEvent.type = "pribadi";
-            //                changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
-            //                data.kalendar_events.InsertOnSubmit(changedEvent);
-            //                break;
-            //            case DataActionTypes.Delete:
-            //                var del_query =
-            //                            from kalendar_group in context.kalendar_groups
-            //                            where
-            //                              kalendar_group.group_id == changedEvent.group_id
-            //                            select kalendar_group;
-            //                foreach (var del in del_query)
-            //                {
-            //                    data.kalendar_groups.Attach(del);
-            //                    data.kalendar_groups.DeleteOnSubmit(del);
-            //                }
-            //                changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-            //                data.kalendar_events.DeleteOnSubmit(changedEvent);
-            //                break;
-            //            default:// "update"
-            //                var getId = (from p in context.kalendar_events
-            //                             where p.id == changedEvent.id
-            //                             select new { group_id = p.group_id });
-            //                var gId = 0;
-            //                foreach (var g in getId)
-            //                {
-            //                    gId = (Int32)g.group_id;
-            //                }
-            //                var del_query2 =
-            //                           from kalendar_group in context.kalendar_groups
-            //                           where
-            //                             kalendar_group.group_id == gId
-            //                           select kalendar_group;
-            //                foreach (var del in del_query2)
-            //                {
-            //                    data.kalendar_groups.Attach(del);
-            //                    data.kalendar_groups.DeleteOnSubmit(del);
-            //                }
-            //                string[] AllStrings2 = actionValues["group_id"].Split(',');
-            //                if (String.Compare(AllStrings2[0], "") != 0)
-            //                {
-            //                    for (int i = 0; i < AllStrings2.Length; i++)
-            //                    {
-            //                        kalendar_group newMember = new kalendar_group();
-            //                        newMember.group_id = gId;
-            //                        newMember.member = AllStrings2[i];
-            //                        data.kalendar_groups.InsertOnSubmit(newMember);
-            //                    }
-            //                }
-            //                var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-            //                changedEvent.group_id = gId;
-            //                DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
-            //                break;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        switch (action.Type)
-            //        {
-            //            case DataActionTypes.Insert:
-
-            //                changedEvent.type = "umum";
-            //                changedEvent.create_by = (Int32)Int64.Parse(Session["id"].ToString());
-            //                data.kalendar_events.InsertOnSubmit(changedEvent);
-            //                break;
-            //            case DataActionTypes.Delete:
-            //                changedEvent = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-            //                data.kalendar_events.DeleteOnSubmit(changedEvent);
-            //                break;
-            //            default:// "update"  
-            //                var eventToUpdate = data.kalendar_events.SingleOrDefault(ev => ev.id == action.SourceId);
-            //                DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });
-            //                break;
-            //        }
-            //    }
-            //    data.SubmitChanges();
-            //    action.TargetId = changedEvent.id;
-            //}
-            //catch (Exception a)
-            //{
-            //    action.Type = DataActionTypes.Error;
-            //    Console.WriteLine(a);
-            //}
-
-            //var response = new AjaxSaveResponse(action);
-            //return (ContentResult)response;
+            return View(new CalendarActionResponseModel(action_type, source_id, target_id));
         }
 
         [HttpPost]
         public JsonResult GetShareList()
         {
             var find = Request["find"];
-            if (find != null)
+            if (find != "null" && find != null)
             {
-                var listResultTemp = (from x in context.kalendar_groups
+                var listResultTemp = (from x in db.kalendar_group
                                       where (x.group_id.Equals(find))
                                       select new
                                       {
@@ -378,7 +307,7 @@ namespace relmon.Controllers.FrontEnd
             {
                 return Json(null);
             }
-            
+
         }
 
         [HttpPost]
