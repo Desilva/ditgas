@@ -520,13 +520,12 @@ div.icon_delete{
     font-size:8pt;
     border:1px solid #B7A64B;
     color:#887A2E;
-
     position:absolute;
     z-index:10001;
 
     width:580px;
-    height:300px;
-
+    height:auto !important;
+    padding:0px 0px 10px 0px;
     box-shadow:5px 5px 5px #888;
 }
 .dhx_cal_light_wide{
@@ -609,7 +608,7 @@ div.icon_delete{
     margin-left:3px;
 
     width:572px;
-    height:1px;
+    height:auto !important;
 }
 .dhx_btn_set{
     padding:5px 10px 0px 10px;
