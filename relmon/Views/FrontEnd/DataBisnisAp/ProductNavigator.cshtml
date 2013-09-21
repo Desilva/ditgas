@@ -1,0 +1,191 @@
+﻿
+<script type="text/javascript">
+    var type = "";
+    function onSelectPanel(e) {
+        var item = $(e.item);
+        type = (item.find('> .t-link').text()).split(" ").join("_");
+        //        
+        $("#prodTitle").html("Produk " + type);
+        $("#getProduct").show();
+    }
+
+    $("#chartBy").bind("change", function () {
+        if ($("#chartBy").val() == "year") {
+            $("#hideYear").hide();
+            $("#hideYear2").hide();
+            $("#hideMonth").show();
+
+        } else if ($("#chartBy").val() == "month") {
+            $("#hideYear").show();
+            $("#hideYear2").show();
+            $("#hideMonth").hide();
+        }
+        $("#tahun").val("");
+        $("#fromYear").val("");
+        $("#toYear").val("");
+        $("#fromMonth").val("");
+        $("#toMonth").val("");
+    });
+
+    $(".yearchart").bind("change", function () {
+        if ($("#fromYear").val() != "" && $("#toYear").val() != "" && $("#fromYear").val() <= $("#toYear").val() != "") {
+            $("#ProductContent").load("DataBisnisAp/Product/@ViewBag.id?produk=" + type+"&tahun=-1&fromYear="+$("#fromYear").val()+"&toYear="+$("#toYear").val()+"&fromMonth=-1&toMonth=-1");
+            $("#ProductContent").show();
+        }else{
+            $("#ProductContent").hide();
+        }
+    });
+    $(".monthchart").bind("change", function () {
+        if ($("#fromMonth").val() != "" && $("#toMonth").val() != "" && $("#tahun").val() != "") {
+            var checkFrom = changeNumber($("#fromMonth").val());
+            var checkTo = changeNumber($("#toMonth").val());
+            if (checkFrom <= checkTo) {
+                $("#ProductContent").load("DataBisnisAp/Product/@ViewBag.id?produk=" + type + "&tahun=" + $("#tahun").val() + "&fromYear=-1&toYear=-1&fromMonth=" + $("#fromMonth").val() + "&toMonth=" + $("#toMonth").val());
+                $("#ProductContent").show();
+            } else {
+                $("#ProductContent").hide();
+            }
+        } else {
+            $("#ProductContent").hide();
+        }
+    });
+
+    function changeNumber(a) {
+        if (a == "Januari") {
+            return 1;
+        } else if (a == "Februari") {
+            return 2;
+        } else if (a == "Maret") {
+            return 3;
+        } else if (a == "April") {
+            return 4;
+        } else if (a == "Mei") {
+            return 5;
+        } else if (a == "Juni") {
+            return 6;
+        } else if (a == "Juli") {
+            return 7;
+        } else if (a == "Agustus") {
+            return 8;
+        } else if (a == "September") {
+            return 9;
+        } else if (a == "Oktober") {
+            return 10;
+        } else if (a == "November") {
+            return 11;
+        } else if (a == "Desember") {
+            return 12;
+        } else {
+            return -1;
+        }
+    }
+    $(document).ready(function () {
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            var addYear = "<option value ='" + currentYear + "'>" + currentYear + "</option>";
+            $("#tahun").append(addYear);
+            $("#fromYear").append(addYear);
+            $("#toYear").append(addYear);
+            currentYear--;
+        }
+        $("#hideYear").hide();
+        $("#hideYear2").hide();
+        $("#hideMonth").show();
+    });
+</script>
+<div style="overflow:hidden;">
+
+<div id="nav" style="float:left;">
+<h4>Nama Produk : </h4>
+@(Html.Telerik().PanelBar()
+        .Name("PanelBar")
+        .HtmlAttributes(new { style = "width: 175px; margin-bottom: 30px;clear: both;margin-left: 10px;" })
+        .ClientEvents(eventsPanel => eventsPanel
+              .OnSelect("onSelectPanel")
+        )
+        .Items(panelBarItem =>
+        {
+            foreach(var prod in (ViewData["products"] as List<string>)){
+                if (prod != null)
+                {
+                    panelBarItem.Add().Text(prod);
+                }
+                else
+                {
+
+                }
+                
+            }
+                
+            
+            
+        })
+)
+</div>
+<div style="float:left;padding:0px 20px 0px 30px;width:720px;">
+    <div id="getProduct" style="display:none;">
+        <h4 id="prodTitle"></h4>
+        <div style="overflow:hidden;">
+            <div style="width:75px;float:left"><b>Chart by</b> : </div>
+            <div style="float:left;">
+            <select name="chartBy" id="chartBy">
+                <option value="year">Year</option>
+                <option value="month">Month</option>
+            </select></div>
+        </div>
+        <div id="hideYear2" style="overflow:hidden;">
+            <div style="width:75px;float:left"><b>Year</b> : </div>
+            <div style="float:left;"><select  class="monthchart" name="tahun" id="tahun">
+                <option value="">--</option>
+            </select></div>
+        </div>
+        <div id="hideMonth" style="overflow:hidden;">
+           <div style="width:75px;float:left"><b>Year</b> : </div>
+            <div style="float:left;"><select class="yearchart" name="fromYear" id="fromYear">
+                <option value="">--</option>
+            </select>
+            <span> to </span>
+            <select class="yearchart" name="toYear" id="toYear">
+                <option value="">--</option>
+            </select></div>
+        </div>
+        <div id="hideYear" style="overflow:hidden;">
+            <div style="width:75px;float:left"><b>Month</b> : </div>
+                <div style="float:left;"><select  class="monthchart" name="fromMonth" id="fromMonth">
+                    <option value ="">--</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select>
+                <span> to </span>
+                <select class="monthchart" name="toMonth" id="toMonth">
+                    <option value ="">--</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select></div>
+        </div>   
+    </div>
+    <div id="ProductContent" style="display:none;">
+    </div>
+</div>
+</div>
