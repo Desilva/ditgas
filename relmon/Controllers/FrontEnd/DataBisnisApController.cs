@@ -26,12 +26,20 @@ namespace relmon.Controllers.FrontEnd
                           where x.company_id == id
                           select x
                          ).ToList();
-            var get = result.First();
-            ViewBag.content = get.profile;
-            if (string.IsNullOrWhiteSpace(get.profile))
+            if (result.Count != 0)
+            {
+                var get = result.First();
+                ViewBag.content = get.profile;
+                if (string.IsNullOrWhiteSpace(get.profile))
+                {
+                    ViewBag.content = "Profil belum tersedia";
+                }
+            }
+            else
             {
                 ViewBag.content = "Profil belum tersedia";
             }
+            
             return PartialView();
         }
 
@@ -42,9 +50,11 @@ namespace relmon.Controllers.FrontEnd
                           where x.company_id == id
                           select x
                          ).ToList();
-            var get = result.First();
-            ViewBag.content = "../../upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
-
+            if (result.Count != 0)
+            {
+                var get = result.First();
+                ViewBag.content = "../../upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
+            }
             return PartialView();
         }
 

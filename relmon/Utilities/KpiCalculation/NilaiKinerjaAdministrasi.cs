@@ -14,7 +14,8 @@ namespace relmon.Utilities.KpiCalculation
         public double NKA;
         public string TingkatKinerjaAdministrasi;
 
-        public void KalkulasiLaporanKeuanganBulanan(int hariKalendar) {
+        public static double KalkulasiLaporanKeuanganBulanan(int hariKalendar) {
+            var LaporanKeuanganBulanan = 0.0;
             if (hariKalendar <= 7)
                 LaporanKeuanganBulanan = 2;
             else if (hariKalendar > 7 && hariKalendar <= 9)
@@ -25,10 +26,12 @@ namespace relmon.Utilities.KpiCalculation
                 LaporanKeuanganBulanan = 0;
             else
                 LaporanKeuanganBulanan = -1;
+            return LaporanKeuanganBulanan;
         }
 
-        public void KalkulasiLaporanManagemenBulanan(int hariKalendar)
+        public static double KalkulasiLaporanManagemenBulanan(int hariKalendar)
         {
+            var LaporanManagemenBulanan = 0.0;
             if (hariKalendar <= 11)
                 LaporanManagemenBulanan = 2;
             else if (hariKalendar > 11 && hariKalendar <= 14)
@@ -39,10 +42,13 @@ namespace relmon.Utilities.KpiCalculation
                 LaporanManagemenBulanan = 0;
             else
                 LaporanManagemenBulanan = -1;
+            return LaporanManagemenBulanan;
         }
 
-        public void KalkulasiLaporanKeuanganAudited(int bulan)
+        public static double KalkulasiLaporanKeuanganAudited(int bulan)
         {
+            var LaporanKeuanganAudited = 0.0;
+            
             if (bulan <= 3)
                 LaporanKeuanganAudited = 3;
             else if (bulan == 4)
@@ -53,10 +59,12 @@ namespace relmon.Utilities.KpiCalculation
                 LaporanKeuanganAudited = 0;
             else
                 LaporanKeuanganAudited = -1;
+            return LaporanKeuanganAudited;
         }
 
-        public void KalkulasiRancanganRKAP(int bulan)
+        public static double KalkulasiRancanganRKAP(int bulan)
         {
+            var RancanganRKAP = 0.0;
             if (bulan <= 8)
                 RancanganRKAP = 3;
             else if (bulan == 9)
@@ -65,19 +73,24 @@ namespace relmon.Utilities.KpiCalculation
                 RancanganRKAP = 1;
             else if (bulan >= 11)
                 RancanganRKAP = -1;
+            return RancanganRKAP;
         }
 
-        public void KalkulasiNKA() {
-            NKA = LaporanKeuanganBulanan + LaporanManagemenBulanan + LaporanKeuanganAudited + RancanganRKAP;
+        public static double KalkulasiNKA(double LaporanKeuanganBulanan,double LaporanManagemenBulanan,double LaporanKeuanganAudited,double RancanganRKAP)
+        {
+            var NKA = LaporanKeuanganBulanan + LaporanManagemenBulanan + LaporanKeuanganAudited + RancanganRKAP;
+            return NKA;
         }
 
-        public void KalkulasiTingkatKinerjaAdministrasi() {
+        public static string  KalkulasiTingkatKinerjaAdministrasi(double NKA) {
+            var TingkatKinerjaAdministrasi = "";
             if (NKA < 4)
                 TingkatKinerjaAdministrasi = "Tidak Tertib";
             else if (NKA >= 4 && NKA < 7)
                 TingkatKinerjaAdministrasi = "Kurang Tertib";
             else if (NKA >= 7)
                 TingkatKinerjaAdministrasi = "Tertib";
+            return TingkatKinerjaAdministrasi;
         }
     }
 }

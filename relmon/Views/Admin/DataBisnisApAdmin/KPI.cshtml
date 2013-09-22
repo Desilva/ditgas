@@ -1,0 +1,85 @@
+﻿<script>
+
+
+    $(document).ready(function () {
+
+
+
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun").append(
+                "<option value ='" + currentYear + "'>" + currentYear + "</option>"
+            );
+            currentYear--;
+        }
+
+        var tahun = '@ViewBag.tahun';
+        if (tahun == -1) {
+            tahun = new Date().getFullYear();
+            $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: tahun }, function (data) {
+                $("#TabStrip .t-link").each(function (index) {
+                    if ($(this).text() == "KPI") {
+                        $("#TabStrip-" + (index + 1)).html(data);
+                    }
+                });
+            });
+        }
+        $("#tahun").val(tahun);
+        $("#tahun").bind("change", function () {
+            if ($('#tahun').val() != "") {
+                //                alert("a");
+                var tabStrip = $("#TabStrip").data("tTabStrip");
+                $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: $('#tahun').val() }, function (data) {
+                    $("#TabStrip .t-link").each(function (index) {
+                        if ($(this).text() == "KPI") {
+                            $("#TabStrip-" + (index + 1)).html(data);
+                        }
+                    });
+
+                });
+                $("#panelbar").show();
+            } else {
+                $("#panelbar").hide();
+            }
+        });
+    });
+</script>
+
+<h3>KPI</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun">
+        <option value="">--</option>
+    </select>
+    
+</div>
+ <div id="panelbar">
+ @(Html.Telerik().PanelBar()
+        .Name("RoadMap")
+        .HtmlAttributes(new { style = "width: 800px; margin-bottom: 10px;" })
+        .Items(panelBarItem =>
+        {
+            panelBarItem.Add()
+                .Text("Kinerja Keuangan")
+                .LoadContentFrom("KinerjaKeuangan/"+ViewBag.id+"?tahun="+ViewBag.tahun, "DataBisnisApAdmin")
+                .Expanded(false);
+            panelBarItem.Add()
+                .Text("Kinerja Pertumbuhan")
+                .LoadContentFrom("KinerjaPertumbuhan/" + ViewBag.id + "?tahun=" + ViewBag.tahun, "DataBisnisApAdmin")
+                .Expanded(false);
+            panelBarItem.Add()
+                .Text("Kinerja Administrasi")
+                .LoadContentFrom("KinerjaAdministrasi/" + ViewBag.id + "?tahun=" + ViewBag.tahun, "DataBisnisApAdmin")
+                .Expanded(false);
+            panelBarItem.Add()
+                .Text("Nilai Tingkat Kesehatan Anak Perusahaan")
+                .LoadContentFrom("KinerjaKesehatan/" + ViewBag.id + "?tahun=" + ViewBag.tahun, "DataBisnisApAdmin")
+                .Expanded(false);
+        })
+        .ExpandMode(PanelBarExpandMode.Multiple)
+        
+    )
+
+ </div>
+ 

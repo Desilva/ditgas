@@ -1,0 +1,177 @@
+﻿<style>
+    #kinadministrasi input[type="text"]
+    {
+        margin-left:150px;
+        width:100px; !important;
+    }
+    #kinadministrasi select
+    {
+        margin-left:150px;
+        width:100px; !important;
+    }
+</style>
+<script>
+    function lapbul() {
+        $.post("DataBisnisApAdmin/HitungLaporanBulanan", { param1: $("#lapbul").val() }, function (data) {
+            $("#lapbul-hasil").html(data);
+        });
+        nka();
+    }
+
+    function lapmanbul() {
+        $.post("DataBisnisApAdmin/HitungLaporanManajemenBulanan", { param1: $("#lapmanbul").val() }, function (data) {
+            $("#lapmanbul-hasil").html(data);
+        });
+        nka();
+    }
+
+    function nka() {
+        var values = {
+            param1: $("#lapbul-hasil").html(),
+            param2: $("#lapmanbul-hasil").html(),
+            param3: $("#lapaud-hasil").html(),
+            param4: $("#rkapwaktu-hasil").html()
+
+        };
+        $.post("DataBisnisApAdmin/HitungNKA", values, function (data) {
+            $("#nka-hasil").html(data);
+            $.post("DataBisnisApAdmin/HitungKlasifikasiAdministrasi", { nka: data }, function (data2) {
+                $("#klasifikasiAdministrasi-hasil").html(data2);
+            });
+        });
+    }
+
+    function saveAdministrasi() {
+        var values =
+        {
+            "tahun": '@ViewBag.tahun',
+            "company_id": '@ViewBag.id',
+                "keuangan_bulanan": $("#lapbul").val(),
+                "manajemen_bulanan": $("#lapmanbul").val(),
+                "keuangan_audited": $("#lapaud").val(),
+                "rancangan_rkap": $("#rkapwaktu").val(),
+                "nilai_keuangan_bulanan": $("#lapbul-hasil").val(),
+                "nilai_manajemen_bulanan": $("#lapmanbul-hasil").val(),
+                "nilai_keuangan_audited": $("#lapaud-hasil").val(),
+                "nilai_rancangan_rkap": $("#rkapwaktu-hasil").val(),
+            "nka": $("#nka-hasil").html(),
+            "klasifikasi": $("#klasifikasiAdministrasi-hasil").html()
+        }
+        $.post("DataBisnisApAdmin/SaveAdministrasi", values, function (data) {
+            if (data == "True") {
+                alert("Data berhasil disimpan");
+            } else {
+                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $.post("DataBisnisApAdmin/GetKinerjaAdministrasi/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                $("#lapbul").val(value.keuangan_bulanan);
+                $("#lapmanbul").val(value.manajemen_bulanan);
+                $("#lapaud").val(value.keuangan_audited);
+                $("#rkapwaktu").val(value.rancangan_rkap);
+                $("#lapbul-hasil").val(value.nilai_keuangan_bulanan);
+                $("#lapmanbul-hasil").val(value.nilai_manajemen_bulanan);
+                $("#lapaud-hasil").val(value.nilai_keuangan_audited);
+                $("#rkapwaktu-hasil").val(value.nilai_rancangan_rkap);
+                $("#nka-hasil").html(value.nka);
+                $("#klasifikasiAdministrasi-hasil").html(value.klasifikasi);
+            });
+        });
+
+        $("#lapaud").bind("change", function () {
+            $.post("DataBisnisApAdmin/HitungLaporanKeuanganAudited", { param1: $("#lapaud").val() }, function (data) {
+                $("#lapaud-hasil").html(data);
+            });
+            nka();
+        });
+        $("#rkapwaktu").bind("change", function () {
+            $.post("DataBisnisApAdmin/HitungRancanganRKAP", { param1: $("#rkapwaktu").val() }, function (data) {
+                $("#rkapwaktu-hasil").html(data);
+            });
+            nka();
+        });
+
+    });
+
+
+</script>
+
+<div id ="kinadministrasi">
+<table>
+    <tr>
+        <td>1. Laporan Keuangan Bulanan</td>
+        <td id="lapbul-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Waktu laporan diterima(hari kalender)</td>
+        <td><input type="text" value=0 id="lapbul" onkeyup="lapbul()" onchange="lapbul()"></td>
+    </tr>
+    <tr>
+        <td>2. Laporan Manajemen Bulanan</td>
+        <td id="lapmanbul-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Waktu laporan diterima(hari kalender)</td>
+        <td><input type="text" value=0 id="lapmanbul" onkeyup="lapmanbul()" onchange="lapmanbul()"></td>
+    </tr>
+    <tr>
+        <td>3. Laporan Keuangan <i>Audited</i></td>
+        <td id="lapaud-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Waktu laporan diterima(bulan)</td>
+        <td><select name="lapaud" id="lapaud">
+            <option value="">--</option>
+            <option value="1">Januari</option>
+            <option value="2">Februari</option>
+            <option value="3">Maret</option>
+            <option value="4">April</option>
+            <option value="5">Mei</option>
+            <option value="6">Juni</option>
+            <option value="7">Juli</option>
+            <option value="8">Agustus</option>
+            <option value="9">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+        </select></td>
+    </tr>
+    <tr>
+        <td>4. Rancangan RKAP</td>
+        <td id="rkapwaktu-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Waktu rancangan rkap diterima(bulan)</td>
+        <td><select name="rkapwaktu" id="rkapwaktu">
+            <option value="">--</option>
+            <option value="1">Januari</option>
+            <option value="2">Februari</option>
+            <option value="3">Maret</option>
+            <option value="4">April</option>
+            <option value="5">Mei</option>
+            <option value="6">Juni</option>
+            <option value="7">Juli</option>
+            <option value="8">Agustus</option>
+            <option value="9">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+        </select></td>
+    </tr>
+    <tr>
+        <th>Nilai Kinerja Administrasi(NKA)</th>
+        <td id="nka-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Klasifikasi Nilai Kinerja Administrasi</th>
+        <td id="klasifikasiAdministrasi-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td><input type="button" onclick="saveAdministrasi()" value="Save"></td>
+    </tr>
+</table>
+</div>

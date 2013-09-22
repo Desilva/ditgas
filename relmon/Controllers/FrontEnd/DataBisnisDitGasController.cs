@@ -41,29 +41,37 @@ namespace relmon.Controllers.FrontEnd
                           where x.company_id == id && x.tahun == tahun
                           select x
                          ).ToList();
-            var get = result.First();
-            string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/RKAP/" + get.tahun + "/" + get.content));
-            try
+            if (result.Count != 0)
             {
+                var get = result.First();
+                string file = Server.MapPath(Url.Content("~/upload/Data Bisnis/" + id + "/RKAP/" + get.tahun + "/" + get.content));
+                try
+                {
 
-                PdfReader reader = new PdfReader(file);
-                MemoryStream pdfStream = new MemoryStream();
+                    PdfReader reader = new PdfReader(file);
+                    MemoryStream pdfStream = new MemoryStream();
 
-                PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+                    PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
 
-                reader.Close();
-                pdfStamper.Close();
-                pdfStream.Flush();
-                pdfStream.Close();
+                    reader.Close();
+                    pdfStamper.Close();
+                    pdfStream.Flush();
+                    pdfStream.Close();
 
-                byte[] pdfArray = pdfStream.ToArray();
-                return new BinaryContentResult(pdfArray, "application/pdf");
+                    byte[] pdfArray = pdfStream.ToArray();
+                    return new BinaryContentResult(pdfArray, "application/pdf");
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
             }
-            catch (IOException e)
+            else
             {
-                Console.WriteLine(e.Message);
                 return null;
             }
+           
         }
 
         public ActionResult Rjpp(int id)

@@ -9,10 +9,10 @@ namespace relmon.Utilities.KpiCalculation
     {
         public string TingkatKesehatan;
 
-        public NilaiTingkatKesehatan(double NKA, double NKP, double NKK)
+        public static string HitungNilaiTingkatKesehatan(double NKA, double NKP, double NKK)
         {
             double total = NKA + NKP + NKK;
-
+            var TingkatKesehatan = "";
             if (total <= 10)
                 TingkatKesehatan = "C";
             else if (total > 10 && total <= 20)
@@ -31,6 +31,8 @@ namespace relmon.Utilities.KpiCalculation
                 TingkatKesehatan = "AA";
             else
                 TingkatKesehatan = "AAA";
+
+            return TingkatKesehatan;
         }
     }
 }

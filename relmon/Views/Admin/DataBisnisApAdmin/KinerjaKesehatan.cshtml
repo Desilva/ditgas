@@ -1,0 +1,61 @@
+﻿<script>
+    $(document).ready(function () {
+        $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                $("#nkk-hasilakhir").html(value.nkk);
+            });
+        });
+        $.post("DataBisnisApAdmin/GetKinerjaPertumbuhan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                $("#nkp-hasilakhir").html(value.nkp);
+            });
+        });
+        $.post("DataBisnisApAdmin/GetKinerjaAdministrasi/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                $("#nka-hasilakhir").html(value.nka);
+            });
+        });
+
+        var end = false;
+        //while (!end) {
+            var param1 = $("#nkk-hasilakhir").html();
+            var param2 = $("#nkp-hasilakhir").html();
+            var param3 = $("#nka-hasilakhir").html();
+            if (param1 != "" && param2 != "" && param3 != "") {
+                var values = {
+                    param1: param1,
+                    param2: param2,
+                    param3: param3
+
+                };
+                $.post("DataBisnisApAdmin/HitungTingkatKesehatan", values, function (data) {
+                    $("#kesehatan-hasil").html(data);
+                });
+                end = true;
+            }
+        //}
+
+    });
+</script>
+
+<div id ="kinpertumbuhan">
+
+<table>
+    <tr>
+        <th>Nilai Kinerja Keuangan(NKK)</th>
+        <td id="nkk-hasilakhir" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Nilai Kinerja Pertumbuhan(NKP)</th>
+        <td id="nkp-hasilakhir" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Nilai Kinerja Administrasi(NKA)</th>
+        <td id="nka-hasilakhir" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Klasifikasi Tingkat Kesehatan</th>
+        <td id="kesehatan-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+</table>
+</div>

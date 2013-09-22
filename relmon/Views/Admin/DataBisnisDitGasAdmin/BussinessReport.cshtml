@@ -236,7 +236,6 @@
         
         if('@ViewBag.type' == 'all'){
             var tabStrip = $("#TabStrip").data("tTabStrip");
-            alert("asdf");
             $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1,reportType:'@ViewBag.type' }, function (data) {
                 
                 $( "#TabStrip .t-link" ).each(function(index) {
