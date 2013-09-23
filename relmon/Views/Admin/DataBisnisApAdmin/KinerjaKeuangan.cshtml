@@ -1,0 +1,372 @@
+﻿<style>
+    #kinkeuangan input[type="text"]
+    {
+        margin-left:70px;
+        width:100px; !important;
+    }
+</style>
+<script>
+    function roe() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#roe-1").val(), param2: $("#roe-2").val(), satuan: 100 }, function (data) {
+            $("#roe-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function roi() {
+        var sum = $("#roi-1").val() + $("#roi-2").val();
+        $.post("DataBisnisApAdmin/HitungKeuangan", {param1:sum , param2: $("#roi-3").val(), satuan: 100 }, function (data) {
+            $("#roi-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function opm() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#opm-1").val(), param2: $("#opm-2").val(), satuan: 100 }, function (data) {
+            $("#opm-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function npm() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#npm-1").val(), param2: $("#npm-2").val(), satuan: 100 }, function (data) {
+            $("#npm-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function rk() {
+        var sum = $("#rk-1").val() + $("#rk-2").val() + $("#rk-3").val();
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: sum, param2: $("#rk-4").val(), satuan: 100 }, function (data) {
+            $("#rk-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function rl() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#rl-1").val(), param2: $("#rl-2").val(), satuan: 100 }, function (data) {
+            $("#rl-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function cp() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#cp-1").val(), param2: $("#cp-2").val(), satuan: 365 }, function (data) {
+            $("#cp-hasil").html(data);
+        });
+        nkk();
+    }
+
+    function pp() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#pp-1").val(), param2: $("#pp-2").val(), satuan: 365 }, function (data) {
+            $("#pp-hasil").html(data);
+        });
+        nkk();
+    }
+    function pta() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#pta-1").val(), param2: $("#pta-2").val(), satuan: 100 }, function (data) {
+            $("#pta-hasil").html(data);
+        });
+        nkk();
+    }
+    function rtms() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#rtms-1").val(), param2: $("#rtms-2").val(), satuan: 100 }, function (data) {
+            $("#rtms-hasil").html(data);
+        });
+        nkk();
+    }
+    function tier() {
+        $.post("DataBisnisApAdmin/HitungKeuangan", { param1: $("#tier-1").val(), param2: $("#tier-2").val(), satuan: 1}, function (data) {
+            $("#tier-hasil").html(data);
+        });
+        nkk();
+    }
+    function nkk() {
+        var values = {
+            param1:$("#roe-hasil").html(),
+            param2:$("#roi-hasil").html(),
+            param3:$("#opm-hasil").html(),
+            param4:$("#npm-hasil").html(),
+            param5:$("#rk-hasil").html(),
+            param6:$("#rl-hasil").html(),
+            param7:$("#cp-hasil").html(),
+            param8:$("#pp-hasil").html(),
+            param9:$("#pta-hasil").html(),
+            param10:$("#rtms-hasil").html(),
+            param11: $("#tier-hasil").html()
+        };
+        $.post("DataBisnisApAdmin/HitungNKK", values, function (data) {
+            $("#nkk-hasil").html(data);
+            $.post("DataBisnisApAdmin/HitungKlasifikasi", {nkk:data}, function (data2) {
+                $("#klasifikasi-hasil").html(data2);
+            });
+        });
+    }
+    function saveKeuangan() {
+        var values =
+        {
+            "tahun": '@ViewBag.tahun',
+            "company_id": '@ViewBag.id',
+            "laba_bersih" : $("#roe-1").val(),
+            "modal_sendiri" : $("#roe-2").val(),
+            "ebtit" : $("#roi-1").val(),
+            "penyusutan" : $("#roi-2").val(),
+            "capital_employed" : $("#roi-3").val(),
+            "laba_operasi" : $("#opm-1").val(),
+            "total_pendapatan_usaha" : $("#opm-2").val(),
+            "kas" : $("#rk-1").val(),
+            "bank" : $("#rk-2").val(),
+            "surat_berharga" : $("#rk-3").val(),
+            "current_liabillities" : $("#rk-4").val(),
+            "current_asset" : $("#rl-1").val(),
+            "total_piutang_usaha" : $("#cp-1").val(),
+            "total_pendapatan" : $("#pp-1").val(),
+            "total_modal_sendiri" : $("#rtms-1").val(),
+            "total_asset" : $("#rtms-2").val(),
+            "ebitda" : $("#tier-1").val(),
+            "interest_payment" : $("#tier-2").val(),
+            "roe" : $("#roe-hasil").html(),
+            "roi" : $("#roi-hasil").html(),
+            "opm" : $("#opm-hasil").html(),
+            "npm" : $("#npm-hasil").html(),
+            "cash_ratio" : $("#rk-hasil").html(),
+            "current_ratio" : $("#rl-hasil").html(),
+            "cp" :  $("#cp-hasil").html(),
+            "ito" :  $("#pp-hasil").html(),
+            "tato" : $("#pta-hasil").html(),
+            "etta" : $("#rtms-hasil").html(),
+            "tier" : $("#tier-hasil").html(),
+            "nkk" : $("#nkk-hasil").html(),
+            "klasifikasi": $("#klasifikasi-hasil").html()
+        }
+        $.post("DataBisnisApAdmin/SaveKeuangan", values, function (data) {
+            if (data == "True") {
+                alert("Data berhasil disimpan");
+            } else {
+                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+            }
+        });
+    }
+    $(document).ready(function () {
+        $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                
+                $("#roe-1").val(value.laba_bersih);
+                $("#roe-2").val(value.modal_sendiri);
+                $("#roi-1").val(value.ebtit);
+                $("#roi-2").val(value.penyusutan);
+                $("#roi-3").val(value.capital_employed);
+                $("#opm-1").val(value.laba_operasi);
+                $("#opm-2").val(value.total_pendapatan_usaha);
+                $("#npm-1").val(value.laba_bersih);
+                $("#npm-2").val(value.total_pendapatan_usaha);
+                $("#rk-1").val(value.kas);
+                $("#rk-2").val(value.bank);
+                $("#rk-3").val(value.surat_berharga);
+                $("#rk-4").val(value.current_liabillities);
+                $("#rl-1").val(value.current_asset);
+                $("#rl-2").val(value.current_liabillities);
+                $("#cp-1").val(value.total_piutang_usaha);
+                $("#cp-2").val(value.total_pendapatan_usaha);
+                $("#pp-1").val(value.total_pendapatan);
+                $("#pp-2").val(value.total_pendapatan_usaha);
+                $("#pta-1").val(value.total_pendapatan);
+                $("#pta-2").val(value.capital_employed);
+                $("#rtms-1").val(value.total_modal_sendiri);
+                $("#rtms-2").val(value.total_asset);
+                $("#tier-1").val(value.ebitda);
+                $("#tier-2").val(value.interest_payment);
+                $("#roe-hasil").html(value.roe);
+                $("#roi-hasil").html(value.roi);
+                $("#opm-hasil").html(value.opm);
+                $("#npm-hasil").html(value.npm);
+                $("#rk-hasil").html(value.cash_ratio);
+                $("#rl-hasil").html(value.current_ratio);
+                $("#cp-hasil").html(value.cp);
+                $("#pp-hasil").html(value.ito);
+                $("#pta-hasil").html(value.tato);
+                $("#rtms-hasil").html(value.etta);
+                $("#tier-hasil").html(value.tier);
+                $("#nkk-hasil").html(value.nkk);
+                $("#klasifikasi-hasil").html(value.klasifikasi);
+            });
+        });
+    });
+</script>
+<div id ="kinkeuangan">
+
+<table>
+    <tr>
+        <th>Profitabilitas</th>
+        <td></td>
+    </tr>
+    <tr>
+        <td>1. Imbalan kepada Pemegang Saham/<i>Return On Equity</i>(ROE)</td>
+        <td id="roe-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Laba bersih setelah Pajak</td>
+        <td><input type="text" value=0 id="roe-1" onkeyup="roe()" onchange="roe()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Modal sendiri</td>
+        <td><input type="text" value=0 id="roe-2" onkeyup="roe()" onchange="roe()"></td>
+    </tr>
+    <tr>
+        <td>2. Imbalan Investasi/<i>Return on Investment</i> (ROI)</td>
+        <td id="roi-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">EBTIT</td>
+        <td><input type="text" value=0 id="roi-1" onkeyup="roi()" onchange="roi()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Penyusutan</td>
+        <td><input type="text" value=0 id="roi-2" onkeyup="roi()" onchange="roi()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Capital Employed</i></td>
+        <td><input type="text" value=0 id="roi-3" onkeyup="roi()" onchange="roi()"></td>
+    </tr>
+    <tr>
+        <td>3. Operating Profit Margin(OPM)</td>
+        <td id="opm-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Laba Operasi</td>
+        <td><input type="text" value=0 id="opm-1" onkeyup="opm()" onchange="opm()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan Usaha</td>
+        <td><input type="text" value=0 id="opm-2" onkeyup="opm()" onchange="opm()"></td>
+    </tr>
+    <tr>
+        <td>4. Net Profit Margin(NPM)</td>
+        <td id="npm-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Laba bersih setelah pajak</td>
+        <td><input type="text" value=0 id="npm-1" onkeyup="npm()" onchange="npm()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan Usaha</td>
+        <td><input type="text" value=0 id="npm-2" onkeyup="npm()" onchange="npm()"></td>
+    </tr>
+    <tr>
+        <th>Likuiditas</th>
+        <td></td>
+    </tr>
+    <tr>
+        <td>5. Rasio Kas<i>Cash Ratio</i></td>
+        <td id="rk-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Kas</td>
+        <td><input type="text" value=0 id="rk-1" onkeyup="rk()" onchange="rk()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Bank</td>
+        <td><input type="text" value=0 id="rk-2" onkeyup="rk()" onchange="rk()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Surat Berharga Jangka Pendek</td>
+        <td><input type="text" value=0 id="rk-3" onkeyup="rk()" onchange="rk()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Current Liabilitas</i></td>
+        <td><input type="text" value=0 id="rk-4" onkeyup="rk()" onchange="rk()"></td>
+    </tr>
+    <tr>
+        <td>6. Rasio Lancar / <i>Current Ratio</i></td>
+        <td id="rl-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+     <tr>
+        <td style="padding-left:20px;"><i>Current asset</i></td>
+        <td><input type="text" value=0 id="rl-1" onkeyup="rl()" onchange="rl()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Current Liabilitas</i></td>
+        <td><input type="text" value=0 id="rl-2" onkeyup="rl()" onchange="rl()"></td>
+    </tr>
+    <tr>
+        <th>Efficiency</th>
+        <td></td>
+    </tr>
+    <tr>
+        <td>7. Collection Periods(CP)</td>
+        <td id="cp-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+     <tr>
+        <td style="padding-left:20px;">Total Piutang Usaha</td>
+        <td><input type="text" value=0 id="cp-1" onkeyup="cp()" onchange="cp()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan Usaha</td>
+        <td><input type="text" value=0 id="cp-2" onkeyup="cp()" onchange="cp()"></td>
+    </tr>
+
+    <tr>
+        <td>8. Perputaran Persediaan / <i>Inventory Trun Over</i>(ITO)</td>
+        <td id="pp-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan</td>
+        <td><input type="text" value=0 id="pp-1" onkeyup="pp()" onchange="pp()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan Usaha</td>
+        <td><input type="text" value=0 id="pp-2" onkeyup="pp()" onchange="pp()"></td>
+    </tr>
+    <tr>
+        <td>9. Perputaran Total Asset / <i>Total Asset Trun Over</i>(TATO)</td>
+        <td id="pta-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Pendapatan</td>
+        <td><input type="text" value=0 id="pta-1" onkeyup="pta()" onchange="pta()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Capital Employed</i></td>
+        <td><input type="text" value=0 id="pta-2" onkeyup="pta()" onchange="pta()"></td>
+    </tr>
+    <tr>
+        <th>Solvabilitas</th>
+        <td></td>
+    </tr>
+    <tr>
+        <td>10. Rasio Total Modal Sendiri Terhadap Total Asset / <i>Equity to Total Asset</i>(ETTA)</td>
+        <td id="rtms-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Modal Sendiri</td>
+        <td><input type="text" value=0 id="rtms-1" onkeyup="rtms()" onchange="rtms()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Asset</td>
+        <td><input type="text" value=0 id="rtms-2" onkeyup="rtms()" onchange="rtms()"></td>
+    </tr>
+    <tr>
+        <td>11. Time Interest Earned Ratio(TIER)</td>
+        <td id="tier-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">EBITDA</td>
+        <td><input type="text" value=0 id="tier-1" onkeyup="tier()" onchange="tier()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Interest Payment</i></td>
+        <td><input type="text" value=0 id="tier-2" onkeyup="tier()" onchange="tier()"></td>
+    </tr>
+    <tr>
+        <th>Nilai Kinerja Keuangan(NKK)</th>
+        <td id="nkk-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Klasifikasi Tingkat Kinerja Keuangan</th>
+        <td id="klasifikasi-hasil" style="padding-left:70px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td><input type="button" onclick="saveKeuangan()" value="Save"></td>
+    </tr>
+</table>
+</div>

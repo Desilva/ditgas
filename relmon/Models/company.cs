@@ -18,6 +18,10 @@ namespace relmon.Models
         {
             this.acls = new HashSet<acl>();
             this.bisnis_bussiness_report = new HashSet<bisnis_bussiness_report>();
+            this.bisnis_kinerja_administrasi = new HashSet<bisnis_kinerja_administrasi>();
+            this.bisnis_kinerja_kesehatan = new HashSet<bisnis_kinerja_kesehatan>();
+            this.bisnis_kinerja_keuangan = new HashSet<bisnis_kinerja_keuangan>();
+            this.bisnis_kinerja_pertumbuhan = new HashSet<bisnis_kinerja_pertumbuhan>();
             this.bisnis_kpi = new HashSet<bisnis_kpi>();
             this.bisnis_product = new HashSet<bisnis_product>();
             this.bisnis_rjpp = new HashSet<bisnis_rjpp>();
@@ -32,6 +36,10 @@ namespace relmon.Models
     
         public virtual ICollection<acl> acls { get; set; }
         public virtual ICollection<bisnis_bussiness_report> bisnis_bussiness_report { get; set; }
+        public virtual ICollection<bisnis_kinerja_administrasi> bisnis_kinerja_administrasi { get; set; }
+        public virtual ICollection<bisnis_kinerja_kesehatan> bisnis_kinerja_kesehatan { get; set; }
+        public virtual ICollection<bisnis_kinerja_keuangan> bisnis_kinerja_keuangan { get; set; }
+        public virtual ICollection<bisnis_kinerja_pertumbuhan> bisnis_kinerja_pertumbuhan { get; set; }
         public virtual ICollection<bisnis_kpi> bisnis_kpi { get; set; }
         public virtual bisnis_main bisnis_main { get; set; }
         public virtual ICollection<bisnis_product> bisnis_product { get; set; }

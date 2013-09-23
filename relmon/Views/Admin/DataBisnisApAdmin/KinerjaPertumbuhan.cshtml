@@ -1,0 +1,208 @@
+﻿<style>
+    #kinpertumbuhan input[type="text"]
+    {
+        margin-left:150px;
+        width:100px; !important;
+    }
+</style>
+
+<script>
+    function aspg() {
+        $.post("DataBisnisApAdmin/HitungPertumbuhan2", { param1: $("#aspg-1").val(), param2: $("#aspg-2").val(), param3: $("#aspg-3").val(), param4: $("#aspg-4").val() }, function (data) {
+            $("#aspg-hasil").html(data);
+        });
+        nkp();
+    }
+    function salg() {
+        $.post("DataBisnisApAdmin/HitungPertumbuhan", { param1: $("#salg-1").val(), param2: $("#salg-2").val() }, function (data) {
+            $("#salg-hasil").html(data);
+        });
+        nkp();
+    }
+
+    function npmg() {
+        $.post("DataBisnisApAdmin/HitungPertumbuhan", { param1: $("#npmg-1").val(), param2: $("#npmg-2").val() }, function (data) {
+            $("#npmg-hasil").html(data);
+        });
+        nkp();
+    }
+
+    function stag() {
+        $.post("DataBisnisApAdmin/HitungPertumbuhan", { param1: $("#stag-1").val(), param2: $("#stag-2").val() }, function (data) {
+            $("#stag-hasil").html(data);
+        });
+        nkp();
+    }
+
+    function npg() {
+        $.post("DataBisnisApAdmin/HitungPertumbuhan", { param1: $("#npg-1").val(), param2: $("#npg-2").val() }, function (data) {
+            $("#npg-hasil").html(data);
+        });
+        nkp();
+    }
+
+    function nkp() {
+        var values = {
+            param1: $("#aspg-hasil").html(),
+            param2: $("#salg-hasil").html(),
+            param3: $("#npmg-hasil").html(),
+            param4: $("#stag-hasil").html(),
+            param5: $("#npg-hasil").html()
+            
+        };
+        $.post("DataBisnisApAdmin/HitungNKP", values, function (data) {
+            $("#nkp-hasil").html(data);
+            $.post("DataBisnisApAdmin/HitungKlasifikasiPertumbuhan", { nkp: data }, function (data2) {
+                $("#klasifikasiPertumbuhan-hasil").html(data2);
+            });
+        });
+    }
+
+    function savePertumbuhan() {
+        var values =
+        {
+            "tahun": '@ViewBag.tahun',
+            "company_id": '@ViewBag.id',
+            "ebit":$("#aspg-1").val(),
+            "other_income":$("#aspg-2").val(),
+            "total_assets_berjalan":$("#aspg-3").val(),
+            "total_assets_sebelum":$("#aspg-4").val(),
+            "net_sales_berjalan":$("#salg-1").val(),
+            "net_sales_sebelum":$("#salg-2").val(),
+            "net_profit_margin_berjalan":$("#npmg-1").val(),
+            "net_profit_margin_sebelum":$("#npmg-2").val(),
+            "sales_to_total_assets_berjalan":$("#stag-1").val(),
+            "sales_to_total_assets_sebelum":$("#stag-2").val(),
+            "net_profit_berjalan":$("#npg-1").val(),
+            "net_profit_sebelum":$("#npg-2").val(),
+            "aspg": $("#aspg-hasil").html(),
+            "salg": $("#salg-hasil").html(),
+            "npmg": $("#npmg-hasil").html(),
+            "stag": $("#stag-hasil").html(),
+            "npg": $("#npg-hasil").html(),
+            "nkk": $("#nkp-hasil").html(),
+            "klasifikasi": $("#klasifikasiPertumbuhan-hasil").html()
+        }
+        $.post("DataBisnisApAdmin/SavePertumbuhan", values, function (data) {
+            if (data == "True") {
+                alert("Data berhasil disimpan");
+            } else {
+                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+            }
+        });
+    }
+    $(document).ready(function () {
+        $.post("DataBisnisApAdmin/GetKinerjaPertumbuhan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+            $.each(data, function (index, value) {
+                $("#aspg-1").val(value.ebit);
+                $("#aspg-2").val(value.other_income);
+                $("#aspg-3").val(value.total_assets_berjalan);
+                $("#aspg-4").val(value.total_assets_sebelum);
+                $("#salg-1").val(value.net_sales_berjalan);
+                $("#salg-2").val(value.net_sales_sebelum);
+                    $("#npmg-1").val(value.net_profit_margin_berjalan);
+                    $("#npmg-2").val(value.net_profit_margin_sebelum);
+                    $("#stag-1").val(value.sales_to_total_assets_berjalan);
+                    $("#stag-2").val(value.sales_to_total_assets_sebelum);
+                    $("#npg-1").val(value.net_profit_berjalan);
+                    $("#npg-2").val(value.net_profit_sebelum);
+                    $("#aspg-hasil").html(value.aspg);
+                    $("#salg-hasil").html(value.salg);
+                    $("#npmg-hasil").html(value.npmg);
+                    $("#stag-hasil").html(value.stag);
+                    $("#npg-hasil").html(value.npg);
+                $("#nkp-hasil").html(value.nkp);
+                $("#klasifikasiPertumbuhan-hasil").html(value.klasifikasi);
+            });
+        });
+    });
+</script>
+
+<div id ="kinpertumbuhan">
+
+<table>
+    <tr>
+        <td>1. <i>Assets Productivity Growth</i>(ASPG)</td>
+        <td id="aspg-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">EBIT</td>
+        <td><input type="text" value=0 id="aspg-1" onkeyup="aspg()" onchange="aspg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Other income</i></td>
+        <td><input type="text" value=0 id="aspg-2" onkeyup="aspg()" onchange="aspg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Assets(tahun berjalan)</td>
+        <td><input type="text" value=0 id="aspg-3" onkeyup="aspg()" onchange="aspg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;">Total Assets(tahun sebelumnya)</td>
+        <td><input type="text" value=0 id="aspg-4" onkeyup="aspg()" onchange="aspg()"></td>
+    </tr>
+
+    <tr>
+        <td>2. <i>Sales Growth</i>(SALG)</td>
+        <td id="salg-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Sales</i>(tahun berjalan)</td>
+        <td><input type="text" value=0 id="salg-1" onkeyup="salg()" onchange="salg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Sales</i>(tahun sebelumnya)</td>
+        <td><input type="text" value=0 id="salg-2" onkeyup="salg()" onchange="salg()"></td>
+    </tr>
+
+    <tr>
+        <td>3. <i>Net Profit Margin Growth</i>(NPMG)</td>
+        <td id="npmg-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Profit Margin</i>(tahun berjalan)</td>
+        <td><input type="text" value=0 id="npmg-1" onkeyup="npmg()" onchange="npmg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Profit Margin</i>(tahun sebelumnya)</td>
+        <td><input type="text" value=0 id="npmg-2" onkeyup="npmg()" onchange="npmg()"></td>
+    </tr>
+
+    <tr>
+        <td>4. <i>Sales to Total Assets Growth</i>(STAG)</td>
+        <td id="stag-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Sales to Total Assets</i>(tahun berjalan)</td>
+        <td><input type="text" value=0 id="stag-1" onkeyup="stag()" onchange="stag()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Sales to Total Assets</i>(tahun sebelumnya)</td>
+        <td><input type="text" value=0 id="stag-2" onkeyup="stag()" onchange="stag()"></td>
+    </tr>
+
+    <tr>
+        <td>5. <i>Net Profit Growth</i>(NPG)</td>
+        <td id="npg-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Profit</i>(tahun berjalan)</td>
+        <td><input type="text" value=0 id="npg-1" onkeyup="npg()" onchange="npg()"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20px;"><i>Net Profit</i>(tahun sebelumnya)</td>
+        <td><input type="text" value=0 id="npg-2" onkeyup="npg()" onchange="npg()"></td>
+    </tr>
+    <tr>
+        <th>Nilai Kinerja Pertumbuhan(NKP)</th>
+        <td id="nkp-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <th>Klasifikasi Tingkat Kinerja Pertumbuhan</th>
+        <td id="klasifikasiPertumbuhan-hasil" style="padding-left:150px;width:100px;"></td>
+    </tr>
+    <tr>
+        <td><input type="button" onclick="savePertumbuhan()" value="Save"></td>
+    </tr>
+</table>
+</div>
