@@ -187,5 +187,47 @@ namespace relmon.Controllers.FrontEnd
             //return Json(SalesDataBuilder.GetCollection());
 
         }
+
+        public ActionResult Kinerja2(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
+
+        public ActionResult test(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
+
+        public ActionResult KinerjaKeuangan(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
+
+        public ActionResult KinerjaPertumbuhan(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
+
+        public ActionResult KinerjaAdministrasi(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
+
+        public ActionResult KinerjaKesehatan(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
     }
 }

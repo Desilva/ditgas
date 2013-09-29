@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Aturan Regulasi";
+}
+
+@( Html.Telerik().TabStrip()
+        .Name("TabStrip")
+        .Items(parent => {
+            //int aclId = (int)Session["id"];
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId, "view"))
+            //{
+                parent.Add()
+                    .Text("Aturan Pertamina")
+                    .LoadContentFrom("Pertamina", "AturanRegulasiAdmin")
+                    .Selected(true);
+            //}
+             parent.Add()
+                    .Text("Aturan Regulasi")
+                    .LoadContentFrom("Regulasi", "AturanRegulasiAdmin");
+             parent.Add()
+                    .Text("Charter")
+                    .LoadContentFrom("Charter", "AturanRegulasiAdmin");
+        })
+)

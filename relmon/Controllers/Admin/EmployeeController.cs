@@ -539,22 +539,58 @@ namespace relmon.Controllers.Admin
         }
 
         [HttpPost]
-        public string GetJabatanFromName(string nama)
+        public JsonResult GetListJabatan()
         {
             //int parentInt = Int32.Parse(parent);
-            var listResultTemp = (from u in db.users
-                                  join j in db.users_jabatan on u.rm_role equals j.id
-                                  where u.fullname == nama
+            var listResultTemp = (from u in db.users_jabatan
+                                  where u.company_id == 0
                                   select new
                                   {
-                                      jabatan = j.nama
-                                  }).ToList();
-            if(listResultTemp.Count > 0){
-                var result = listResultTemp.First();
-                return result.jabatan;
+                                      jabatan = u.nama
+                                  }).Distinct().ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    jabatan = result.jabatan
+                });
             }
 
-            return "";
+            return Json(listResult);
+        }
+
+        [HttpPost]
+        public JsonResult GetNameListFromJabatan(string jabatan)
+        {
+            
+            if (jabatan !=null)
+            {
+                var listResultTemp = (from u in db.users
+                                      join j in db.users_jabatan on u.rm_role equals j.id
+                                      where j.nama == jabatan
+                                      select new
+                                      {
+                                          u.fullname
+                                      }).ToList();
+
+                List<object> listResult = new List<object>();
+                foreach (var result in listResultTemp)
+                {
+                    listResult.Add(new
+                    {
+
+                        nama = result.fullname
+                    });
+                }
+
+                return Json(listResult);
+            }
+            else
+            {
+                return Json(null);
+            }
         }
         #endregion
     }
