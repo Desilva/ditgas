@@ -42,7 +42,7 @@
 	        <div id="header">
 		        <div class="wrap clearfix">
                     <div id="adminLogin">
-                      @Html.ActionLink("Login", "../Admin")
+                    [@Html.ActionLink("Admin", "../Admin")]
                     </div>
 			        <div class="logo"><a href="#"><img src="../../Content/image/logo-01-01.png" alt="" /></a></div>
 			        <div id="title">
@@ -88,7 +88,7 @@
                                         item2.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text);
                                         item2.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text);
                                     });
-                                    
+
                                 item.Add().Text(PageItem.DataBisnis.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis.name, userId))
                                     .Items(item2 =>
                                     {
@@ -112,7 +112,7 @@
                         {
                             userId = int.Parse(Session["id"].ToString());
                         }
-                        else 
+                        else
                         {
                             userId = null;
                         }

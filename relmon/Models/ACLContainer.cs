@@ -50,7 +50,7 @@ namespace relmon.Models
         public static PageItem DataBisnis_DitGas_ProjectStatus = new PageItem("Project Status", "/DataBisnisDitGas/ProjectStatus");
         public static PageItem DataBisnis_DitGas_Product = new PageItem("Product", "/DataBisnisDitGas/Product");
 
-        public static PageItem DataBisnis_JMG = new PageItem("JMG", "/DataBisnisJmg");
+        //public static PageItem DataBisnis_JMG = new PageItem("JMG", "/DataBisnisJmg");
 
         public static PageItem DataBisnis_Ap = new PageItem("Anak Perusahaan", "/DataBisnisAp");
         public static PageItem DataBisnis_ApCompany = new PageItem("", "PRTDataBisnisAp");
@@ -82,13 +82,13 @@ namespace relmon.Models
         public static PageItem SDM_DitGas = new PageItem("Ditgas", "PRTSDMDitGas");
         public static PageItem SDM_Ap = new PageItem("Anak Perusahaan", "PRTSDMAp");
         public static PageItem SDM_Afiliasi = new PageItem("Afiliasi", "PRTSDMAfiliasi");
-        public static PageItem SDM_AturanSDM = new PageItem("Aturan SDM", "PRTSDMAturan");
+        //public static PageItem SDM_AturanSDM = new PageItem("Aturan SDM", "PRTSDMAturan");
 
         public static PageItem AturanRegulasi = new PageItem("Aturan & Regulasi", "PRTAturanRegulasi");
         public static PageItem AturanRegulasi_Pertamina = new PageItem("Aturan PERTAMINA", "/AturanRegulasi");
         public static PageItem AturanRegulasi_External = new PageItem("Aturan External", "/AturanRegulasi/AturanKementrian");
         public static PageItem AturanRegulasi_Charter = new PageItem("Charter", "/AturanRegulasi/Pedoman");
-        public static PageItem AturanRegulasi_GCG = new PageItem("GCG", "/AturanRegulasi/GCG");
+        //public static PageItem AturanRegulasi_GCG = new PageItem("GCG", "/AturanRegulasi/GCG");
 
         public static PageItem Kontak = new PageItem("Kontak", "/Kontak");
 
@@ -373,7 +373,7 @@ namespace relmon.Models
                         new PageTree(PageItem.DataBisnis_DitGas_ProjectStatus),
                         new PageTree(PageItem.DataBisnis_DitGas_Product)
                     }),
-                    new PageTree(PageItem.DataBisnis_JMG),
+                    //new PageTree(PageItem.DataBisnis_JMG),
                     new PageTree(PageItem.DataBisnis_Ap, dataBisnisApChild),
                     new PageTree(PageItem.DataBisnis_Afiliasi, dataBisnisAfiliasiChild)
                 }),
@@ -382,14 +382,14 @@ namespace relmon.Models
                     new PageTree(PageItem.SDM_DitGas),
                     new PageTree(PageItem.SDM_Ap),
                     new PageTree(PageItem.SDM_Afiliasi),
-                    new PageTree(PageItem.SDM_AturanSDM)
+                    //new PageTree(PageItem.SDM_AturanSDM)
                 }),
                 new PageTree(PageItem.AturanRegulasi, new List<PageTree>
                 {
                     new PageTree(PageItem.AturanRegulasi_Pertamina),
                     new PageTree(PageItem.AturanRegulasi_External),
                     new PageTree(PageItem.AturanRegulasi_Charter),
-                    new PageTree(PageItem.AturanRegulasi_GCG)
+                    //new PageTree(PageItem.AturanRegulasi_GCG)
                 }).setEnableView(false),
                 new PageTree(PageItem.Kontak).setEnableView(false),
                 new PageTree(PageItem.Kalendar).setEnableView(false)
