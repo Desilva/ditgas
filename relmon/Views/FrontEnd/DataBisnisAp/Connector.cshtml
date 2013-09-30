@@ -51,19 +51,19 @@
                     .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisDitGas");
                 }
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
-            {
-                 //parent.Add()
-                 //   .Text("KPI")
-                 //   .LoadContentFrom("KinerjaKeuangan", "DataBisnisAp");
-                if (ViewBag.id == 1 || ViewBag.id == 9)
-                {
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
+            //{
+            //     //parent.Add()
+            //     //   .Text("KPI")
+            //     //   .LoadContentFrom("KinerjaKeuangan", "DataBisnisAp");
+            //    if (ViewBag.id == 1 || ViewBag.id == 9)
+            //    {
 
-                    parent.Add()
-                    .Text("KPI")
-                    .LoadContentFrom("Kinerja2/"+ViewBag.id+"?tahun=2013", "DataBisnisAp");
-                }
-            }
+            //        parent.Add()
+            //        .Text("KPI")
+            //        .LoadContentFrom("Kinerja2/"+ViewBag.id+"?tahun=2013", "DataBisnisAp");
+            //    }
+            //}
             //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
             //{
             //    parent.Add()

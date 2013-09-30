@@ -32,7 +32,7 @@
     foreach (var chartContent in ViewBag.chartContent)
     {
         @(Html.Telerik().Chart()
-            .Name("chart"+it)
+            .Name("chart" + it)
             .Theme("Office2010Blue")
             .Title(title => title
                 .Text(chartContent.title))
@@ -72,12 +72,25 @@
                 .Categories(chartContent.categories)
                 .Title(chartContent.xTitle)
             )
-            .ValueAxis(axis => axis
-                .Numeric().Labels(labels => labels.Format("{0:#,##0}")).Max(10)
-                .Title(chartContent.yTitle)
+            .ValueAxis(axis =>
+                {
+
+                    if (ViewBag.kategori.Contains("mppk"))
+                    {
+                        axis
+                        .Numeric().Labels(labels => labels.Format("{0:#,##0}")).Max(10)
+                        .Title(chartContent.yTitle);
+                    }
+                    else
+                    {
+                        axis
+                        .Numeric().Labels(labels => labels.Format("{0:#,##0}"))
+                        .Title(chartContent.yTitle);
+                    }
+                }
 
             )
-            .HtmlAttributes(new { style = "width: 750px; height: "+ViewBag.heightGrafik.ToString()+"px; margin: auto;" })
+            .HtmlAttributes(new { style = "width: 750px; height: " + ViewBag.heightGrafik.ToString() + "px; margin: auto;" })
             .Tooltip(true)
         )
         it++;

@@ -48,12 +48,12 @@
                 .Text("Bussiness Report")
                 .LoadContentFrom("BussinessReport/" + ViewBag.id, "DataBisnisDitGas");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "view"))
-            {
-                parent.Add()
-                .Text("KPI")
-                .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisDitGas");
-            }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "view"))
+            //{
+            //    parent.Add()
+            //    .Text("KPI")
+            //    .LoadContentFrom("Kinerja/" + ViewBag.id, "DataBisnisDitGas");
+            //}
             //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
             //{
             //    parent.Add()

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using relmon.Models;
 using relmon.Utilities;
 using Telerik.Web.Mvc;
+using System.Collections.Specialized;
 
 namespace relmon.Controllers.FrontEnd
 {
@@ -312,71 +313,76 @@ namespace relmon.Controllers.FrontEnd
         }
 
         //select employes
-        private ViewResult bindingKandidat()
+        private ViewResult bindingKandidat(int id)
         {
-            //int userRole = (int)Session["role"];
-            //var allChildren = getChildrenUser(userRole);
-
-            //return View(new GridModel<user>
-            //{
-            //    Data = allChildren
-            //});
-            List<EmployeeWrapper> eList = new List<EmployeeWrapper>();
-            //for (int i = 0; i < 1; i++)
-            //{
-            EmployeeWrapper e = new EmployeeWrapper
+            List<user> eList = new List<user>();
+            int? userRole = null;
+            int? companyId = null;
+            if (id != -1)
             {
-                id = 1,
-                no_pekerja = "00703828",
-                nama = "Eko",
-                jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
-                lokasi = "R500 - Korporat",
-                direktorat = "1121 - Kantor Pusat PERTAGAS",
-                tempat_lahir = "BOGOR",
-                jenis_kelamin = "Laki-Laki",
-                agama = "Islam",
-                npwp = "14.104.467.7-002.000",
-                tanggal_dinas_aktif = DateTime.Now,
-                notice = "Pensiun dalam 35 hari"
-            };
-            eList.Add(e);
-
-            e = new EmployeeWrapper
+                userRole = db.users.Find(id).rm_role;
+                companyId = db.users_jabatan.Find(userRole).company_id;
+            }
+            if (userRole != null)
             {
-                id = 1,
-                no_pekerja = "728696",
-                nama = "Rico Amanto R",
-                jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
-                lokasi = "R500 - Korporat",
-                direktorat = "1121 - Kantor Pusat PERTAGAS",
-                tempat_lahir = "BOGOR",
-                jenis_kelamin = "Laki-Laki",
-                agama = "Islam",
-                npwp = "14.104.467.7-002.000",
-                tanggal_dinas_aktif = DateTime.Now,
-                notice = "Pensiun dalam 35 hari"
-            };
-            eList.Add(e);
+                var allChildren = getChildrenUser((int)userRole, companyId);
+                eList = allChildren.ToList();
+                //for (int i = 0; i < 1; i++)
+                //{
+                //EmployeeWrapper e = new EmployeeWrapper
+                //{
+                //    id = 1,
+                //    no_pekerja = id.ToString(),
+                //    nama = "Eko",
+                //    jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
+                //    lokasi = "R500 - Korporat",
+                //    direktorat = "1121 - Kantor Pusat PERTAGAS",
+                //    tempat_lahir = "BOGOR",
+                //    jenis_kelamin = "Laki-Laki",
+                //    agama = "Islam",
+                //    npwp = "14.104.467.7-002.000",
+                //    tanggal_dinas_aktif = DateTime.Now,
+                //    notice = "Pensiun dalam 35 hari"
+                //};
+                //eList.Add(e);
 
-            e = new EmployeeWrapper
-            {
-                id = 1,
-                no_pekerja = "718692",
-                nama = "Johannes Daud F. Saragih",
-                jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
-                lokasi = "R500 - Korporat",
-                direktorat = "1121 - Kantor Pusat PERTAGAS",
-                tempat_lahir = "BOGOR",
-                jenis_kelamin = "Laki-Laki",
-                agama = "Islam",
-                npwp = "14.104.467.7-002.000",
-                tanggal_dinas_aktif = DateTime.Now,
-                notice = "Pensiun dalam 35 hari"
-            };
-            eList.Add(e);
-            //}
+                //e = new EmployeeWrapper
+                //{
+                //    id = 1,
+                //    no_pekerja = "728696",
+                //    nama = "Rico Amanto R",
+                //    jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
+                //    lokasi = "R500 - Korporat",
+                //    direktorat = "1121 - Kantor Pusat PERTAGAS",
+                //    tempat_lahir = "BOGOR",
+                //    jenis_kelamin = "Laki-Laki",
+                //    agama = "Islam",
+                //    npwp = "14.104.467.7-002.000",
+                //    tanggal_dinas_aktif = DateTime.Now,
+                //    notice = "Pensiun dalam 35 hari"
+                //};
+                //eList.Add(e);
 
-            return View(new GridModel<EmployeeWrapper>
+                //e = new EmployeeWrapper
+                //{
+                //    id = 1,
+                //    no_pekerja = "718692",
+                //    nama = "Johannes Daud F. Saragih",
+                //    jabatan = "Direktur Komersial&Teknis Pertagas Niaga",
+                //    lokasi = "R500 - Korporat",
+                //    direktorat = "1121 - Kantor Pusat PERTAGAS",
+                //    tempat_lahir = "BOGOR",
+                //    jenis_kelamin = "Laki-Laki",
+                //    agama = "Islam",
+                //    npwp = "14.104.467.7-002.000",
+                //    tanggal_dinas_aktif = DateTime.Now,
+                //    notice = "Pensiun dalam 35 hari"
+                //};
+                //eList.Add(e);
+                //}
+            }
+
+            return View(new GridModel<user>
             {
                 Data = eList
             });
@@ -395,7 +401,13 @@ namespace relmon.Controllers.FrontEnd
         [GridAction]
         public ActionResult _SelectKandidatAjaxEditing()
         {
-            return bindingKandidat();
+            NameValueCollection criteria = Request.Form;
+            int id = -1;
+            if (criteria["id"] != null)
+            {
+                id = int.Parse(criteria["id"]);
+            }
+            return bindingKandidat(id);
         }
 
         public ActionResult GridUser(int? companyId)
@@ -567,6 +579,7 @@ namespace relmon.Controllers.FrontEnd
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
                 ViewBag.heightGrafik = 600;
+                ViewBag.kategori = kategori;
             }
             else if (kategori == "lahirvspendidikan")
             {
@@ -574,6 +587,7 @@ namespace relmon.Controllers.FrontEnd
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
                 ViewBag.heightGrafik = 600;
+                ViewBag.kategori = kategori;
             }
             else if (kategori == "golonganvspendidikan")
             {
@@ -581,6 +595,7 @@ namespace relmon.Controllers.FrontEnd
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
                 ViewBag.heightGrafik = 600;
+                ViewBag.kategori = kategori;
             }
             else if (kategori == "mppkvsgolongan")
             {
@@ -588,13 +603,15 @@ namespace relmon.Controllers.FrontEnd
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
                 ViewBag.heightGrafik = 250;
+                ViewBag.kategori = kategori;
             }
             else if (kategori == "mppkvspendidikan")
             {
                 Tuple<TableContainer, List<ChartContainer>> result = demografiGenerator.getDemografiPendidikanMPPK(companyId);
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
-                ViewBag.heightGrafik = 250;
+                ViewBag.heightGrafik = 250; 
+                ViewBag.kategori = kategori;
             }
             else //if (kategori == "organisasi")
             {
@@ -602,6 +619,7 @@ namespace relmon.Controllers.FrontEnd
                 ViewBag.tableContent = result.Item1;
                 ViewBag.chartContent = result.Item2;
                 ViewBag.heightGrafik = 600;
+                ViewBag.kategori = kategori;
             }
 
             ViewBag.countGrafik = countGrafik;

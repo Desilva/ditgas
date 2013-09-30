@@ -1,5 +1,14 @@
 ﻿
-<h3>Pekerja MPPK - mutasi - promosi</h3>
+<script type="text/javascript">
+    function onRowSelect(e) {
+        var row = e.row;
+        var grid = $("#masaJabatanKandidat").data("tGrid");
+        grid.rebind({ id: row.cells[2].innerHTML });
+        console.log(row.cells[2].innerHTML);
+    }
+</script>
+
+<h3>Pekerja MPPK</h3>
 
 @(Html.Telerik().Grid<relmon.Models.user>()
         //.HtmlAttributes(new { style = "padding:0 0 0 10px;" })
@@ -24,15 +33,18 @@
                     .Action("detail", "DataSdmAp");
             }).Width(50).Title("Opsi");
             columns.Bound(o => o.username).Hidden();
+            columns.Bound(o => o.id).Hidden();
             columns.Bound(o => o.fullname).Width(120).Title("Nama");
             columns.Bound(o => o.no_pekerja).Title("No Pekerja").Width(100);
             columns.Bound(o => o.users_jabatan_parent.nama).Title("Jabatan").Width(200);
             columns.Bound(o => o.lokasi).Title("Lokasi").Width(150);
             columns.Bound(o => o.direktorat).Title("Direktorat").Width(150);
-            columns.Bound(o => o.status_pekerja).Title("Status").Width(150);
+            //columns.Bound(o => o.status_pekerja).Title("Status").Width(150);
             columns.Bound(o => o.status_pensiun).ClientTemplate("<img src='../../../Content/image/icon/" + "<#= status_pensiun #>.png' alt='<#= status_pensiun #>' />").Title("Warning").Width(80);
             //columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150);
         })
+        .ClientEvents(events => events
+            .OnRowSelect("onRowSelect"))
         .Pageable(p => p.PageSize(30))
         .Sortable()
         .Groupable()
@@ -42,8 +54,9 @@
 
 ) 
 <br/>
+<div id="content-kandidat">
 <h3>Kandidat</h3>
-@(Html.Telerik().Grid<relmon.Models.EmployeeWrapper>()
+@(Html.Telerik().Grid<relmon.Models.user>()
         //.HtmlAttributes(new { style = "padding:0 0 0 10px;" })
         .Name("masaJabatanKandidat")
         .DataKeys(keys =>
@@ -58,13 +71,13 @@
         .Columns(columns =>
         {
             columns.Bound(o => o.id).Hidden();
-            columns.Bound(o => o.nama).Width(120).Title("Nama");
+            columns.Bound(o => o.fullname).Width(120).Title("Nama");
             columns.Bound(o => o.no_pekerja).Title("No Pekerja").Width(100);
-            columns.Bound(o => o.jabatan).Title("Jabatan").Width(200);
+            columns.Bound(o => o.users_jabatan_parent.nama).Title("Jabatan").Width(200);
             columns.Bound(o => o.lokasi).Title("Lokasi").Width(150);
             columns.Bound(o => o.direktorat).Title("Direktorat").Width(150);
             columns.Bound(o => o.jenis_kelamin).Title("Jenis Kelamin").Width(150);
-            columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150);
+            columns.Bound(o => o.tgl_aktif).Title("Tanggal Dinas").Width(150);
         })
         .Pageable(p => p.PageSize(30))
         .Sortable()
@@ -74,3 +87,4 @@
         .Selectable()
 
 ) 
+</div>

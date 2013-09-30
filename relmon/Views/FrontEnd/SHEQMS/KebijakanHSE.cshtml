@@ -10,11 +10,11 @@
         }
     } 
 </script>
-<h2>Safety Talk</h2>
+<h2>Kebijakan HSE</h2>
 
-<h1>List video safety talk</h1>
-@(Html.Telerik().Grid<relmon.Models.sheqms_safety_talk>()
-        .Name("SafetyTalk1")
+<h3>List video kebijakan HSE</h3>
+@(Html.Telerik().Grid<relmon.Models.sheqms_kebijakan_HSE>()
+        .Name("KebijakanHSE1")
         .DataKeys(keys =>
         {
             keys.Add(p => p.id);
@@ -52,9 +52,9 @@
         .Selectable()
         .Groupable()
 )
-<h1>List file safety talk</h1>
-@(Html.Telerik().Grid<relmon.Models.sheqms_safety_talk>()
-        .Name("SafetyTalk2")
+<h3>List file kebijakan HSE</h3>
+@(Html.Telerik().Grid<relmon.Models.sheqms_kebijakan_HSE>()
+        .Name("KebijakanHSE2")
         .DataKeys(keys =>
         {
             keys.Add(p => p.id);

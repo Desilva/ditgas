@@ -79,7 +79,7 @@ namespace relmon.Controllers.FrontEnd
 
         public ActionResult GetPdf(string tipe)
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == tipe
                           select x
                          ).ToList();
@@ -87,7 +87,7 @@ namespace relmon.Controllers.FrontEnd
             {
                 aturan items = result.First();
                 string filename = items.filename;
-                string file = Server.MapPath(Url.Content("~/Upload/Aturan/Regulasi/" + filename));
+                string file = Server.MapPath(Url.Content("~/Upload/Aturan/"+tipe+"/" + filename));
                 PdfReader reader = new PdfReader(file);
                 MemoryStream pdfStream = new MemoryStream();
 

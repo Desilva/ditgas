@@ -40,12 +40,12 @@
                 .Text("Bussiness Report")
                 .LoadContentFrom("BussinessReport/0?rowId=-1&reportType=all", "DataBisnisDitGasAdmin");
             }
-            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "view"))
-            {
-                parent.Add()
-                .Text("KPI")
-                .LoadContentFrom("Kinerja/0?rowId=-1", "DataBisnisDitGasAdmin");
-            }
+            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "view"))
+            //{
+            //    parent.Add()
+            //    .Text("KPI")
+            //    .LoadContentFrom("Kinerja/0?rowId=-1", "DataBisnisDitGasAdmin");
+            //}
             //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ProjectStatus.name, aclId, "view"))
             //{
             //    parent.Add()

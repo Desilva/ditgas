@@ -39,7 +39,7 @@ namespace relmon.Controllers.Admin
             newAturan.date = DateTime.Now;
             newAturan.filename = filename;
             newAturan.tipe = "pertamina";
-            db.aturan.Add(newAturan);
+            db.aturans.Add(newAturan);
             try
             {
                 db.SaveChanges();
@@ -67,7 +67,7 @@ namespace relmon.Controllers.Admin
             int aclId = (int)Session["id"];
             if (ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Pertamina.name, aclId, "delete")){
                 //delete dr database
-                var tempResult = (from x in db.aturan
+                var tempResult = (from x in db.aturans
                                   where x.id == id
                                   select x).ToList();
                 if (tempResult.Count != 0)
@@ -83,7 +83,7 @@ namespace relmon.Controllers.Admin
                         upload.Remove(file, "Aturan\\Pertamina");
                     }
 
-                    db.aturan.Remove(result);
+                    db.aturans.Remove(result);
                     db.SaveChanges();
                 }
             }
@@ -93,7 +93,7 @@ namespace relmon.Controllers.Admin
         //select data user
         protected ViewResult bindingPertamina()
         {
-            List<aturan> result = (from x in db.aturan
+            List<aturan> result = (from x in db.aturans
                                    where x.tipe == "pertamina"
                                    select x).ToList();
 
@@ -106,7 +106,7 @@ namespace relmon.Controllers.Admin
 
         public ActionResult DownloadAturan(int id)
         {
-            aturan x = db.aturan.Find(id);
+            aturan x = db.aturans.Find(id);
             try
             {
                 var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/Aturan\\Pertamina/" + x.filename));
@@ -129,7 +129,7 @@ namespace relmon.Controllers.Admin
 
         public ActionResult Regulasi()
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "regulasi"
                           select x
                          ).ToList();
@@ -151,7 +151,7 @@ namespace relmon.Controllers.Admin
         [HttpPost]
         public bool UploadRegulasi(string filename)
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "regulasi"
                           select x
                          ).ToList();
@@ -163,7 +163,7 @@ namespace relmon.Controllers.Admin
                 items.tipe = "regulasi";
                 items.create_by = Session["name"].ToString();
                 items.filename = filename;
-                db.aturan.Add(items);
+                db.aturans.Add(items);
 
             }
             else
@@ -191,7 +191,7 @@ namespace relmon.Controllers.Admin
 
         public bool DeleteRegulasi()
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "regulasi"
                           select x
                          ).ToList();
@@ -199,7 +199,7 @@ namespace relmon.Controllers.Admin
             if (result.Count != 0)
             {
                 aturan items = result.First();
-                db.aturan.Remove(items);
+                db.aturans.Remove(items);
             }
             try
             {
@@ -218,7 +218,7 @@ namespace relmon.Controllers.Admin
 
         public ActionResult Charter()
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "charter"
                           select x
                          ).ToList();
@@ -240,7 +240,7 @@ namespace relmon.Controllers.Admin
         [HttpPost]
         public bool UploadCharter(string filename)
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "charter"
                           select x
                          ).ToList();
@@ -252,7 +252,7 @@ namespace relmon.Controllers.Admin
                 items.tipe = "charter";
                 items.create_by = Session["name"].ToString();
                 items.filename = filename;
-                db.aturan.Add(items);
+                db.aturans.Add(items);
 
             }
             else
@@ -280,7 +280,7 @@ namespace relmon.Controllers.Admin
 
         public bool DeleteCharter()
         {
-            var result = (from x in db.aturan
+            var result = (from x in db.aturans
                           where x.tipe == "charter"
                           select x
                          ).ToList();
@@ -288,7 +288,7 @@ namespace relmon.Controllers.Admin
             if (result.Count != 0)
             {
                 aturan items = result.First();
-                db.aturan.Remove(items);
+                db.aturans.Remove(items);
             }
             try
             {

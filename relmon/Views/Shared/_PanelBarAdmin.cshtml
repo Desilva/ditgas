@@ -24,7 +24,7 @@
             $('#content-employee').html('');
         }
         // ===== Load Data From Excel ===== //
-        else if (item.find('> .t-link').text() == "Data Master") {
+        else if (item.find('> .t-link').text() == "Data Employee") {
             $('#content-employee').load('LoadExcel');
             $('#content').html('');
         }
@@ -81,34 +81,34 @@
                 .Items(item =>
                 {
                     item.Add().Text("Employee Management");
-                    item.Add().Text("PJS");
-                    item.Add().Text("Mutasi");
+                    //item.Add().Text("PJS");
+                    //item.Add().Text("Mutasi");
                 });
-            panelBarItem.Add().Text("Report")
-                .Items(item =>
-                {
-                    item.Add().Text("Report 1");
-                    item.Add().Text("Report 2");
-                    item.Add().Text("Report 3");
-                });
+            //panelBarItem.Add().Text("Report")
+            //    .Items(item =>
+            //    {
+            //        item.Add().Text("Report 1");
+            //        item.Add().Text("Report 2");
+            //        item.Add().Text("Report 3");
+            //    });
             panelBarItem.Add().Text("Load Data From Excel")
                 .Items(item =>
                 {
-                    item.Add().Text("Data Master");
+                    item.Add().Text("Data Employee");
                 });
-            panelBarItem.Add().Text("Page Management")
-                .Items(item =>
-                {
-                    item.Add().Text("Home");
-                    item.Add().Text("Profil Dit. Gas");
-                    item.Add().Text("SHE - QMS");
-                    item.Add().Text("Data Bisnis");
-                    item.Add().Text("SDM");
-                    item.Add().Text("Aturan & Regulasi");
-                    item.Add().Text("Kontak");
-                    item.Add().Text("Kalender");
-                    item.Add().Text("Lain - Lain");
-                });
+            //panelBarItem.Add().Text("Page Management")
+            //    .Items(item =>
+            //    {
+            //        item.Add().Text("Home");
+            //        item.Add().Text("Profil Dit. Gas");
+            //        item.Add().Text("SHE - QMS");
+            //        item.Add().Text("Data Bisnis");
+            //        item.Add().Text("SDM");
+            //        item.Add().Text("Aturan & Regulasi");
+            //        item.Add().Text("Kontak");
+            //        item.Add().Text("Kalender");
+            //        item.Add().Text("Lain - Lain");
+            //    });
         })
         .ExpandMode(PanelBarExpandMode.Multiple)
 )

@@ -93,7 +93,6 @@
                                     .Items(item2 =>
                                     {
                                         item2.Add().Text(PageItem.DataBisnis_DitGas.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_DitGas.name, userId));
-                                        item2.Add().Text(PageItem.DataBisnis_JMG.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_JMG.name, userId));
                                         item2.Add().Text(PageItem.DataBisnis_Ap.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_Ap.name, userId));
                                         item2.Add().Text(PageItem.DataBisnis_Afiliasi.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_Afiliasi.name, userId));
                                     });
@@ -133,32 +132,13 @@
                                menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
                                    .Items(item =>
                                    {
-
-                                       //item.Add().Text("Dit. Gas")
-                                       //      .Items(itemDirGas =>
-                                       //      {
                                        item.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Action("KebijakanHSE", "SHEQMS");
                                        item.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text).Action("SafetyTalk", "SHEQMS");
-                                                 //itemDirGas.Add().Text("Info Safety dan Security");
-                                                 //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
-                                             //}).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas.name, userId));
-                                       //item.Add().Text("Anak Perusahaan")
-                                       //     .Items(itemDirGas =>
-                                       //     {
-                                       //         itemDirGas.Add().Text("PT Badak");
-                                       //         itemDirGas.Add().Text("PT Arun");
-                                       //         itemDirGas.Add().Text("PT Nusantara Regas");
-                                       //         itemDirGas.Add().Text("PT Donggi Senoro");
-                                       //         itemDirGas.Add().Text("PT Pertagas");
-                                                //itemDirGas.Add().Text("Demografi").Action("Index", "hse");
-                                                //itemDirGas.Add().Text("Status Pekerja").Action("Index", "hse");
-                                            //}).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_Ap.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS.name, userId));
                                menu.Add().Text("Data Bisnis").HtmlAttributes(new { @id = "databisnis" })
                                    .Items(item =>
                                    {
                                        item.Add().Text("Dit. Gas").Action("Index", "DataBisnisDitGas").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_DitGas.name, userId));
-                                       item.Add().Text("JMG").Action("Index", "DataBisnisJmg").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_JMG.name, userId));
                                        item.Add().Text("Anak Perusahaan").Action("Index", "DataBisnisAp").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Ap.name, userId));
                                        item.Add().Text("Afiliasi").Action("Index", "DataBisnisAfiliasi").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Afiliasi.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis.name, userId));
@@ -186,13 +166,13 @@
                                                itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAfiliasi");
                                                itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAfiliasi");
                                            }).Visible(ACLHandler.isMenuShown(PageItem.SDM_Afiliasi.name, userId));
-                                       item.Add().Text("Aturan SDM")
-                                           .Items(itemDirGas =>
-                                           {
-                                               itemDirGas.Add().Text("PKB");
-                                               itemDirGas.Add().Text("Training");
-                                               itemDirGas.Add().Text("Info Kesehatan");
-                                           }).Visible(ACLHandler.isMenuShown(PageItem.SDM_AturanSDM.name, userId));
+                                       //item.Add().Text("Aturan SDM")
+                                       //    .Items(itemDirGas =>
+                                       //    {
+                                       //        itemDirGas.Add().Text("PKB");
+                                       //        itemDirGas.Add().Text("Training");
+                                       //        itemDirGas.Add().Text("Info Kesehatan");
+                                       //    }).Visible(ACLHandler.isMenuShown(PageItem.SDM_AturanSDM.name, userId));
                                        //item.Add().Text("Employee Industrial Relation").Action("Index", "DataSdmEir");
                                    }).Visible(ACLHandler.isMenuShown(PageItem.SDM.name, userId));
                                menu.Add().Text("Aturan & Regulasi").HtmlAttributes(new { @id = "aturanregulasi" })
@@ -201,7 +181,6 @@
                                        item.Add().Text("Aturan PERTAMINA").Action("Index", "AturanRegulasi").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_Pertamina.name, userId));
                                        item.Add().Text("Aturan External").Action("AturanKementrian", "AturanRegulasi").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_External.name, userId));
                                        item.Add().Text("Charter").Action("Pedoman", "AturanRegulasi").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_Charter.name, userId));
-                                       item.Add().Text("GCG").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_GCG.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi.name, userId));
                                menu.Add().Text("Kontak").Action("Index", "Kontak").HtmlAttributes(new { @id = "kontak" }).Visible(ACLHandler.isMenuShown(PageItem.Kontak.name, userId));
                                menu.Add().Text("Kalendar").Action("Index", "Kalendar").HtmlAttributes(new { @id = "kalendar" }).Visible(ACLHandler.isMenuShown(PageItem.Kalendar.name, userId));
@@ -239,7 +218,7 @@
                 </ul>
             </div>
             <div class="hover-menu"><p style="float: left;margin-left: 110px;color:blue;cursor:pointer;"><i>related link</i></p></div>
-            <div class="hover-menu-video"><p style="float: left;margin-left: 10px;color:blue;cursor:pointer;"><i>video</i></p></div>
+            <!--<div class="hover-menu-video"><p style="float: left;margin-left: 10px;color:blue;cursor:pointer;"><i>video</i></p></div>-->
             <div id="footer"><img src="../../Content/image/footer.png" alt="" /></div>
 		</footer>
 	</div>
