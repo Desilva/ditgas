@@ -48,7 +48,12 @@
             var style = graph.getStylesheet().getDefaultEdgeStyle();
             style[mxConstants.STYLE_EDGE] = mxEdgeStyle.OrthConnector;
             style[mxConstants.STYLE_OVERFLOW] = true;
-            
+
+           
+            graph.isWrapping = function (cell) {
+                //debugger;
+                return true;
+            };
 
             // Stops editing on enter or escape keypress
             var keyHandler = new mxKeyHandler(graph);
@@ -64,7 +69,39 @@
                     var str = cell.value + "";
                     var n = str.split("#");
                     n[0] = n[0].replace("&amp;", "&");
-                    return n[0] + "\n" + n[1] + "\n" + n[2];
+
+                    var geometry = this.model.getGeometry(cell);
+                    var fontSize = style[mxConstants.STYLE_FONTSIZE] || mxConstants.DEFAULT_FONTSIZE;
+                    var max = geometry.width / (fontSize * 0.625);
+
+                    //                    if (max < n[0].length) {
+
+                    //                        return n[0].substring(0, max) + "\n" + n[0].substring(max + 1, n[0].length - 1) + "\n\n" + n[1] + "\n\n" + n[2];
+                    //                    } else {
+                    //                        return n[0] + "\n\n" + n[1] + "\n\n" + n[2];
+                    //                    }
+                    var part1 = "";
+                    var part2 = n[0];
+
+                    while (max < part2.length) {
+                        var x = part2.split(" ");
+                        if (x.length == 1) {
+                            part1 += part2.substring(0, max) + "\n";
+                            part2 = part2.substring(max + 1, part2.length);
+                        } else {
+                            var charat = max;
+                            while (part2.charAt(charat) != ' ') {
+                                charat--;
+                            }
+                            part1 += part2.substring(0, charat) + "\n";
+                            part2 = part2.substring(charat + 1, part2.length);
+
+                        }
+                    }
+                    if (n[1] == null || n[1] == "null") {
+                        n[1] = "";
+                    }
+                    return part1 + part2 + "\n\n" + n[1] + "\n\n" + n[2];
                 }
                 else {
                     return "";
@@ -201,8 +238,26 @@
             $('.undefined').remove();
             if (attrs != null) {
                 var split = attrs.split("#");
-                $("#jabatan").html(split[0]);
-                $("#editUser").val(split[1]);
+                $("#jabatan").val(split[0]);
+                $.post("Employee/GetNameListFromJabatan", { jabatan: split[0] }, function (data) {
+                    var selectedValues = [];
+                    $("#editUser option").each(function () {
+                        selectedValues.push($(this).val());
+                    });
+                    if (selectedValues.length != 0) {
+                        for (var i = 0; i < selectedValues.length; i++) {
+                            $("#editUser option[value='" + selectedValues[i] + "']").remove();
+                        }
+                    }
+                    var get = "";
+                    $.each(data, function (index, value) {
+
+                        get += "<option value='" + value.nama + "'>" + value.nama + "</option>";
+                    });
+                    $("#editUser").append(get);
+                    $("#editUser").val(split[1]);
+                });
+                
                 $("#userPJS").val(split[2]);
                 
 
@@ -211,7 +266,7 @@
 
                 $("#properties input").hide();
             } else {
-                $("#jabatan").html("");
+                $("#jabatan").val("");
                 $("#editUser").val("");
                 $("#userPJS").val("");
                 createComboBox(graph, form, cell);
@@ -267,7 +322,7 @@
                 graph.getModel().beginUpdate();
 
                 try {
-                    cell.value = $("#jabatan").html() + "#" + $("#editUser").val() + "#" + $("#userPJS").val();
+                    cell.value = $("#jabatan").val() + "#" + $("#editUser").val() + "#" + $("#userPJS").val();
                     var edit = new mxCellAttributeChange(
              		                           cell, "a", cell.value);
                     graph.getModel().execute(edit);
@@ -347,18 +402,42 @@
         $.post("Employee/GetUserOrganization", "", function (data) {
             var get = "";
             $.each(data, function (index, value) {
-                get += '<option value="' + value.nama + '">' + value.nama + '</option>'
+                get += '<option value="' + value.nama + '">' + value.nama + '</option>';
             });
-            $("#editUser").append(get);
+
             $("#userPJS").append(get);
 
         });
+        
+        $.post("Employee/GetListJabatan", "", function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                get += '<option value="' + value.jabatan + '">' + value.jabatan + '</option>';
+            });
 
-        $("#editUser").bind("change", function () {
-            var name = $("#editUser").val();
-            $.post("Employee/GetJabatanFromName", { nama: name }, function (data) {
-                $("#jabatan").html(data);
+            $("#jabatan").append(get);
 
+        });
+
+
+        $("#jabatan").bind("change", function () {
+            var jab = $("#jabatan").val();
+            $.post("Employee/GetNameListFromJabatan", { jabatan: jab }, function (data) {
+                var selectedValues = [];
+                $("#editUser option").each(function () {
+                    selectedValues.push($(this).val());
+                });
+                if (selectedValues.length != 0) {
+                    for (var i = 0; i < selectedValues.length; i++) {
+                        $("#editUser option[value='" + selectedValues[i] + "']").remove();
+                    }
+                }
+                var get = "";
+                $.each(data, function (index, value) {
+
+                    get += "<option value='" + value.nama + "'>" + value.nama + "</option>";
+                });
+                $("#editUser").append(get);
             });
         });
 
@@ -371,26 +450,29 @@
 <div style="overflow:hidden;">
     <div id="toolbarMenu" style="float:left;"></div>
     <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%"> </div>
-    <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;position:absolute;left:800px;top:auto;background-color:White;">
+    <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;position:absolute;left:800px;top:auto;background-color:White;word-wrap:break-word;">
     <span>Edit User</span><br />
     <table>
         
         <tr>
+            <td>Jabatan :</td>
+            <td><select name="jabatan" id ="jabatan" style="width:150px;height:20px;">
+                    
+                </select>
+            </td>
+        </tr>
+        <tr>            
             <td>Nama :</td>
             <td>
-                <select name="editUser" id ="editUser">
+                <select name="editUser" id ="editUser" style="width:150px;height:20px;">
                     <option value ="">---</option>
                 </select>
             </td>
         </tr>
         <tr>
-            <td>Jabatan :</td>
-            <td><div id="jabatan"></div></td>
-        </tr>
-        <tr>
             <td>PJS :</td>
             <td>
-                <select name="userPJS" id ="userPJS">
+                <select name="userPJS" id ="userPJS" style="width:150px;height:20px;">
                     <option value ="">---</option>
                 </select>
             </td>

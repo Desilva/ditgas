@@ -1,0 +1,143 @@
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+
+<script>
+    var filename = "";
+    function onSuccess(e) {
+        var files = e.files;
+        if (e.operation == "upload") {
+            filename = e.response.newFilename;
+            //ganti upload
+        } else if (e.operation == "remove") {
+            filename = "";
+        }
+    }
+
+    function onLoad(e) {
+        console.log(e);
+    }
+    function onUpload(e) {
+        @{
+            int aclId = (int)Session["id"];
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Pertamina.name, aclId, "create")){
+                <text>return false;</text>
+            }
+        }
+    }
+    function onRemove(e) {
+        var r = confirm("Apakah anda yakin?");
+        if (r) {
+            return true;
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    function OnComplete(e) {
+        var vals = e.response;
+        if (e.name == "DownloadJS") {
+            location.href = "AturanRegulasiAdmin/DownloadAturan/" + vals;
+        }
+    }
+    $("#savebutton").click(function () {
+        //save
+        var values ={
+            "filename": filename
+        }
+
+        if (filename != "") {
+            $.post("AturanRegulasiAdmin/UploadAturan", values, function (data) {
+                if (data == "true") {
+                    alert('Data tersimpan');
+                } else if (data == "false") {
+                    alert('Data gagal tersimpan');
+                }
+            });
+        }
+
+        reset();
+    });
+
+    $("#cancelbutton").click(function () {
+        reset();
+    });
+
+    function reset() {
+        var tabStrip = $("#TabStrip").data("tTabStrip");
+        $.post("AturanRegulasiAdmin/Pertamina", "", function (data) {
+            $("#TabStrip .t-link").each(function (index) {
+                if ($(this).text() == "Aturan Pertamina") {
+                    $("#TabStrip-" + (index + 1)).html(data);
+                }
+            });
+        });
+    }
+</script>
+<h4>Aturan Pertamina</h4>
+<div class="Asearch"><b>File</b></div><div class="titik2"> : </div><div class="Ainput" id="upload">
+    @(Html.Telerik().Upload()
+        .Name("attachmentsPertamina")
+        .ClientEvents(events => events
+            .OnSuccess("onSuccess")
+            .OnLoad("onLoad")
+            .OnRemove("onRemove")
+            //.OnUpload("onUpload")
+        )
+        .Multiple(false)
+        .Async(async => async
+            .Save("Save2", "Upload", "attachments", new { dir = "Aturan\\Pertamina" })
+            .Remove("Remove", "Upload", new { dir = "Aturan\\Pertamina" })
+            .AutoUpload(true)
+        )
+
+    )
+</div>
+
+<p>
+	<input type="submit" id="savebutton" value="Simpan" /><input type="button" id="cancelbutton" value="Batal" />
+</p>
+<hr />
+
+@(Html.Telerik().Grid<relmon.Models.aturan>()
+        .Name("AturanPertamina")
+        .DataKeys(keys =>
+        {
+            keys.Add(p => p.id);
+        })
+        .DataBinding(dataBinding =>
+        {
+            dataBinding.Ajax()
+                .Select("_SelectPertamina", "AturanRegulasiAdmin")
+                .Delete("_DeletePertamina", "AturanRegulasiAdmin");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.id).Hidden();
+            columns.Bound(o => o.filename).Title("Filename");
+            columns.Bound(o => o.date).Title("Date").Width(200);
+            columns.Bound(o => o.create_by).Title("By").Width(200);
+            columns.Command(commands =>
+            {
+                commands.Delete().ButtonType(GridButtonType.Text);
+                commands.Custom("DownloadJS")
+                        .Text("Download")
+                        .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
+                        .Ajax(true)
+                        .Action("GetId", "AturanRegulasiAdmin");
+
+            }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
+        })
+        .ClientEvents(
+            events => events
+                .OnComplete("OnComplete")
+        )
+        .Pageable(p => p.PageSize(15))
+        .Sortable()
+        .Filterable()
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Scrollable(c => c.Enabled(true))
+        .Selectable()
+        .Groupable()
+)

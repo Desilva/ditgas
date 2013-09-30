@@ -226,7 +226,7 @@ function onSelectMenuAdmin2(e) {
     else if (item.find('> .t-link').text() == "SDM") {
         $('#content_admin2').html('');
     } else if (item.find('> .t-link').text() == "Aturan & Regulasi") {
-        $('#content_admin2').html('');
+        $('#content_admin2').load('AturanRegulasiAdmin');
     } else if (item.find('> .t-link').text() == "Kontak") {
         $('#content_admin2').html('');
     } else if (item.find('> .t-link').text() == "Kalender") {

@@ -6,18 +6,21 @@ using System.Web.Mvc;
 using iTextSharp.text.pdf;
 using System.IO;
 using relmon.Utilities;
+using relmon.Models;
 
 namespace relmon.Controllers.FrontEnd
 {
     public class AturanRegulasiController : Controller
     {
+        private RelmonStoreEntities db = new RelmonStoreEntities();
+        
         //
         // GET: /AturanRegulasi/
 
         public ActionResult Index()
         {
             ViewBag.selectedMenu = "aturanregulasi";
-            ViewBag.content = Directory.EnumerateFiles(Server.MapPath("~/Content/aturan/pertamina/"));        
+            ViewBag.content = Directory.EnumerateFiles(Server.MapPath("~/Upload/Aturan/Pertamina/"));        
             return View();
         }
 
@@ -34,37 +37,37 @@ namespace relmon.Controllers.FrontEnd
             return View();
         }
 
-        public ActionResult GetPdf(int id)
-        {
+        //public ActionResult GetPdf(int id)
+        //{
 
-            string[] content = new string[5];
+        //    string[] content = new string[5];
 
-            content[0] = "Charter dit GAS.pdf";
-            content[1] = "pertamina/Pedoman Pengembangan dan Kerjasama Bisnis.pdf";
-            content[2] = "pertamina/Pendirian Anak Perusahaan A 001.pdf";
-            content[3] = "pertamina/TKO Pengusulan & Persetujuan Investasi Pengembangan & Kerjasama Bisnis.pdf";
-            content[4] = "EKB.pdf";
+        //    content[0] = "Charter dit GAS.pdf";
+        //    content[1] = "pertamina/Pedoman Pengembangan dan Kerjasama Bisnis.pdf";
+        //    content[2] = "pertamina/Pendirian Anak Perusahaan A 001.pdf";
+        //    content[3] = "pertamina/TKO Pengusulan & Persetujuan Investasi Pengembangan & Kerjasama Bisnis.pdf";
+        //    content[4] = "EKB.pdf";
 
-            string file = Server.MapPath(Url.Content("~/Content/aturan/"+content[id]));
-            PdfReader reader = new PdfReader(file);
-            MemoryStream pdfStream = new MemoryStream();
+        //    string file = Server.MapPath(Url.Content("~/Content/aturan/"+content[id]));
+        //    PdfReader reader = new PdfReader(file);
+        //    MemoryStream pdfStream = new MemoryStream();
 
-            PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+        //    PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
 
-            reader.Close();
-            pdfStamper.Close();
-            pdfStream.Flush();
-            pdfStream.Close();
+        //    reader.Close();
+        //    pdfStamper.Close();
+        //    pdfStream.Flush();
+        //    pdfStream.Close();
 
-            byte[] pdfArray = pdfStream.ToArray();
-            return new BinaryContentResult(pdfArray, "application/pdf");
-        }
+        //    byte[] pdfArray = pdfStream.ToArray();
+        //    return new BinaryContentResult(pdfArray, "application/pdf");
+        //}
 
         public ActionResult Download(string file)
         {
             try
             {
-                var fs = System.IO.File.OpenRead(Server.MapPath("~/Content/aturan/pertamina/" + file));
+                var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/Aturan/Pertamina/" + file));
                 string fileType = MyTools.getFileType(file);
                 return File(fs, fileType, file);
             }
@@ -74,5 +77,37 @@ namespace relmon.Controllers.FrontEnd
             }
         }
 
+        public ActionResult GetPdf(string tipe)
+        {
+            var result = (from x in db.aturan
+                          where x.tipe == tipe
+                          select x
+                         ).ToList();
+            if (result.Count != 0)
+            {
+                aturan items = result.First();
+                string filename = items.filename;
+                string file = Server.MapPath(Url.Content("~/Upload/Aturan/Regulasi/" + filename));
+                PdfReader reader = new PdfReader(file);
+                MemoryStream pdfStream = new MemoryStream();
+
+                PdfStamper pdfStamper = new PdfStamper(reader, pdfStream);
+
+                reader.Close();
+                pdfStamper.Close();
+                pdfStream.Flush();
+                pdfStream.Close();
+
+                byte[] pdfArray = pdfStream.ToArray();
+                return new BinaryContentResult(pdfArray, "application/pdf");
+            }
+            else
+            {
+                return null;
+            }
+            
+            
+        }
+       
     }
 }
