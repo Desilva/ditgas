@@ -34,8 +34,7 @@ namespace relmon.Controllers.Admin
             // store the file inside ~/App_Data/uploads folder
             var path = Path.Combine(Server.MapPath("~/Content/template/"), fileName);           
             userfile.SaveAs(path);
-            if (fileName == Config.fileEmployee)
-                err = SaveData(path);
+            err = SaveData(path);
 
             return err;
         }

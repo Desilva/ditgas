@@ -94,15 +94,15 @@ namespace relmon.Utilities
                     string errTemp = "";
                     if (sheetNum == 0) //Perusahaan
                     {
-                        errTemp = savePerusahaan(temp);
+                        errTemp = savePerusahaan(temp, i);
                     }
                     else if (sheetNum == 1) // Jabatan
                     {
-                        errTemp = saveJabatan(temp);
+                        errTemp = saveJabatan(temp, i);
                     }
                     else if (sheetNum == 2) // Employee
                     {
-                        errTemp = saveEmployee(temp);
+                        errTemp = saveEmployee(temp, i);
                     }
                     if (errTemp != "")
                     {
@@ -117,7 +117,7 @@ namespace relmon.Utilities
             return err;
         }
 
-        private string savePerusahaan(List<object> data)
+        private string savePerusahaan(List<object> data, int i)
         {
             string err = "";
 
@@ -153,18 +153,18 @@ namespace relmon.Utilities
                 }
                 else
                 {
-                    err = "Nama Perusahaan Kosong";
+                    err = "Nama Perusahaan pada row-"+i+" Kosong";
                 }
             }
             else
             {
-                err = "Kode Perusahaan Kosong";
+                err = "Kode Perusahaan pada row-" + i + " Kosong";
             }
 
             return err;
         }
 
-        private string saveJabatan(List<object> data)
+        private string saveJabatan(List<object> data, int i)
         {
             string err = "";
 
@@ -217,23 +217,23 @@ namespace relmon.Utilities
                     }
                     else
                     {
-                        err = "Perusahaan Jabatan Kosong";
+                        err = "Perusahaan pada row-" + i + " Jabatan Kosong";
                     }
                 }
                 else
                 {
-                    err = "Nama Jabatan Kosong";
+                    err = "Nama Jabatan pada row-" + i + " Kosong";
                 }
             }
             else
             {
-                err = "Kode Jabatan Kosong";
+                err = "Kode Jabatan pada row-" + i + " Kosong";
             }
 
             return err;
         }
 
-        private string saveEmployee(List<object> data)
+        private string saveEmployee(List<object> data, int i)
         {
             string err = "";
 
@@ -297,7 +297,7 @@ namespace relmon.Utilities
             }
             else
             {
-                err = "No Pekerja Kosong";
+                err = "No Pekerja pada row-" + i + " Kosong";
             }
 
             return err;

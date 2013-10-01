@@ -52,15 +52,15 @@
                 }
                
             }
-            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
-            //{
-            //    if(ViewBag.id == 1 || ViewBag.id == 9){
-            //        parent.Add()
-            //        .Text("KPI")
-            //        .LoadContentFrom("KPI/" + ViewBag.id + "?tahun=-1", "DataBisnisApAdmin");
-            //    }
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "view"))
+            {
+                //if(ViewBag.id == 1 || ViewBag.id == 9){
+                    parent.Add()
+                    .Text("Pedoman Kinerja")
+                    .LoadContentFrom("KPI/" + ViewBag.id + "?tahun=-1", "DataBisnisApAdmin");
+                //}
                 
-            //}
+            }
             //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ProjectStatus.name + ViewBag.id, aclId, "view"))
             //{
             //    parent.Add()
