@@ -811,6 +811,35 @@ namespace relmon.Controllers.Admin
         {
             return NilaiTingkatKesehatan.HitungNilaiTingkatKesehatan(nka, nkp, nkk);
         }
+
+        public bool SaveKesehatan(bisnis_kinerja_kesehatan items)
+        {
+            var listResultTemp = (from x in db.bisnis_kinerja_kesehatan
+                                  where x.company_id == items.company_id && x.tahun == items.tahun
+                                  select x).ToList();
+
+            if (listResultTemp.Count == 0)
+            {
+                db.bisnis_kinerja_kesehatan.Add(items);
+
+            }
+            else
+            {
+                bisnis_kinerja_kesehatan temp = listResultTemp.First();
+                temp.klasifikasi = items.klasifikasi;
+                db.Entry(temp).State = EntityState.Modified;
+            }
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception a)
+            {
+                Console.Write(a.Message);
+                return false;
+            }
+        }
         #endregion
     }
 }

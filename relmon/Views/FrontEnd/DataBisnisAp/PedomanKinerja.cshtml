@@ -1,0 +1,389 @@
+﻿
+<script>
+
+
+    $(document).ready(function () {
+
+        var currentYear = new Date().getFullYear();
+
+        for (var i = 1; i <= 10; i++) {
+            $("#tahun").append(
+                "<option value ='" + currentYear + "'>" + currentYear + "</option>"
+            );
+            currentYear--;
+        }
+
+        $("#tahun").bind("change", function () {
+            if ($('#tahun').val() != '') {
+                $.post("DataBisnisAp/GetKeuangan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                    $.each(data, function (index, value) {
+                        $("#k1").html(value.roe);
+                        $("#k2").html(value.roi);
+                        $("#k3").html(value.opm);
+                        $("#k4").html(value.npm);
+                        $("#k5").html(value.cash);
+                        $("#k6").html(value.current);
+                        $("#k7").html(value.cp);
+                        $("#k8").html(value.ito);
+                        $("#k9").html(value.tato);
+                        $("#k10").html(value.etta);
+                        $("#k11").html(value.tier);
+                        $("#k12").html(value.nkk);
+                        //$("#k13").html();
+                        $("#k14").html(value.klasifikasi);
+                    });
+                });
+                $.post("DataBisnisAp/GetPertumbuhan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                    $.each(data, function (index, value) {
+                        $("#p1").html(value.aspg);
+                        $("#p2").html(value.salg);
+                        $("#p3").html(value.npmg);
+                        $("#p4").html(value.stag);
+                        $("#p5").html(value.npg);
+                        $("#p6").html(value.nkp);
+                        //$("#p7").html();
+                        $("#p8").html(value.klasifikasi);
+                    });
+                });
+                $.post("DataBisnisAp/GetAdministrasi/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                    $.each(data, function (index, value) {
+                        $("#a1").html(value.bulanan);
+                        $("#a2").html(value.manajemen);
+                        $("#a3").html(value.audited);
+                        $("#a4").html(value.rkap);
+                        $("#a5").html(value.nka);
+                        //$("#a6").html();
+                        $("#a7").html(value.klasifikasi);
+                    });
+                });
+                $.post("DataBisnisAp/GetKesehatan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                    $.each(data, function (index, value) {
+                        $("#tk1").html($("#k12").html() + $("#p6").html() +  $("#a5").html());
+                        $("#tk2").html(value.klasifikasi);
+                    });
+                });
+                $("#kinerjaAll").show();
+            } else {
+                $("#kinerjaAll").hide();
+            }
+        });
+    });
+</script>
+<style>
+    .header
+    {
+        background-color :#4bacc6;
+        color:White;
+    }
+    .rowganjil
+    {
+        background-color :#d2eaf1;
+    }
+    
+    .rowgenap
+    {
+        background-color :#f2f2f2;
+    }
+    hr {
+      border: 0;
+      width: 95%;
+      background-color :#67c8f2;
+      height: 3px;
+      color: #f00;
+    }
+</style>
+<h3>Pedoman Kinerja</h3>
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun">
+        <option value="">--</option>
+    </select>
+    
+</div>
+<div id="kinerjaAll" style="overflow:hidden; display:none;">
+    <div style="float:left;margin:0px 30px 0px 0px">
+        <div id="kinerjaKeuangan">
+            <h4>Rasio Kinerja Keuangan</h4>
+            <table >
+            <tr class="header">
+                <th>Nilai Kinerja Keuangan</th>
+                <th>Nilai</th>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>ROE(%)</td>
+                <td id="k1"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td>ROI(%)</td>
+                <td id="k2"></td>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>Operating Profit Margin(%)</td>
+                <td id="k3"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td>Net Profit Margin(%)</td>
+                <td id="k4"></td>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>Cash Ratio(%)</td>
+                <td id="k5"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td>Current Ratio(%)</td>
+                <td id="k6"></td>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>Collection Period(hr)</td>
+                <td id="k7"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td>Inventory Turnover(hr)</td>
+                <td id="k8"></td>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>Asset Turnover(%)</td>
+                <td id="k9"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td>Equity to Total Asset(%)</td>
+                <td id="k10"></td>
+            </tr>
+            <tr class ="rowganjil">
+        
+                <td>Time Interest Earned Ratio(TIER)</td>
+                <td id="k11"></td>
+            </tr>
+            <tr class="rowgenap">
+        
+                <td><b>Jumlah NKK</b></td>
+                <td id="k12"></td>
+            </tr>
+            <!--<tr class ="rowganjil">
+        
+                <td><b>Jumlah NKK Proporsional</b></td>
+                <td id="k13"></td>
+            </tr>-->
+            <tr class="rowgenap">
+        
+                <td><b>Tingkat Kinerja Keuangan</b></td>
+                <td id="k14"></td>
+            </tr>
+        </table>
+            <br />
+            <table>
+            <tr class="header">
+                <th>Klasifikasi</th>
+                <th>Nilai Kinerja Keuangan(NKK)</th>
+            </tr>
+            <tr class="rowganjil">
+                <td>Sehat</td>
+                <td>NKK>45</td>
+            </tr>
+            <tr class="rowgenap">
+                <td>Kurang Sehat</td>
+                <td>20<=NKK<=45</td>
+            </tr>
+            <tr class="rowganjil">
+                <td>Tidak Sehat</td>
+                <td>NKK<20</td>
+            </tr>
+        </table>
+        </div>
+        <hr />
+        <div id="kinerjapertumbuhan">
+            <h4>Rasio Kinerja Pertumbuhan</h4>
+            <table>
+                <tr class="header">
+                    <th>Nilai Kinerja Pertumbuhan</th>
+                    <th>Nilai</th>
+                </tr>
+                <tr class="rowganjil">
+                    <td>ASPG</td>
+                    <td id="p1"></td>
+                </tr>
+                 <tr class="rowgenap">
+                    <td>SALG</td>
+                    <td id="p2"></td>
+                </tr>
+                 <tr class="rowganjil">
+                    <td>NPMG</td>
+                    <td id="p3"></td>
+                </tr>
+                 <tr class="rowgenap">
+                    <td>STAG</td>
+                    <td id="p4"></td>
+                </tr>
+                 <tr class="rowganjil">
+                    <td>NPG</td>
+                    <td id="p5"></td>
+                </tr>
+                <tr class="rowgenap">
+                    <td><b>Jumlah NKP</b></td>
+                    <td id="p6"></td>
+                </tr>
+                <!--<tr class="rowganjil">
+        
+                    <td><b>Jumlah NKP Proporsional</b></td>
+                    <td id="p7"></td>
+                </tr>-->
+                <tr class="rowgenap">
+        
+                    <td><b>Tingkat Kinerja Pertumbuhan</b></td>
+                    <td id="p8"></td>
+                </tr>
+            </table>
+            <br />
+            <table>
+                <tr class="header">
+                    <th>Klasifikasi</th>
+                    <th>Nilai Kinerja Pertumbuhan(NKP)</th>
+                </tr>
+                <tr class="rowganjil">
+                    <td>Tumbuh Tinggi</td>
+                    <td>NKP>13</td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>Tumbuh Sedang</td>
+                    <td>7<=NKP<=13</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>Kurang Tumbuh</td>
+                    <td>NKP<7</td>
+                </tr>
+            </table>
+    
+        </div>
+    </div>
+    <div style="float:left;width:2px; height:750px; background-color:#00a2e9;margin:0px 60px 0px 60px;"></div>
+    <div style="float:left;">
+        <div id ="kinerjaadministrasi">
+        <h4>Nilai Rasio Administrasi</h4>
+            <table>
+                <tr class="header">
+                    <th>Nilai Kinerja Administrasi</th>
+                    <th>Nilai</th>
+                </tr>
+                <tr class="rowganjil">
+                    <td>Laporan Keuangan Bulanan</td>
+                    <td id="a1"></td>
+                </tr>
+                 <tr class="rowgenap">
+                    <td>Laporan Manajemen Bulanan</td>
+                    <td id="a2"></td>
+                </tr>
+                 <tr class="rowganjil">
+                    <td>Laporan Keuangan Audited</td>
+                    <td id="a3"></td>
+                </tr>
+                 <tr class="rowgenap">
+                    <td>Rancangan RKAP</td>
+                    <td id="a4"></td>
+                </tr>
+                <tr class="rowganjil">
+                    <td><b>Jumlah NKA</b></td>
+                    <td id="a5"></td>
+                </tr>
+                <!--<tr class="rowgenap">
+                    <td><b>Jumlah NKA Proporsional</b></td>
+                    <td id="a6"></td>
+                </tr>-->
+                <tr class="rowganjil">
+        
+                    <td><b>Tingkat Kinerja Administrasi</b></td>
+                    <td id="a7"></td>
+                </tr>
+            </table>
+            <br />
+            <table>
+                <tr class="header">
+                    <th>Klasifikasi</th>
+                    <th>Nilai Kinerja Administrasi(NKA)</th>
+                </tr>
+                <tr class="rowganjil">
+                    <td>Tertib</td>
+                    <td>NKA>=7</td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>Kurang Tertib</td>
+                    <td>4<=NKA<7</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>Tidak Tertib</td>
+                    <td>NKA<4</td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <div id="tingkat kesehatan">
+            <h4>Nilai Tingkat Kesehatan</h4>
+            <span>Nilai Tingkat Kesehatan(TK) :</span><span id="tk1"></span><br />
+            <span>KlasifikasiTingkat Kesehatan(TK) :</span><span id="tk2"></span><br />
+            <br />
+            <table>
+                <tr class="header">
+                    <th>Klasifikasi</th>
+                    <th>Nilai Tingkat Kesehatan(TK)</th>
+                </tr>
+                <tr class="rowganjil">
+                    <td><b>Sehat:</b></td>
+                    <td></td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>AAA</td>
+                    <td>TK>95</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>AA</td>
+                    <td>80&lt;TK<=95</td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>A</td>
+                    <td>65&lt;TK<=80</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td><b>Kurang Sehat:</b></td>
+                    <td></td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>BBB</td>
+                    <td>50&lt;TK<=65</td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>BB</td>
+                    <td>40&lt;TK<=50</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>B</td>
+                    <td>30&lt;TK<=40</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td><b>Tidak Sehat:</b></td>
+                    <td></td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>CCC</td>
+                    <td>20&lt;TK<=30</td>
+                </tr>
+                <tr class="rowganjil">
+                    <td>CC</td>
+                    <td>10&lt;TK<=20</td>
+                </tr>
+                <tr class="rowgenap">
+                    <td>C</td>
+                    <td>TK<=10</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

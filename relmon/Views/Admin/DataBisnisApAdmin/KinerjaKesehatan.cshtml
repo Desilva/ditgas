@@ -1,41 +1,63 @@
 ﻿<script>
     $(document).ready(function () {
-        $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
-            $.each(data, function (index, value) {
-                $("#nkk-hasilakhir").html(value.nkk);
-            });
-        });
-        $.post("DataBisnisApAdmin/GetKinerjaPertumbuhan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
-            $.each(data, function (index, value) {
-                $("#nkp-hasilakhir").html(value.nkp);
-            });
-        });
-        $.post("DataBisnisApAdmin/GetKinerjaAdministrasi/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
-            $.each(data, function (index, value) {
-                $("#nka-hasilakhir").html(value.nka);
-            });
-        });
+        refresh();
 
-//        var end = false;
+        //        var end = false;
         //while (!end) {
+
+        //}
+        save();
+    });
+
+    function save() {
+        
             var param1 = $("#nkk-hasilakhir").html();
             var param2 = $("#nkp-hasilakhir").html();
             var param3 = $("#nka-hasilakhir").html();
             if (param1 != "" && param2 != "" && param3 != "") {
                 var values = {
-                    param1: param1,
-                    param2: param2,
-                    param3: param3
+                    nkk: param1,
+                    nkp: param2,
+                    nka: param3
 
                 };
                 $.post("DataBisnisApAdmin/HitungTingkatKesehatan", values, function (data) {
                     $("#kesehatan-hasil").html(data);
+                    var values =
+                    {
+                        "tahun": '@ViewBag.tahun',
+                        "company_id": '@ViewBag.id',
+                        "klasifikasi": data
+                    }
+                    $.post("DataBisnisApAdmin/SaveKesehatan", values, function (data2) {
+                        if (data2 == "True") {
+                            alert("Data berhasil disimpan");
+                        } else {
+                            alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+                        }
+                    });
                 });
-//                end = true;
+                //                end = true;
             }
-        //}
+        }
 
-    });
+        function refresh() {
+            $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+                $.each(data, function (index, value) {
+                    $("#nkk-hasilakhir").html(value.nkk);
+                });
+            });
+            $.post("DataBisnisApAdmin/GetKinerjaPertumbuhan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+                $.each(data, function (index, value) {
+                    $("#nkp-hasilakhir").html(value.nkp);
+                });
+            });
+            $.post("DataBisnisApAdmin/GetKinerjaAdministrasi/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {
+                $.each(data, function (index, value) {
+                    $("#nka-hasilakhir").html(value.nka);
+                });
+            });
+        }
 </script>
 
 <div id ="kinpertumbuhan">
@@ -58,4 +80,6 @@
         <td id="kesehatan-hasil" style="padding-left:150px;width:100px;"></td>
     </tr>
 </table>
+<input type="button" value="Refresh" onclick="refresh()"/>
+<input type="button" value="Hitung Tingkat Kesehatan" onclick="save()"/>
 </div>

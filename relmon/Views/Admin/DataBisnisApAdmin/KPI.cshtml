@@ -20,7 +20,7 @@
             tahun = new Date().getFullYear();
             $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: tahun }, function (data) {
                 $("#TabStrip .t-link").each(function (index) {
-                    if ($(this).text() == "KPI") {
+                    if ($(this).text() == "Pedoman Kinerja") {
                         $("#TabStrip-" + (index + 1)).html(data);
                     }
                 });
@@ -33,7 +33,7 @@
                 var tabStrip = $("#TabStrip").data("tTabStrip");
                 $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: $('#tahun').val() }, function (data) {
                     $("#TabStrip .t-link").each(function (index) {
-                        if ($(this).text() == "KPI") {
+                        if ($(this).text() == "Pedoman Kinerja") {
                             $("#TabStrip-" + (index + 1)).html(data);
                         }
                     });

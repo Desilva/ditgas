@@ -50,13 +50,13 @@
                 "manajemen_bulanan": $("#lapmanbul").val(),
                 "keuangan_audited": $("#lapaud").val(),
                 "rancangan_rkap": $("#rkapwaktu").val(),
-                "nilai_keuangan_bulanan": $("#lapbul-hasil").val(),
-                "nilai_manajemen_bulanan": $("#lapmanbul-hasil").val(),
-                "nilai_keuangan_audited": $("#lapaud-hasil").val(),
-                "nilai_rancangan_rkap": $("#rkapwaktu-hasil").val(),
-            "nka": $("#nka-hasil").html(),
-            "klasifikasi": $("#klasifikasiAdministrasi-hasil").html()
-        }
+                "nilai_keuangan_bulanan": $("#lapbul-hasil").html(),
+                "nilai_manajemen_bulanan": $("#lapmanbul-hasil").html(),
+                "nilai_keuangan_audited": $("#lapaud-hasil").html(),
+                "nilai_rancangan_rkap": $("#rkapwaktu-hasil").html(),
+                "nka": $("#nka-hasil").html(),
+                "klasifikasi": $("#klasifikasiAdministrasi-hasil").html()
+            }
         $.post("DataBisnisApAdmin/SaveAdministrasi", values, function (data) {
             if (data == "True") {
                 alert("Data berhasil disimpan");
@@ -73,10 +73,10 @@
                 $("#lapmanbul").val(value.manajemen_bulanan);
                 $("#lapaud").val(value.keuangan_audited);
                 $("#rkapwaktu").val(value.rancangan_rkap);
-                $("#lapbul-hasil").val(value.nilai_keuangan_bulanan);
-                $("#lapmanbul-hasil").val(value.nilai_manajemen_bulanan);
-                $("#lapaud-hasil").val(value.nilai_keuangan_audited);
-                $("#rkapwaktu-hasil").val(value.nilai_rancangan_rkap);
+                $("#lapbul-hasil").html(value.nilai_keuangan_bulanan);
+                $("#lapmanbul-hasil").html(value.nilai_manajemen_bulanan);
+                $("#lapaud-hasil").html(value.nilai_keuangan_audited);
+                $("#rkapwaktu-hasil").html(value.nilai_rancangan_rkap);
                 $("#nka-hasil").html(value.nka);
                 $("#klasifikasiAdministrasi-hasil").html(value.klasifikasi);
             });
