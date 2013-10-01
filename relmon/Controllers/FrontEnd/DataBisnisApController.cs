@@ -188,46 +188,148 @@ namespace relmon.Controllers.FrontEnd
 
         }
 
-        public ActionResult Kinerja2(int id, int tahun)
+
+        public ActionResult PedomanKinerja(int id)
         {
             ViewBag.id = id;
-            ViewBag.tahun = tahun;
             return PartialView();
         }
 
-        public ActionResult test(int id, int tahun)
+        [HttpPost]
+        public JsonResult GetKeuangan(int id, int tahun)
         {
-            ViewBag.id = id;
-            ViewBag.tahun = tahun;
-            return PartialView();
+            var listResultTemp = (from x in db.bisnis_kinerja_keuangan
+                                  where x.company_id == id && x.tahun == tahun
+                                  select x).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    roe = result.roe,
+                    roi = result.roi,
+                    opm = result.opm,
+                    npm = result.npm,
+                    cash = result.cash_ratio,
+                    current = result.current_ratio,
+                    cp = result.cp,
+                    ito = result.ito,
+                    tato = result.tato,
+                    etta = result.etta,
+                    tier = result.tier,
+                    nkk = result.nkk,
+                    klasifikasi = result.klasifikasi
+                });
+            }
+
+            return Json(listResult);
         }
 
-        public ActionResult KinerjaKeuangan(int id, int tahun)
+        public JsonResult GetPertumbuhan(int id, int tahun)
         {
-            ViewBag.id = id;
-            ViewBag.tahun = tahun;
-            return PartialView();
+            var listResultTemp = (from x in db.bisnis_kinerja_pertumbuhan
+                                  where x.company_id == id && x.tahun == tahun
+                                  select x).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    aspg = result.aspg,
+                    salg = result.salg,
+                    npmg = result.npmg,
+                    stag = result.stag,
+                    npg = result.npg,
+                    nkp = result.nkp,
+                    klasifikasi = result.klasifikasi
+                });
+            }
+
+            return Json(listResult);
         }
 
-        public ActionResult KinerjaPertumbuhan(int id, int tahun)
+        public JsonResult GetAdministrasi(int id, int tahun)
         {
-            ViewBag.id = id;
-            ViewBag.tahun = tahun;
-            return PartialView();
+            var listResultTemp = (from x in db.bisnis_kinerja_administrasi
+                                  where x.company_id == id && x.tahun == tahun
+                                  select x).ToList();
+
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    bulanan = result.nilai_keuangan_bulanan,
+                    manajemen = result.nilai_manajemen_bulanan,
+                    audited = result.nilai_keuangan_audited,
+                    rkap = result.nilai_rancangan_rkap,
+                    nka = result.nka,
+                    klasifikasi = result.klasifikasi
+                });
+            }
+
+            return Json(listResult);
         }
 
-        public ActionResult KinerjaAdministrasi(int id, int tahun)
+        public JsonResult GetKesehatan(int id, int tahun)
         {
-            ViewBag.id = id;
-            ViewBag.tahun = tahun;
-            return PartialView();
-        }
+            var listResultTemp = (from x in db.bisnis_kinerja_kesehatan
+                                  where x.company_id == id && x.tahun == tahun
+                                  select x).ToList();
 
-        public ActionResult KinerjaKesehatan(int id, int tahun)
-        {
-            ViewBag.id = id;
-            ViewBag.tahun = tahun;
-            return PartialView();
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    klasifikasi = result.klasifikasi
+                });
+            }
+
+            return Json(listResult);
         }
+        //public ActionResult Kinerja2(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
+
+        //public ActionResult test(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
+
+        //public ActionResult KinerjaKeuangan(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
+
+        //public ActionResult KinerjaPertumbuhan(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
+
+        //public ActionResult KinerjaAdministrasi(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
+
+        //public ActionResult KinerjaKesehatan(int id, int tahun)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.tahun = tahun;
+        //    return PartialView();
+        //}
     }
 }
