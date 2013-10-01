@@ -13,8 +13,38 @@
             currentYear--;
         }
 
+
         $("#tahun").bind("change", function () {
             if ($('#tahun').val() != '') {
+                $("#k1").html("");
+                $("#k2").html("");
+                $("#k3").html("");
+                $("#k4").html("");
+                $("#k5").html("");
+                $("#k6").html("");
+                $("#k7").html("");
+                $("#k8").html("");
+                $("#k9").html("");
+                $("#k10").html("");
+                $("#k11").html("");
+                $("#k12").html("");
+                //$("#k13").html("");
+                $("#k14").html("");
+                $("#p1").html("");
+                $("#p2").html("");
+                $("#p3").html("");
+                $("#p4").html("");
+                $("#p5").html("");
+                $("#p6").html("");
+                //$("#p7").html("");
+                $("#p8").html("");
+                $("#a1").html("");
+                $("#a2").html("");
+                $("#a3").html("");
+                $("#a4").html("");
+                $("#a5").html("");
+                //$("#a6").html("");
+                $("#a7").html("");
                 $.post("DataBisnisAp/GetKeuangan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
                     $.each(data, function (index, value) {
                         $("#k1").html(value.roe);
@@ -58,7 +88,7 @@
                 });
                 $.post("DataBisnisAp/GetKesehatan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
                     $.each(data, function (index, value) {
-                        $("#tk1").html($("#k12").html() + $("#p6").html() +  $("#a5").html());
+                        $("#tk1").html($("#k12").html() + $("#p6").html() + $("#a5").html());
                         $("#tk2").html(value.klasifikasi);
                     });
                 });
