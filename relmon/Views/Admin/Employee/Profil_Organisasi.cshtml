@@ -42,16 +42,16 @@
             // Enables new connections in the graph
             graph.setConnectable(true);
             graph.setMultigraph(true);
-            graph.setAutoSizeCells(true);
+            //graph.setAutoSizeCells(true);
             graph.setPanning(true);
             graph.panningHandler.useLeftButtonForPanning = true;
+            mxGraphHandler.prototype.removeCellsFromParent = false;
             var style = graph.getStylesheet().getDefaultEdgeStyle();
             style[mxConstants.STYLE_EDGE] = mxEdgeStyle.OrthConnector;
             style[mxConstants.STYLE_OVERFLOW] = true;
 
            
             graph.isWrapping = function (cell) {
-                //debugger;
                 return true;
             };
 
@@ -63,45 +63,112 @@
                 return !this.getModel().isEdge(cell);
             };
 
+            graph.isCellMovable = function (cell) {
+
+                return cell.getChildCount() != 0;
+            }
+
+            mxGraphModel.prototype.remove = function (a) {
+                if (a.isVertex()) {
+                    if (a.getChildCount() != 0) {
+                        a == this.root ? this.setRoot(null) : this.getParent(a) != null && this.execute(new mxChildChange(this, null, a));
+                        return a
+                    }
+                } else {
+                    a == this.root ? this.setRoot(null) : this.getParent(a) != null && this.execute(new mxChildChange(this, null, a));
+                    return a
+                }
+
+
+            }
+            graph.collapseToPreferredSize = false;
+
+            mxVertexHandler.prototype.resizeCell = function (cell, dx, dy, index, gridEnabled) {
+                if (!cell.isCollapsed()) {
+
+                    var parent = cell;
+                    if (cell.getChildCount() == 0) {
+                        var geo0 = graph.model.getGeometry(cell);
+                        geo0 = geo0.clone();
+                        geo0.height += dy;
+                        graph.model.setGeometry(cell, geo0);
+                        parent = cell.getParent();
+                    }
+                    var geo = graph.model.getGeometry(parent);
+                    var geo1 = graph.model.getGeometry(parent.getChildAt(0));
+                    var geo2 = graph.model.getGeometry(parent.getChildAt(1));
+                    var geo3 = graph.model.getGeometry(parent.getChildAt(2));
+                    geo = geo.clone();
+                    geo1 = geo1.clone();
+                    geo2 = geo2.clone();
+                    geo3 = geo3.clone();
+                    var a = geo.width + dx;
+                    geo1.width = a;
+                    geo2.width = a;
+                    geo2.y = geo1.height;
+                    geo3.width = a;
+                    geo3.y = geo1.height + geo2.height;
+                    geo.width = a;
+                    geo.height = geo1.height + geo2.height + geo3.height
+                    graph.model.setGeometry(parent, geo);
+                    graph.model.setGeometry(parent.getChildAt(0), geo1);
+                    graph.model.setGeometry(parent.getChildAt(1), geo2);
+                    graph.model.setGeometry(parent.getChildAt(2), geo3);
+                }
+            }
+
             graph.convertValueToString = function (cell) {
                 if (cell.isVertex()) {
-                    //alert("asdaf"+cell.value);
-                    var str = cell.value + "";
-                    var n = str.split("#");
-                    n[0] = n[0].replace("&amp;", "&");
+                    if (cell.getChildCount() == 0) {
+                        //                        var parent = cell.getParent();
+                        //                        var v1 = parent.getChildAt(0);
+                        //                        var v2 = parent.getChildAt(1);
+                        //                        var v3 = parent.getChildAt(2);
+                        //                        v1.value = part1 + part2;
+                        //                        v2.value = n[1];
+                        //                        v3.value = n[2];
+                        return cell.value;
+                    } else {
+                        var str = cell.value + "";
+                        var n = str.split("#");
+                        n[0] = n[0].replace("&amp;", "&");
 
-                    var geometry = this.model.getGeometry(cell);
-                    var fontSize = style[mxConstants.STYLE_FONTSIZE] || mxConstants.DEFAULT_FONTSIZE;
-                    var max = geometry.width / (fontSize * 0.625);
+                        var geometry = this.model.getGeometry(cell);
+                        var fontSize = style[mxConstants.STYLE_FONTSIZE] || mxConstants.DEFAULT_FONTSIZE;
+                        var max = geometry.width / (fontSize * 0.625);
+                        //parsing
+                        var part1 = "";
+                        var part2 = n[0];
 
-                    //                    if (max < n[0].length) {
+                        while (max < part2.length) {
+                            var x = part2.split(" ");
+                            if (x.length == 1) {
+                                part1 += part2.substring(0, max) + "\n";
+                                part2 = part2.substring(max + 1, part2.length);
+                            } else {
+                                var charat = max;
+                                while (part2.charAt(charat) != ' ') {
+                                    charat--;
+                                }
+                                part1 += part2.substring(0, charat) + "\n";
+                                part2 = part2.substring(charat + 1, part2.length);
 
-                    //                        return n[0].substring(0, max) + "\n" + n[0].substring(max + 1, n[0].length - 1) + "\n\n" + n[1] + "\n\n" + n[2];
-                    //                    } else {
-                    //                        return n[0] + "\n\n" + n[1] + "\n\n" + n[2];
-                    //                    }
-                    var part1 = "";
-                    var part2 = n[0];
-
-                    while (max < part2.length) {
-                        var x = part2.split(" ");
-                        if (x.length == 1) {
-                            part1 += part2.substring(0, max) + "\n";
-                            part2 = part2.substring(max + 1, part2.length);
-                        } else {
-                            var charat = max;
-                            while (part2.charAt(charat) != ' ') {
-                                charat--;
                             }
-                            part1 += part2.substring(0, charat) + "\n";
-                            part2 = part2.substring(charat + 1, part2.length);
-
                         }
+                        if (n[1] == null || n[1] == "null") {
+                            n[1] = "";
+                        }
+
+                        var v1 = cell.getChildAt(0);
+                        var v2 = cell.getChildAt(1);
+                        var v3 = cell.getChildAt(2);
+                        v1.value = part1 + part2;
+                        v2.value = n[1];
+                        v3.value = n[2];
+                        return "\n" + part1 + part2 + "\n\n" + n[1] + "\n\n" + n[2];
                     }
-                    if (n[1] == null || n[1] == "null") {
-                        n[1] = "";
-                    }
-                    return "\n"+part1 + part2 + "\n\n" + n[1] + "\n\n" + n[2];
+
+
                 }
                 else {
                     return "";
@@ -135,7 +202,7 @@
                     // Puts request data together
                     var filename = 'export.png';
                     var format = 'png';
-                    var bg = '#FFFFFF';
+                    var bg = '#efefef';
                     var w = Math.round((bounds.width + 4) * scale);
                     var h = Math.round((bounds.height + 4) * scale);
                     var xml = mxUtils.getXml(root);
@@ -230,7 +297,9 @@
             //mxUtils.writeln(div, 'Nothing selected.');
         }
         else if (cell.isVertex()) {
-            
+            if(cell.getChildCount() == 0){
+                cell = cell.getParent();
+            }
             $("#properties").show();
             // Creates the form from the attributes of the user object
             var form = new mxForm();
@@ -238,8 +307,9 @@
             $('.undefined').remove();
             if (attrs != null) {
                 var split = attrs.split("#");
-                $("#jabatan").val(split[0]);
-                $.post("Employee/GetNameListFromJabatan", { jabatan: split[0] }, function (data) {
+                var newJabatan = split[0].replace("&amp;", "&");
+                $("#jabatan").val(newJabatan);
+                $.post("Employee/GetNameListFromJabatan", { jabatan: newJabatan }, function (data) {
                     var selectedValues = [];
                     $("#editUser option").each(function () {
                         selectedValues.push($(this).val());
@@ -267,39 +337,21 @@
                 $("#properties input").hide();
             } else {
                 $("#jabatan").val("");
+                var selectedValues = [];
+                $("#editUser option").each(function () {
+                    selectedValues.push($(this).val());
+                });
+                if (selectedValues.length != 0) {
+                    for (var i = 0; i < selectedValues.length; i++) {
+                        $("#editUser option[value='" + selectedValues[i] + "']").remove();
+                    }
+                }
                 $("#editUser").val("");
                 $("#userPJS").val("");
                 createComboBox(graph, form, cell);
                 div.appendChild(form.getTable());
             }
             
-//            var del = document.getElementsByName("undefined");
-//            alert(del.length);
-//            if(del.length>0){
-//                div.removeChild(del);
-//            }
-            
-            
-//            for (var i = 0; i < attrs.length; i++) {
-//                createTextField(graph, form, cell, attrs[i]);
-//            }
-
-            
-
-//            var opt = "";
-//            if (attrs == "" || typeof attrs === "undefined") {
-//            //baru bikin
-////                cell.value = "ff";
-//                //                graph.updateCellSize(cell);
-////                opt = "<span>Nama :</span><select></select><br />";
-////                opt += "<span>PJS :</span><select></select><br />";
-//            } else {
-//                //udh ada nilai
-////                alert(cell.getAttribute("test",''));
-//            }
-            //            $("#properties").html(opt);
-            
-           
         }else{
             $("#properties").hide();
              //mxUtils.writeln(div, 'Nothing selected.');
@@ -308,17 +360,9 @@
     }
 
     function createComboBox(graph, form, cell) {
-//        var input = form.addText( 'Edit User', "asd");
-//        var combo = form.addCombo("user", false, 1);
-//        var opt = form.addOption(combo, "asdf", "adfsdf", false);
-//        var opt = form.addOption(combo, "asdf2", "adfsdf2", true);
-        //        var combo2 = form.addCombo("pjs", false, 1);
-        var applyHandler = function () {
-//            
-//            var newValue = input.value || '';
-//            var oldValue = cell.value;
 
-//            if (newValue != oldValue) {
+        var applyHandler = function () {
+
                 graph.getModel().beginUpdate();
 
                 try {
@@ -326,12 +370,11 @@
                     var edit = new mxCellAttributeChange(
              		                           cell, "a", cell.value);
                     graph.getModel().execute(edit);
-                    graph.updateCellSize(cell);
+                    //graph.updateCellSize(cell);
                 }
                 finally {
                     graph.getModel().endUpdate();
                 }
-//            }
             };
             
             var cancelEdit = function () {
@@ -352,7 +395,6 @@
             // As a workaround you should use a local variable
             // that stores the focused field and invoke blur
             // explicitely where we do the graph.focus above.
-//            mxEvent.addListener(combo, 'change', applyHandler);
         }
     }
 
@@ -364,6 +406,9 @@
             graph.stopEditing(false);
 
             var vertex = graph.getModel().cloneCell(prototype);
+            var v1 = graph.insertVertex(vertex, null, '', 0, 0, vertex.geometry.width, 30, 'fillColor=#e1e1e1');
+            var v2 = graph.insertVertex(vertex, null, '', 0, 30, vertex.geometry.width, 30, 'fillColor=#d6d6d6');
+            var v3 = graph.insertVertex(vertex, null, '', 0, 60, vertex.geometry.width, 30, 'fillColor=#bfbfbf');
             
             vertex.geometry.x = x;
             vertex.geometry.y = y;
@@ -408,7 +453,7 @@
             $("#userPJS").append(get);
 
         });
-        
+
         $.post("Employee/GetListJabatan", "", function (data) {
             var get = "";
             $.each(data, function (index, value) {
@@ -449,7 +494,7 @@
 
 <div style="overflow:hidden;">
     <div id="toolbarMenu" style="float:left;"></div>
-    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%"> </div>
+    <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;"> </div>
     <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;position:absolute;left:800px;top:auto;background-color:White;word-wrap:break-word;">
     <span>Edit User</span><br />
     <table>

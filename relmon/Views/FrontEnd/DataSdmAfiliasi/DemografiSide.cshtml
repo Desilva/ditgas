@@ -1,13 +1,16 @@
 ﻿<script type="text/javascript">
     $(document).ready(function () {
-        $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+        //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+        getDemografiReport();
         $("#kategori").bind("change", function () {
             $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
-            $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+            //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+            getDemografiReport();
         });
         $("#companiesListItem2").bind("change", function () {
             $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
-            $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+            //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
+            getDemografiReport();
         });
 
         $("#companiesListItem").change(function () {
@@ -28,7 +31,30 @@
 			    );
             }
         });
-    })
+})
+    function getDemografiReport() {
+        if ($('#kategori').val() == 'lahirvsgolongan') {
+            $.post("../DataSdmDitGas/Demografi_LahirGolongan", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
+        } else if ($('#kategori').val() == 'lahirvspendidikan') {
+            $.post("../DataSdmDitGas/Demografi_LahirPendidikan", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
+        } else if ($('#kategori').val() == 'golonganvspendidikan') {
+            $.post("../DataSdmDitGas/Demografi_GolonganPendidikan", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
+        } else if ($('#kategori').val() == 'mppkvsgolongan') {
+            $.post("../DataSdmDitGas/Demografi_MPPKGolongan", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
+        } else if ($('#kategori').val() == 'mppkvspendidikan') {
+            $.post("../DataSdmDitGas/Demografi_MPPKPendidikan", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
+        }
+    }
 </script>
 
 <div class="Asearch"><b>Anak Perusahaan</b></div><div class="titik2"> : </div><div class="Ainput">

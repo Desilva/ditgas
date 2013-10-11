@@ -1,28 +1,34 @@
 ﻿<script type="text/javascript">
     $(document).ready(function () {
-        $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1});
+        //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1});
+        $.post("Demografi_LahirGolongan", { comp_id: 0 }, function (data) {
+            $('#content-demografi').html(data);
+        });
         $("#kategori").bind("change", function () {
-            $('#content-demografi').html('');
-//            if ($('#kategori').val() == '0') {
-                $('#content-demografi').html('<img src="../../../Content/image/loading.gif" />');
-                $('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1 });
-//            } else if ($('#kategori').val() == '1') {
-//                $('#content-demografi').load('DemografiTable', { 'kategori': 'lahirvspendidikan' });
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - Lahir vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
-//            } else if ($('#kategori').val() == '2') {
-//                $('#content-demografi').load('DemografiTable', { 'kategori': 'golonganvspendidikan' });
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - Golongan vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
-//            } else if ($('#kategori').val() == '3') {
-//                $('#content-demografi').load('DemografiTable', { 'kategori': 'mppkvsgolongan' });
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - MPPK vs Golongan.PNG" alt="" style=" width: 670px;"/>');
-//            } else if ($('#kategori').val() == '4') {
-//                $('#content-demografi').load('DemografiTable', { 'kategori': 'mppkvspendidikan' });
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Dirgas - MPPK vs Pendidikan.PNG" alt="" style=" width: 670px;"/>');
-//            } else if ($('#kategori').val() == '5') {
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Table teknisi pensiun.PNG" alt="" style=" width: 670px;"/>');
-//            } else if ($('#kategori').val() == '6') {
-//                $('#content-demografi').html('<img src="../../../Content/data/datasdm/Table Sisa Teknisi.PNG" alt="" style=" width: 670px;"/>');
-//            }
+            //$('#content-demografi').html('');
+            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" />');
+            //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1 });
+            if ($('#kategori').val() == 'lahirvsgolongan') {
+                $.post("Demografi_LahirGolongan", { comp_id: 0 }, function (data) {
+                    $('#content-demografi').html(data);
+                });
+            } else if ($('#kategori').val() == 'lahirvspendidikan') {
+                $.post("Demografi_LahirPendidikan", { comp_id: 0 }, function (data) {
+                    $('#content-demografi').html(data);
+                });
+            } else if ($('#kategori').val() == 'golonganvspendidikan') {
+                $.post("Demografi_GolonganPendidikan", { comp_id: 0 }, function (data) {
+                    $('#content-demografi').html(data);
+                });
+            } else if ($('#kategori').val() == 'mppkvsgolongan') {
+                $.post("Demografi_MPPKGolongan", { comp_id: 0 }, function (data) {
+                    $('#content-demografi').html(data);
+                });
+            } else if ($('#kategori').val() == 'mppkvspendidikan') {
+                $.post("Demografi_MPPKPendidikan", { comp_id: 0 }, function (data) {
+                    $('#content-demografi').html(data);
+                });
+            }
         });
     })
 

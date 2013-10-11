@@ -68,7 +68,7 @@ namespace relmon.Controllers.Admin
 
                 if (category == 1)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name+id, aclId, "create"))
                     {
                         return false;
                     }
@@ -94,7 +94,7 @@ namespace relmon.Controllers.Admin
 
                 if (category == 1)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name, aclId, "update"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name + id, aclId, "update"))
                     {
                         return false;
                     }

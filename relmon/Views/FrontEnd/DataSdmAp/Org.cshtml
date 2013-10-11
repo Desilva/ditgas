@@ -1,10 +1,19 @@
 ﻿<script type="text/javascript">
     $(document).ready(function () {
-        $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem').val(), 'countGrafik': 0 });
+        $.post("../DataSdmDitGas/Demografi_Organisasi", { comp_id: $('#companiesListItem').val() }, function (data) {
+            $('#content-demografi').html(data);
+        });
         $("#companiesListItem").bind("change", function () {
             $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
-            $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem').val(), 'countGrafik': 0 });
+            $.post("../DataSdmDitGas/Demografi_Organisasi", { comp_id: $('#companiesListItem').val() }, function (data) {
+                $('#content-demografi').html(data);
+            });
         });
+        //        $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem').val(), 'countGrafik': 0 });
+        //        $("#companiesListItem").bind("change", function () {
+        //            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+        //            $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem').val(), 'countGrafik': 0 });
+        //        });
     })
 
 </script>

@@ -1,0 +1,30 @@
+﻿
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('#content-kinerja').load('DataBisnisAp/Kinerja2/1?tahun=2013');
+
+        $.post("DataBisnisAp/GetDistinctTahun/@ViewBag.id", "", function (data) {
+            var get = "";
+            $.each(data, function (index, value) {
+                get += '<option value="' + value.tahun + '">' + value.tahun + '</option>'
+            });
+            $("#tahun").append(get);
+        });
+
+        $("#tahun").bind("change", function () {
+            if ($('#tahun').val() != '') {
+                $('#content-kinerja').load('DataBisnisAp/Kinerja2/@ViewBag.id?tahun='+$("#tahun").val());
+            }
+        });
+    })
+    
+</script>
+
+<h2>Pedoman Kinerja</h2>
+
+<div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
+    <select name="tahun" id="tahun">
+        <option value="">---</option>
+    </select>
+</div>
+<div id="content-kinerja"></div>

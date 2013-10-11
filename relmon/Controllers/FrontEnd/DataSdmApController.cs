@@ -560,7 +560,6 @@ namespace relmon.Controllers.FrontEnd
             ViewBag.countGrafik = countGrafik;
             return PartialView();
         }
-
         #endregion
 
     }

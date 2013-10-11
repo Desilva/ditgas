@@ -13,7 +13,10 @@
     {
         // bind the report viewer
         base.OnLoad(e);
-        ReportViewerAvailibility.Report = new relmon.Reporting.KPIReport();
+        ReportViewerAvailibility.Report = new relmon.Reporting.Demografi_LahirGolongan(@ViewBag.comp_id);
+        
+        
+        
     }
 </script>
 <%--<html>
@@ -22,7 +25,7 @@
     <div style="margin :5px;">
     
         <form clientidmode="Static" id="frep" runat="server">
-        <telerik:ReportViewer ID="ReportViewerAvailibility" runat="server" Width="718px"/>
+        <telerik:ReportViewer ID="ReportViewerAvailibility" runat="server" Width="800px" Height="800px"/>
         </form>
         
     </div>

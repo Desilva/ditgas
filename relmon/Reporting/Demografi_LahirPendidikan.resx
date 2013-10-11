@@ -129,18 +129,33 @@
         RGF0YVNvdXJjZVBhcmFtZXRlcgMAAAACAAAACQQAAAAFBAAAAEtTeXN0ZW0uQ29sbGVjdGlvbnMuR2Vu
         ZXJpYy5MaXN0YDFbW1RlbGVyaWsuUmVwb3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXIDAAAABl9p
         dGVtcwVfc2l6ZQhfdmVyc2lvbgQAACpUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNlUGFyYW1l
-        dGVyW10CAAAACAgDAAAACQUAAAACAAAABwAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
-        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAACQcAAAANAgwIAAAATlN5c3RlbS5EYXRhLCBW
-        ZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0
-        ZTA4OQwJAAAASVN5c3RlbSwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
-        eVRva2VuPWI3N2E1YzU2MTkzNGUwODkFBgAAAChUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNl
-        UGFyYW1ldGVyBAAAAAZkYlR5cGUYRGF0YVNvdXJjZVBhcmFtZXRlcituYW1lGURhdGFTb3VyY2VQYXJh
-        bWV0ZXIrdmFsdWUjRGF0YVNvdXJjZVBhcmFtZXRlcitQcm9wZXJ0eUNoYW5nZWQEAQIEElN5c3RlbS5E
-        YXRhLkRiVHlwZQgAAAAxU3lzdGVtLkNvbXBvbmVudE1vZGVsLlByb3BlcnR5Q2hhbmdlZEV2ZW50SGFu
-        ZGxlcgkAAAACAAAABfb///8SU3lzdGVtLkRhdGEuRGJUeXBlAQAAAAd2YWx1ZV9fAAgIAAAAEAAAAAYL
-        AAAACEBjb21wX2lkCgoBBwAAAAYAAAAB9P////b///8QAAAABg0AAAAGQHRhaHVuCgoL
+        dGVyW10CAAAACAgDAAAACQUAAAABAAAACAAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
+        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAADQMMBwAAAE5TeXN0ZW0uRGF0YSwgVmVyc2lv
+        bj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkM
+        CAAAAElTeXN0ZW0sIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tl
+        bj1iNzdhNWM1NjE5MzRlMDg5BQYAAAAoVGVsZXJpay5SZXBvcnRpbmcuU3FsRGF0YVNvdXJjZVBhcmFt
+        ZXRlcgQAAAAGZGJUeXBlGERhdGFTb3VyY2VQYXJhbWV0ZXIrbmFtZRlEYXRhU291cmNlUGFyYW1ldGVy
+        K3ZhbHVlI0RhdGFTb3VyY2VQYXJhbWV0ZXIrUHJvcGVydHlDaGFuZ2VkBAECBBJTeXN0ZW0uRGF0YS5E
+        YlR5cGUHAAAAMVN5c3RlbS5Db21wb25lbnRNb2RlbC5Qcm9wZXJ0eUNoYW5nZWRFdmVudEhhbmRsZXII
+        AAAAAgAAAAX3////ElN5c3RlbS5EYXRhLkRiVHlwZQEAAAAHdmFsdWVfXwAIBwAAABAAAAAGCgAAAAhA
+        Y29tcF9pZAoKCw==
 </value>
   </metadata>
+  <data name="sqlDataSource1.SelectCommand" xml:space="preserve">
+    <value>SELECT Year(x.tgl_lahir) lahir
+,SUM(CASE WHEN x.pendidikan_terakhir = 'SLTA' THEN 1 ELSE 0 END) slta
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma I&amp;II' THEN 1 ELSE 0 END) d12
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma III' THEN 1 ELSE 0 END) d3
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma IV' THEN 1 ELSE 0 END) d4
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S1-Perguruan Tinggi' THEN 1 ELSE 0 END) s1
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S2-Pasca Sarjana' THEN 1 ELSE 0 END) s2
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S3-Pasca/Doktor' THEN 1 ELSE 0 END) s3
+FROM [ditgas_db].[dbo].[users] x 
+JOIN [ditgas_db].[dbo].[users_jabatan] y ON x.rm_role = y.id
+WHERE y.company_id = @comp_id
+GROUP BY Year(x.tgl_lahir)
+ORDER BY Year(x.tgl_lahir)</value>
+  </data>
   <metadata name="sqlDataSource2.DefaultValues" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdUZWxlcmlrLlJlcG9ydGluZywgVmVyc2lvbj03LjAuMTMuMjIw
@@ -153,76 +168,44 @@
         RGF0YVNvdXJjZVBhcmFtZXRlcgMAAAACAAAACQQAAAAFBAAAAEtTeXN0ZW0uQ29sbGVjdGlvbnMuR2Vu
         ZXJpYy5MaXN0YDFbW1RlbGVyaWsuUmVwb3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXIDAAAABl9p
         dGVtcwVfc2l6ZQhfdmVyc2lvbgQAACpUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNlUGFyYW1l
-        dGVyW10CAAAACAgDAAAACQUAAAACAAAABAAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
-        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAACQcAAAANAgwIAAAATlN5c3RlbS5EYXRhLCBW
-        ZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0
-        ZTA4OQwJAAAASVN5c3RlbSwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
-        eVRva2VuPWI3N2E1YzU2MTkzNGUwODkFBgAAAChUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNl
-        UGFyYW1ldGVyBAAAAAZkYlR5cGUYRGF0YVNvdXJjZVBhcmFtZXRlcituYW1lGURhdGFTb3VyY2VQYXJh
-        bWV0ZXIrdmFsdWUjRGF0YVNvdXJjZVBhcmFtZXRlcitQcm9wZXJ0eUNoYW5nZWQEAQIEElN5c3RlbS5E
-        YXRhLkRiVHlwZQgAAAAxU3lzdGVtLkNvbXBvbmVudE1vZGVsLlByb3BlcnR5Q2hhbmdlZEV2ZW50SGFu
-        ZGxlcgkAAAACAAAABfb///8SU3lzdGVtLkRhdGEuRGJUeXBlAQAAAAd2YWx1ZV9fAAgIAAAAEAAAAAYL
-        AAAACEBjb21wX2lkCgoBBwAAAAYAAAAB9P////b///8QAAAABg0AAAAGQHRhaHVuCgoL
+        dGVyW10CAAAACAgDAAAACQUAAAABAAAADAAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
+        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAADQMMBwAAAE5TeXN0ZW0uRGF0YSwgVmVyc2lv
+        bj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkM
+        CAAAAElTeXN0ZW0sIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tl
+        bj1iNzdhNWM1NjE5MzRlMDg5BQYAAAAoVGVsZXJpay5SZXBvcnRpbmcuU3FsRGF0YVNvdXJjZVBhcmFt
+        ZXRlcgQAAAAGZGJUeXBlGERhdGFTb3VyY2VQYXJhbWV0ZXIrbmFtZRlEYXRhU291cmNlUGFyYW1ldGVy
+        K3ZhbHVlI0RhdGFTb3VyY2VQYXJhbWV0ZXIrUHJvcGVydHlDaGFuZ2VkBAECBBJTeXN0ZW0uRGF0YS5E
+        YlR5cGUHAAAAMVN5c3RlbS5Db21wb25lbnRNb2RlbC5Qcm9wZXJ0eUNoYW5nZWRFdmVudEhhbmRsZXII
+        AAAAAgAAAAX3////ElN5c3RlbS5EYXRhLkRiVHlwZQEAAAAHdmFsdWVfXwAIBwAAABAAAAAGCgAAAAhA
+        Y29tcF9pZAoKCw==
 </value>
   </metadata>
-  <metadata name="sqlDataSource4.DefaultValues" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdUZWxlcmlrLlJlcG9ydGluZywgVmVyc2lvbj03LjAuMTMuMjIw
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWE5ZDc5ODNkZmNjMjYxYmUMAwAAAKYBVGVs
-        ZXJpay5SZXBvcnRpbmcsIFZlcnNpb249Ny4wLjEzLjIyMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNL
-        ZXlUb2tlbj1hOWQ3OTgzZGZjYzI2MWJlXV0sIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1
-        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OQUBAAAAMlRlbGVyaWsuUmVw
-        b3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXJDb2xsZWN0aW9uAQAAABJDb2xsZWN0aW9uYDEraXRl
-        bXMES1N5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkxpc3RgMVtbVGVsZXJpay5SZXBvcnRpbmcuU3Fs
-        RGF0YVNvdXJjZVBhcmFtZXRlcgMAAAACAAAACQQAAAAFBAAAAEtTeXN0ZW0uQ29sbGVjdGlvbnMuR2Vu
-        ZXJpYy5MaXN0YDFbW1RlbGVyaWsuUmVwb3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXIDAAAABl9p
-        dGVtcwVfc2l6ZQhfdmVyc2lvbgQAACpUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNlUGFyYW1l
-        dGVyW10CAAAACAgDAAAACQUAAAACAAAABwAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
-        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAACQcAAAANAgwIAAAATlN5c3RlbS5EYXRhLCBW
-        ZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0
-        ZTA4OQwJAAAASVN5c3RlbSwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
-        eVRva2VuPWI3N2E1YzU2MTkzNGUwODkFBgAAAChUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNl
-        UGFyYW1ldGVyBAAAAAZkYlR5cGUYRGF0YVNvdXJjZVBhcmFtZXRlcituYW1lGURhdGFTb3VyY2VQYXJh
-        bWV0ZXIrdmFsdWUjRGF0YVNvdXJjZVBhcmFtZXRlcitQcm9wZXJ0eUNoYW5nZWQEAQIEElN5c3RlbS5E
-        YXRhLkRiVHlwZQgAAAAxU3lzdGVtLkNvbXBvbmVudE1vZGVsLlByb3BlcnR5Q2hhbmdlZEV2ZW50SGFu
-        ZGxlcgkAAAACAAAABfb///8SU3lzdGVtLkRhdGEuRGJUeXBlAQAAAAd2YWx1ZV9fAAgIAAAAEAAAAAYL
-        AAAACEBjb21wX2lkCgoBBwAAAAYAAAAB9P////b///8QAAAABg0AAAAGQHRhaHVuCgoL
-</value>
-  </metadata>
-  <data name="sqlDataSource4.SelectCommand" xml:space="preserve">
-    <value>SELECT                      bisnis_kinerja_kesehatan.id, bisnis_kinerja_kesehatan.company_id, bisnis_kinerja_kesehatan.tahun, bisnis_kinerja_kesehatan.klasifikasi, 
-                                      bisnis_kinerja_administrasi.nka, bisnis_kinerja_keuangan.nkk, bisnis_kinerja_pertumbuhan.nkp
-FROM                         bisnis_kinerja_kesehatan INNER JOIN
-                                      bisnis_kinerja_administrasi ON bisnis_kinerja_kesehatan.company_id = bisnis_kinerja_administrasi.company_id AND 
-                                      bisnis_kinerja_kesehatan.tahun = bisnis_kinerja_administrasi.tahun INNER JOIN
-                                      bisnis_kinerja_keuangan ON bisnis_kinerja_kesehatan.company_id = bisnis_kinerja_keuangan.company_id AND 
-                                      bisnis_kinerja_kesehatan.tahun = bisnis_kinerja_keuangan.tahun INNER JOIN
-                                      bisnis_kinerja_pertumbuhan ON bisnis_kinerja_kesehatan.company_id = bisnis_kinerja_pertumbuhan.company_id AND 
-                                      bisnis_kinerja_kesehatan.tahun = bisnis_kinerja_pertumbuhan.tahun
-WHERE			bisnis_kinerja_kesehatan.company_id =@comp_id AND bisnis_kinerja_kesehatan.tahun = @tahun</value>
+  <data name="sqlDataSource2.SelectCommand" xml:space="preserve">
+    <value>SELECT * FROM
+(SELECT 
+CASE WHEN Year(getdate()) - Year(x.tgl_lahir) &lt; 30 THEN '&lt; 30'
+   when Year(getdate()) - Year(x.tgl_lahir) between 30 and 40 then '30 - 40'
+   when Year(getdate()) - Year(x.tgl_lahir) between 40 and 50 then '40 - 50'
+   when Year(getdate()) - Year(x.tgl_lahir) &gt; 50 then '&gt; 50'
+ END as age_range 
+,SUM(CASE WHEN x.pendidikan_terakhir = 'SLTA' THEN 1 ELSE 0 END) [SLTA]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma I&amp;II' THEN 1 ELSE 0 END) [D1+D2]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma III' THEN 1 ELSE 0 END) [D3]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'Diploma IV' THEN 1 ELSE 0 END) [D4]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S1-Perguruan Tinggi' THEN 1 ELSE 0 END) [S1]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S2-Pasca Sarjana' THEN 1 ELSE 0 END) [S2]
+,SUM(CASE WHEN x.pendidikan_terakhir = 'S3-Pasca/Doktor' THEN 1 ELSE 0 END) [S3]
+FROM [ditgas_db].[dbo].[users] x 
+JOIN [ditgas_db].[dbo].[users_jabatan] y ON x.rm_role = y.id
+WHERE y.company_id = @comp_id
+GROUP BY CASE WHEN Year(getdate()) - Year(x.tgl_lahir) &lt; 30 THEN '&lt; 30'
+   when Year(getdate()) - Year(x.tgl_lahir) between 30 and 40 then '30 - 40'
+   when Year(getdate()) - Year(x.tgl_lahir) between 40 and 50 then '40 - 50'
+   when Year(getdate()) - Year(x.tgl_lahir) &gt; 50 then '&gt; 50'
+ END) as i
+unpivot
+  (
+    value for category in ([SLTA], [D1+D2], [D3], [D4],[S1],[S2],[S3])
+  ) unpiv</value>
   </data>
-  <metadata name="sqlDataSource3.DefaultValues" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdUZWxlcmlrLlJlcG9ydGluZywgVmVyc2lvbj03LjAuMTMuMjIw
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWE5ZDc5ODNkZmNjMjYxYmUMAwAAAKYBVGVs
-        ZXJpay5SZXBvcnRpbmcsIFZlcnNpb249Ny4wLjEzLjIyMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNL
-        ZXlUb2tlbj1hOWQ3OTgzZGZjYzI2MWJlXV0sIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1
-        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OQUBAAAAMlRlbGVyaWsuUmVw
-        b3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXJDb2xsZWN0aW9uAQAAABJDb2xsZWN0aW9uYDEraXRl
-        bXMES1N5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkxpc3RgMVtbVGVsZXJpay5SZXBvcnRpbmcuU3Fs
-        RGF0YVNvdXJjZVBhcmFtZXRlcgMAAAACAAAACQQAAAAFBAAAAEtTeXN0ZW0uQ29sbGVjdGlvbnMuR2Vu
-        ZXJpYy5MaXN0YDFbW1RlbGVyaWsuUmVwb3J0aW5nLlNxbERhdGFTb3VyY2VQYXJhbWV0ZXIDAAAABl9p
-        dGVtcwVfc2l6ZQhfdmVyc2lvbgQAACpUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNlUGFyYW1l
-        dGVyW10CAAAACAgDAAAACQUAAAACAAAABQAAAAcFAAAAAAEAAAAEAAAABChUZWxlcmlrLlJlcG9ydGlu
-        Zy5TcWxEYXRhU291cmNlUGFyYW1ldGVyAgAAAAkGAAAACQcAAAANAgwIAAAATlN5c3RlbS5EYXRhLCBW
-        ZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0
-        ZTA4OQwJAAAASVN5c3RlbSwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
-        eVRva2VuPWI3N2E1YzU2MTkzNGUwODkFBgAAAChUZWxlcmlrLlJlcG9ydGluZy5TcWxEYXRhU291cmNl
-        UGFyYW1ldGVyBAAAAAZkYlR5cGUYRGF0YVNvdXJjZVBhcmFtZXRlcituYW1lGURhdGFTb3VyY2VQYXJh
-        bWV0ZXIrdmFsdWUjRGF0YVNvdXJjZVBhcmFtZXRlcitQcm9wZXJ0eUNoYW5nZWQEAQIEElN5c3RlbS5E
-        YXRhLkRiVHlwZQgAAAAxU3lzdGVtLkNvbXBvbmVudE1vZGVsLlByb3BlcnR5Q2hhbmdlZEV2ZW50SGFu
-        ZGxlcgkAAAACAAAABfb///8SU3lzdGVtLkRhdGEuRGJUeXBlAQAAAAd2YWx1ZV9fAAgIAAAAEAAAAAYL
-        AAAACEBjb21wX2lkCgoBBwAAAAYAAAAB9P////b///8QAAAABg0AAAAGQHRhaHVuCgoL
-</value>
-  </metadata>
 </root>

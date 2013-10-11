@@ -514,6 +514,40 @@ namespace relmon.Controllers.FrontEnd
             return PartialView();
         }
 
+        public ActionResult Demografi_Organisasi(int comp_id) {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
+
+        public ActionResult Demografi_LahirGolongan(int comp_id)
+        {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
+
+        public ActionResult Demografi_LahirPendidikan(int comp_id)
+        {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
+
+        public ActionResult Demografi_GolonganPendidikan(int comp_id)
+        {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
+
+        public ActionResult Demografi_MPPKGolongan(int comp_id)
+        {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
+
+        public ActionResult Demografi_MPPKPendidikan(int comp_id)
+        {
+            ViewBag.comp_id = comp_id;
+            return PartialView();
+        }
         #endregion
 
     }

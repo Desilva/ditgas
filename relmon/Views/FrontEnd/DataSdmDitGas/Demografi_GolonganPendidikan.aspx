@@ -13,19 +13,21 @@
     {
         // bind the report viewer
         base.OnLoad(e);
-        ReportViewerAvailibility.Report = new relmon.Reporting.KPIReport3();
-        //Telerik.Reporting.SqlDataSource sqlDataSource  = new Telerik.Reporting.SqlDataSource();
-        //sqlDataSource.ConnectionString = "MyAdventureWorksDB";
-        //sqlDataSource.SelectCommand = "SELECT * FROM Person.Contact WHERE FirstName = @FirstName AND LastName = @LastName";
-        //sqlDataSource.Parameters.Add("@FirstName", System.Data.DbType.String, "John");
-        //sqlDataSource.Parameters.Add("@LastName", System.Data.DbType.String, "Smith");
+        ReportViewerAvailibility.Report = new relmon.Reporting.Demografi_GolonganPendidikan(@ViewBag.comp_id);
+        
+        
+        
     }
 </script>
-<html>
+<%--<html>
     <head title="Availibility" id="Head1" runat="server"></head>
-    <body>
+    <body>--%>
+    <div style="margin :5px;">
+    
         <form clientidmode="Static" id="frep" runat="server">
-        <telerik:ReportViewer ID="ReportViewerAvailibility" runat="server" Width="718px"/>
+        <telerik:ReportViewer ID="ReportViewerAvailibility" runat="server" Width="800px" Height="800px"/>
         </form>
-    </body>
-</html>
+        
+    </div>
+    <%--</body>
+</html>--%>

@@ -290,46 +290,41 @@ namespace relmon.Controllers.FrontEnd
 
             return Json(listResult);
         }
-        //public ActionResult Kinerja2(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
 
-        //public ActionResult test(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
 
-        //public ActionResult KinerjaKeuangan(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
+        public ActionResult KinerjaMain(int id)
+        {
+            ViewBag.id = id;
+            return PartialView();
+        }
 
-        //public ActionResult KinerjaPertumbuhan(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
+        public ActionResult Kinerja2(int id, int tahun)
+        {
+            ViewBag.id = id;
+            ViewBag.tahun = tahun;
+            return PartialView();
+        }
 
-        //public ActionResult KinerjaAdministrasi(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
+        [HttpPost]
+        public JsonResult GetDistinctTahun(int id)
+        {
+            //int parentInt = Int32.Parse(parent);
+            var q1 = db.bisnis_kinerja_keuangan.Where(x => x.company_id == id).Select(x => new { tahun = x.tahun}).ToList();
+            var q2 = db.bisnis_kinerja_pertumbuhan.Where(x => x.company_id == id).Select(x => new { tahun = x.tahun }).ToList();
+            var q3 = db.bisnis_kinerja_administrasi.Where(x => x.company_id == id).Select(x => new { tahun = x.tahun }).ToList();
+            var q4 = db.bisnis_kinerja_kesehatan.Where(x => x.company_id == id).Select(x => new { tahun = x.tahun }).ToList();
+            var listResultTemp = q1.Union(q2).Union(q3).Union(q4).Distinct();
+            List<object> listResult = new List<object>();
+            foreach (var result in listResultTemp)
+            {
+                listResult.Add(new
+                {
+                    tahun = result.tahun
+                });
+            }
 
-        //public ActionResult KinerjaKesehatan(int id, int tahun)
-        //{
-        //    ViewBag.id = id;
-        //    ViewBag.tahun = tahun;
-        //    return PartialView();
-        //}
+            return Json(listResult);
+        }
+
     }
 }
