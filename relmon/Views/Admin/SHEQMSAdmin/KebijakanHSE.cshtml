@@ -1,7 +1,9 @@
 ﻿@using relmon.Utilities;
 @using relmon.Controllers.Admin
 @using relmon.Models;
-
+@{
+    int aclId = (int)Session["id"];
+}
 <script>
     var filename = "";
     function onSuccess(e) {
@@ -36,31 +38,85 @@
             location.href = "SHEQMSAdmin/GetDLHSE/" + vals;
         }
     }
+
+    function OnDelete(e)
+    {
+        var allowed = true;
+
+        @{
+             if(!ACLHandler.isUserAllowedTo(PageItem.SHEQMS_DitGas_KebijakanHSE.name, aclId, "delete"))
+            {
+                <text>allowed = false</text>
+            }
+        }
+
+        if(allowed)
+        {
+            return true;
+        }
+        else
+        {
+            alert('Anda tidak memiliki hak akses untuk melakukan operasi ini');
+            return false;
+        }
+    }
+
     $("#savebutton").click(function () {
         //save
-        var now = new Date();
-        var d = now.getDate();
-        var m = now.getMonth() + 1;
-        var y = now.getFullYear();
-        var h = now.getHours();
-        var min = now.getMinutes();
-        var s = now.getSeconds();
-        var date = ((d <= 9 ? '0' + d : d) + "/" + (m <= 9 ? '0' + m : m) + "/" + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s));
-        var values =
-        {
+        var allowed = true;
 
-            "tipe": document.getElementById("tipeFile").value,
-            "date": date,
-            "filename": filename
+        @{
+            if(!ACLHandler.isUserAllowedTo(PageItem.SHEQMS_DitGas_KebijakanHSE.name, aclId, "create"))
+            {
+                <text>allowed = false</text>
+            }
         }
-        if (filename != "") {
-            $.post("SHEQMSAdmin/UploadHSE", values, function (data) {
-                if (data == "true") {
-                    alert('Data tersimpan');
-                } else if (data == "false") {
-                    alert('Data gagal tersimpan');
-                }
-            });
+
+        if(allowed)
+        {
+            var now = new Date();
+            var d = now.getDate();
+            var m = now.getMonth() + 1;
+            var y = now.getFullYear();
+            var h = now.getHours();
+            var min = now.getMinutes();
+            var s = now.getSeconds();
+            var date = ((d <= 9 ? '0' + d : d) + "/" + (m <= 9 ? '0' + m : m) + "/" + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s));
+            var values =
+            {
+                "tipe": document.getElementById("tipeFile").value,
+                "date": date,
+                "filename": filename
+            }
+            if (filename != "") {
+                $.post("SHEQMSAdmin/UploadHSE", values, function (data) {
+                    if (data == "true") {
+                        alert('Data tersimpan');
+                    } else if (data == "false") {
+                        alert('Data gagal tersimpan');
+                         var values = 
+                         {
+                                "name": filename,
+                                "dir": "SHE-QMS\\Kebijakan HSE"
+                         }
+
+                         $.post("SHEQMSAdmin/removeTemp", values, function (data) { });
+                    }
+                });
+            }
+        }
+        else
+        {
+             alert('Anda tidak memiliki hak akses untuk melakukan operasi ini');
+
+
+             var values = 
+             {
+                    "name": filename,
+                    "dir": "SHE-QMS\\Kebijakan HSE"
+             }
+
+             $.post("SHEQMSAdmin/removeTemp", values, function (data) { });
         }
 
         $('#content_admin2').load('SHEQMSAdmin/KebijakanHSE');
@@ -98,7 +154,7 @@
 </div>
 
 <p>
-	<input type="submit" id="savebutton" value="Simpan" /><input type="button" id="cancelbutton" value="Batal" />
+	<input type="submit" id="savebutton" value="Simpan"/><input type="button" id="cancelbutton" value="Batal"/>
 </p>
 <hr />
 
@@ -134,6 +190,7 @@
         .ClientEvents(
             events => events
                 .OnComplete("OnComplete")
+                .OnDelete("OnDelete")
         )
         .Pageable(p => p.PageSize(15))
         .Sortable()

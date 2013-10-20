@@ -28,6 +28,11 @@
             $('#content-employee').load('LoadExcel');
             $('#content').html('');
         }
+        // ===== Load Data From Web Service ===== //
+        else if (item.find('> .t-link').text() == "Load From Web Service") {
+            $('#content').load('LoadWebService');
+            $('#content-employee').html('');
+        }
         // ======== Page Management ======= //
         else if (item.find('> .t-link').text() == "Home") {
             $('#content-employee').load('LoadExcel');
@@ -95,6 +100,11 @@
                 .Items(item =>
                 {
                     item.Add().Text("Data Employee");
+                });
+            panelBarItem.Add().Text("Load Data From Web Service")
+                .Items(item =>
+                {
+                    item.Add().Text("Load From Web Service");
                 });
             //panelBarItem.Add().Text("Page Management")
             //    .Items(item =>

@@ -1,4 +1,7 @@
-﻿<script>
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+<script>
     $(document).ready(function () {
         refresh();
 
@@ -10,7 +13,29 @@
     });
 
     function save() {
-        
+        var allowed = true;
+        @{
+            int aclId = (int)Session["id"];
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+            
+            if(category==1){
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
+            }
+            else if(category==2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
+            }
+            
+        }
+        if(allowed){
             var param1 = $("#nkk-hasilakhir").html();
             var param2 = $("#nkp-hasilakhir").html();
             var param3 = $("#nka-hasilakhir").html();
@@ -40,6 +65,7 @@
                 //                end = true;
             }
         }
+    }
 
         function refresh() {
             $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {

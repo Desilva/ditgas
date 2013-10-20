@@ -18,7 +18,9 @@ namespace relmon.Reporting
             // Required for telerik Reporting designer support
             //
             InitializeComponent();
-
+            
+            this.textBox134.Value = tahun.ToString();
+            
             //
             // TODO: Add any constructor code after InitializeComponent call
             //

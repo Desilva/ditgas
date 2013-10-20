@@ -1,4 +1,7 @@
-﻿<style>
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+<style>
     #kinkeuangan input[type="text"]
     {
         margin-left:70px;
@@ -103,49 +106,74 @@
         });
     }
     function saveKeuangan() {
-        var values =
-        {
-            "tahun": '@ViewBag.tahun',
-            "company_id": '@ViewBag.id',
-            "laba_bersih" : $("#roe-1").val(),
-            "modal_sendiri" : $("#roe-2").val(),
-            "ebtit" : $("#roi-1").val(),
-            "penyusutan" : $("#roi-2").val(),
-            "capital_employed" : $("#roi-3").val(),
-            "laba_operasi" : $("#opm-1").val(),
-            "total_pendapatan_usaha" : $("#opm-2").val(),
-            "kas" : $("#rk-1").val(),
-            "bank" : $("#rk-2").val(),
-            "surat_berharga" : $("#rk-3").val(),
-            "current_liabillities" : $("#rk-4").val(),
-            "current_asset" : $("#rl-1").val(),
-            "total_piutang_usaha" : $("#cp-1").val(),
-            "total_pendapatan" : $("#pp-1").val(),
-            "total_modal_sendiri" : $("#rtms-1").val(),
-            "total_asset" : $("#rtms-2").val(),
-            "ebitda" : $("#tier-1").val(),
-            "interest_payment" : $("#tier-2").val(),
-            "roe" : $("#roe-hasil").html(),
-            "roi" : $("#roi-hasil").html(),
-            "opm" : $("#opm-hasil").html(),
-            "npm" : $("#npm-hasil").html(),
-            "cash_ratio" : $("#rk-hasil").html(),
-            "current_ratio" : $("#rl-hasil").html(),
-            "cp" :  $("#cp-hasil").html(),
-            "ito" :  $("#pp-hasil").html(),
-            "tato" : $("#pta-hasil").html(),
-            "etta" : $("#rtms-hasil").html(),
-            "tier" : $("#tier-hasil").html(),
-            "nkk" : $("#nkk-hasil").html(),
-            "klasifikasi": $("#klasifikasi-hasil").html()
-        }
-        $.post("DataBisnisApAdmin/SaveKeuangan", values, function (data) {
-            if (data == "True") {
-                alert("Data berhasil disimpan");
-            } else {
-                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+        var allowed = true;
+        @{
+            int aclId = (int)Session["id"];
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+            
+            if(category==1){
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
             }
-        });
+            else if(category==2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
+            }
+            
+        }
+        if(allowed){
+            var values =
+            {
+                "tahun": '@ViewBag.tahun',
+                "company_id": '@ViewBag.id',
+                "laba_bersih" : $("#roe-1").val(),
+                "modal_sendiri" : $("#roe-2").val(),
+                "ebtit" : $("#roi-1").val(),
+                "penyusutan" : $("#roi-2").val(),
+                "capital_employed" : $("#roi-3").val(),
+                "laba_operasi" : $("#opm-1").val(),
+                "total_pendapatan_usaha" : $("#opm-2").val(),
+                "kas" : $("#rk-1").val(),
+                "bank" : $("#rk-2").val(),
+                "surat_berharga" : $("#rk-3").val(),
+                "current_liabillities" : $("#rk-4").val(),
+                "current_asset" : $("#rl-1").val(),
+                "total_piutang_usaha" : $("#cp-1").val(),
+                "total_pendapatan" : $("#pp-1").val(),
+                "total_modal_sendiri" : $("#rtms-1").val(),
+                "total_asset" : $("#rtms-2").val(),
+                "ebitda" : $("#tier-1").val(),
+                "interest_payment" : $("#tier-2").val(),
+                "roe" : $("#roe-hasil").html(),
+                "roi" : $("#roi-hasil").html(),
+                "opm" : $("#opm-hasil").html(),
+                "npm" : $("#npm-hasil").html(),
+                "cash_ratio" : $("#rk-hasil").html(),
+                "current_ratio" : $("#rl-hasil").html(),
+                "cp" :  $("#cp-hasil").html(),
+                "ito" :  $("#pp-hasil").html(),
+                "tato" : $("#pta-hasil").html(),
+                "etta" : $("#rtms-hasil").html(),
+                "tier" : $("#tier-hasil").html(),
+                "nkk" : $("#nkk-hasil").html(),
+                "klasifikasi": $("#klasifikasi-hasil").html()
+            }
+            $.post("DataBisnisApAdmin/SaveKeuangan", values, function (data) {
+                if (data == "True") {
+                    alert("Data berhasil disimpan");
+                } else {
+                    alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+                }
+            });
+        }
+        
     }
     $(document).ready(function () {
         $.post("DataBisnisApAdmin/GetKinerjaKeuangan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {

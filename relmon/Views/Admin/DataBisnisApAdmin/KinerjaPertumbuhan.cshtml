@@ -1,4 +1,7 @@
-﻿<style>
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+<style>
     #kinpertumbuhan input[type="text"]
     {
         margin-left:150px;
@@ -59,37 +62,61 @@
     }
 
     function savePertumbuhan() {
-        var values =
-        {
-            "tahun": '@ViewBag.tahun',
-            "company_id": '@ViewBag.id',
-            "ebit":$("#aspg-1").val(),
-            "other_income":$("#aspg-2").val(),
-            "total_assets_berjalan":$("#aspg-3").val(),
-            "total_assets_sebelum":$("#aspg-4").val(),
-            "net_sales_berjalan":$("#salg-1").val(),
-            "net_sales_sebelum":$("#salg-2").val(),
-            "net_profit_margin_berjalan":$("#npmg-1").val(),
-            "net_profit_margin_sebelum":$("#npmg-2").val(),
-            "sales_to_total_assets_berjalan":$("#stag-1").val(),
-            "sales_to_total_assets_sebelum":$("#stag-2").val(),
-            "net_profit_berjalan":$("#npg-1").val(),
-            "net_profit_sebelum":$("#npg-2").val(),
-            "aspg": $("#aspg-hasil").html(),
-            "salg": $("#salg-hasil").html(),
-            "npmg": $("#npmg-hasil").html(),
-            "stag": $("#stag-hasil").html(),
-            "npg": $("#npg-hasil").html(),
-            "nkp": $("#nkp-hasil").html(),
-            "klasifikasi": $("#klasifikasiPertumbuhan-hasil").html()
-        }
-        $.post("DataBisnisApAdmin/SavePertumbuhan", values, function (data) {
-            if (data == "True") {
-                alert("Data berhasil disimpan");
-            } else {
-                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+        var allowed = true;
+        @{
+            int aclId = (int)Session["id"];
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+            
+            if(category==1){
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
             }
-        });
+            else if(category==2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
+            }
+            
+        }
+        if(allowed){
+            var values =
+            {
+                "tahun": '@ViewBag.tahun',
+                "company_id": '@ViewBag.id',
+                "ebit":$("#aspg-1").val(),
+                "other_income":$("#aspg-2").val(),
+                "total_assets_berjalan":$("#aspg-3").val(),
+                "total_assets_sebelum":$("#aspg-4").val(),
+                "net_sales_berjalan":$("#salg-1").val(),
+                "net_sales_sebelum":$("#salg-2").val(),
+                "net_profit_margin_berjalan":$("#npmg-1").val(),
+                "net_profit_margin_sebelum":$("#npmg-2").val(),
+                "sales_to_total_assets_berjalan":$("#stag-1").val(),
+                "sales_to_total_assets_sebelum":$("#stag-2").val(),
+                "net_profit_berjalan":$("#npg-1").val(),
+                "net_profit_sebelum":$("#npg-2").val(),
+                "aspg": $("#aspg-hasil").html(),
+                "salg": $("#salg-hasil").html(),
+                "npmg": $("#npmg-hasil").html(),
+                "stag": $("#stag-hasil").html(),
+                "npg": $("#npg-hasil").html(),
+                "nkp": $("#nkp-hasil").html(),
+                "klasifikasi": $("#klasifikasiPertumbuhan-hasil").html()
+            }
+            $.post("DataBisnisApAdmin/SavePertumbuhan", values, function (data) {
+                if (data == "True") {
+                    alert("Data berhasil disimpan");
+                } else {
+                    alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+                }
+            });
+        }
     }
     $(document).ready(function () {
         $.post("DataBisnisApAdmin/GetKinerjaPertumbuhan/@ViewBag.id", { tahun: '@ViewBag.tahun' }, function (data) {

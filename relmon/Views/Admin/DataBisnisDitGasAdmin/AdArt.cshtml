@@ -41,20 +41,24 @@
             int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
             
                 if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId, "create")){
-                        <text>return false;</text>
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId, "update"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
                 else
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
             
@@ -77,20 +81,23 @@
              int category2 = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
              
                 if(category2==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId2, "delete")){
-                        <text>return false;</text>
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_ADART.name, aclId2, "update")){
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }else if(category2==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId2, "delete"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_ADART.name + ViewBag.id, aclId2, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
                 else
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId2, "delete"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ADART.name + ViewBag.id, aclId2, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
             

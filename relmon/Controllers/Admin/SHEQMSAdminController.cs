@@ -38,6 +38,7 @@ namespace relmon.Controllers.Admin
 
             if (result.Count == 0)
             {
+                sheqms_kebijakan_HSE.date = DateTime.Now;
                 db.sheqms_kebijakan_HSE.Add(sheqms_kebijakan_HSE);
                 try
                 {
@@ -55,6 +56,21 @@ namespace relmon.Controllers.Admin
                 return "exist";
             }
 
+        }
+
+        [HttpPost]
+        public string removeTemp(String name , String dir)
+        {
+            UploadController upload = new UploadController();
+
+            string[] file = new string[1];
+            file[0] = name;
+            if (!string.IsNullOrWhiteSpace(file[0]))
+            {
+                upload.Remove(file, dir);
+            }
+
+            return "Success";
         }
 
         [GridAction]
@@ -140,6 +156,7 @@ namespace relmon.Controllers.Admin
 
             if (result.Count == 0)
             {
+                sheqms_safety_talk.date = DateTime.Now;
                 db.sheqms_safety_talk.Add(sheqms_safety_talk);
                 try
                 {

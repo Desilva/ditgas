@@ -65,25 +65,51 @@ namespace relmon.Controllers.Admin
 
         private TreeViewItemFactory buildTreeViewItemFactory(TreeViewItemFactory item, PageTree pageTree, string parentIdStr="")
         {
-            item.Add()
-                .Expanded(parentIdStr == "")
-                .Encoded(false)
-                .Text("<table class='acl_table'><tr><td class='acl_title'>" + pageTree.pageItem.text + "</td><td class='acl_checkbox'>"
-                + "<input type='checkbox' " + (pageTree.enableView ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='view' id='ACL-view" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "View "
-                + "<input type='checkbox' " + (pageTree.enableCreate ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='create' id='ACL-create" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Create "
-                + "<input type='checkbox' " + (pageTree.enableUpdate ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='update' id='ACL-update" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Update "
-                + "<input type='checkbox' " + (pageTree.enableDelete ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='delete' id='ACL-delete" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Delete "
-                + "<input type='checkbox' " + (pageTree.enablePrint ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='print' id='ACL-print" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Print "
-                + "</td></tr></table>"
-                )
-                .Value(pageTree.pageItem.name)
-                .Items(subItem =>
-                {
-                    foreach (PageTree pageTreeChild in pageTree.child)
+            string checkView = (pageTree.defaultView ? "checked='checked'" : ""); 
+            string checkCreate = (pageTree.defaultCreate ? "checked='checked'" : "");
+            string checkUpdate = (pageTree.defaultUpdate ? "checked='checked'" : "");
+            string checkDelete = (pageTree.defaultDelete ? "checked='checked'" : "");
+            if (pageTree.isUpload)
+            {
+                item.Add()
+                    .Expanded(parentIdStr == "")
+                    .Encoded(false)
+                    .Text("<table class='acl_table'><tr><td class='acl_title'>" + pageTree.pageItem.text + "</td><td class='acl_checkbox'>"
+                    + "<input type='checkbox' " + (pageTree.enableView ? "" : "disabled='disabled' " + checkView) + "name='" + pageTree.pageItem.name + "' value='view' id='ACL-view" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "View "
+                    + "<input type='checkbox' " + (pageTree.enableUpdate ? "" : "disabled='disabled' " + checkUpdate) + "name='" + pageTree.pageItem.name + "' value='update' id='ACL-update" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Upload "
+                    + "</td></tr></table>"
+                    )
+                    .Value(pageTree.pageItem.name)
+                    .Items(subItem =>
                     {
-                        buildTreeViewItemFactory(subItem, pageTreeChild, parentIdStr + "-" + pageTree.pageItem.name);
-                    }
-                });
+                        foreach (PageTree pageTreeChild in pageTree.child)
+                        {
+                            buildTreeViewItemFactory(subItem, pageTreeChild, parentIdStr + "-" + pageTree.pageItem.name);
+                        }
+                    });
+            }
+            else
+            {
+                item.Add()
+                    .Expanded(parentIdStr == "")
+                    .Encoded(false)
+                    .Text("<table class='acl_table'><tr><td class='acl_title'>" + pageTree.pageItem.text + "</td><td class='acl_checkbox'>"
+                    + "<input type='checkbox' " + (pageTree.enableView ? "" : "disabled='disabled' " + checkView) + "name='" + pageTree.pageItem.name + "' value='view' id='ACL-view" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "View "
+                    + "<input type='checkbox' " + (pageTree.enableCreate ? "" : "disabled='disabled' " + checkCreate) + "name='" + pageTree.pageItem.name + "' value='create' id='ACL-create" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Create "
+                    + "<input type='checkbox' " + (pageTree.enableUpdate ? "" : "disabled='disabled' " + checkUpdate) + "name='" + pageTree.pageItem.name + "' value='update' id='ACL-update" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Update "
+                    + "<input type='checkbox' " + (pageTree.enableDelete ? "" : "disabled='disabled' " + checkDelete) + "name='" + pageTree.pageItem.name + "' value='delete' id='ACL-delete" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Delete "
+                    //+ "<input type='checkbox' " + (pageTree.enablePrint ? "" : "disabled='disabled' checked='checked'") + "name='" + pageTree.pageItem.name + "' value='print' id='ACL-print" + parentIdStr + "-" + pageTree.pageItem.name + "'>" + "Print "
+                    + "</td></tr></table>"
+                    )
+                    .Value(pageTree.pageItem.name)
+                    .Items(subItem =>
+                    {
+                        foreach (PageTree pageTreeChild in pageTree.child)
+                        {
+                            buildTreeViewItemFactory(subItem, pageTreeChild, parentIdStr + "-" + pageTree.pageItem.name);
+                        }
+                    });
+            }
             return item;
             //if (objs.Count() == 3)
             //{

@@ -1,7 +1,9 @@
 ﻿@using relmon.Utilities;
 @using relmon.Controllers.Admin
 @using relmon.Models;
-
+@{
+    int aclId = (int)Session["id"];
+}
 <script>
     var filename = "";
     function onSuccess(e) {
@@ -18,8 +20,7 @@
         console.log(e);
     }
     function onUpload(e) {
-        @{
-            int aclId = (int)Session["id"];
+        @{ 
             if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Pertamina.name, aclId, "create")){
                 <text>return false;</text>
             }
@@ -41,26 +42,72 @@
             location.href = "AturanRegulasiAdmin/DownloadAturan/" + vals;
         }
     }
+
+    function OnDelete(e)
+    {
+        var allowed = true;
+
+        @{
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Pertamina.name, aclId, "delete"))
+            {
+                <text>allowed = false</text>
+            }
+        }
+
+        if(allowed)
+        {
+            return true;
+        }
+        else
+        {
+            alert('Anda tidak memiliki hak akses untuk melakukan operasi ini');
+            return false;
+        }
+    }
+
     $("#savebutton").click(function () {
         //save
-        var values ={
-            "filename": filename
+
+        var allowed = true;
+
+        @{
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Pertamina.name, aclId, "create"))
+            {
+                <text>allowed = false</text>
+            }
         }
 
-        if (filename != "") {
-            $.post("AturanRegulasiAdmin/UploadAturan", values, function (data) {
-                if (data == "true") {
-                    alert('Data tersimpan');
-                } else if (data == "false") {
-                    alert('Data gagal tersimpan');
-                }
-            });
-        }
+        if(allowed)
+        {
+            var values ={
+                "filename": filename
+            }
 
-        reset();
+            if (filename != "") {
+                $.post("AturanRegulasiAdmin/UploadAturan", values, function (data) {
+                    if (data == "true") {
+                        alert('Data tersimpan');
+                    } else if (data == "false") {
+                        alert('Data gagal tersimpan');
+                    }
+                });
+            }
+
+            reset();
+        }
+        else
+        {
+            alert('Anda tidak memiliki hak akses untuk melakukan operasi ini');
+        }
     });
 
     $("#cancelbutton").click(function () {
+         var values = 
+             {
+                    "name": filename,
+                    "dir": "Aturan\\Pertamina"
+             }
+          $.post("AturanRegulasiAdmin/removeTemp", values, function (data) { });
         reset();
     });
 
@@ -83,7 +130,7 @@
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
             .OnRemove("onRemove")
-            //.OnUpload("onUpload")
+            .OnUpload("onUpload")
         )
         .Multiple(false)
         .Async(async => async
@@ -132,6 +179,7 @@
         .ClientEvents(
             events => events
                 .OnComplete("OnComplete")
+                .OnDelete("OnDelete")
         )
         .Pageable(p => p.PageSize(15))
         .Sortable()

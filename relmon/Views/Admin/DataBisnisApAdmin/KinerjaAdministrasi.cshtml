@@ -1,4 +1,7 @@
-﻿<style>
+﻿@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
+<style>
     #kinadministrasi input[type="text"]
     {
         margin-left:150px;
@@ -42,28 +45,52 @@
     }
 
     function saveAdministrasi() {
-        var values =
-        {
-            "tahun": '@ViewBag.tahun',
-            "company_id": '@ViewBag.id',
-                "keuangan_bulanan": $("#lapbul").val(),
-                "manajemen_bulanan": $("#lapmanbul").val(),
-                "keuangan_audited": $("#lapaud").val(),
-                "rancangan_rkap": $("#rkapwaktu").val(),
-                "nilai_keuangan_bulanan": $("#lapbul-hasil").html(),
-                "nilai_manajemen_bulanan": $("#lapmanbul-hasil").html(),
-                "nilai_keuangan_audited": $("#lapaud-hasil").html(),
-                "nilai_rancangan_rkap": $("#rkapwaktu-hasil").html(),
-                "nka": $("#nka-hasil").html(),
-                "klasifikasi": $("#klasifikasiAdministrasi-hasil").html()
+        var allowed = true;
+        @{
+            int aclId = (int)Session["id"];
+            int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+            
+            if(category==1){
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
             }
-        $.post("DataBisnisApAdmin/SaveAdministrasi", values, function (data) {
-            if (data == "True") {
-                alert("Data berhasil disimpan");
-            } else {
-                alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+            else if(category==2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "update"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                    allowed = false;</text>
+                }
             }
-        });
+            
+        }
+        if(allowed){
+            var values =
+            {
+                "tahun": '@ViewBag.tahun',
+                "company_id": '@ViewBag.id',
+                    "keuangan_bulanan": $("#lapbul").val(),
+                    "manajemen_bulanan": $("#lapmanbul").val(),
+                    "keuangan_audited": $("#lapaud").val(),
+                    "rancangan_rkap": $("#rkapwaktu").val(),
+                    "nilai_keuangan_bulanan": $("#lapbul-hasil").html(),
+                    "nilai_manajemen_bulanan": $("#lapmanbul-hasil").html(),
+                    "nilai_keuangan_audited": $("#lapaud-hasil").html(),
+                    "nilai_rancangan_rkap": $("#rkapwaktu-hasil").html(),
+                    "nka": $("#nka-hasil").html(),
+                    "klasifikasi": $("#klasifikasiAdministrasi-hasil").html()
+                }
+            $.post("DataBisnisApAdmin/SaveAdministrasi", values, function (data) {
+                if (data == "True") {
+                    alert("Data berhasil disimpan");
+                } else {
+                    alert("Data tidak berhasil disimpan. Harap memeriksa kembali data yang dimasukkan");
+                }
+            });
+        }
     }
 
     $(document).ready(function () {

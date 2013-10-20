@@ -37,7 +37,8 @@
     function onUpload(e) {
         @{
             int aclId = (int)Session["id"];
-            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_External.name, aclId, "create")){
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_External.name, aclId, "update")){
+                 <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");</text>
                 <text>return false;</text>
             }
         }
@@ -55,7 +56,8 @@
     function onRemove(e) {
          @{
             int aclId2 = (int)Session["id"];
-            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_External.name, aclId2, "delete")){
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_External.name, aclId2, "update")){
+                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");</text>
                 <text>return false;</text>
             }
                 

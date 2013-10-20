@@ -47,23 +47,23 @@
 
     function onRemove(e) {
         @{
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete")){
-                        <text>return false;</text>
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "delete"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
-                else
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "delete"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
+//                if(category==0){
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete")){
+//                        <text>return false;</text>
+//                    }
+//                }else if(category==1){
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "delete"))
+//                    {
+//                        <text>return false;</text>
+//                    }
+//                }
+//                else
+//                {
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "delete"))
+//                    {
+//                        <text>return false;</text>
+//                    }
+//                }
             
         }
         var r = confirm("Apakah anda yakin?");
@@ -75,6 +75,35 @@
         }
     }
 
+    function onDelete(e) {
+        
+        @{
+            if (category == 1)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name + ViewBag.id, aclId, "delete"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
+                }
+            }else if (category == 1)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "delete"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
+                }
+            }
+            else if (category == 2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "delete"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
+                }
+            }
+        }
+    }
+
     function OnComplete(e) {
         if (e.name == "EditBusinessReport") {
         @{
@@ -83,14 +112,11 @@
                         <text>
                             var vals = e.response
                             $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
-//                            var tabStrip = $("#TabStrip").data("tTabStrip");
-//                            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: vals.id }, function (data) {
-//                                $( "#TabStrip .t-link" ).each(function(index) {
-//                                        if($(this).text() == "Bussiness Report"){
-//                                            $("#TabStrip-"+(index+1)).html(data);
-//                                        }
-//                                    });
-//                            });
+
+                        </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
                         </text>
                     }
                 }else if(category==1){
@@ -99,6 +125,10 @@
                         <text>
                             var vals = e.response
                             $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
+                        </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
                         </text>
                     }
                 }
@@ -109,6 +139,10 @@
                         <text>
                             var vals = e.response
                             $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId="+vals.id+"&reportType=@ViewBag.type");
+                        </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
                         </text>
                     }
                 }
@@ -128,23 +162,26 @@
             "reportType" : '@ViewBag.type'
         }
 
-           var allowed = true;
+            var allowed = true;
             @{
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "create")){
-                        <text>alllowed = false;</text>
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "create"))
+                if (ViewBag.baru != 0)
                     {
-                        <text>alllowed = false;</text>
+                    if(category==0){
+                        if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "create")){
+                            <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                        }
+                    }else if(category==1){
+                        if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "create"))
+                        {
+                            <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                        }
                     }
-                }
-                else
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "create"))
+                    else
                     {
-                        <text>alllowed = false;</text>
+                        if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "create"))
+                        {
+                            <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                        }
                     }
                 }
             }
@@ -173,26 +210,29 @@
                     alert('Data tidak tersimpan');
                 } else if (data == "exist") {
                     var r = true;
-                      @{
+                    alert("Report pada bulan tersebut sudah ada.");
+                        @{
                             if(category==0){
                                 if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "update")){
-                                    <text>r=false;</text>
+                                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
                                 }
                             }else if(category==1){
                                 if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + ViewBag.id, aclId, "update"))
                                 {
-                                    <text>r=false;</text>
+                                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
                                 }
                             }
                             else
                             {
                                 if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + ViewBag.id, aclId, "update"))
                                 {
-                                    <text>r=false;</text>
+                                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
                                 }
                             }
                         }
-                    r = confirm("Report pada bulan tersebut sudah ada. Apakah anda ingin menggantinya?");
+                    if(r!=false){
+                        r = confirm("Apakah anda ingin menggantinya?");
+                    }
                     if (r) {
                         var values =
                         {
@@ -347,6 +387,7 @@
         .ClientEvents(
             events => events
                 .OnComplete("OnComplete")
+                .OnDelete("OnDelete")
         )
         .Pageable(p => p.PageSize(15))
         .Sortable()

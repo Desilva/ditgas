@@ -31,7 +31,7 @@ namespace relmon.Utilities
                         case "create": return (currentACL.First().allow_create == 1);
                         case "update": return (currentACL.First().allow_update == 1);
                         case "delete": return (currentACL.First().allow_delete == 1);
-                        case "print": return (currentACL.First().allow_print == 1);
+                        //case "print": return (currentACL.First().allow_print == 1);
                         default: return false;
                     }
                 }

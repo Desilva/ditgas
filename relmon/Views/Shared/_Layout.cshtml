@@ -53,11 +53,11 @@
 			        <div class="additional"><img src="../../Content/image/header-04.png" alt="" /></div>
 		        </div>
 	        </div>
-            <div id="search">
+            @*<div id="search">
                 <form method="get" action="#" >
                     <input name="q" type="text" size="40" placeholder="Search..." />
                 </form>
-            </div>
+            </div>*@
             <div id="mainmenu">
                 <div class="wrap">	
                 @{
@@ -85,8 +85,8 @@
                                 item.Add().Text(PageItem.SHEQMS.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SHEQMS.name, userId))
                                     .Items(item2 =>
                                     {
-                                        item2.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text);
-                                        item2.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text);
+                                        item2.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas_KebijakanHSE.name, userId));
+                                        item2.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas_SafetyTalk.name, userId));
                                     });
 
                                 item.Add().Text(PageItem.DataBisnis.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis.name, userId))
@@ -98,8 +98,10 @@
                                     });
                                 item.Add().Text(PageItem.SDM.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SDM.name, userId));
                                 item.Add().Text(PageItem.AturanRegulasi.text).Visible(ACLHandler.isAdminMenuShown(PageItem.AturanRegulasi.name, userId));
-                                item.Add().Text(PageItem.Kontak.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kontak.name, userId));
-                                item.Add().Text(PageItem.Kalendar.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kalendar.name, userId));
+                                //item.Add().Text(PageItem.Kontak.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kontak.name, userId));
+                                item.Add().Text("Kontak").Visible(true);
+                                //item.Add().Text(PageItem.Kalendar.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kalendar.name, userId));
+                                item.Add().Text("Kalender").Visible(true);
                                 item.Add().ImageUrl("Content/images/rumah.png").ImageHtmlAttributes(new { style = "padding: 3px 20px 3px 24px; width:18px; height:16px;" }).Action("Index", "Dashboard").Text(" ");
                             }).Render();
 
@@ -132,8 +134,8 @@
                                menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
                                    .Items(item =>
                                    {
-                                       item.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Action("KebijakanHSE", "SHEQMS");
-                                       item.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text).Action("SafetyTalk", "SHEQMS");
+                                       item.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Action("KebijakanHSE", "SHEQMS").Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas_KebijakanHSE.name, userId));
+                                       item.Add().Text(PageItem.SHEQMS_DitGas_SafetyTalk.text).Action("SafetyTalk", "SHEQMS").Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas_SafetyTalk.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.SHEQMS.name, userId));
                                menu.Add().Text("Data Bisnis").HtmlAttributes(new { @id = "databisnis" })
                                    .Items(item =>
@@ -142,29 +144,30 @@
                                        item.Add().Text("Anak Perusahaan").Action("Index", "DataBisnisAp").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Ap.name, userId));
                                        item.Add().Text("Afiliasi").Action("Index", "DataBisnisAfiliasi").Visible(ACLHandler.isMenuShown(PageItem.DataBisnis_Afiliasi.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.DataBisnis.name, userId));
+                               
                                menu.Add().Text("SDM").HtmlAttributes(new { @id = "sdm" })
                                    .Items(item =>
                                    {
                                        item.Add().Text("Dit. Gas")
                                            .Items(itemDirGas =>
                                            {
-                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmDitGas");
-                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmDitGas");
-                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmDitGas");
+                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmDitGas").Visible(ACLHandler.isMenuShown(PageItem.SDM_DitGas_DataPekerja.name, userId));
+                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmDitGas").Visible(ACLHandler.isMenuShown(PageItem.SDM_DitGas_Demografi.name, userId));
+                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmDitGas").Visible(ACLHandler.isMenuShown(PageItem.SDM_DitGas_StatusPekerja.name, userId));
                                            }).Visible(ACLHandler.isMenuShown(PageItem.SDM_DitGas.name, userId));
                                        item.Add().Text("Anak Perusahaan")
                                             .Items(itemDirGas =>
                                             {
-                                                itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAp");
-                                                itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAp");
-                                                itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAp");
+                                                itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAp").Visible(ACLHandler.isMenuShown(PageItem.SDM_Ap_DataPekerja.name, userId));
+                                                itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAp").Visible(ACLHandler.isMenuShown(PageItem.SDM_Ap_Demografi.name, userId));
+                                                itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAp").Visible(ACLHandler.isMenuShown(PageItem.SDM_Ap_StatusPekerja.name, userId));
                                             }).Visible(ACLHandler.isMenuShown(PageItem.SDM_Ap.name, userId));
                                        item.Add().Text("Afiliasi")
                                            .Items(itemDirGas =>
                                            {
-                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAfiliasi");
-                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAfiliasi");
-                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAfiliasi");
+                                               itemDirGas.Add().Text("Data Pekerja & Riwayat Hidup").Action("Index", "DataSdmAfiliasi").Visible(ACLHandler.isMenuShown(PageItem.SDM_Afiliasi_DataPekerja.name, userId));
+                                               itemDirGas.Add().Text("Demografi").Action("Demografi", "DataSdmAfiliasi").Visible(ACLHandler.isMenuShown(PageItem.SDM_Afiliasi_Demografi.name, userId));
+                                               itemDirGas.Add().Text("Status Pekerja").Action("MasaJabatan", "DataSdmAfiliasi").Visible(ACLHandler.isMenuShown(PageItem.SDM_Afiliasi_StatusPekerja.name, userId));
                                            }).Visible(ACLHandler.isMenuShown(PageItem.SDM_Afiliasi.name, userId));
                                        //item.Add().Text("Aturan SDM")
                                        //    .Items(itemDirGas =>
@@ -175,6 +178,7 @@
                                        //    }).Visible(ACLHandler.isMenuShown(PageItem.SDM_AturanSDM.name, userId));
                                        //item.Add().Text("Employee Industrial Relation").Action("Index", "DataSdmEir");
                                    }).Visible(ACLHandler.isMenuShown(PageItem.SDM.name, userId));
+                                   
                                menu.Add().Text("Aturan & Regulasi").HtmlAttributes(new { @id = "aturanregulasi" })
                                    .Items(item =>
                                    {
@@ -182,8 +186,10 @@
                                        item.Add().Text("Aturan External").Action("AturanKementrian", "AturanRegulasi").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_External.name, userId));
                                        item.Add().Text("Charter").Action("Pedoman", "AturanRegulasi").Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi_Charter.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.AturanRegulasi.name, userId));
-                               menu.Add().Text("Kontak").Action("Index", "Kontak").HtmlAttributes(new { @id = "kontak" }).Visible(ACLHandler.isMenuShown(PageItem.Kontak.name, userId));
-                               menu.Add().Text("Kalendar").Action("Index", "Kalendar").HtmlAttributes(new { @id = "kalendar" }).Visible(ACLHandler.isMenuShown(PageItem.Kalendar.name, userId));
+                               //menu.Add().Text("Kontak").Action("Index", "Kontak").HtmlAttributes(new { @id = "kontak" }).Visible(ACLHandler.isMenuShown(PageItem.Kontak.name, userId));
+                               menu.Add().Text("Kontak").Action("Index", "Kontak").HtmlAttributes(new { @id = "kontak" }).Visible(true);
+                               //menu.Add().Text("Kalendar").Action("Index", "Kalendar").HtmlAttributes(new { @id = "kalendar" }).Visible(ACLHandler.isMenuShown(PageItem.Kalendar.name, userId));
+                               menu.Add().Text("Kalendar").Action("Index", "Kalendar").HtmlAttributes(new { @id = "kalendar" }).Visible(true);
                            }).Render();
                         if ((ViewBag.stat == "SDM"))
                         {

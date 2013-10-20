@@ -23,23 +23,23 @@
         function onUpload(e) {
         @{
             
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
-                        <text>return false;</text>
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
-                else
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
+//                if(category==0){
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
+//                        <text>return false;</text>
+//                    }
+//                }else if(category==1){
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
+//                    {
+//                        <text>return false;</text>
+//                    }
+//                }
+//                else
+//                {
+//                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
+//                    {
+//                        <text>return false;</text>
+//                    }
+//                }
             
             }
             // Array with information about the uploaded files
@@ -53,27 +53,6 @@
             }
         }
         function onRemove(e) {
-            @{
-            
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "delete")){
-                        <text>return false;</text>
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "delete"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
-                else
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "delete"))
-                    {
-                        <text>return false;</text>
-                    }
-                }
-            
-            }
             var r = confirm("Apakah anda yakin?");
             if (r) {
                 return true;
@@ -100,6 +79,10 @@
                                 });
                             });
                         </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        </text>
                     }
                 }else if(category==1){
                     if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "update"))
@@ -114,6 +97,10 @@
                                     }
                                 });
                             });
+                        </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
                         </text>
                     }
                 }
@@ -132,6 +119,10 @@
                                 });
                             });
                         </text>
+                    }else{
+                        <text>
+                            alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        </text>
                     }
                 }
             
@@ -139,109 +130,118 @@
             }
         }
         $("#saveRKAP").click(function () {
-            var values =
-            {
-                "tahun": document.getElementById("tahunRKAP").value,
-                "company_id": '@ViewBag.id',
-                "content": filename
-            }
-            var allowed = true;
-            @{
-                if(category==0){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
-                        <text>alllowed = false;</text>
-                    }
-                }else if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
-                    {
-                        <text>alllowed = false;</text>
-                    }
-                }
-                else
+            if(filename != ""){
+                var values =
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
+                    "tahun": document.getElementById("tahunRKAP").value,
+                    "company_id": '@ViewBag.id',
+                    "content": filename
+                }
+                var allowed = true;
+                @{
+                    if (ViewBag.baru != 0)
                     {
-                        <text>alllowed = false;</text>
+                        if(category==0){
+                            if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "create")){
+                                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                            }
+                        }else if(category==1){
+                            if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "create"))
+                            {
+                                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                            }
+                        }
+                        else
+                        {
+                            if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "create"))
+                            {
+                                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");allowed = false;</text>
+                            }
+                        }
                     }
                 }
-            }
-
-            if(allowed==true){
-                $.post("DataBisnisDitGasAdmin/UploadRKAP", values, function (data) {
-                    if (data == "true") {
-                        alert('Data tersimpan');
-                        var grid = $('#RKAPReport').data('tGrid');
-                        grid.ajaxRequest();
-                        if ('@ViewBag.baru' == 1) {
-                            var destDir = "Data Bisnis\\" + '@(Model.company_id)' + "\\RKAP\\"+ $("#tahunRKAP").val();
-                            var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
-                            var values =
-                            {
-                                "filename": filename,
-                                "destDir": destDir,
-                                "sourceDir": sourceDir
-
-                            }
-                            $.post("Upload/Move", values, function (data) { });
-                        }
-                        resetForm();
-                    } else if (data == "false") {
-                        alert('Data tidak tersimpan');
-                    } else if (data == "exist") {
-                        var r = true;
-                      @{
-                            if(category==0){
-                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "update")){
-                                    <text>r=false;</text>
-                                }
-                            }else if(category==1){
-                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "update"))
+                if(allowed==true){
+                    $.post("DataBisnisDitGasAdmin/UploadRKAP", values, function (data) {
+                        if (data == "true") {
+                            alert('Data tersimpan');
+                            var grid = $('#RKAPReport').data('tGrid');
+                            grid.ajaxRequest();
+                            if ('@ViewBag.baru' == 1) {
+                                var destDir = "Data Bisnis\\" + '@(Model.company_id)' + "\\RKAP\\"+ $("#tahunRKAP").val();
+                                var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
+                                var values =
                                 {
-                                    <text>r=false;</text>
-                                }
-                            }
-                            else
-                            {
-                                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "update"))
-                                {
-                                    <text>r=false;</text>
-                                }
-                            }
-                        }
-                        r = confirm("RKAP pada tahun tersebut sudah ada. Apakah anda ingin menggantinya?");
-                        if (r) {
-                            var values =
-                            {
-                                "tahun": document.getElementById("tahunRKAP").value,
-                                "company_id": '@ViewBag.id',
-                                "content": filename
-                            }
-                            $.post("DataBisnisDitGasAdmin/UpdateRKAP", values, function (data) {
-                                if (data == "true") {
-                                    alert('Data tersimpan');
-                                    var grid = $('#RKAPReport').data('tGrid');
-                                    grid.ajaxRequest();
-                                    if ('@ViewBag.baru' == 1) {
-                                        var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\" + $("#tahunRKAP").val();
-                                        var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
-                                        var values =
-                                        {
-                                            "filename": filename,
-                                            "destDir": destDir,
-                                            "sourceDir": sourceDir
+                                    "filename": filename,
+                                    "destDir": destDir,
+                                    "sourceDir": sourceDir
 
-                                        }
-                                        $.post("Upload/Move", values, function (data) { });
+                                }
+                                $.post("Upload/Move", values, function (data) { });
+                            }
+                            resetForm();
+                        } else if (data == "false") {
+                            alert('Data tidak tersimpan');
+                        } else if (data == "exist") {
+                            var r = true;
+                            alert("RKAP pada tahun ini sudah tersedia");
+                          @{
+                                if(category==0){
+                                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_RKAP.name, aclId, "update")){
+                                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
                                     }
-                                    resetForm();
-                                } else if (data == "false") {
-                                    alert('Data tidak tersimpan');
+                                }else if(category==1){
+                                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RKAP.name + ViewBag.id, aclId, "update"))
+                                    {
+                                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
+                                    }
                                 }
-                            });
-                        }
-                    }
+                                else
+                                {
+                                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RKAP.name + ViewBag.id, aclId, "update"))
+                                    {
+                                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");r=false;</text>
+                                    }
+                                }
+                            }
+                            if(r!=false){
+                                r = confirm("Apakah anda ingin menggantinya?");
+                            }
+                            if (r) {
+                                var values =
+                                {
+                                    "tahun": document.getElementById("tahunRKAP").value,
+                                    "company_id": '@ViewBag.id',
+                                    "content": filename
+                                }
+                                $.post("DataBisnisDitGasAdmin/UpdateRKAP", values, function (data) {
+                                    if (data == "true") {
+                                        alert('Data tersimpan');
+                                        var grid = $('#RKAPReport').data('tGrid');
+                                        grid.ajaxRequest();
+                                        if ('@ViewBag.baru' == 1) {
+                                            var destDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\" + $("#tahunRKAP").val();
+                                            var sourceDir = "Data Bisnis\\" + @(Model.company_id) + "\\RKAP\\0";
+                                            var values =
+                                            {
+                                                "filename": filename,
+                                                "destDir": destDir,
+                                                "sourceDir": sourceDir
 
-                });
+                                            }
+                                            $.post("Upload/Move", values, function (data) { });
+                                        }
+                                        resetForm();
+                                    } else if (data == "false") {
+                                        alert('Data tidak tersimpan');
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+                }
+            }else{
+                alert('File tidak boleh kosong.');
             }
         });
 
@@ -318,6 +318,7 @@
             .OnSuccess("onSuccess")
             .OnLoad("onLoad")
             .OnRemove("onRemove")
+            .OnUpload("onUpload")
         )
         .Multiple(false)
         .Async(async => async
@@ -373,6 +374,7 @@
         .ClientEvents(
             events => events
                 .OnComplete("OnComplete")
+                .OnDelete("OnDelete")
         )
         .Pageable(p => p.PageSize(15))
         .Sortable()

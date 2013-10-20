@@ -423,6 +423,22 @@ namespace relmon.Controllers.Admin
                 db.Entry(getResult).State = EntityState.Modified;
             
             }
+            //int aclId = (int)Session["id"];
+            //int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
+            //if (category == 1)
+            //{
+            //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + comp_id, aclId, "update"))
+            //    {
+            //        db.SaveChanges();
+            //    }
+            //}
+            //else if(category == 2)
+            //{
+            //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + comp_id, aclId, "update"))
+            //    {
+            //        db.SaveChanges();
+            //    }
+            //}
             db.SaveChanges();
             return bindingProduct(comp_id, tahun);
         }
@@ -434,6 +450,24 @@ namespace relmon.Controllers.Admin
             if(TryUpdateModel(newProduct)){
                 newProduct.company_id = id;
                 db.bisnis_product.Add(newProduct);
+
+                var comp_id = newProduct.company_id;
+                //int aclId = (int)Session["id"];
+                //int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
+                //if (category == 1)
+                //{
+                //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + comp_id, aclId, "create"))
+                //    {
+                //        db.SaveChanges();
+                //    }
+                //}
+                //else if (category == 2)
+                //{
+                //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + comp_id, aclId, "create"))
+                //    {
+                //        db.SaveChanges();
+                //    }
+                //}
                 db.SaveChanges();
             }
             return bindingProduct(id, tahun);
@@ -453,6 +487,22 @@ namespace relmon.Controllers.Admin
                 comp_id = getResult.company_id;
             }
 
+            //int aclId = (int)Session["id"];
+            //int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
+            //if (category == 1)
+            //{
+            //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + comp_id, aclId, "delete"))
+            //    {
+            //        db.SaveChanges();
+            //    }
+            //}
+            //else if (category == 2)
+            //{
+            //    if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + comp_id, aclId, "delete"))
+            //    {
+            //        db.SaveChanges();
+            //    }
+            //}
             db.SaveChanges();
             return bindingProduct(comp_id, tahun);
         }

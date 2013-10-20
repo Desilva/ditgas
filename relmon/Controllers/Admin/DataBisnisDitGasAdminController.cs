@@ -586,30 +586,30 @@ namespace relmon.Controllers.Admin
                 bisnis_bussiness_report result = tempResult.First();
                 comp_id = result.company_id;
                 reportType = result.reportType;
-                int aclId = (int)Session["id"];
-                int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
+                //int aclId = (int)Session["id"];
+                //int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
 
-                if (category == 0)
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete"))
-                    {
-                        return binding(comp_id, reportType);
-                    }
-                }
-                else if (category == 1)
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + comp_id, aclId, "delete"))
-                    {
-                        return binding(comp_id, reportType);
-                    }
-                }
-                else if(category == 2)
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + comp_id, aclId, "delete"))
-                    {
-                        return binding(comp_id, reportType);
-                    }
-                }
+                //if (category == 0)
+                //{
+                //    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_BussinessReport.name, aclId, "delete"))
+                //    {
+                //        return binding(comp_id, reportType);
+                //    }
+                //}
+                //else if (category == 1)
+                //{
+                //    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_BussinessReport.name + comp_id, aclId, "delete"))
+                //    {
+                //        return binding(comp_id, reportType);
+                //    }
+                //}
+                //else if(category == 2)
+                //{
+                //    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_BussinessReport.name + comp_id, aclId, "delete"))
+                //    {
+                //        return binding(comp_id, reportType);
+                //    }
+                //}
 
                 //delete file
                 UploadController upload = new UploadController();
@@ -775,14 +775,15 @@ namespace relmon.Controllers.Admin
                 comp_id = result.company_id;
                 int aclId = (int)Session["id"];
                 int category = DataBisnisDitGasAdminController.GetCategory(comp_id);
-                if (category == 0)
-                {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "delete"))
-                    {
-                        return bindingkinerja(comp_id);
-                    }
-                }
-                else if (category == 1)
+                //if (category == 0)
+                //{
+                //    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_DitGas_KPI.name, aclId, "delete"))
+                //    {
+                //        return bindingkinerja(comp_id);
+                //    }
+                //}
+                //else 
+                if (category == 1)
                 {
                     if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_KPI.name + comp_id, aclId, "delete"))
                     {

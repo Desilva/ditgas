@@ -24,7 +24,7 @@
                     .LoadContentFrom("AdArt/" + ViewBag.id, "DataBisnisDitGasAdmin");
             }
             //if (ACLHandler.isUserAllowedTo(PageItem..name + ViewBag.id, aclId, "view"))
-            if(true)
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_RencanaKerja.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                     .Text("Visi Misi")
@@ -48,12 +48,12 @@
                     .Text("Bussiness Report")
                     .LoadContentFrom("BussinessReport/" + ViewBag.id + "?rowId=-1&reportType=all", "DataBisnisDitGasAdmin");
             }
-            //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "view"))
-            //{
-            //    parent.Add()
-            //        .Text("KPI")
-            //        .LoadContentFrom("Kinerja/" + ViewBag.id + "?rowId=-1", "DataBisnisDitGasAdmin");
-            //}
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_KPI.name + ViewBag.id, aclId, "view"))
+            {
+                parent.Add()
+                    .Text("Pedoman Kinerja")
+                    .LoadContentFrom("KPI/" + ViewBag.id + "?tahun=-1", "DataBisnisApAdmin");
+            }
             //if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_ProjectStatus.name + ViewBag.id, aclId, "view"))
             //{
             //    parent.Add()

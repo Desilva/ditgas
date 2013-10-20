@@ -33,7 +33,7 @@ namespace relmon.Models
         public static PageItem ProfilDitGas_Organisasi = new PageItem("Organisasi", "/OrganisasiDitgas");
 
         public static PageItem SHEQMS = new PageItem("SHE - QMS", "/hse");
-        public static PageItem SHEQMS_DitGas = new PageItem("Ditgas", "PRTSHEQMSDitGas");
+        //public static PageItem SHEQMS_DitGas = new PageItem("Ditgas", "PRTSHEQMSDitGas");
         public static PageItem SHEQMS_DitGas_KebijakanHSE = new PageItem("Kebijakan HSE", "/SHEQMSAdmin/KebijakanHSE");
         public static PageItem SHEQMS_DitGas_SafetyTalk = new PageItem("Safety Talk", "/SHEQMSAdmin/SafetyTalk");
         //public static PageItem SHEQMS_Ap = new PageItem("Anak Perusahaan", "PRTSHEQMSAp");
@@ -46,8 +46,8 @@ namespace relmon.Models
         public static PageItem DataBisnis_DitGas_RJPP = new PageItem("RJPP", "/DataBisnisDitGas/Rjpp");
         public static PageItem DataBisnis_DitGas_RKAP = new PageItem("RKAP", "/DataBisnisDitGas/Rkap");
         public static PageItem DataBisnis_DitGas_BussinessReport = new PageItem("Business Report", "/DataBisnisDitGas/BussinessReport");
-        public static PageItem DataBisnis_DitGas_KPI = new PageItem("KPI", "/DataBisnisDitGas/Kinerja");
-        public static PageItem DataBisnis_DitGas_ProjectStatus = new PageItem("Project Status", "/DataBisnisDitGas/ProjectStatus");
+        //public static PageItem DataBisnis_DitGas_KPI = new PageItem("KPI", "/DataBisnisDitGas/Kinerja");
+        //public static PageItem DataBisnis_DitGas_ProjectStatus = new PageItem("Project Status", "/DataBisnisDitGas/ProjectStatus");
         public static PageItem DataBisnis_DitGas_Product = new PageItem("Product", "/DataBisnisDitGas/Product");
 
         //public static PageItem DataBisnis_JMG = new PageItem("JMG", "/DataBisnisJmg");
@@ -60,9 +60,10 @@ namespace relmon.Models
         public static PageItem DataBisnis_Ap_RJPP = new PageItem("RJPP", "/DataBisnisAp/Rjpp");
         public static PageItem DataBisnis_Ap_RKAP = new PageItem("RKAP", "/DataBisnisAp/Rkap");
         public static PageItem DataBisnis_Ap_BussinessReport = new PageItem("Business Report", "/DataBisnisAp/BussinessReport");
-        public static PageItem DataBisnis_Ap_KPI = new PageItem("KPI", "/DataBisnisAp/Kinerja");
-        public static PageItem DataBisnis_Ap_ProjectStatus = new PageItem("Project Status", "/DataBisnisAp/ProjectStatus");
+        public static PageItem DataBisnis_Ap_KPI = new PageItem("Pedoman Kinerja", "/DataBisnisAp/Kinerja");
+        //public static PageItem DataBisnis_Ap_ProjectStatus = new PageItem("Project Status", "/DataBisnisAp/ProjectStatus");
         public static PageItem DataBisnis_Ap_Product = new PageItem("Product", "/DataBisnisAp/Product");
+        public static PageItem DataBisnis_Ap_RencanaKerja = new PageItem("Visi Misi", "/DataBisnisAp/RencanaKerja");
 
         public static PageItem DataBisnis_Afiliasi = new PageItem("Afiliasi", "/DataBisnisAfiliasi");
         public static PageItem DataBisnis_AfiliasiCompanyParent = new PageItem("", "PRTDataBisnisAfiliasiParent");
@@ -73,15 +74,25 @@ namespace relmon.Models
         public static PageItem DataBisnis_Afiliasi_RJPP = new PageItem("RJPP", "/DataBisnisAfiliasi/Rjpp");
         public static PageItem DataBisnis_Afiliasi_RKAP = new PageItem("RKAP", "/DataBisnisAfiliasi/Rkap");
         public static PageItem DataBisnis_Afiliasi_BussinessReport = new PageItem("Business Report", "/DataBisnisAfiliasi/BussinessReport");
-        public static PageItem DataBisnis_Afiliasi_KPI = new PageItem("KPI", "/DataBisnisAfiliasi/Kinerja");
-        public static PageItem DataBisnis_Afiliasi_ProjectStatus = new PageItem("Project Status", "/DataBisnisAfiliasi/ProjectStatus");
+        public static PageItem DataBisnis_Afiliasi_KPI = new PageItem("Pedoman Kinerja", "/DataBisnisAfiliasi/Kinerja");
+        //public static PageItem DataBisnis_Afiliasi_ProjectStatus = new PageItem("Project Status", "/DataBisnisAfiliasi/ProjectStatus");
         public static PageItem DataBisnis_Afiliasi_Product = new PageItem("Product", "/DataBisnisAfiliasi/Product");
+        public static PageItem DataBisnis_Afiliasi_RencanaKerja = new PageItem("Visi Misi", "/DataBisnisAfiliasi/RencanaKerja");
 
 
         public static PageItem SDM = new PageItem("SDM", "PRTSDM");
         public static PageItem SDM_DitGas = new PageItem("Ditgas", "PRTSDMDitGas");
+        public static PageItem SDM_DitGas_DataPekerja = new PageItem("Data Pekerja & Riwayat Hidup", "DataSdmDitGas/Index");
+        public static PageItem SDM_DitGas_Demografi = new PageItem("Demografi", "DataSdmDitGas/Demografi");
+        public static PageItem SDM_DitGas_StatusPekerja = new PageItem("Status Pekerja", "DataSdmDitGas/MasaJabatan");
         public static PageItem SDM_Ap = new PageItem("Anak Perusahaan", "PRTSDMAp");
+        public static PageItem SDM_Ap_DataPekerja = new PageItem("Data Pekerja & Riwayat Hidup", "DataSdmAp/Index");
+        public static PageItem SDM_Ap_Demografi = new PageItem("Demografi", "DataSdmAp/Demografi");
+        public static PageItem SDM_Ap_StatusPekerja = new PageItem("Status Pekerja", "DataSdmAp/MasaJabatan");
         public static PageItem SDM_Afiliasi = new PageItem("Afiliasi", "PRTSDMAfiliasi");
+        public static PageItem SDM_Afiliasi_DataPekerja = new PageItem("Data Pekerja & Riwayat Hidup", "DataSdmAfiliasi/Index");
+        public static PageItem SDM_Afiliasi_Demografi = new PageItem("Demografi", "DataSdmAfiliasi/Demografi");
+        public static PageItem SDM_Afiliasi_StatusPekerja = new PageItem("Status Pekerja", "DataSdmAfiliasi/MasaJabatan");
         //public static PageItem SDM_AturanSDM = new PageItem("Aturan SDM", "PRTSDMAturan");
 
         public static PageItem AturanRegulasi = new PageItem("Aturan & Regulasi", "PRTAturanRegulasi");
@@ -90,9 +101,9 @@ namespace relmon.Models
         public static PageItem AturanRegulasi_Charter = new PageItem("Charter", "/AturanRegulasi/Pedoman");
         //public static PageItem AturanRegulasi_GCG = new PageItem("GCG", "/AturanRegulasi/GCG");
 
-        public static PageItem Kontak = new PageItem("Kontak", "/Kontak");
+        //public static PageItem Kontak = new PageItem("Kontak", "/Kontak");
 
-        public static PageItem Kalendar = new PageItem("Kalendar", "/Kalendar");
+        //public static PageItem Kalendar = new PageItem("Kalendar", "/Kalendar");
 
         public PageItem ConcatText(string text)
         {
@@ -120,9 +131,16 @@ namespace relmon.Models
         public bool enableCreate { get; set; }
         public bool enableUpdate { get; set; }
         public bool enableDelete { get; set; }
-        public bool enablePrint { get; set; }
+        //public bool enablePrint { get; set; }
 
         private bool validity { get; set; }
+
+        public bool defaultView { get; set; }
+        public bool defaultCreate { get; set; }
+        public bool defaultUpdate { get; set; }
+        public bool defaultDelete { get; set; }
+
+        public bool isUpload { get; set; }
 
         public PageTree()
         {
@@ -139,9 +157,16 @@ namespace relmon.Models
             this.enableCreate = true;
             this.enableUpdate = true;
             this.enableDelete = true;
-            this.enablePrint = true;
+            //this.enablePrint = true;
 
             this.validity = true;
+
+            this.defaultView = true;
+            this.defaultCreate = true;
+            this.defaultUpdate = true;
+            this.defaultDelete = true;
+
+            this.isUpload = false;
         }
 
         public PageTree(PageItem pageItem)
@@ -159,9 +184,16 @@ namespace relmon.Models
             this.enableCreate = true;
             this.enableUpdate = true;
             this.enableDelete = true;
-            this.enablePrint = true;
+            //this.enablePrint = true;
 
             this.validity = true;
+
+            this.defaultView = true;
+            this.defaultCreate = true;
+            this.defaultUpdate = true;
+            this.defaultDelete = true;
+
+            this.isUpload = false;
         }
 
         public PageTree(PageItem pageItem, List<PageTree> child)
@@ -179,9 +211,16 @@ namespace relmon.Models
             this.enableCreate = true;
             this.enableUpdate = true;
             this.enableDelete = true;
-            this.enablePrint = true;
+            //this.enablePrint = true;
 
             this.validity = true;
+
+            this.defaultView = true;
+            this.defaultCreate = true;
+            this.defaultUpdate = true;
+            this.defaultDelete = true;
+
+            this.isUpload = false;
         }
 
         public PageTree setEnableView(bool value)
@@ -196,7 +235,7 @@ namespace relmon.Models
 
         public PageTree setEnableCreate(bool value)
         {
-            this.enableView = value;
+            this.enableCreate = value;
             foreach (PageTree child in this.child)
             {
                 child.setEnableCreate(value);
@@ -206,7 +245,7 @@ namespace relmon.Models
 
         public PageTree setEnableUpdate(bool value)
         {
-            this.enableView = value;
+            this.enableUpdate = value;
             foreach (PageTree child in this.child)
             {
                 child.setEnableUpdate(value);
@@ -216,7 +255,7 @@ namespace relmon.Models
 
         public PageTree setEnableDelete(bool value)
         {
-            this.enableView = value;
+            this.enableDelete = value;
             foreach (PageTree child in this.child)
             {
                 child.setEnableDelete(value);
@@ -224,15 +263,61 @@ namespace relmon.Models
             return this;
         }
 
-        public PageTree setEnablePrint(bool value)
+        public PageTree setDefaultView(bool value)
         {
-            this.enableView = value;
+            this.defaultView = value;
             foreach (PageTree child in this.child)
             {
-                child.setEnablePrint(value);
+                child.setDefaultView(value);
             }
             return this;
         }
+
+        public PageTree setDefaultCreate(bool value)
+        {
+            this.defaultCreate = value;
+            foreach (PageTree child in this.child)
+            {
+                child.setDefaultCreate(value);
+            }
+            return this;
+        }
+
+        public PageTree setDefaultUpdate(bool value)
+        {
+            this.defaultUpdate = value;
+            foreach (PageTree child in this.child)
+            {
+                child.setDefaultUpdate(value);
+            }
+            return this;
+        }
+
+        public PageTree setDefaultDelete(bool value)
+        {
+            this.defaultDelete = value;
+            foreach (PageTree child in this.child)
+            {
+                child.setDefaultDelete(value);
+            }
+            return this;
+        }
+
+        public PageTree setUpload(bool value)
+        {
+            this.isUpload = value;
+            return this;
+        }
+
+        //public PageTree setEnablePrint(bool value)
+        //{
+        //    this.enableView = value;
+        //    foreach (PageTree child in this.child)
+        //    {
+        //        child.setEnablePrint(value);
+        //    }
+        //    return this;
+        //}
 
         //return List<Tuple<text, pageName>>
         public List<Tuple<string, string>> toArray(int levelLimit=-1)
@@ -312,14 +397,15 @@ namespace relmon.Models
             {
                 dataBisnisApChild.Add(new PageTree(PageItem.DataBisnis_ApCompany.ConcatName(c.nama).ConcatText(c.nama), new List<PageTree>
                     {
-                        new PageTree(PageItem.DataBisnis_Ap_Profil.ConcatName(c.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Ap_StrukturOrganisasi.ConcatName(c.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Ap_ADART.ConcatName(c.id.ToString())),
+                        new PageTree(PageItem.DataBisnis_Ap_Profil.ConcatName(c.id.ToString())).setEnableCreate(false).setEnableDelete(false),
+                        new PageTree(PageItem.DataBisnis_Ap_StrukturOrganisasi.ConcatName(c.id.ToString())).setUpload(true),
+                        new PageTree(PageItem.DataBisnis_Ap_ADART.ConcatName(c.id.ToString())).setUpload(true),
+                        new PageTree(PageItem.DataBisnis_Ap_RencanaKerja.ConcatName(c.id.ToString())).setUpload(true),
                         new PageTree(PageItem.DataBisnis_Ap_RJPP.ConcatName(c.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Ap_RKAP.ConcatName(c.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Ap_BussinessReport.ConcatName(c.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Ap_KPI.ConcatName(c.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Ap_ProjectStatus.ConcatName(c.id.ToString())),
+                        new PageTree(PageItem.DataBisnis_Ap_KPI.ConcatName(c.id.ToString())).setEnableCreate(false).setEnableDelete(false),
+                        //new PageTree(PageItem.DataBisnis_Ap_ProjectStatus.ConcatName(c.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Ap_Product.ConcatName(c.id.ToString()))
                     }
                 ));
@@ -331,14 +417,15 @@ namespace relmon.Models
                 {
                     dataBisnisAfiliasiChildTemp.Add(new PageTree(PageItem.DataBisnis_AfiliasiCompany.ConcatName(c2.nama).ConcatText(c2.nama), new List<PageTree>
                     {
-                        new PageTree(PageItem.DataBisnis_Afiliasi_Profil.ConcatName(c2.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.ConcatName(c2.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Afiliasi_ADART.ConcatName(c2.id.ToString())),
+                        new PageTree(PageItem.DataBisnis_Afiliasi_Profil.ConcatName(c2.id.ToString())).setEnableCreate(false).setEnableDelete(false),
+                        new PageTree(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.ConcatName(c2.id.ToString())).setUpload(true),
+                        new PageTree(PageItem.DataBisnis_Afiliasi_ADART.ConcatName(c2.id.ToString())).setUpload(true),
+                        new PageTree(PageItem.DataBisnis_Afiliasi_RencanaKerja.ConcatName(c.id.ToString())).setUpload(true),
                         new PageTree(PageItem.DataBisnis_Afiliasi_RJPP.ConcatName(c2.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Afiliasi_RKAP.ConcatName(c2.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Afiliasi_BussinessReport.ConcatName(c2.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Afiliasi_KPI.ConcatName(c2.id.ToString())),
-                        new PageTree(PageItem.DataBisnis_Afiliasi_ProjectStatus.ConcatName(c2.id.ToString())),
+                        new PageTree(PageItem.DataBisnis_Afiliasi_KPI.ConcatName(c2.id.ToString())).setEnableCreate(false).setEnableDelete(false),
+                        //new PageTree(PageItem.DataBisnis_Afiliasi_ProjectStatus.ConcatName(c2.id.ToString())),
                         new PageTree(PageItem.DataBisnis_Afiliasi_Product.ConcatName(c2.id.ToString()))
                     }
                     ));
@@ -357,20 +444,22 @@ namespace relmon.Models
                 }).setEnableView(false),
                 new PageTree(PageItem.SHEQMS, new List<PageTree>
                 {
-                    new PageTree(PageItem.SHEQMS_DitGas)
+                    new PageTree(PageItem.SHEQMS_DitGas_KebijakanHSE),
+                    new PageTree(PageItem.SHEQMS_DitGas_SafetyTalk)
+                    //new PageTree(PageItem.SHEQMS_DitGas)
                     //,
                     //new PageTree(PageItem.SHEQMS_Ap)
-                }),
+                }).setEnableUpdate(false),
                 new PageTree(PageItem.DataBisnis, new List<PageTree>
                 {
                     new PageTree(PageItem.DataBisnis_DitGas, new List<PageTree>
                     {
-                        new PageTree(PageItem.DataBisnis_DitGas_ADART),
+                        new PageTree(PageItem.DataBisnis_DitGas_ADART).setUpload(true),
                         new PageTree(PageItem.DataBisnis_DitGas_RJPP),
                         new PageTree(PageItem.DataBisnis_DitGas_RKAP),
                         new PageTree(PageItem.DataBisnis_DitGas_BussinessReport),
-                        new PageTree(PageItem.DataBisnis_DitGas_KPI),
-                        new PageTree(PageItem.DataBisnis_DitGas_ProjectStatus),
+                        //new PageTree(PageItem.DataBisnis_DitGas_KPI),
+                        //new PageTree(PageItem.DataBisnis_DitGas_ProjectStatus),
                         new PageTree(PageItem.DataBisnis_DitGas_Product)
                     }),
                     //new PageTree(PageItem.DataBisnis_JMG),
@@ -379,20 +468,33 @@ namespace relmon.Models
                 }),
                 new PageTree(PageItem.SDM, new List<PageTree>
                 {
-                    new PageTree(PageItem.SDM_DitGas),
-                    new PageTree(PageItem.SDM_Ap),
-                    new PageTree(PageItem.SDM_Afiliasi),
+                    new PageTree(PageItem.SDM_DitGas,new List<PageTree>{
+                        new PageTree(PageItem.SDM_DitGas_DataPekerja),
+                        new PageTree(PageItem.SDM_DitGas_Demografi),
+                        new PageTree(PageItem.SDM_DitGas_StatusPekerja)
+                    }),
+                    new PageTree(PageItem.SDM_Ap,new List<PageTree>{
+                        new PageTree(PageItem.SDM_Ap_DataPekerja),
+                        new PageTree(PageItem.SDM_Ap_Demografi),
+                        new PageTree(PageItem.SDM_Ap_StatusPekerja)
+                    }),
+                    new PageTree(PageItem.SDM_Afiliasi,new List<PageTree>{
+                        new PageTree(PageItem.SDM_Afiliasi_DataPekerja),
+                        new PageTree(PageItem.SDM_Afiliasi_Demografi),
+                        new PageTree(PageItem.SDM_Afiliasi_StatusPekerja)
+                    }),
                     //new PageTree(PageItem.SDM_AturanSDM)
-                }),
+                }).setEnableCreate(false).setEnableDelete(false).setEnableUpdate(false)
+                .setDefaultCreate(false).setDefaultDelete(false).setDefaultUpdate(false),
                 new PageTree(PageItem.AturanRegulasi, new List<PageTree>
                 {
-                    new PageTree(PageItem.AturanRegulasi_Pertamina),
-                    new PageTree(PageItem.AturanRegulasi_External),
-                    new PageTree(PageItem.AturanRegulasi_Charter),
+                    new PageTree(PageItem.AturanRegulasi_Pertamina).setEnableUpdate(false),
+                    new PageTree(PageItem.AturanRegulasi_External).setUpload(true),
+                    new PageTree(PageItem.AturanRegulasi_Charter).setUpload(true),
                     //new PageTree(PageItem.AturanRegulasi_GCG)
                 }).setEnableView(false),
-                new PageTree(PageItem.Kontak).setEnableView(false),
-                new PageTree(PageItem.Kalendar).setEnableView(false)
+                //new PageTree(PageItem.Kontak).setEnableView(false),
+                //new PageTree(PageItem.Kalendar).setEnableView(false)
             });
         }
 
@@ -421,7 +523,7 @@ namespace relmon.Models
                     case "create": return pageTree.enableCreate;
                     case "update": return pageTree.enableUpdate;
                     case "delete": return pageTree.enableDelete;
-                    case "print": return pageTree.enablePrint;
+                    //case "print": return pageTree.enablePrint;
                     default: return true;
                 }
             }

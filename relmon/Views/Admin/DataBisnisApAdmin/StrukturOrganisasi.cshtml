@@ -44,16 +44,18 @@
             int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
 
                 if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
                 else if(category==2)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "create"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "update"))
                     {
-                        <text>return false;</text>
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
                     }
                 }
             
@@ -75,14 +77,14 @@
             int category2 = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
 
                 if(category==1){
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "delete"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_StrukturOrganisasi.name + ViewBag.id, aclId, "update"))
                     {
                         <text>return false;</text>
                     }
                 }
                 else if(category==2)
                 {
-                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "delete"))
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_StrukturOrganisasi.name + ViewBag.id, aclId, "update"))
                     {
                         <text>return false;</text>
                     }

@@ -1,4 +1,7 @@
 ﻿@model relmon.Models.bisnis_main
+@using relmon.Utilities;
+@using relmon.Controllers.Admin
+@using relmon.Models;
 <h4>Pengaturan Tampilan Profile</h4> 
 <textarea cols="80" id="profile" name="profile" rows="10">
    	@{
@@ -25,14 +28,37 @@
     });
      $(document).ready(function () {
         $("#saveProfile").click(function () {
-
-            $.post("DataBisnisApAdmin/UploadProfil/@ViewBag.id", { profil: escape(editor.getData()) }, function (data) {
-                if (data == "True") {
-                    alert("Data berhasil disimpan");
-                } else {
-                    alert("Data tidak berhasil disimpan");
+            var allowed = true;
+            @{
+                int aclId = (int)Session["id"];
+            
+                int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+                if(category==1){
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Profil.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        allowed = false;</text>
+                    }
                 }
-            });
+                else if(category == 2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Profil.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        allowed = false;</text>
+                    }
+                }
+            }
+            if(allowed){
+                $.post("DataBisnisApAdmin/UploadProfil/@ViewBag.id", { profil: escape(editor.getData()) }, function (data) {
+                    if (data == "True") {
+                        alert("Data berhasil disimpan");
+                    } else {
+                        alert("Data tidak berhasil disimpan");
+                    }
+                });
+            }
+            
 
         });
     })

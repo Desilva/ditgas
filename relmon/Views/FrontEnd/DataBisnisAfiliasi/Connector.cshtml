@@ -24,7 +24,7 @@
                 .LoadContentFrom("AdArt/"+ViewBag.id, "DataBisnisDitGas");
              }
             //if (ACLHandler.isUserAllowedTo(PageItem..name + ViewBag.id, aclId, "view"))
-            if(true)
+            if (ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_RencanaKerja.name + ViewBag.id, aclId, "view"))
             {
                 parent.Add()
                 .Text("Visi Misi")
@@ -64,7 +64,7 @@
             {
                 parent.Add()
                    .Text("Product")
-                   .LoadContentFrom("Product/" + ViewBag.id, "DataBisnisDitGas");
+                   .LoadContentFrom("ProductNavigator/" + ViewBag.id, "DataBisnisAp");
             }
         })
     )

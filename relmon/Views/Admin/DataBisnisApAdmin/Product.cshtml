@@ -1,14 +1,80 @@
 ﻿@model relmon.Models.BisnisProductContainer
 @using relmon.Controllers.Admin
+@using relmon.Utilities
+@using relmon.Models
+@{
+    int aclId = (int)Session["id"];
+    int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
+}
 <script>
-//    function Grid_onDataBinding(e) {
-//        
-//        // pass additional values by setting the "data" field of the event argument
-//        e.data = {
-//            // the key ("category") specifies the variable name of the action method which will contain the specified value
-//            tahun: $("#tahun").val()
-//        };
-//    }
+    var mode = "edit";
+    function onEdit(e) {
+        mode = e.mode;
+    }
+    
+    function onDelete(e) {
+        
+        @{
+            if (category == 1)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "delete"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
+                }
+            }
+            else if (category == 2)
+            {
+                if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + ViewBag.id, aclId, "delete"))
+                {
+                    <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                        return false;</text>
+                }
+            }
+        }
+    }
+    function onSave(e) {
+        if(mode=="insert"){
+            @{
+                if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                            return false;</text>
+                    }
+                }
+                else if (category == 2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + ViewBag.id, aclId, "create"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                            return false;</text>
+                    }
+                }
+            }
+        }else (mode=="edit"){
+            @{
+                if (category == 1)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Ap_Product.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                            return false;</text>
+                    }
+                }
+                else if (category == 2)
+                {
+                    if (!ACLHandler.isUserAllowedTo(PageItem.DataBisnis_Afiliasi_Product.name + ViewBag.id, aclId, "update"))
+                    {
+                        <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");
+                            return false;</text>
+                    }
+                }
+            }
+        }
+        
+    }
 
     $("#tahun").bind("change", function () {
         var tabStrip = $("#TabStrip").data("tTabStrip");
@@ -94,6 +160,11 @@
                 commands.Delete().ButtonType(GridButtonType.Text);
             }).Width(180).Title("Commands");
         })
+        .ClientEvents(events => events
+            .OnEdit("onEdit")
+            .OnDelete("onDelete")
+            .OnSave("onSave")
+        )
         .Pageable()
         .Scrollable()
         .Sortable()

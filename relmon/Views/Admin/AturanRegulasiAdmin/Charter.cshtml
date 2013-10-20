@@ -2,6 +2,9 @@
 @using relmon.Utilities;
 @using relmon.Controllers.Admin
 @using relmon.Models;
+@{
+    int aclId = (int)Session["id"];
+}
 <h4>Upload File Charter</h4> 
 <script>
     function onSuccess(e) {
@@ -36,8 +39,9 @@
 
     function onUpload(e) {
         @{
-            int aclId = (int)Session["id"];
-            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Charter.name, aclId, "create")){
+            
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Charter.name, aclId, "update")){
+                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");</text>
                 <text>return false;</text>
             }
         }
@@ -54,8 +58,8 @@
 
     function onRemove(e) {
          @{
-            int aclId2 = (int)Session["id"];
-            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Charter.name, aclId2, "delete")){
+            if (!ACLHandler.isUserAllowedTo(PageItem.AturanRegulasi_Charter.name, aclId, "update")){
+                <text>alert("Anda tidak memiliki hak akses untuk melakukan operasi ini.");</text>
                 <text>return false;</text>
             }
                 
@@ -80,7 +84,7 @@
         $fileList = $("#existing-files2");
 
         if ($fileList.length > 0) {
-            $("#charter .t-upload").append($fileList);
+            $("#upCharter .t-upload").append($fileList);
             $files = $(".t-file");
             _fn = function (item) {
                 var $item, fileId, filenames;

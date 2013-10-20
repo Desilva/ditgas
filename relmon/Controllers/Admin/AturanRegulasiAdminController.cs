@@ -302,5 +302,20 @@ namespace relmon.Controllers.Admin
             }
         }
         #endregion
+
+        [HttpPost]
+        public string removeTemp(String name, String dir)
+        {
+            UploadController upload = new UploadController();
+
+            string[] file = new string[1];
+            file[0] = name;
+            if (!string.IsNullOrWhiteSpace(file[0]))
+            {
+                upload.Remove(file, dir);
+            }
+
+            return "Success";
+        }
     }
 }
