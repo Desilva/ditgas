@@ -17,6 +17,8 @@ namespace relmon.Models
     {
         public user()
         {
+            this.acls = new HashSet<acl>();
+            this.dashboard_text = new HashSet<dashboard_text>();
             this.users_keluarga = new HashSet<users_keluarga>();
             this.users_kursus = new HashSet<users_kursus>();
             this.users_nilai_kinerja = new HashSet<users_nilai_kinerja>();
@@ -27,9 +29,8 @@ namespace relmon.Models
             this.users_riwayat_gol_upah_persero = new HashSet<users_riwayat_gol_upah_persero>();
             this.users_sertifikasi = new HashSet<users_sertifikasi>();
             this.users_tindakan_disiplin = new HashSet<users_tindakan_disiplin>();
-            this.acls = new HashSet<acl>();
-            this.dashboard_text = new HashSet<dashboard_text>();
         }
+    
         public int id { get; set; }
         public string username { get; set; }
         [Display(Name = "Full Name")]
@@ -85,7 +86,23 @@ namespace relmon.Models
         public string pendidikan_terakhir { get; set; }
         [Display(Name = "Status Pekerja")]
         public string status_pekerja { get; set; }
-
+        public string directoratecode { get; set; }
+        public string directoratedesc { get; set; }
+        public string departementdesc { get; set; }
+        public string departementcode { get; set; }
+        public string divisioncode { get; set; }
+        public string divisiondesc { get; set; }
+        public string functioncode { get; set; }
+        public string functiondesc { get; set; }
+        public string sectioncode { get; set; }
+        public string sectiondesc { get; set; }
+        public string groupcode { get; set; }
+        public string groupdesc { get; set; }
+        public string employeestatus { get; set; }
+        public string phonenumber { get; set; }
+    
+        public virtual ICollection<acl> acls { get; set; }
+        public virtual ICollection<dashboard_text> dashboard_text { get; set; }
         public virtual ICollection<users_keluarga> users_keluarga { internal get; set; }
         public virtual ICollection<users_kursus> users_kursus { internal get; set; }
         public virtual ICollection<users_nilai_kinerja> users_nilai_kinerja { internal get; set; }
@@ -99,11 +116,9 @@ namespace relmon.Models
         public virtual users_jabatan users_jabatan { internal get; set; }
         public virtual users_jabatan_parent users_jabatan_parent { get; set; }
         public virtual string status_pensiun { get; set; }
-        public virtual ICollection<acl> acls { internal get; set; }
-        public virtual ICollection<dashboard_text> dashboard_text { get; set; }
     }
-
-    public partial class user_rm_role
+    
+	public partial class user_rm_role
     {
         public user_rm_role()
         {
@@ -170,5 +185,4 @@ namespace relmon.Models
         public virtual ICollection<acl> acls { get; set; }
         public virtual ICollection<dashboard_text> dashboard_text { get; set; }
     }
-
 }

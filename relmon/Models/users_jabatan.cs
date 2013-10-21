@@ -18,7 +18,7 @@ namespace relmon.Models
         {
             this.users = new HashSet<user>();
         }
-
+    
         public int id { get; set; }
         public string nama { get; set; }
         public Nullable<int> parent { get; set; }
@@ -26,7 +26,8 @@ namespace relmon.Models
         public Nullable<int> company_id { get; set; }
         public string golongan { get; set; }
         public Nullable<int> cost_centre { get; set; }
-
+        public string positionID { get; set; }
+    
         public virtual company company { internal get; set; }
         public virtual ICollection<user> users { internal get; set; }
         public virtual company2 company2 { get; set; }
@@ -34,8 +35,8 @@ namespace relmon.Models
         public virtual string nama_cost_centre { get; set; }
         public virtual int level { get; set; }
     }
-
-    public partial class users_jabatan_parent
+	
+	public partial class users_jabatan_parent
     {
         public users_jabatan_parent()
         {
@@ -57,5 +58,4 @@ namespace relmon.Models
         public virtual string nama_cost_centre { get; set; }
         public virtual int level { get; set; }
     }
-
 }
