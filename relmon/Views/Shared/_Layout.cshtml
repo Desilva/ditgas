@@ -96,12 +96,12 @@
                                         item2.Add().Text(PageItem.DataBisnis_Ap.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_Ap.name, userId));
                                         item2.Add().Text(PageItem.DataBisnis_Afiliasi.text).Visible(ACLHandler.isAdminMenuShown(PageItem.DataBisnis_Afiliasi.name, userId));
                                     });
-                                item.Add().Text(PageItem.SDM.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SDM.name, userId));
+                                //item.Add().Text(PageItem.SDM.text).Visible(ACLHandler.isAdminMenuShown(PageItem.SDM.name, userId));
                                 item.Add().Text(PageItem.AturanRegulasi.text).Visible(ACLHandler.isAdminMenuShown(PageItem.AturanRegulasi.name, userId));
                                 //item.Add().Text(PageItem.Kontak.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kontak.name, userId));
-                                item.Add().Text("Kontak").Visible(true);
+                                //item.Add().Text("Kontak").Visible(true);
                                 //item.Add().Text(PageItem.Kalendar.text).Visible(ACLHandler.isAdminMenuShown(PageItem.Kalendar.name, userId));
-                                item.Add().Text("Kalender").Visible(true);
+                                //item.Add().Text("Kalender").Visible(true);
                                 item.Add().ImageUrl("Content/images/rumah.png").ImageHtmlAttributes(new { style = "padding: 3px 20px 3px 24px; width:18px; height:16px;" }).Action("Index", "Dashboard").Text(" ");
                             }).Render();
 
