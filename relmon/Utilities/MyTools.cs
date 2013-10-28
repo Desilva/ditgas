@@ -20,6 +20,7 @@ namespace relmon.Utilities
                 case "docx":
                     return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
                 default :
+                    return "application/octet-stream";
                     break;
             };
             return "";
