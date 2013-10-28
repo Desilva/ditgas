@@ -11,7 +11,7 @@
     function onEdit(e) {
         mode = e.mode;
     }
-    
+
     function onDelete(e) {
         
         @{
@@ -33,7 +33,9 @@
             }
         }
     }
+
     function onSave(e) {
+        
         if(mode=="insert"){
             @{
                 if (category == 1)
@@ -53,7 +55,7 @@
                     }
                 }
             }
-        }else (mode=="edit"){
+        }else if(mode=="edit"){
             @{
                 if (category == 1)
                 {
@@ -73,10 +75,9 @@
                 }
             }
         }
-        
     }
 
-    $("#tahun").bind("change", function () {
+     $("#tahun").bind("change", function () {
         var tabStrip = $("#TabStrip").data("tTabStrip");
         var tahun = $("#tahun").val();
          $.post("DataBisnisApAdmin/Product/@ViewBag.id", { tahun: tahun }, function (data) {
@@ -88,7 +89,6 @@
             });
 
     });
-
     $(document).ready(function () {
         var currentYear = new Date().getFullYear();
 
