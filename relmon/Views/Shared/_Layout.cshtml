@@ -131,7 +131,7 @@
                                        //item.Add().Text("Strategic Planning").Action("Index", "StrategicPlaning");
                                        item.Add().Text("Organisasi").Action("Index", "OrganisasiDitGas").Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas_Organisasi.name, userId));
                                    }).Visible(ACLHandler.isMenuShown(PageItem.ProfilDitGas.name, userId));
-                               menu.Add().Text("SHE - QMS").Action("Index", "hse").HtmlAttributes(new { @id = "hse" })
+                               menu.Add().Text("SHE - QMS").HtmlAttributes(new { @id = "hse" })
                                    .Items(item =>
                                    {
                                        item.Add().Text(PageItem.SHEQMS_DitGas_KebijakanHSE.text).Action("KebijakanHSE", "SHEQMS").Visible(ACLHandler.isMenuShown(PageItem.SHEQMS_DitGas_KebijakanHSE.name, userId));

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Telerik.Web.Mvc;
 using relmon.Models;
+using relmon.Utilities;
 
 namespace relmon.Controllers.FrontEnd
 {
@@ -79,6 +80,37 @@ namespace relmon.Controllers.FrontEnd
             {
                 Data = result
             });
+        }
+
+        public ActionResult GetDLHSE(int id)
+        {
+            sheqms_kebijakan_HSE x = db.sheqms_kebijakan_HSE.Find(id);
+
+            try
+            {
+                var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/SHE-QMS/Kebijakan HSE" + "/" + x.filename));
+                string fileType = MyTools.getFileType(x.filename);
+                return File(fs, fileType, x.filename);
+            }
+            catch
+            {
+                throw new HttpException(404, "Couldn't find " + x.filename);
+            }
+        }
+
+        public ActionResult GetDL(int id)
+        {
+            sheqms_safety_talk x = db.sheqms_safety_talk.Find(id);
+            try
+            {
+                var fs = System.IO.File.OpenRead(Server.MapPath("~/Upload/SHE-QMS/Safety Talk" + "/" + x.filename));
+                string fileType = MyTools.getFileType(x.filename);
+                return File(fs, fileType, x.filename);
+            }
+            catch
+            {
+                throw new HttpException(404, "Couldn't find " + x.filename);
+            }
         }
     }
 }
