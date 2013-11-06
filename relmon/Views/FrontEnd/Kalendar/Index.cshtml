@@ -14,7 +14,20 @@
         background-color: #BBBBBB !important; 
         color:white !important;
     }
-    
+    .dhx_cal_tab.active
+    {
+        background-color: #2381bf !important;
+        color : #ffffff !important; 
+    }
+    .dhx_cal_tab
+    {
+        background-color: #d1d2d4 ; 
+        color : #ffffff !important;
+    }
+    .dhx_now .dhx_month_head, .dhx_now .dhx_month_body
+    {
+        background-color: #f2f2f2 !important;
+    }
 </style>
 <script type="text/javascript" charset="utf-8">
     
@@ -121,6 +134,7 @@
                 scheduler.attachEvent("onBeforeDrag", function () { return false; }); //block event resize and drag
                 scheduler.attachEvent("onClick", function () { return false; }); //block selection menus
                 scheduler.config.dblclick_create = false; //block event creation by doubleclick
+                $(".dhx_close_icon").hide();
             } else {
                 scheduler.locale.labels.section_text = 'Title';
                 scheduler.locale.labels.section_description = 'Description';
@@ -319,16 +333,17 @@
 <div id="test">
 
 </div>
-<h2>Kalendar meeting</h2>
-<div id="scheduler_here" class="dhx_cal_container" style='padding-top=10px; width:1000px; height:500px;'>
+<h2>KALENDER EVENT</h2>
+<hr style="height:1px;border:1px solid #cccdcf;background-color:#bdbec0;" />
+<div id="scheduler_here" class="dhx_cal_container" style='padding-top=10px; width:1000px; height:500px;border: 3px solid #abacae;'>
 	<div class="dhx_cal_navline">
 		<div class="dhx_cal_prev_button">&nbsp;</div>
 		<div class="dhx_cal_next_button">&nbsp;</div>
 		<div class="dhx_cal_today_button"></div>
-		<div class="dhx_cal_date"></div>
-		<div class="dhx_cal_tab dhx_cal_tab_first" name="day_tab" style="left:14px;"></div>
-		<div class="dhx_cal_tab" name="week_tab" style="left:75px;"></div>
-		<div class="dhx_cal_tab dhx_cal_tab_last" name="month_tab" style="left:136px;"></div>
+		<div class="dhx_cal_date" style="left:30px;text-align:left;"></div>
+		<div class="dhx_cal_tab dhx_cal_tab_first" name="day_tab" style="left:414px;"></div>
+		<div class="dhx_cal_tab" name="week_tab" style="left:475px;"></div>
+		<div class="dhx_cal_tab dhx_cal_tab_last" name="month_tab" style="left:536px;"></div>
 	</div>
 	<div class="dhx_cal_header">
 	</div>

@@ -25,6 +25,9 @@ namespace relmon.Reporting
             Telerik.Reporting.TableGroup tableGroup14 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup15 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup16 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule1 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule2 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule3 = new Telerik.Reporting.Drawing.FormattingRule();
             Telerik.Reporting.TableGroup tableGroup17 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup18 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup19 = new Telerik.Reporting.TableGroup();
@@ -42,6 +45,9 @@ namespace relmon.Reporting
             Telerik.Reporting.TableGroup tableGroup31 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup32 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup33 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule4 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule5 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule6 = new Telerik.Reporting.Drawing.FormattingRule();
             Telerik.Reporting.TableGroup tableGroup34 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup35 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup36 = new Telerik.Reporting.TableGroup();
@@ -85,6 +91,9 @@ namespace relmon.Reporting
             Telerik.Reporting.TableGroup tableGroup73 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup74 = new Telerik.Reporting.TableGroup();
             Telerik.Reporting.TableGroup tableGroup75 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule7 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule8 = new Telerik.Reporting.Drawing.FormattingRule();
+            Telerik.Reporting.Drawing.FormattingRule formattingRule9 = new Telerik.Reporting.Drawing.FormattingRule();
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule2 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule3 = new Telerik.Reporting.Drawing.StyleRule();
@@ -268,7 +277,7 @@ namespace relmon.Reporting
             // 
             this.textBox2.KeepTogether = false;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.63500130176544189D));
+            this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.63500130176544189D));
             this.textBox2.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(172)))), ((int)(((byte)(198)))));
             this.textBox2.Style.Color = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
             this.textBox2.Value = "Nilai";
@@ -446,8 +455,8 @@ namespace relmon.Reporting
             // 
             // table1
             // 
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(4.8899617195129395D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(2.4304642677307129D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(4.8899621963500977D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D)));
             this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D)));
             this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.60854345560073853D)));
             this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.576668381690979D)));
@@ -552,7 +561,7 @@ namespace relmon.Reporting
             tableGroup3.Groupings.Add(new Telerik.Reporting.Grouping(null));
             tableGroup3.Name = "DetailGroup";
             this.table1.RowGroups.Add(tableGroup3);
-            this.table1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(7.3204259872436523D), Telerik.Reporting.Drawing.Unit.Cm(7.4756369590759277D));
+            this.table1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(7.3468847274780273D), Telerik.Reporting.Drawing.Unit.Cm(7.4756369590759277D));
             // 
             // textBox4
             // 
@@ -564,7 +573,7 @@ namespace relmon.Reporting
             // textBox7
             // 
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.60854345560073853D));
+            this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.60854345560073853D));
             this.textBox7.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox7.Value = "=Fields.roe";
             // 
@@ -579,7 +588,7 @@ namespace relmon.Reporting
             // textBox12
             // 
             this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
+            this.textBox12.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
             this.textBox12.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox12.Value = "=Fields.kas";
             // 
@@ -594,7 +603,7 @@ namespace relmon.Reporting
             // textBox11
             // 
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.576668381690979D));
+            this.textBox11.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.576668381690979D));
             this.textBox11.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox11.Value = "=Fields.opm";
             // 
@@ -683,71 +692,81 @@ namespace relmon.Reporting
             // textBox34
             // 
             this.textBox34.Name = "textBox34";
-            this.textBox34.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.5766679048538208D));
+            this.textBox34.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.5766679048538208D));
             this.textBox34.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox34.Value = "=Fields.current_ratio";
             // 
             // textBox35
             // 
             this.textBox35.Name = "textBox35";
-            this.textBox35.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.52375078201293945D));
+            this.textBox35.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.52375078201293945D));
             this.textBox35.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox35.Value = "=Fields.ito";
             // 
             // textBox36
             // 
             this.textBox36.Name = "textBox36";
-            this.textBox36.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.55020928382873535D));
+            this.textBox36.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.55020928382873535D));
             this.textBox36.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox36.Value = "=Fields.tier";
             // 
             // textBox37
             // 
             this.textBox37.Name = "textBox37";
-            this.textBox37.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
+            this.textBox37.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
             this.textBox37.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox37.Value = "=Fields.cp";
             // 
             // textBox38
             // 
             this.textBox38.Name = "textBox38";
-            this.textBox38.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
+            this.textBox38.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.49729222059249878D));
             this.textBox38.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox38.Value = "=Fields.npm";
             // 
             // textBox39
             // 
             this.textBox39.Name = "textBox39";
-            this.textBox39.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.44437578320503235D));
+            this.textBox39.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.44437578320503235D));
             this.textBox39.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox39.Value = "=Fields.cash_ratio";
             // 
             // textBox40
             // 
             this.textBox40.Name = "textBox40";
-            this.textBox40.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.47083419561386108D));
+            this.textBox40.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.47083419561386108D));
             this.textBox40.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox40.Value = "=Fields.tato";
             // 
             // textBox41
             // 
             this.textBox41.Name = "textBox41";
-            this.textBox41.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.6031259298324585D));
+            this.textBox41.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.6031259298324585D));
             this.textBox41.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox41.Value = "=Fields.etta";
             // 
             // textBox42
             // 
             this.textBox42.Name = "textBox42";
-            this.textBox42.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.5237501859664917D));
+            this.textBox42.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.5237501859664917D));
             this.textBox42.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.textBox42.Style.Font.Bold = true;
             this.textBox42.Value = "=Fields.nkk";
             // 
             // textBox43
             // 
+            formattingRule1.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Sehat\""));
+            formattingRule1.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(169)))), ((int)(((byte)(0)))));
+            formattingRule2.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Kurang Sehat\""));
+            formattingRule2.Style.BackgroundColor = System.Drawing.Color.Yellow;
+            formattingRule3.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Tidak Sehat\""));
+            formattingRule3.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox43.ConditionalFormatting.AddRange(new Telerik.Reporting.Drawing.FormattingRule[] {
+            formattingRule1,
+            formattingRule2,
+            formattingRule3});
             this.textBox43.Name = "textBox43";
-            this.textBox43.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4304647445678711D), Telerik.Reporting.Drawing.Unit.Cm(0.47083315253257751D));
+            this.textBox43.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.4569225311279297D), Telerik.Reporting.Drawing.Unit.Cm(0.47083315253257751D));
             this.textBox43.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
             this.textBox43.Style.Font.Bold = true;
             this.textBox43.Value = "=Fields.klasifikasi";
@@ -882,11 +901,11 @@ namespace relmon.Reporting
             this.table3.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(4.7635579109191895D)));
             this.table3.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(2.6096832752227783D)));
             this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.50270813703536987D)));
-            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729189276695251D)));
+            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729186296463013D)));
             this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.5237504243850708D)));
             this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.60312491655349731D)));
-            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.55020838975906372D)));
-            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.57666665315628052D)));
+            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.550208330154419D)));
+            this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.57666659355163574D)));
             this.table3.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.5502084493637085D)));
             this.table3.Body.SetCellContent(0, 0, this.textBox52);
             this.table3.Body.SetCellContent(1, 0, this.textBox53);
@@ -1047,6 +1066,16 @@ namespace relmon.Reporting
             // 
             // textBox65
             // 
+            formattingRule4.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Tumbuh Tinggi\""));
+            formattingRule4.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(169)))), ((int)(((byte)(0)))));
+            formattingRule5.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Tumbuh Sedang\""));
+            formattingRule5.Style.BackgroundColor = System.Drawing.Color.Yellow;
+            formattingRule6.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Kurang Tumbuh\""));
+            formattingRule6.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox65.ConditionalFormatting.AddRange(new Telerik.Reporting.Drawing.FormattingRule[] {
+            formattingRule4,
+            formattingRule5,
+            formattingRule6});
             this.textBox65.Name = "textBox65";
             this.textBox65.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(2.6096832752227783D), Telerik.Reporting.Drawing.Unit.Cm(0.5502084493637085D));
             this.textBox65.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(234)))), ((int)(((byte)(241)))));
@@ -1171,8 +1200,8 @@ namespace relmon.Reporting
             // 
             this.table7.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(5.0320229530334473D)));
             this.table7.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Cm(2.4521539211273193D)));
-            this.table7.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.57666689157485962D)));
-            this.table7.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.5502084493637085D)));
+            this.table7.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.57666683197021484D)));
+            this.table7.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.55020838975906372D)));
             this.table7.Body.SetCellContent(0, 0, this.textBox101);
             this.table7.Body.SetCellContent(1, 0, this.textBox102);
             this.table7.Body.SetCellContent(1, 1, this.textBox103);
@@ -1252,10 +1281,10 @@ namespace relmon.Reporting
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.36500009894371033D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.41791662573814392D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.47083371877670288D)));
-            this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729156494140625D)));
+            this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729159474372864D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.39145830273628235D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.41791662573814392D)));
-            this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.44437545537948608D)));
+            this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.44437548518180847D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729210138320923D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729210138320923D)));
             this.table8.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(0.49729174375534058D)));
@@ -1800,6 +1829,16 @@ namespace relmon.Reporting
             // 
             // textBox96
             // 
+            formattingRule7.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Tertib\""));
+            formattingRule7.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(169)))), ((int)(((byte)(0)))));
+            formattingRule8.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Kurang Tertib\""));
+            formattingRule8.Style.BackgroundColor = System.Drawing.Color.Yellow;
+            formattingRule9.Filters.Add(new Telerik.Reporting.Filter("=Fields.klasifikasi", Telerik.Reporting.FilterOperator.Like, "=\"Tidak Tertib\""));
+            formattingRule9.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox96.ConditionalFormatting.AddRange(new Telerik.Reporting.Drawing.FormattingRule[] {
+            formattingRule7,
+            formattingRule8,
+            formattingRule9});
             this.textBox96.Name = "textBox96";
             this.textBox96.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(1.9495118856430054D), Telerik.Reporting.Drawing.Unit.Cm(0.55020838975906372D));
             this.textBox96.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));

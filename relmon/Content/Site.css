@@ -1,4 +1,5 @@
-﻿/*----------------------------------------------------------
+﻿
+/*----------------------------------------------------------
 The base color for this template is #5c87b2. If you'd like
 to use a different color start by replacing all instances of
 #5c87b2 with your new color.
@@ -1289,7 +1290,7 @@ input[readonly] {
 .pagination
 {
     padding-top: 10px;
-    width: 23%;
+    width: 100px;
     float: right;    
 }
 
@@ -1520,7 +1521,7 @@ input[readonly] {
 {
     height: 78%;
     font-size: smaller;
-    background-color: #C6C6C6;
+    background-color: #ffffff;
 }
 
 #banner #banner-right #banner-judul

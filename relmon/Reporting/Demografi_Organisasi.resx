@@ -150,4 +150,7 @@ WHERE                       (x.company_id = @comp_id)
 GROUP BY              y.nama, y.id
 ORDER BY               y.id</value>
   </data>
+  <metadata name="$this.SnapGridSize" type="Telerik.Reporting.Drawing.Unit, Telerik.Reporting, Version=7.0.13.220, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+    <value>0.1in</value>
+  </metadata>
 </root>

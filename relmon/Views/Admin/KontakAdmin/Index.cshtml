@@ -1,0 +1,65 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("#klasifikasi").val('@ViewBag.tipe');
+        $("#klasifikasi").bind("change", function () {
+            $.post("KontakAdmin/Index", { tipe: $("#klasifikasi").val() }, function (data) {
+                $("#content").html(data);
+            });
+        });
+    });
+    
+    function onEdit(e) {
+        $('div.t-edit-form-container').find('#id').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#id').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#tipe').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#tipe').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+    }
+</script>
+
+<h2>Kontak Management</h2>
+<hr style="height:1px;border:1px solid #cccdcf;background-color:#bdbec0;" />
+<span>Klasifikasi : </span>
+<select id="klasifikasi">
+    <option value="pusat" selected="selected">Pusat</option>
+    <option value="ap">Anak Perusahaan</option>
+    <option value="area">Area</option>
+</select>
+@(Html.Telerik().Grid<relmon.Models.kontak>()
+    .HtmlAttributes(new { style = "width:695px" })
+    .Name("Kontak")
+    .DataKeys(keys =>
+    {
+        keys.Add(p => p.id);
+    })
+    .ToolBar(commands => commands.Insert().ButtonType(GridButtonType.Text).ImageHtmlAttributes(new { style = "margin-left:0" }))
+    .DataBinding(dataBinding =>
+    {
+        dataBinding.Ajax()
+            .Select("_SelectAjaxEditing", "KontakAdmin", new { tipe = ViewBag.tipe })
+            .Insert("_InsertAjaxEditing", "KontakAdmin", new { tipe = ViewBag.tipe })
+            .Update("_SaveAjaxEditing", "KontakAdmin")
+            .Delete("_DeleteAjaxEditing", "KontakAdmin");
+
+    })
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.nama).Title("Nama");
+        columns.Bound(o => o.gedung).Title("Gedung");
+        columns.Bound(o => o.alamat).Title("Alamat");
+        columns.Bound(o => o.kota).Title("Kota ");
+        columns.Bound(o => o.telepon).Title("Telepon");
+        columns.Bound(o => o.fax).Title("Fax");
+        //columns.Bound(o => o.tipe).Title("Tipe");
+        columns.Command(commands =>
+        {
+            commands.Edit().ButtonType(GridButtonType.Text);
+            commands.Delete().ButtonType(GridButtonType.Text);
+        }).Title("Commands");
+    })
+        .ClientEvents(events => events.OnEdit("onEdit"))
+
+    .Pageable()
+    .Scrollable()
+    .Sortable()
+    .Editable(editing => editing.Mode(GridEditMode.PopUp))
+)

@@ -1,8 +1,62 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kontak";
 }
 
-<h2>Kontak</h2>
+<script>
+    $(document).ready(function () {
+        $.post("Kontak/GetKontak", { tipe: "pusat" }, function (data) {
+            $.each(data, function (index, value) {
+                var result = "<div style='float:left;width : 30%;margin:20px 5px 5px 5px;'>";
+                //result += "<span>"+ value.nama +"</span><br />";
+                result += "<span>" + value.gedung + "</span><br />";
+                result += "<span>" + value.alamat + "</span><br />";
+                result += "<span>" + value.kota + "</span><br /><br />";
+                result += "<span>Phone " + value.telepon + "</span><br />";
+                result += "<span>Fax " + value.fax + "</span><br />";
+                result += "<div>";
+                $("#kontakPusat").append(result);
+            });
+        });
+        $.post("Kontak/GetKontak", { tipe: "ap" }, function (data) {
+            $.each(data, function (index, value) {
+                var result = "<div style='float:left;width : 30%;margin:20px 5px 5px 5px;'>";
+                result += "<span><b>" + value.nama + "</b></span><br /><br />";
+                result += "<span>" + value.gedung + "</span><br />";
+                result += "<span>" + value.alamat + "</span><br />";
+                result += "<span>" + value.kota + "</span><br /><br />";
+                result += "<span>Phone " + value.telepon + "</span><br />";
+                result += "<span>Fax " + value.fax + "</span><br />";
+                result += "<div>";
+                $("#kontakAp").append(result);
+            });
+        });
+        $.post("Kontak/GetKontak", { tipe: "area" }, function (data) {
+            $.each(data, function (index, value) {
+                var result = "<div style='float:left;width : 30%;margin:20px 5px 5px 5px;'>";
+                result += "<span><b>" + value.nama + "</b></span><br /><br />";
+                result += "<span>" + value.gedung + "</span><br />";
+                result += "<span>" + value.alamat + "</span><br />";
+                result += "<span>" + value.kota + "</span><br /><br />";
+                result += "<span>Phone " + value.telepon + "</span><br />";
+                result += "<span>Fax " + value.fax + "</span><br />";
+                result += "<div>";
+                $("#kontakArea").append(result);
+            });
+        });
+    });
+</script>
+<h2>KONTAK</h2
+<h4>KANTOR PUSAT</h4>
+<hr />
+<div id="kontakPusat" style="overflow:hidden;"></div>
+<h4>KANTOR ANAK PERUSAHAAN</h4>
+<hr />
+<div id="kontakAp" style="overflow:hidden;"></div>
+<h4>KANTOR AREA</h4>
+<hr />
+<div id="kontakArea" style="overflow:hidden;"></div>
+
+@*
 <div id="dnn_ContentPane" class="pagecontent"><div><a id="412" name="412"></a>
 
 <div class="headerC01">
@@ -169,4 +223,4 @@
 </div>
 
 </div>
-</div>
+</div>*@

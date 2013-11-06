@@ -2,7 +2,7 @@
 /* .small .t-widget{font-size:.687em}
 /* 11px base,if there are no inherited font-sizes(MVC default) */
 .t-header{background: transparent;}
-.t-grid-header{background: url('Office2007/sprite.png') repeat-x 0 -850px}
+/*.t-grid-header{background: url('Office2007/sprite.png') repeat-x 0 -850px}*/
 .t-icon{background-image:url('WebBlue/sprite.png')}
 .t-editor .t-tool-icon{background-image:url('WebBlue/editor.png')}
 .t-loading,.t-widget .t-loading{background:transparent url('WebBlue/loading.gif') no-repeat 0 0}
@@ -86,3 +86,24 @@
 .t-tile-empty strong{color:#b3c6d3}
 .t-complete{background-position: -32px -336px;}
 .t-preview{background-position: -63px -177px;}
+.t-item{background-color:#cccccc}
+.t-item{border:0px !important}
+.t-link a{color:#ffffff  !important;}
+.t-state-active{background-color:#6d6e72}
+.t-item a{color:#ffffff  !important;}
+.t-state-active>h1{color:#ffffff;}
+.t-state-active>h2{color:#ffffff;}
+.t-state-active>h3{color:#ffffff;}
+.t-state-active>h4{color:#ffffff;}
+.t-state-active>h5{color:#ffffff;}
+.t-state-active>h6{color:#ffffff;}
+.t-state-active b{color:#ffffff !important;}
+.t-content{background-color:#6d6e72}
+.t-grouping-header{background-color:#cccccc;color:#ffffff !important}
+.t-grid-header{background-color:#6d6e72}
+.t-grid-header a{color:#ffffff !important}
+.t-grid-bottom{background-color:#6d6e72 !important;color:#ffffff !important}
+.t-status{background-color:#6d6e72 !important}
+.t-state-active{color:#ffffff !important}
+.t-grouping-header{border:0px !important}
+.t-grid-header-wrap .t-link{color:#ffffff !important}

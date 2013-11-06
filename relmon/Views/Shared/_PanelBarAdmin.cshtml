@@ -11,6 +11,9 @@
         } else if (item.find('> .t-link').text() == "User Management") {
             $('#content').load('User');
             $('#content-employee').html('');
+        } else if (item.find('> .t-link').text() == "Kontak Management") {
+            $('#content').load('KontakAdmin/Index?tipe=pusat');
+            $('#content-employee').html('');
         }
         // ============== SDM ============== //
         else if (item.find('> .t-link').text() == "Employee Management") {
@@ -18,7 +21,7 @@
             $('#content-employee').html('');
         } else if (item.find('> .t-link').text() == "PJS") {
             $('#content').load('Employee');
-            $('#content-employee').html('');
+            $('#content-employee').html('');ta
         } else if (item.find('> .t-link').text() == "Mutasi") {
             $('#content').load('Employee');
             $('#content-employee').html('');
@@ -80,6 +83,7 @@
                     item.Add().Text("Company Management");
                     item.Add().Text("Role Management");
                     item.Add().Text("User Management");
+                    item.Add().Text("Kontak Management");
                 })
                 .Expanded(true);
             panelBarItem.Add().Text("SDM")

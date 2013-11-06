@@ -69,7 +69,7 @@
                 result += "    <td style='width:1%;'></td>";
                 result += "    <td class='review' style='width:99%;'>";
                 result += "        <p class='review'>";
-                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "            " + value.ringkasan + " <br /><a href='/Dashboard/ReadMore/" + value.id + "'>>read more</a>";
                 result += "        </p>";
                 result += "    </td>";
                 result += "</tr>";
@@ -78,7 +78,7 @@
             });
 
             $('#pagination-news').easyPaginate({
-                step: 3,
+                step: 2,
                 div: "#pagination-news",
                 anchor: "#banner-left"
             });
@@ -107,7 +107,7 @@
                 result += "    <td style='width:1%;'></td>";
                 result += "    <td class='review' style='width:99%;'>";
                 result += "        <p class='review'>";
-                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "            " + value.ringkasan + " <br /><a href='/Dashboard/ReadMore/" + value.id + "'>>read more</a>";
                 result += "        </p>";
                 result += "    </td>";
                 result += "</tr>";
@@ -145,7 +145,7 @@
                 result += "    <td style='width:1%;'></td>";
                 result += "    <td class='review' style='width:99%;'>";
                 result += "        <p class='review'>";
-                result += "            " + value.ringkasan + " <a href='/Dashboard/ReadMore/" + value.id + "'>Read more</a>";
+                result += "            " + value.ringkasan + " <br /><a href='/Dashboard/ReadMore/" + value.id + "'>>read more</a>";
                 result += "        </p>";
                 result += "    </td>";
                 result += "</tr>";
@@ -182,7 +182,7 @@
                 News & General Information
             </div>
             <div class="content" id="pagination-news-anchor">
-                <ul id="pagination-news" style="min-height:140px; max-height:140px; list-style-type:none; padding-left:0; margin-top:0">
+                <ul id="pagination-news" style="min-height:120px; max-height:120px; list-style-type:none; padding-left:0; margin-top:0">
                 </ul>
             </div>
         </div>
@@ -194,10 +194,15 @@
         </div>
     </div>
     <br/><br/>
-
+    <style>
+        #RoadMap a
+        {
+            color:#ffffff !important;
+        }
+    </style>
     @(Html.Telerik().PanelBar()
         .Name("RoadMap")
-        .HtmlAttributes(new { style = "width: 1000px; margin-bottom: 10px;" })
+                        .HtmlAttributes(new { style = "width: 1000px; margin-bottom: 10px;background-color:#6d6e72;" })
         .Items(panelBarItem =>
         {
             panelBarItem.Add()
@@ -210,22 +215,24 @@
         .ExpandMode(PanelBarExpandMode.Multiple)
     )
 
-    <div class="ultah"><h4>Highlight</h4></div>
+    <div class="ultah"><h4>HIGHLIGHT</h4></div>
     <div class="marquee" id="mycrawler" style="float:left;"></div>
 
     <div id="left-content">
-        <div class="titlethumb">
+        @*<div class="titlethumb">
             <span>Informasi</span>
-        </div>
+        </div>*@
+        <span>INFORMASI</span>
         <div class="content">
             <ul id="pagination-informasi" style="min-height:400px; max-height:400px; list-style-type:none">
             </ul>
         </div>    
     </div>
     <div id="right-content">
-        <div class="titlethumb">
+        @*<div class="titlethumb">
             <span>Kebijakan</span>
-        </div>
+        </div>*@
+        <span>KEBIJAKAN</span>
         <div class="content">
             <ul id="pagination-kebijakan" style="min-height:400px; max-height:400px; list-style-type:none">
             </ul>

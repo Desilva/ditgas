@@ -3,6 +3,7 @@
 @using relmon.Controllers.Admin
 @using relmon.Models;
 <h4>Upload File AD/ART</h4> 
+<hr style="height:1px;border:1px solid #cccdcf;background-color:#bdbec0;" />
 <script>
     function onSuccess(e) {
         var files = e.files;
@@ -11,6 +12,7 @@
             $.post("DataBisnisDitGasAdmin/UploadAdArt/@ViewBag.id", { filename: files[0].name }, function (data) {
                 if (data == "True") {
                     alert("File berhasil di-upload");
+                     
                     loadIframe('frame-content', '/DataBisnisAp/GetPdf?id=@ViewBag.id&nomer=1');
                 } else {
                     alert("File tidak berhasil di-upload");

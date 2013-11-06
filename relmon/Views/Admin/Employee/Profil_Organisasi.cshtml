@@ -49,7 +49,8 @@
             var style = graph.getStylesheet().getDefaultEdgeStyle();
             style[mxConstants.STYLE_EDGE] = mxEdgeStyle.OrthConnector;
             style[mxConstants.STYLE_OVERFLOW] = true;
-
+            
+            
            
             graph.isWrapping = function (cell) {
                 return true;
@@ -202,7 +203,7 @@
                     // Puts request data together
                     var filename = 'export.png';
                     var format = 'png';
-                    var bg = '#efefef';
+                    var bg = '#ffffff';
                     var w = Math.round((bounds.width + 4) * scale);
                     var h = Math.round((bounds.height + 4) * scale);
                     var xml = mxUtils.getXml(root);
@@ -370,7 +371,6 @@
                     var edit = new mxCellAttributeChange(
              		                           cell, "a", cell.value);
                     graph.getModel().execute(edit);
-                    //graph.updateCellSize(cell);
                 }
                 finally {
                     graph.getModel().endUpdate();
@@ -406,10 +406,9 @@
             graph.stopEditing(false);
 
             var vertex = graph.getModel().cloneCell(prototype);
-            var v1 = graph.insertVertex(vertex, null, '', 0, 0, vertex.geometry.width, 30, 'fillColor=#e1e1e1');
-            var v2 = graph.insertVertex(vertex, null, '', 0, 30, vertex.geometry.width, 30, 'fillColor=#d6d6d6');
-            var v3 = graph.insertVertex(vertex, null, '', 0, 60, vertex.geometry.width, 30, 'fillColor=#bfbfbf');
-            
+            var v1 = graph.insertVertex(vertex, null, '', 0, 0, vertex.geometry.width, 30, 'fillColor=#e6e7e9');
+            var v2 = graph.insertVertex(vertex, null, '', 0, 30, vertex.geometry.width, 30, 'fillColor=#a8a9ad;fontColor=#ffffff');
+            var v3 = graph.insertVertex(vertex, null, '', 0, 60, vertex.geometry.width, 30, 'fillColor=#949599;fontColor=#ffffff');
             vertex.geometry.x = x;
             vertex.geometry.y = y;
 
@@ -492,22 +491,22 @@
 <div id ="graphMenu">
 </div>
 
-<div style="overflow:hidden;">
+<div style="overflow:hidden; background-color:White">
     <div id="toolbarMenu" style="float:left;"></div>
     <div id="graphContainer" style="float:left;overflow:hidden;width:100%;height:100%;"> </div>
     <div id="properties" style="display:none;z-index:3000;border: solid 1px black;float:left;position:absolute;left:800px;top:auto;background-color:White;word-wrap:break-word;">
-    <span>Edit User</span><br />
+    <span style="color:Black;">Edit User</span><br />
     <table>
         
         <tr>
-            <td>Jabatan :</td>
+            <td style="color:Black;">Jabatan :</td>
             <td><select name="jabatan" id ="jabatan" style="width:150px;height:20px;">
                     
                 </select>
             </td>
         </tr>
         <tr>            
-            <td>Nama :</td>
+            <td style="color:Black;">Nama :</td>
             <td>
                 <select name="editUser" id ="editUser" style="width:150px;height:20px;">
                     <option value ="">---</option>
@@ -515,7 +514,7 @@
             </td>
         </tr>
         <tr>
-            <td>PJS :</td>
+            <td style="color:Black;">PJS :</td>
             <td>
                 <select name="userPJS" id ="userPJS" style="width:150px;height:20px;">
                     <option value ="">---</option>

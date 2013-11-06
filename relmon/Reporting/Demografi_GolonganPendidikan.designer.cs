@@ -75,7 +75,7 @@ namespace relmon.Reporting
             // 
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.1600006818771362D), Telerik.Reporting.Drawing.Unit.Inch(0.997237503528595D));
-            this.textBox7.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox7.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox7.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox7.Style.Color = System.Drawing.Color.White;
             this.textBox7.Style.LineColor = System.Drawing.Color.Black;
@@ -87,7 +87,7 @@ namespace relmon.Reporting
             // 
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox2.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox2.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox2.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox2.Style.Color = System.Drawing.Color.White;
             this.textBox2.Style.LineColor = System.Drawing.Color.Black;
@@ -98,7 +98,7 @@ namespace relmon.Reporting
             // 
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox3.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox3.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox3.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox3.Style.Color = System.Drawing.Color.White;
             this.textBox3.Style.LineColor = System.Drawing.Color.Black;
@@ -109,7 +109,7 @@ namespace relmon.Reporting
             // 
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox10.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox10.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox10.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox10.Style.Color = System.Drawing.Color.White;
             this.textBox10.Style.LineColor = System.Drawing.Color.Black;
@@ -121,7 +121,7 @@ namespace relmon.Reporting
             // 
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox26.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox26.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox26.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox26.Style.Color = System.Drawing.Color.White;
             this.textBox26.Style.LineColor = System.Drawing.Color.Black;
@@ -133,7 +133,7 @@ namespace relmon.Reporting
             // 
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox13.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox13.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox13.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox13.Style.Color = System.Drawing.Color.White;
             this.textBox13.Style.LineColor = System.Drawing.Color.Black;
@@ -145,7 +145,7 @@ namespace relmon.Reporting
             // 
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox16.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox16.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox16.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox16.Style.Color = System.Drawing.Color.White;
             this.textBox16.Style.LineColor = System.Drawing.Color.Black;
@@ -157,7 +157,7 @@ namespace relmon.Reporting
             // 
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.50386738777160645D));
-            this.textBox19.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox19.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox19.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox19.Style.Color = System.Drawing.Color.White;
             this.textBox19.Style.LineColor = System.Drawing.Color.Black;
@@ -169,7 +169,7 @@ namespace relmon.Reporting
             // 
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(4.0600004196166992D), Telerik.Reporting.Drawing.Unit.Inch(0.49337014555931091D));
-            this.textBox8.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox8.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox8.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox8.Style.Color = System.Drawing.Color.White;
             this.textBox8.Style.LineColor = System.Drawing.Color.Black;
@@ -181,7 +181,7 @@ namespace relmon.Reporting
             // 
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.997237503528595D));
-            this.textBox1.Style.BackgroundColor = System.Drawing.Color.Red;
+            this.textBox1.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(171)))), ((int)(((byte)(213)))));
             this.textBox1.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox1.Style.Color = System.Drawing.Color.White;
             this.textBox1.Style.LineColor = System.Drawing.Color.Black;
@@ -209,13 +209,13 @@ namespace relmon.Reporting
             this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.58000016212463379D)));
             this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.58000016212463379D)));
             this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.58000016212463379D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999980449676514D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999980449676514D)));
             this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.58000016212463379D)));
             this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.58000016212463379D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D)));
-            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(1.2798233032226563D)));
-            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Cm(1.0131933689117432D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.57999980449676514D)));
+            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Inch(0.50386744737625122D)));
+            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D)));
             this.table1.Body.SetCellContent(0, 0, this.textBox4);
             this.table1.Body.SetCellContent(0, 1, this.textBox5);
             this.table1.Body.SetCellContent(0, 2, this.textBox6);
@@ -372,6 +372,7 @@ namespace relmon.Reporting
             // 
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.50386744737625122D));
+            this.textBox12.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox12.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox12.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox12.StyleName = "";
@@ -381,7 +382,7 @@ namespace relmon.Reporting
             // 
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.1600006818771362D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox9.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox9.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox9.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox9.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox9.StyleName = "";
@@ -391,7 +392,7 @@ namespace relmon.Reporting
             // 
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox15.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox15.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox15.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox15.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox15.StyleName = "";
@@ -401,7 +402,7 @@ namespace relmon.Reporting
             // 
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox18.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox18.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox18.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox18.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox18.StyleName = "";
@@ -411,7 +412,7 @@ namespace relmon.Reporting
             // 
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox21.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox21.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox21.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox21.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox21.StyleName = "";
@@ -421,7 +422,7 @@ namespace relmon.Reporting
             // 
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox22.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox22.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox22.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox22.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox22.StyleName = "";
@@ -431,7 +432,7 @@ namespace relmon.Reporting
             // 
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox23.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox23.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox23.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox23.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox23.StyleName = "";
@@ -441,7 +442,7 @@ namespace relmon.Reporting
             // 
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.580000102519989D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox24.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox24.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox24.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox24.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox24.StyleName = "";
@@ -451,7 +452,7 @@ namespace relmon.Reporting
             // 
             this.textBox25.Name = "textBox25";
             this.textBox25.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox25.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox25.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox25.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox25.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox25.StyleName = "";
@@ -470,7 +471,7 @@ namespace relmon.Reporting
             // 
             this.textBox28.Name = "textBox28";
             this.textBox28.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.57999986410140991D), Telerik.Reporting.Drawing.Unit.Inch(0.3988950252532959D));
-            this.textBox28.Style.BackgroundColor = System.Drawing.Color.Cyan;
+            this.textBox28.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(224)))), ((int)(((byte)(120)))));
             this.textBox28.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
             this.textBox28.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.textBox28.StyleName = "";

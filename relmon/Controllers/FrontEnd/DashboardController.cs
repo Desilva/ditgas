@@ -77,7 +77,7 @@ namespace relmon.Controllers.FrontEnd
                                       konten = x.konten,
                                       kategori = x.kategori,
                                       poster = y.username
-                                  }).ToList();
+                                  }).ToList().Take(10);
 
             List<object> listResult = new List<object>();
             foreach (var result in listResultTemp)
