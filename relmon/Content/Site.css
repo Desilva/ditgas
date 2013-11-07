@@ -237,7 +237,8 @@ footer, #footer
     height: 100%;
     width: 100%;
    // background:  url('2012.1.214/Office2007/sprite.png') repeat-x 0 -850px;
-    background: #ffa99a;
+    background: #a8a9ad;
+    color:White;
 }
 
  #mainmenu .t-header
@@ -1493,7 +1494,7 @@ input[readonly] {
     float: left;
     width: 25%;
     height: 250px;
-    border: 1px solid #000;
+    //border: 1px solid #000;
 }
 
 #banner #banner-right
@@ -1501,7 +1502,7 @@ input[readonly] {
     margin-left: 26%;
     width: 74%;
     height: 250px;
-    border: 1px solid #000;
+    //border: 1px solid #000;
     background-color: #D92C32;
     color: White;
 }
@@ -1542,4 +1543,12 @@ input[readonly] {
     font-weight: bold;
     font-size: x-large;
     margin-top: 3%;
+}
+
+
+
+select
+{
+    background-color:#a8a9ad;
+    color:White;
 }

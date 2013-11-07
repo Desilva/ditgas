@@ -25,8 +25,7 @@
     $(document).ready(function () {
         @{
             string konten = ViewBag.konten;
-
-            if(konten.Length >= 100)
+            if(konten.Length >= 750)
             {
                 <text>
                     var NAME = document.getElementById("content");
@@ -89,7 +88,8 @@
         <div class="description-b">
             Posted by @(ViewBag.poster_username + ((ViewBag.kategori != "")? " in " + ViewBag.kategori:""))
         </div>
-    <hr />
+    
+        <hr style="height:1px;border:1px solid #cccdcf;background-color:#bdbec0;" />
         <div id="content" class="content">
             @Html.Raw(ViewBag.konten)
         </div>

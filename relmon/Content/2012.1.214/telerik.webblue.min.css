@@ -87,6 +87,7 @@
 .t-complete{background-position: -32px -336px;}
 .t-preview{background-position: -63px -177px;}
 .t-item{background-color:#cccccc}
+.t-menu .t-item, .t-panelbar .t-item{background-color:#ffffff}
 .t-item{border:0px !important}
 .t-link a{color:#ffffff  !important;}
 .t-state-active{background-color:#6d6e72}

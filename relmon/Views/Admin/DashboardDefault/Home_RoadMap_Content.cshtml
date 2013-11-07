@@ -1,6 +1,17 @@
-﻿@(Html.Telerik().PanelBar()
+﻿@*<style>
+    #RoadMap li
+    {
+        background-color:#6d6e72;
+    }
+    #RoadMap a
+    {
+        color:#ffffff !important;
+    }
+</style>*@
+
+@(Html.Telerik().PanelBar()
     .Name("RoadMap")
-    .HtmlAttributes(new { style = "width: 900px; margin-bottom: 10px;" })
+    .HtmlAttributes(new { style = "width: 950px; margin-bottom: 10px;" })
     .Items(panelBarItem =>
     {
         panelBarItem.Add()
