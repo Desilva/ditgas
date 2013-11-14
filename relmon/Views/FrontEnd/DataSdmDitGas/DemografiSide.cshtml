@@ -6,7 +6,7 @@
         });
         $("#kategori").bind("change", function () {
             //$('#content-demografi').html('');
-            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" />');
+            $('#content-demografi').html('<img src="@Url.Content("~/Content/image/loading.gif")" />');
             //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'countGrafik': 1 });
             if ($('#kategori').val() == 'lahirvsgolongan') {
                 $.post("Demografi_LahirGolongan", { comp_id: 0 }, function (data) {
@@ -47,5 +47,5 @@
 </div>
 <br/>
 <div id="content-demografi">
-    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+    <img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>
 </div>

@@ -16,7 +16,7 @@
             {
                 commands.Custom("Detail")
                     .Text("Detail")
-                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(../../Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
+                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(~/Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
                     .DataRouteValues(route => route.Add(o => o.id).RouteKey("userId"))
                     .Action("detail", "DataSdmAp");
             }).Width(50).Title("Opsi");

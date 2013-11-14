@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = ViewBag.tipe;
 }
-<script type="text/javascript" src="../../../Scripts/crawler.js"></script>
-<script type="text/javascript" src="../../../Scripts/slideshow.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/crawler.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/slideshow.js")"></script>
 <script type="text/javascript">
     $.post("/Dashboard/GetSlideshow", "", function (data) {
         var imgArray = new Array();

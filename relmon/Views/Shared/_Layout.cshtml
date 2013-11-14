@@ -13,7 +13,6 @@
 
     @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => group.Add("telerik.common.css").Add("telerik.webblue.css").Combined(true).Compress(true)))
 </head>
-
 <script type="text/javascript">
     jQuery(document).ready(function () {
         var ld = 850 - jQuery("#logindisplay").width();
@@ -44,13 +43,13 @@
                     <div id="adminLogin">
                     [@Html.ActionLink("Admin", "../Admin")]
                     </div>
-			        <div class="logo"><a href="#"><img src="../../Content/image/logo-01-01.png" alt="" /></a></div>
+			        <div class="logo"><a href="#"><img src="@Url.Content("~/Content/image/logo-01-01.png")" alt="" /></a></div>
 			        <div id="title">
 				        <h1>@Config.Title</h1>
                         <div class="sub">@Config.Area</div>
                         <div class="sub2"><b>(MOBIDIG)</b></div>
                     </div>
-			        <div class="additional"><img src="../../Content/image/header-04.png" alt="" /></div>
+			        <div class="additional"><img src="@Url.Content("~/Content/image/header-04.png")" alt="" /></div>
 		        </div>
 	        </div>
             @*<div id="search">
@@ -225,7 +224,7 @@
             </div>
             <div class="hover-menu"><p style="float: left;margin-left: 110px;color:blue;cursor:pointer;"><i>related link</i></p></div>
             <!--<div class="hover-menu-video"><p style="float: left;margin-left: 10px;color:blue;cursor:pointer;"><i>video</i></p></div>-->
-            <div id="footer"><img src="../../Content/image/footer.png" alt="" /></div>
+            <div id="footer"><img src="@Url.Content("~/Content/image/footer.png")" alt="" /></div>
 		</footer>
 	</div>
 

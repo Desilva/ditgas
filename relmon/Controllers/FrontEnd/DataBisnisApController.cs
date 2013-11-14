@@ -53,7 +53,7 @@ namespace relmon.Controllers.FrontEnd
             if (result.Count != 0)
             {
                 var get = result.First();
-                ViewBag.content = "../../upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
+                ViewBag.content = "/upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
             }
             return PartialView();
         }

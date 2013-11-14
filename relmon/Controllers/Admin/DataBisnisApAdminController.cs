@@ -214,7 +214,7 @@ namespace relmon.Controllers.Admin
                           select x
                          ).ToList();
             var get = result.First();
-            return "../../upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
+            return "/upload/Data Bisnis/" + id + "/struktur organisasi/" + get.struktur;
         }
         #endregion
 

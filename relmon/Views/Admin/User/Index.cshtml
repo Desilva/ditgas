@@ -204,17 +204,17 @@
             columns.Command(commands =>
             {
                 commands.Custom("EditACL")
-                        .HtmlAttributes(new { title = "Page Access", style = "color: transparent;min-width: 4px;background: url(../Content/image/file.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
+                        .HtmlAttributes(new { title = "Page Access", style = "color: transparent;min-width: 4px;background: url(/Content/image/file.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
                         .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
                         .Ajax(true)
                         .Action("GetACL", "ACL");
                 commands.Custom("EditUser")
-                        .HtmlAttributes(new { title = "Edit", style = "color: transparent;min-width: 4px;background: url(../Content/image/edit.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
+                        .HtmlAttributes(new { title = "Edit", style = "color: transparent;min-width: 4px;background: url(/Content/image/edit.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" })
                         .DataRouteValues(route => route.Add(o => o.id).RouteKey("id"))
                         .Ajax(true)
                         .Action("GetDetail", "User");
                 commands.Delete()
-                        .HtmlAttributes(new { title = "Delete", style = "color: transparent;min-width: 4px;background: url(../Content/image/delete.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" });
+                        .HtmlAttributes(new { title = "Delete", style = "color: transparent;min-width: 4px;background: url(/Content/image/delete.png) no-repeat;height: 14px;border: none;width: 10px;background-size: 80%;margin-right: 2px;" });
                 
             }).Width(100).Title("Commands").HtmlAttributes(new { style = "text-align: center" });
             //columns.Command(commands =>

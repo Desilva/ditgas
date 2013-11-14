@@ -4,7 +4,7 @@
             $('#content-demografi').html(data);
         });
         $("#companiesListItem2").bind("change", function () {
-            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $('#content-demografi').html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
             $.post("../DataSdmDitGas/Demografi_Organisasi", { comp_id: $('#companiesListItem2').val() }, function (data) {
                 $('#content-demografi').html(data);
             });
@@ -12,7 +12,7 @@
 
 //        $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem2').val(), 'countGrafik': 0 });
 //        $("#companiesListItem2").bind("change", function () {
-//            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+//            $('#content-demografi').html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
 //            $('#content-demografi').load('DemografiTable', { 'kategori': 'organisasi', 'companyId': $('#companiesListItem2').val(), 'countGrafik': 0 });
 //        });
 
@@ -25,7 +25,7 @@
 			        },
 			        function (data) {
 			            hasil = eval(data);
-			            $("#companiesListItem2").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+			            $("#companiesListItem2").html("<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
 			            $('<option value="">-- Pilih Perusahaan --</option>').appendTo("#companiesListItem2");
 			            for (var i = 0; i < hasil.length; i++) {
 			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#companiesListItem2");
@@ -47,5 +47,5 @@
 <br/>
 
 <div id="content-demografi">
-    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+    <img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>
 </div>

@@ -213,7 +213,7 @@ namespace relmon.Controllers.Admin
 
             dashboard_default dashboardDefault = new dashboard_default();
             dashboardDefault.tipe = "slideshow";
-            dashboardDefault.konten = "../../Content/image/" + fileName;
+            dashboardDefault.konten = "/Content/image/" + fileName;
             create(dashboardDefault);
         }
 
@@ -226,7 +226,7 @@ namespace relmon.Controllers.Admin
 
             dashboard_default dashboardDefault = new dashboard_default();
             dashboardDefault.tipe = "highlight";
-            dashboardDefault.konten = "../../Content/image/" + fileName;
+            dashboardDefault.konten = "/Content/image/" + fileName;
             create(dashboardDefault);
         }
 

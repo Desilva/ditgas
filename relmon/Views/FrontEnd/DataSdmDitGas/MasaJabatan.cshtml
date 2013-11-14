@@ -31,7 +31,7 @@
             {
                 commands.Custom("Detail")
                     .Text("Detail")
-                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(../../Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
+                    .HtmlAttributes(new { style = "color: transparent;min-width: 4px;background: url(/Content/image/icon/iconOpen.png) no-repeat;height: 30px;border: none;width: 20px;background-size: 80%;margin-right: 0px;", title = "Detail", id = "detail" })
                     .DataRouteValues(route => route.Add(o => o.id).RouteKey("userId"))
                     .Action("detail", "DataSdmDitgas");
             }).Width(50).Title("Opsi");
@@ -43,7 +43,7 @@
             columns.Bound(o => o.lokasi).Title("Lokasi").Width(150);
             columns.Bound(o => o.direktorat).Title("Direktorat").Width(150);
             //columns.Bound(o => o.status_pekerja).Title("Status").Width(150);
-            columns.Bound(o => o.status_pensiun).ClientTemplate("<img src='../../../Content/image/icon/" + "<#= status_pensiun #>.png' alt='<#= status_pensiun #>' />").Title("Warning").Width(80);
+            columns.Bound(o => o.status_pensiun).ClientTemplate("<img src='/Content/image/icon/" + "<#= status_pensiun #>.png' alt='<#= status_pensiun #>' />").Title("Warning").Width(80);
             //columns.Bound(o => o.tanggal_dinas_aktif).Title("Tanggal Dinas").Width(150);
         })
         .ClientEvents(events => events

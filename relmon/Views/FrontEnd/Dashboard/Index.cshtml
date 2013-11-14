@@ -4,10 +4,10 @@
 }
 
 
-<script type="text/javascript" src="../../../Scripts/crawler.js"></script>
-<script type="text/javascript" src="../../../Scripts/marquee.js"></script>
-<script type="text/javascript" src="../../../Scripts/slideshow.js"></script>   
-<script type="text/javascript" src="../../../Scripts/easypaginate.js"></script>   
+<script type="text/javascript" src="@Url.Content("~/Scripts/crawler.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/marquee.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/slideshow.js")"></script>   
+<script type="text/javascript" src="@Url.Content("~/Scripts/easypaginate.js")"></script>   
 
 <script type="text/javascript">
     $.post("Dashboard/GetSlideshow", "", function (data) {
@@ -91,7 +91,7 @@
                 var result = "<li><table>";
                 result += "<tr>";
                 result += "    <td style='width:1%;'>";
-                result += "        <img src='../../../Content/image/li-wajik-ijo.png' alt=''/>";
+                result += "        <img src='"+"@Url.Content("~/Content/image/li-wajik-ijo.png")"+"' alt=''/>";
                 result += "    </td>";
                 result += "    <td style='width:99%;'>";
                 result += "        " + value.tgl_update + "";
@@ -129,7 +129,7 @@
                 var result = "<li><table>";
                 result += "<tr>";
                 result += "    <td style='width:1%;'>";
-                result += "        <img src='../../../Content/image/li-wajik-ijo.png' alt=''/>";
+                result += "        <img src='"+"@Url.Content("~/Content/image/li-wajik-ijo.png")"+"' alt=''/>";
                 result += "    </td>";
                 result += "    <td style='width:99%;'>";
                 result += "        " + value.tgl_update + "";

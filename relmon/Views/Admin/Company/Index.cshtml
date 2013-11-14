@@ -9,8 +9,8 @@
     function OnComplete(e) {
         $.post("Company/updateCompany", "", function (data) {
             hasil = eval(data);
-            $("#AddCompany #parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
-            $("#EditCompany #edit_parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $("#AddCompany #parent").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
+            $("#EditCompany #edit_parent").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
             for (var i = 0; i < hasil.length; i++) {
                 $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#AddCompany #parent");
                 $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#EditCompany #edit_parent");

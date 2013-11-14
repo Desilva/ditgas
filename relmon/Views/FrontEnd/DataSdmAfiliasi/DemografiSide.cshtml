@@ -3,12 +3,12 @@
         //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
         getDemografiReport();
         $("#kategori").bind("change", function () {
-            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $('#content-demografi').html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
             //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
             getDemografiReport();
         });
         $("#companiesListItem2").bind("change", function () {
-            $('#content-demografi').html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+            $('#content-demografi').html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
             //$('#content-demografi').load('DemografiTable', { 'kategori': $('#kategori').val(), 'companyId': $('#companiesListItem2').val(), 'countGrafik': 1 });
             getDemografiReport();
         });
@@ -22,7 +22,7 @@
 			        },
 			        function (data) {
 			            hasil = eval(data);
-			            $("#companiesListItem2").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+			            $("#companiesListItem2").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
 			            $('<option value="">-- Pilih Perusahaan --</option>').appendTo("#companiesListItem2");
 			            for (var i = 0; i < hasil.length; i++) {
 			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#companiesListItem2");
@@ -76,5 +76,5 @@
     </select>
 </div>
 <div id="content-demografi">
-    <img src="../../../Content/image/loading.gif" alt="Loading.."/>
+    <img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>
 </div>

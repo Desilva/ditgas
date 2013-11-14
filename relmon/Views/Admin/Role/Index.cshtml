@@ -17,12 +17,12 @@
 			        },
 			        function (data) {
 			            hasil = eval(data);
-			            $("#AddRole #parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+			            $("#AddRole #parent").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
 			            $('<option value="0">-- Pilih Parent --</option>').appendTo("#AddRole #parent");
 			            for (var i = 0; i < hasil.length; i++) {
 			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#AddRole #parent");
 			            }
-			            $("#AddRole #cost_centre").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+			            $("#AddRole #cost_centre").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
 			            $('<option value="0">-- Pilih Cost Centre --</option>').appendTo("#AddRole #cost_centre");
 			            for (var i = 0; i < hasil.length; i++) {
 			                $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#AddRole #cost_centre");
@@ -48,12 +48,12 @@
 
     function updateParentCostCentre(data) {
         hasil = eval(data);
-        $("#EditRole #edit_parent").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+        $("#EditRole #edit_parent").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
         $('<option value="0">-- Pilih Parent --</option>').appendTo("#EditRole #edit_parent");
         for (var i = 0; i < hasil.length; i++) {
             $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#EditRole #edit_parent");
         }
-        $("#EditRole #edit_cost_centre").html('<img src="../../../Content/image/loading.gif" alt="Loading.."/>');
+        $("#EditRole #edit_cost_centre").html('<img src="@Url.Content("~/Content/image/loading.gif")" alt="Loading.."/>');
         $('<option value="0">-- Pilih Cost Centre --</option>').appendTo("#EditRole #edit_cost_centre");
         for (var i = 0; i < hasil.length; i++) {
             $("<option value='" + hasil[i]['id'] + "'>" + hasil[i]['nama'] + "</option>").appendTo("#EditRole #edit_cost_centre");

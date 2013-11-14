@@ -296,7 +296,7 @@ namespace relmon.Controllers.FrontEnd
                           select x
                          ).ToList();
             var get = result.First();
-            return "../../Upload/Data Bisnis/" + id + "/Bussiness Report/" + get.tahun + "/" + get.bulan + "/" + get.content;
+            return "/Upload/Data Bisnis/" + id + "/Bussiness Report/" + get.tahun + "/" + get.bulan + "/" + get.content;
 
         }
 
@@ -394,7 +394,7 @@ namespace relmon.Controllers.FrontEnd
                           select x
                          ).ToList();
             var get = result.First();
-            return "../../Upload/Data Bisnis/" + id + "/Kinerja/" + get.tahun + "/" + get.content;
+            return "/Upload/Data Bisnis/" + id + "/Kinerja/" + get.tahun + "/" + get.content;
 
         }
 
