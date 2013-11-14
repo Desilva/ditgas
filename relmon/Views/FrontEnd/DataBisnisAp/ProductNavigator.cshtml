@@ -5,7 +5,7 @@
         var item = $(e.item);
         type = (item.find('> .t-link').text()).split(" ").join("_");
         //        
-        $("#prodTitle").html("Produk " + type);
+        $("#prodTitle").html("Produk " + type + " (per barrel)");
         $("#getProduct").show();
     }
 
@@ -20,7 +20,8 @@
             $("#hideYear2").show();
             $("#hideMonth").hide();
         }
-        $("#tahun").val("");
+        $("#ProductContent").html("");
+        $("#tahun23").val("");
         $("#fromYear").val("");
         $("#toYear").val("");
         $("#fromMonth").val("");
@@ -36,11 +37,11 @@
         }
     });
     $(".monthchart").bind("change", function () {
-        if ($("#fromMonth").val() != "" && $("#toMonth").val() != "" && $("#tahun").val() != "") {
+        if ($("#fromMonth").val() != "" && $("#toMonth").val() != "" && $("#tahun23").val() != "") {
             var checkFrom = changeNumber($("#fromMonth").val());
             var checkTo = changeNumber($("#toMonth").val());
             if (checkFrom <= checkTo) {
-                $("#ProductContent").load("DataBisnisAp/Product/@ViewBag.id?produk=" + type + "&tahun=" + $("#tahun").val() + "&fromYear=-1&toYear=-1&fromMonth=" + $("#fromMonth").val() + "&toMonth=" + $("#toMonth").val());
+                $("#ProductContent").load("DataBisnisAp/Product/@ViewBag.id?produk=" + type + "&tahun=" + $("#tahun23").val() + "&fromYear=-1&toYear=-1&fromMonth=" + $("#fromMonth").val() + "&toMonth=" + $("#toMonth").val());
                 $("#ProductContent").show();
             } else {
                 $("#ProductContent").hide();
@@ -84,7 +85,7 @@
 
         for (var i = 1; i <= 10; i++) {
             var addYear = "<option value ='" + currentYear + "'>" + currentYear + "</option>";
-            $("#tahun").append(addYear);
+            $("#tahun23").append(addYear);
             $("#fromYear").append(addYear);
             $("#toYear").append(addYear);
             currentYear--;
@@ -136,7 +137,7 @@
         </div>
         <div id="hideYear2" style="overflow:hidden;">
             <div style="width:75px;float:left"><b>Year</b> : </div>
-            <div style="float:left;"><select  class="monthchart" name="tahun" id="tahun">
+            <div style="float:left;"><select  class="monthchart" name="tahun23" id="tahun23">
                 <option value="">--</option>
             </select></div>
         </div>

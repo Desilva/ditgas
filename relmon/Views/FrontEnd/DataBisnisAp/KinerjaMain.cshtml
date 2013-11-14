@@ -8,12 +8,12 @@
             $.each(data, function (index, value) {
                 get += '<option value="' + value.tahun + '">' + value.tahun + '</option>'
             });
-            $("#tahun").append(get);
+            $("#tahun12").append(get);
         });
 
-        $("#tahun").bind("change", function () {
-            if ($('#tahun').val() != '') {
-                $('#content-kinerja').load('DataBisnisAp/Kinerja2/@ViewBag.id?tahun='+$("#tahun").val());
+        $("#tahun12").bind("change", function () {
+            if ($('#tahun12').val() != '') {
+                $('#content-kinerja').load('DataBisnisAp/Kinerja2/@ViewBag.id?tahun='+$("#tahun12").val());
             }
         });
     })
@@ -24,7 +24,7 @@
 <hr />
 
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahun">
+    <select name="tahun12" id="tahun12">
         <option value="">---</option>
     </select>
 </div>

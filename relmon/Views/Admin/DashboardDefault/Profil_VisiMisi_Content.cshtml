@@ -1,4 +1,11 @@
-﻿@(Html.Telerik().PanelBar()
+﻿<style>
+    #VisiMisi li
+    {
+        background-color:#6d6e72 !important;
+    }
+</style>
+
+@(Html.Telerik().PanelBar()
     .Name("VisiMisi")
     .HtmlAttributes(new { style = "width: 900px; margin-bottom: 10px;" })
     .Items(panelBarItem =>

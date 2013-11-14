@@ -7,15 +7,15 @@
         var currentYear = new Date().getFullYear();
 
         for (var i = 1; i <= 10; i++) {
-            $("#tahun").append(
+            $("#tahun56").append(
                 "<option value ='" + currentYear + "'>" + currentYear + "</option>"
             );
             currentYear--;
         }
 
 
-        $("#tahun").bind("change", function () {
-            if ($('#tahun').val() != '') {
+        $("#tahun56").bind("change", function () {
+            if ($('#tahun56').val() != '') {
                 $("#k1").html("");
                 $("#k2").html("");
                 $("#k3").html("");
@@ -45,7 +45,7 @@
                 $("#a5").html("");
                 //$("#a6").html("");
                 $("#a7").html("");
-                $.post("DataBisnisAp/GetKeuangan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                $.post("DataBisnisAp/GetKeuangan/@ViewBag.id", { tahun: $("#tahun56").val() }, function (data) {
                     $.each(data, function (index, value) {
                         $("#k1").html(value.roe);
                         $("#k2").html(value.roi);
@@ -63,7 +63,7 @@
                         $("#k14").html(value.klasifikasi);
                     });
                 });
-                $.post("DataBisnisAp/GetPertumbuhan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                $.post("DataBisnisAp/GetPertumbuhan/@ViewBag.id", { tahun: $("#tahun56").val() }, function (data) {
                     $.each(data, function (index, value) {
                         $("#p1").html(value.aspg);
                         $("#p2").html(value.salg);
@@ -75,7 +75,7 @@
                         $("#p8").html(value.klasifikasi);
                     });
                 });
-                $.post("DataBisnisAp/GetAdministrasi/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                $.post("DataBisnisAp/GetAdministrasi/@ViewBag.id", { tahun: $("#tahun56").val() }, function (data) {
                     $.each(data, function (index, value) {
                         $("#a1").html(value.bulanan);
                         $("#a2").html(value.manajemen);
@@ -86,7 +86,7 @@
                         $("#a7").html(value.klasifikasi);
                     });
                 });
-                $.post("DataBisnisAp/GetKesehatan/@ViewBag.id", { tahun: $("#tahun").val() }, function (data) {
+                $.post("DataBisnisAp/GetKesehatan/@ViewBag.id", { tahun: $("#tahun56").val() }, function (data) {
                     $.each(data, function (index, value) {
                         $("#tk1").html($("#k12").html() + $("#p6").html() + $("#a5").html());
                         $("#tk2").html(value.klasifikasi);
@@ -124,7 +124,7 @@
 </style>
 <h3>Pedoman Kinerja</h3>
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahun">
+    <select name="tahun56" id="tahun56">
         <option value="">--</option>
     </select>
     

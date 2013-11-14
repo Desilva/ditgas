@@ -7,8 +7,10 @@
             });
         });
     });
-    
+
     function onEdit(e) {
+        $("#KontakPopUp").width("700px");
+        $("#KontakPopUp .t-window-content").height("300px");
         $('div.t-edit-form-container').find('#id').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
         $('div.t-edit-form-container').find('#id').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
         $('div.t-edit-form-container').find('#tipe').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
@@ -25,7 +27,7 @@
     <option value="area">Area</option>
 </select>
 @(Html.Telerik().Grid<relmon.Models.kontak>()
-    .HtmlAttributes(new { style = "width:695px" })
+    .HtmlAttributes(new { style = "width:700px" })
     .Name("Kontak")
     .DataKeys(keys =>
     {

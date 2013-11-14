@@ -41,7 +41,13 @@ namespace relmon.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Admin");
+                        int role = int.Parse(Session["role"].ToString());
+                        if(role > 0){
+                            return RedirectToAction("Index", "");
+                        }else{
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        
                     }
                 }
                 else

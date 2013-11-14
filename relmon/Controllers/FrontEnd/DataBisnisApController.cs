@@ -118,7 +118,7 @@ namespace relmon.Controllers.FrontEnd
             ViewData["products"] = listResultTemp;
             return PartialView();
         }
-        public ActionResult _ProductData(int id, string produk,int tahun)
+        public ActionResult _ProductData(int id, string produk,int tahun,int fromMonth,int toMonth)
         {
             var prod = produk.Replace('_', ' ');
             var listResultTemp = (from x in db.bisnis_product
@@ -127,25 +127,78 @@ namespace relmon.Controllers.FrontEnd
             List<object> listResult = new List<object>();
             foreach (var b in listResultTemp)
             {
-                listResult.Add(new
+                //listResult.Add(new
+                //{
+                //    company_id = b.company_id,
+                //    product = b.product,
+                //    id = b.id,
+                //    tahun = b.tahun,
+                //    januari = b.januari,
+                //    februari = b.februari,
+                //    maret = b.maret,
+                //    april = b.april,
+                //    mei = b.mei,
+                //    juni = b.juni,
+                //    juli = b.juli,
+                //    agustus = b.agustus,
+                //    september = b.september,
+                //    oktober = b.oktober,
+                //    november = b.november,
+                //    desember = b.desember
+                //});
+
+                if (fromMonth <= 1 && toMonth >= 1)
                 {
-                    company_id = b.company_id,
-                    product = b.product,
-                    id = b.id,
-                    tahun = b.tahun,
-                    januari = b.januari,
-                    februari = b.februari,
-                    maret = b.maret,
-                    april = b.april,
-                    mei = b.mei,
-                    juni = b.juni,
-                    juli = b.juli,
-                    agustus = b.agustus,
-                    september = b.september,
-                    oktober = b.oktober,
-                    november = b.november,
-                    desember = b.desember
-                });
+                    listResult.Add(new { product = b.product, month = "Jan", sum = b.januari });
+                }
+                if (fromMonth <= 2 && toMonth >= 2)
+                {
+                    listResult.Add(new { product = b.product, month = "Feb", sum = b.februari });
+                }
+                if (fromMonth <= 3 && toMonth >= 3)
+                {
+                    listResult.Add(new { product = b.product, month = "Mar", sum = b.maret });
+                }
+                if (fromMonth <= 4 && toMonth >= 4)
+                {
+                    listResult.Add(new { product = b.product, month = "Apr", sum = b.april });
+                }
+                if (fromMonth <= 5 && toMonth >= 5)
+                {
+                    listResult.Add(new { product = b.product, month = "Mei", sum = b.mei });
+                }
+                if (fromMonth <= 6 && toMonth >= 6)
+                {
+                    listResult.Add(new { product = b.product, month = "Jun", sum = b.juni });
+                }
+                if (fromMonth <= 7 && toMonth >= 7)
+                {
+                    listResult.Add(new { product = b.product, month = "Jul", sum = b.juli });
+                }
+                if (fromMonth <= 8 && toMonth >= 8)
+                {
+                    listResult.Add(new { product = b.product, month = "Agu", sum = b.agustus });
+                }
+                if (fromMonth <= 9 && toMonth >= 9)
+                {
+                    listResult.Add(new { product = b.product, month = "Sep", sum = b.september });
+                }
+                if (fromMonth <= 10 && toMonth >= 10)
+                {
+                    listResult.Add(new { product = b.product, month = "Okt", sum = b.oktober });
+                }
+                if (fromMonth <= 11 && toMonth >= 11)
+                {
+                    listResult.Add(new { product = b.product, month = "Nov", sum = b.november });
+                }
+                if (fromMonth <= 12 && toMonth >= 12)
+                {
+                    listResult.Add(new { product = b.product, month = "Des", sum = b.desember });
+                }
+                
+                
+                
+                
             }
 
             return Json(listResult);

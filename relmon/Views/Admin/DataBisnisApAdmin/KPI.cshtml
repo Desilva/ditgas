@@ -9,7 +9,7 @@
         var currentYear = new Date().getFullYear();
 
         for (var i = 1; i <= 10; i++) {
-            $("#tahun").append(
+            $("#tahun45").append(
                 "<option value ='" + currentYear + "'>" + currentYear + "</option>"
             );
             currentYear--;
@@ -26,12 +26,12 @@
                 });
             });
         }
-        $("#tahun").val(tahun);
-        $("#tahun").bind("change", function () {
-            if ($('#tahun').val() != "") {
+        $("#tahun45").val(tahun);
+        $("#tahun45").bind("change", function () {
+            if ($('#tahun45').val() != "") {
                 //                alert("a");
                 var tabStrip = $("#TabStrip").data("tTabStrip");
-                $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: $('#tahun').val() }, function (data) {
+                $.post("DataBisnisApAdmin/KPI/@ViewBag.id", { tahun: $('#tahun45').val() }, function (data) {
                     $("#TabStrip .t-link").each(function (index) {
                         if ($(this).text() == "Pedoman Kinerja") {
                             $("#TabStrip-" + (index + 1)).html(data);
@@ -52,20 +52,25 @@
         color:#333 !important;
     
     }
+    
+    #KPIPed .t-content
+    {
+        padding : 10px;
+    }
 </style>
 
 <h3>Pedoman Kinerja</h3>
 <hr style="height:1px;border:1px solid #cccdcf;background-color:#bdbec0;" />
 <div class="Asearch"><b>Tahun</b></div><div class="titik2"> : </div><div class="Ainput">
-    <select name="tahun" id="tahun">
+    <select name="tahun45" id="tahun45">
         <option value="">--</option>
     </select>
     
 </div>
  <div id="panelbar">
  @(Html.Telerik().PanelBar()
-        .Name("RoadMap")
-        .HtmlAttributes(new { style = "width: 800px; margin-bottom: 10px;" })
+        .Name("KPIPed")
+             .HtmlAttributes(new { style = "width: 800px; margin-bottom: 10px;border:1px solid red;" })
         .Items(panelBarItem =>
         {
             panelBarItem.Add()

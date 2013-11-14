@@ -6,6 +6,7 @@
     int aclId = (int)Session["id"];
     int category = DataBisnisDitGasAdminController.GetCategory(ViewBag.id);
 }
+
 <script>
     var filename = "";
     function onSuccess(e) {
@@ -75,7 +76,7 @@
         }
     }
 
-    function onDelete(e) {
+    function OnDelete(e) {
         
         @{
             if (category == 1)
@@ -276,14 +277,10 @@
         
         if('@ViewBag.type' == 'all'){
             var tabStrip = $("#TabStrip").data("tTabStrip");
-            $.post("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id", { rowId: -1,reportType:'@ViewBag.type' }, function (data) {
-                
-                $( "#TabStrip .t-link" ).each(function(index) {
-                    if($(this).text() == "Bussiness Report"){
-                        $("#TabStrip-"+(index+1)).html(data);
-                    }
-                });
-           
+            $( "#TabStrip .t-link" ).each(function(index) {
+                if($(this).text() == "Bussiness Report"){
+                    $("#TabStrip-"+(index+1)).load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=@ViewBag.type");
+                }
             });
         }else{
             $("#BRcontent").load("DataBisnisDitGasAdmin/BussinessReport/@ViewBag.id?rowId=-1&reportType=@ViewBag.type");
@@ -350,10 +347,11 @@
     });
 </script>
 
-<h3>Pengaturan Business Report</h3>
+<h3 style="color:White;">Pengaturan Business Report</h3>
 
 <hr/>
-<h4>Tabel Bisnis Report (@ViewBag.type.Replace("_", " "))</h4>
+<h4 style="color:White;">Tabel Bisnis Report (@ViewBag.type.Replace("_", " "))</h4>
+
 @(Html.Telerik().Grid<relmon.Models.BisnisBussinessReportContainer>()
         .Name("BisnisReport")
         .DataKeys(keys =>
@@ -392,11 +390,12 @@
         .Pageable(p => p.PageSize(15))
         .Sortable()
         .Filterable()
-        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        //.Editable(editing => editing.Mode(GridEditMode.PopUp))
         .Scrollable(c => c.Enabled(true))
         .Selectable()
         .Groupable()
 )
+
 <button id="addButton">Add new</button>
 <hr />
 <a name="add"></a>

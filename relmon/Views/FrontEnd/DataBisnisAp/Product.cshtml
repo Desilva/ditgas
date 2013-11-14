@@ -11,27 +11,27 @@
     if(@ViewBag.tahun == -1){
         @(Html.Telerik().Chart<relmon.Models.BisnisProductContainer>()
             .Name("ProductChart2")
-            .Legend(legend => legend
-                .Position(ChartLegendPosition.Bottom)
-            )
+                .Legend(legend => legend
+                    .Position(ChartLegendPosition.Bottom)
+                )
             .SeriesDefaults(series =>
             {
                 series.Column().Stack(true);
             })
             .Series(series =>
             {
-                    series.Column(s => s.januari).Name("Jan");
-                    series.Column(s => s.februari).Name("Feb");
-                    series.Column(s => s.maret).Name("Mar");
-                    series.Column(s => s.april).Name("Apr");
-                    series.Column(s => s.mei).Name("May");
-                    series.Column(s => s.juni).Name("Jun");
-                    series.Column(s => s.juli).Name("Jul");
-                    series.Column(s => s.agustus).Name("Aug");
-                    series.Column(s => s.september).Name("Sep");
-                    series.Column(s => s.oktober).Name("Oct");
-                    series.Column(s => s.november).Name("Nov");
-                    series.Column(s => s.desember).Name("Des");
+                series.Column(s => s.januari).Name("Jan").Labels(true);
+                series.Column(s => s.februari).Name("Feb").Labels(true);
+                series.Column(s => s.maret).Name("Mar").Labels(true);
+                series.Column(s => s.april).Name("Apr").Labels(true);
+                series.Column(s => s.mei).Name("May").Labels(true);
+                series.Column(s => s.juni).Name("Jun").Labels(true);
+                series.Column(s => s.juli).Name("Jul").Labels(true);
+                series.Column(s => s.agustus).Name("Aug").Labels(true);
+                series.Column(s => s.september).Name("Sep").Labels(true);
+                series.Column(s => s.oktober).Name("Oct").Labels(true);
+                series.Column(s => s.november).Name("Nov").Labels(true);
+                    series.Column(s => s.desember).Name("Des").Labels(true);
                 
             })
             .CategoryAxis(axis => axis
@@ -43,72 +43,73 @@
             .HtmlAttributes(new { style = "width: 670px; height: 500px;" })
         )
     }else{
-        @(Html.Telerik().Chart<relmon.Models.BisnisProductContainer>()
+        @(Html.Telerik().Chart<relmon.Models.BisnisProductContainer2>()
             .Name("ProductChart")
-            .Legend(legend => legend
-                .Position(ChartLegendPosition.Bottom)
-            )
+            //.Legend(legend => legend
+            //    .Position(ChartLegendPosition.Bottom)
+            //)
+            
             .SeriesDefaults(series =>
             {
                 series.Column().Stack(false);
             })
             .Series(series =>
             {
-
-                if (ViewBag.fromMonthNum <= 1 && ViewBag.toMonthNum >= 1)
-                {
-                    series.Column(s => s.januari).Name("Jan");
-                }
-                if (ViewBag.fromMonthNum <= 2 && ViewBag.toMonthNum >= 2)
-                {
-                    series.Column(s => s.februari).Name("Feb");
-                }
-                if (ViewBag.fromMonthNum <= 3 && ViewBag.toMonthNum >= 3)
-                {
-                    series.Column(s => s.maret).Name("Mar");
-                }
-                if (ViewBag.fromMonthNum <= 4 && ViewBag.toMonthNum >= 4)
-                {
-                    series.Column(s => s.april).Name("Apr");
-                }
-                if (ViewBag.fromMonthNum <= 5 && ViewBag.toMonthNum >= 5)
-                {
-                    series.Column(s => s.mei).Name("May");
-                }
-                if (ViewBag.fromMonthNum <= 6 && ViewBag.toMonthNum >= 6)
-                {
-                    series.Column(s => s.juni).Name("Jun");
-                }
-                if (ViewBag.fromMonthNum <= 7 && ViewBag.toMonthNum >= 7)
-                {
-                    series.Column(s => s.juli).Name("Jul");
-                }
-                if (ViewBag.fromMonthNum <= 8 && ViewBag.toMonthNum >= 8)
-                {
-                    series.Column(s => s.agustus).Name("Aug");
-                }
-                if (ViewBag.fromMonthNum <= 9 && ViewBag.toMonthNum >= 9)
-                {
-                    series.Column(s => s.september).Name("Sep");
-                }
-                if (ViewBag.fromMonthNum <= 10 && ViewBag.toMonthNum >= 10)
-                {
-                    series.Column(s => s.oktober).Name("Oct");
-                }
-                if (ViewBag.fromMonthNum <= 11 && ViewBag.toMonthNum >= 11)
-                {
-                    series.Column(s => s.november).Name("Nov");
-                }
-                if (ViewBag.fromMonthNum <= 12 && ViewBag.toMonthNum >= 12)
-                {
-                    series.Column(s => s.desember).Name("Des");
-                }
+                series.Column(s => s.sum).Labels(true);
+                //if (ViewBag.fromMonthNum <= 1 && ViewBag.toMonthNum >= 1)
+                //{
+                //    series.Column(s => s.januari).Name("Jan").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 2 && ViewBag.toMonthNum >= 2)
+                //{
+                //    series.Column(s => s.februari).Name("Feb").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 3 && ViewBag.toMonthNum >= 3)
+                //{
+                //    series.Column(s => s.maret).Name("Mar").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 4 && ViewBag.toMonthNum >= 4)
+                //{
+                //    series.Column(s => s.april).Name("Apr").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 5 && ViewBag.toMonthNum >= 5)
+                //{
+                //    series.Column(s => s.mei).Name("May").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 6 && ViewBag.toMonthNum >= 6)
+                //{
+                //    series.Column(s => s.juni).Name("Jun").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 7 && ViewBag.toMonthNum >= 7)
+                //{
+                //    series.Column(s => s.juli).Name("Jul").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 8 && ViewBag.toMonthNum >= 8)
+                //{
+                //    series.Column(s => s.agustus).Name("Aug").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 9 && ViewBag.toMonthNum >= 9)
+                //{
+                //    series.Column(s => s.september).Name("Sep").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 10 && ViewBag.toMonthNum >= 10)
+                //{
+                //    series.Column(s => s.oktober).Name("Oct").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 11 && ViewBag.toMonthNum >= 11)
+                //{
+                //    series.Column(s => s.november).Name("Nov").Labels(true);
+                //}
+                //if (ViewBag.fromMonthNum <= 12 && ViewBag.toMonthNum >= 12)
+                //{
+                //    series.Column(s => s.desember).Name("Des").Labels(true);
+                //}
             })
             .CategoryAxis(axis => axis
-                .Categories(s => s.product)
+                .Categories(s => s.month)
             )
             .DataBinding(dataBinding => dataBinding
-                .Ajax().Select("_ProductData", "DataBisnisAp", new { id = ViewBag.id , produk=ViewBag.produk, tahun = ViewBag.tahun})
+                    .Ajax().Select("_ProductData", "DataBisnisAp", new { id = ViewBag.id, produk = ViewBag.produk, tahun = ViewBag.tahun, fromMonth=ViewBag.fromMonthNum, toMonth =ViewBag.toMonthNum})
             )
             .HtmlAttributes(new { style = "width: 670px; height: 500px;" })
         )

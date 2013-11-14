@@ -563,11 +563,15 @@ input[type="password"]
     width: 220px \9;
 }
     
-.t-widget, .t-link, .t-popup, .t-input
+.t-widget, .t-link, .t-input
 {
     color: #000;
 }
 
+.t-popup
+{
+    color : #ffffff;
+}
 #content
 {
     /*margin-top: -20px;*/
@@ -642,7 +646,10 @@ input[type="button"], input[type="submit"], input[type="file"]
 }
 
 /*readiness navigator*/
-
+.info
+{
+    color :#ffffff;
+}
 .info_inside_left {
     margin: 10px 0 5px 10px;
 }
@@ -1552,4 +1559,9 @@ select
 {
     background-color:#a8a9ad;
     color:White;
+}
+
+#TabStrip .t-link
+{
+    font-weight:bold;
 }
